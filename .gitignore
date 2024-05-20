@@ -1,0 +1,10 @@
+buildSrc/.gradle
+buildSrc/build
+
+paper/.gradle
+paper/build
+
+core/build
+
+.gradle
+.idea
