@@ -631,11 +631,11 @@ public class ItemBuilder {
             final Optional<Number> damage = StringUtil.tryParseInt(data);
 
             if (damage.isEmpty()) {
-                @Nullable final PotionEffectType parsedPotionEffect = ItemUtil.getPotionEffect(data);
+                @Nullable final PotionEffectType potionEffect = ItemUtil.getPotionEffect(data, false);
 
-                if (parsedPotionEffect != null) this.effects = Collections.singletonList(new PotionEffect(parsedPotionEffect, 1, 1));
+                if (potionEffect != null) this.effects = Collections.singletonList(new PotionEffect(potionEffect, 1, 1));
 
-                this.potionType = ItemUtil.getPotionType(data);
+                this.potionType = ItemUtil.getPotionType(data, false);
 
                 this.color = data.contains(",") ? DyeUtil.getColor(data) : DyeUtil.getDefaultColor(data);
             } else {

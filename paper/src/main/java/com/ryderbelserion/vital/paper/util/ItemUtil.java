@@ -152,6 +152,18 @@ public class ItemUtil {
      * @since 1.0
      */
     public static @Nullable PotionType getPotionType(@NotNull final String value) {
+        return getPotionType(value, true);
+    }
+
+    /**
+     * Get a {@link PotionType} from the {@link Registry}.
+     *
+     * @param value the {@link String} to check
+     * @param warn true or false
+     * @return the {@link PotionType} or null if not found
+     * @since 1.0
+     */
+    public static @Nullable PotionType getPotionType(@NotNull final String value, final boolean warn) {
         if (value.isEmpty()) {
             logger.severe(value + " cannot be blank!");
 
@@ -161,7 +173,7 @@ public class ItemUtil {
         try {
             return Registry.POTION.get(getKey(value));
         } catch (Exception exception) {
-            logger.severe(value + " is an invalid potion type.");
+            if (warn) logger.severe(value + " is an invalid potion type.");
 
             return null;
         }
@@ -175,6 +187,18 @@ public class ItemUtil {
      * @since 1.0
      */
     public static @Nullable PotionEffectType getPotionEffect(@NotNull final String value) {
+        return getPotionEffect(value, true);
+    }
+
+    /**
+     * Get a {@link PotionEffectType} from the {@link Registry}.
+     *
+     * @param value the {@link String} to check
+     * @param warn true or false
+     * @return the {@link PotionEffectType} or null if not found
+     * @since 1.0
+     */
+    public static @Nullable PotionEffectType getPotionEffect(@NotNull final String value, final boolean warn) {
         if (value.isEmpty()) {
             logger.severe(value + " cannot be blank!");
 
@@ -184,7 +208,7 @@ public class ItemUtil {
         try {
             return Registry.POTION_EFFECT_TYPE.get(getKey(value));
         } catch (Exception exception) {
-            logger.severe(value + " is an invalid potion effect type.");
+            if (warn) logger.severe(value + " is an invalid potion effect type.");
 
             return null;
         }
