@@ -346,6 +346,12 @@ public class YamlManager {
         return this;
     }
 
+    /**
+     * @return the {@link Path}
+     */
+    public @NotNull final Path getDataFolder() {
+        return this.dataFolder;
+    }
 
     /**
      * Gets a set of folders.
