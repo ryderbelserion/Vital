@@ -1,0 +1,23 @@
+[versions]
+# Kotlin
+kotlin = "1.9.23"
+
+# Minecraft
+paper = "1.20.6-R0.1-SNAPSHOT"
+paperweight = "1.7.1"
+adventure = "4.17.0"
+
+# Core
+annotations = "24.1.0"
+jalu = "1.4.1"
+yaml = "1.8.4"
+
+[libraries]
+# Kyori
+minimessage = { module = "net.kyori:adventure-text-minimessage", version.ref = "adventure" }
+adventure = { module = "net.kyori:adventure-api", version.ref = "adventure" }
+
+# Core
+yaml = { module = "com.github.Carleslc.Simple-YAML:Simple-Yaml", version.ref = "yaml" }
+annotations = { module = "org.jetbrains:annotations", version.ref = "annotations" }
+configme = { module = "ch.jalu:configme", version.ref = "jalu" }

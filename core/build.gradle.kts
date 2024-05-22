@@ -3,7 +3,9 @@ plugins {
 }
 
 dependencies {
-    api("com.github.Carleslc.Simple-YAML", "Simple-Yaml", "1.8.4")
+    compileOnly(libs.minimessage)
+    compileOnly(libs.adventure)
 
-    api("ch.jalu", "configme", "1.4.1")
+    api(libs.configme)
+    api(libs.yaml)
 }
