@@ -3,8 +3,7 @@ plugins {
 }
 
 dependencies {
-    compileOnly(libs.minimessage)
-    compileOnly(libs.adventure)
+    compileOnly(libs.bundles.adventure)
 
     api(libs.configme)
     api(libs.yaml)
