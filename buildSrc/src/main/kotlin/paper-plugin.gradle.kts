@@ -1,19 +1,26 @@
+import com.ryderbelserion.feather.enums.Repository
+import org.gradle.accessors.dm.LibrariesForLibs
+
+val libs = the<LibrariesForLibs>()
+
 plugins {
     id("java-plugin")
 }
 
-repositories {
-    maven("https://repo.extendedclip.com/content/repositories/placeholderapi")
+feather {
+    repository("https://repo.extendedclip.com/content/repositories/placeholderapi")
 
-    maven("https://repo.papermc.io/repository/maven-public")
+    repository("https://repo.papermc.io/repository/maven-public")
 
-    maven("https://repo.codemc.io/repository/maven-public")
+    repository("https://repo.codemc.io/repository/maven-public")
 
-    maven("https://repo.triumphteam.dev/snapshots")
+    repository("https://repo.triumphteam.dev/snapshots")
 
-    maven("https://repo.oraxen.com/releases")
+    repository("https://repo.oraxen.com/releases")
+
+    repository(Repository.Paper.url)
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.20.6-R0.1-SNAPSHOT")
+    compileOnly(libs.papermc)
 }

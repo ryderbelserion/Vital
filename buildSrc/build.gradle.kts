@@ -1,15 +1,15 @@
+import com.ryderbelserion.feather.feather
+
 plugins {
+    id("com.ryderbelserion.feather-logic") version "0.0.1"
+
     `kotlin-dsl`
 }
 
-repositories {
-    gradlePluginPortal()
-
-    mavenCentral()
-}
-
 dependencies {
-    implementation("io.github.goooler.shadow", "shadow-gradle-plugin", "8.1.7")
+    implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
 
-    implementation("org.jetbrains.kotlin", "kotlin-gradle-plugin", "1.9.23")
+    implementation(libs.kotlin)
+
+    feather("0.0.1")
 }
