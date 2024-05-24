@@ -19,7 +19,7 @@ feather {
     repository(Repository.Jitpack.url)
 
     configureKotlin {
-        javaSource(JvmVendorSpec.AMAZON)
+        javaSource(JvmVendorSpec.ADOPTIUM)
 
         javaVersion(21)
     }
