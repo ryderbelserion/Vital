@@ -19,7 +19,9 @@ import java.util.logging.Logger;
  */
 public class CustomFile {
 
-    private final @NotNull Logger logger = AbstractPlugin.api().getLogger();
+    private @NotNull final AbstractPlugin api = AbstractPlugin.api();
+    private final @NotNull Logger logger = this.api.getLogger();
+    private final boolean isLogging = this.api.isLogging();
 
     private YamlFile configuration = null;
 
@@ -48,7 +50,7 @@ public class CustomFile {
             List.of(
                     "The file path cannot be empty!",
                     "File Path: " + filePath
-            ).forEach(this.logger::warning);
+            ).forEach(this.logger::severe);
 
             return null;
         }
@@ -61,7 +63,7 @@ public class CustomFile {
         YamlFile file = new YamlFile(this.directory.resolve(this.filePath).toString());
 
         try {
-            this.logger.info("Loading " + this.strippedName + ".yml...");
+            if (this.isLogging) this.logger.info("Loading " + this.strippedName + ".yml...");
 
             this.configuration = file;
             this.configuration.loadWithComments();

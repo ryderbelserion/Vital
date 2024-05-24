@@ -48,6 +48,14 @@ public abstract class AbstractPlugin {
      */
     public @NotNull abstract Logger getLogger();
 
+    /**
+     * Whether we are logging or not
+     *
+     * @return true or false
+     * @since 1.4
+     */
+    public abstract boolean isLogging();
+
     protected static final class Provider {
         static AbstractPlugin api;
 

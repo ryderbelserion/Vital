@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 public class VitalPaper extends AbstractPlugin {
 
     private final Logger logger;
+    private boolean isLogging;
     private final File file;
 
     /**
@@ -45,8 +46,18 @@ public class VitalPaper extends AbstractPlugin {
         return this.logger;
     }
 
+    /**
+     * @param isLogging true or false
+     */
+    public void setLogging(final boolean isLogging) {
+        this.isLogging = isLogging;
+    }
+
+    /**
+     {@inheritDoc}
+     */
     @Override
     public final boolean isLogging() {
-        return false;
+        return this.isLogging;
     }
 }

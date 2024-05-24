@@ -32,7 +32,6 @@ public class FileUtil {
 
     private static @NotNull final AbstractPlugin api = AbstractPlugin.api();
     private static @NotNull final Logger logger = api.getLogger();
-
     /**
      * Extracts a single file from a directory in the jar.
      *
@@ -57,7 +56,7 @@ public class FileUtil {
                 Files.copy(stream, path, StandardCopyOption.REPLACE_EXISTING);
             }
         } catch (Exception exception) {
-            logger.warning("Failed to extract " + fileName + " from the jar.");
+            logger.severe("Failed to extract " + fileName + " from the jar.");
         }
     }
 

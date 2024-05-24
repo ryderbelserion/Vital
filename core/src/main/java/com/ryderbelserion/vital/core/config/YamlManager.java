@@ -31,6 +31,7 @@ public class YamlManager {
     private @NotNull final AbstractPlugin api = AbstractPlugin.api();
     private @NotNull final Path dataFolder = this.api.getDirectory().toPath();
     private @NotNull final Logger logger = this.api.getLogger();
+    private final boolean isLogging = this.api.isLogging();
 
     // Holds static files
     private final Map<String, YamlFile> files = new HashMap<>();
@@ -48,7 +49,7 @@ public class YamlManager {
 
         if (!directory.exists()) {
             if (directory.mkdir()) {
-                this.logger.warning("Created " + directory.getName() + " because it was not found.");
+                if (this.isLogging) this.logger.warning("Created " + directory.getName() + " because it was not found.");
             }
         }
     }
@@ -120,9 +121,9 @@ public class YamlManager {
             if (!file.exists()) {
                 FileUtil.extract(YamlManager.class, fileName, this.dataFolder, false);
 
-                this.logger.info("Copied " + fileName + " because it did not exist...");
+                if (this.isLogging) this.logger.info("Copied " + fileName + " because it did not exist...");
             } else {
-                this.logger.info("Loading the file " + fileName + "...");
+                if (this.isLogging) this.logger.info("Loading the file " + fileName + "...");
             }
 
             // Load the file with comments intact

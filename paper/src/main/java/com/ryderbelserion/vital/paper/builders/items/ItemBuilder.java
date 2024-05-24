@@ -1733,7 +1733,7 @@ public class ItemBuilder {
                 try {
                     textures.setSkin(URI.create(this.url).toURL(), PlayerTextures.SkinModel.CLASSIC);
                 } catch (MalformedURLException exception) {
-                    AbstractPlugin.api().getLogger().log(Level.WARNING, "Failed to set the texture url", exception);
+                    AbstractPlugin.api().getLogger().log(Level.SEVERE, "Failed to set the texture url", exception);
                 }
 
                 profile.setTextures(textures);
