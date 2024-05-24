@@ -1,34 +1,26 @@
+import com.ryderbelserion.feather.enums.Repository
+import gradle.kotlin.dsl.accessors._5eb79900c8ae59d7bb3a62f4246cfb92.feather
+
 plugins {
-    id("io.github.goooler.shadow")
+    id("com.ryderbelserion.feather-core")
 
     kotlin("jvm")
 }
 
 repositories {
-    maven("https://jitpack.io")
-
     mavenCentral()
 }
 
-kotlin {
-    jvmToolchain(21)
+feather {
+    repository("https://repo.codemc.io/repository/maven-public")
 
-    explicitApi()
-}
+    repository(Repository.CrazyCrewReleases.url)
 
-tasks {
-    compileKotlin {
-        kotlinOptions {
-            jvmTarget = "21"
-            javaParameters = true
-        }
-    }
+    repository(Repository.Jitpack.url)
 
-    javadoc {
-        options.encoding = Charsets.UTF_8.name()
-    }
+    configureKotlin {
+        javaSource(JvmVendorSpec.AMAZON)
 
-    processResources {
-        filteringCharset = Charsets.UTF_8.name()
+        javaVersion(21)
     }
 }
