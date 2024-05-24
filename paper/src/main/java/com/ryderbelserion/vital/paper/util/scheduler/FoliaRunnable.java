@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
  * A runnable class with both Paper and Folia Support
  *
  * @author Euphyllia
- * @version 1.2
+ * @version 1.4
  * @since 1.0
  */
 public abstract class FoliaRunnable implements Runnable {
@@ -52,7 +52,7 @@ public abstract class FoliaRunnable implements Runnable {
      * @param retired the {@link Runnable}
      * @since 1.0
      */
-    public FoliaRunnable(@NotNull EntityScheduler scheduler, @Nullable Runnable retired) {
+    public FoliaRunnable(@NotNull final EntityScheduler scheduler, @Nullable final Runnable retired) {
         this.entityScheduler = scheduler;
         this.entityRetired = retired;
     }
@@ -63,7 +63,7 @@ public abstract class FoliaRunnable implements Runnable {
      * @param scheduler the {@link GlobalRegionScheduler}
      * @since 1.0
      */
-    public FoliaRunnable(@NotNull GlobalRegionScheduler scheduler) {
+    public FoliaRunnable(@NotNull final GlobalRegionScheduler scheduler) {
         this.globalRegionScheduler = scheduler;
     }
 
@@ -74,7 +74,7 @@ public abstract class FoliaRunnable implements Runnable {
      * @param location the {@link Location}
      * @since 1.0
      */
-    public FoliaRunnable(@NotNull RegionScheduler scheduler, @Nullable Location location) {
+    public FoliaRunnable(@NotNull final RegionScheduler scheduler, @Nullable final Location location) {
         this.regionScheduler = scheduler;
         this.location = location;
     }
@@ -88,7 +88,7 @@ public abstract class FoliaRunnable implements Runnable {
      * @param chunkZ the chunk's {@link Integer}
      * @since 1.0
      */
-    public FoliaRunnable(@NotNull RegionScheduler scheduler, @Nullable World world, int chunkX, int chunkZ) {
+    public FoliaRunnable(@NotNull final RegionScheduler scheduler, @Nullable final World world, final int chunkX, final int chunkZ) {
         this.regionScheduler = scheduler;
         this.world = world;
         this.chunkX = chunkX;
@@ -159,7 +159,7 @@ public abstract class FoliaRunnable implements Runnable {
      * @throws IllegalStateException if this was already scheduled
      * @since 1.0
      */
-    public @NotNull final ScheduledTask runDelayed(@NotNull JavaPlugin plugin, long delay) throws IllegalArgumentException, IllegalStateException {
+    public @NotNull final ScheduledTask runDelayed(@NotNull final JavaPlugin plugin, long delay) throws IllegalArgumentException, IllegalStateException {
         checkNotYetScheduled();
 
         delay = Math.max(1, delay);

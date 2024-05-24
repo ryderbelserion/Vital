@@ -25,7 +25,7 @@ import java.util.logging.Logger;
  * A class containing utilities to extract or obtain files from directories.
  *
  * @author Ryder Belserion
- * @version 1.2
+ * @version 1.4
  * @since 1.0
  */
 public class FileUtil {

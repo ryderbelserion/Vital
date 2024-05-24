@@ -34,7 +34,7 @@ public class StructureManager implements IStructureManager {
      * @param plugin {@link JavaPlugin}
      * @since 1.0
      */
-    public StructureManager(JavaPlugin plugin) {
+    public StructureManager(@NotNull final JavaPlugin plugin) {
         this.plugin = plugin;
     }
 

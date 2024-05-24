@@ -23,7 +23,7 @@ import java.util.logging.Logger;
  * @author Ryder Belserion
  * @author BadBones69
  *
- * @version 1.2
+ * @version 1.4
  * @since 1.0
  */
 public class YamlManager {

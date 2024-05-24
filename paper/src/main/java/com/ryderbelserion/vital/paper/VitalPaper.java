@@ -10,7 +10,7 @@ import java.util.logging.Logger;
  * A platform specific class for Paper extending {@link AbstractPlugin}.
  *
  * @author Ryder Belserion
- * @version 1.2
+ * @version 1.4
  * @since 1.1
  */
 public class VitalPaper extends AbstractPlugin {
@@ -24,7 +24,7 @@ public class VitalPaper extends AbstractPlugin {
      * @param plugin {@link JavaPlugin}
      * @since 1.1
      */
-    public VitalPaper(JavaPlugin plugin) {
+    public VitalPaper(@NotNull final JavaPlugin plugin) {
         this.logger = plugin.getLogger();
         this.file = plugin.getDataFolder();
     }
@@ -33,7 +33,7 @@ public class VitalPaper extends AbstractPlugin {
      {@inheritDoc}
      */
     @Override
-    public @NotNull File getDirectory() {
+    public @NotNull final File getDirectory() {
         return this.file;
     }
 
@@ -41,7 +41,12 @@ public class VitalPaper extends AbstractPlugin {
      {@inheritDoc}
      */
     @Override
-    public @NotNull Logger getLogger() {
+    public @NotNull final Logger getLogger() {
         return this.logger;
+    }
+
+    @Override
+    public final boolean isLogging() {
+        return false;
     }
 }

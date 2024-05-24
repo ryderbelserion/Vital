@@ -15,7 +15,7 @@ import java.util.UUID;
  * A collection of random utilities.
  *
  * @author Ryder Belserion
- * @version 1.2
+ * @version 1.4
  * @since 1.0
  */
 public class MiscUtil {
