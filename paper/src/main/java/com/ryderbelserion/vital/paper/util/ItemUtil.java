@@ -27,6 +27,10 @@ import java.util.logging.Logger;
  */
 public class ItemUtil {
 
+    private ItemUtil() {
+        throw new AssertionError();
+    }
+
     private static final Logger logger = AbstractPlugin.api().getLogger();
 
     /**

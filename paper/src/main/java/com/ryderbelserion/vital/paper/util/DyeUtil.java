@@ -16,6 +16,10 @@ import java.util.logging.Logger;
  */
 public class DyeUtil {
 
+    private DyeUtil() {
+        throw new AssertionError();
+    }
+
     private static final Logger logger = AbstractPlugin.api().getLogger();
 
     /**

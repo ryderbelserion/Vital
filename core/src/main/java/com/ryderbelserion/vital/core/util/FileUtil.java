@@ -30,8 +30,13 @@ import java.util.logging.Logger;
  */
 public class FileUtil {
 
+    private FileUtil() {
+        throw new AssertionError();
+    }
+
     private static @NotNull final AbstractPlugin api = AbstractPlugin.api();
     private static @NotNull final Logger logger = api.getLogger();
+
     /**
      * Extracts a single file from a directory in the jar.
      *
@@ -175,5 +180,22 @@ public class FileUtil {
      */
     public static List<String> getFiles(@NotNull final Path directory, @NotNull final String folder, @NotNull String extension) {
         return getFiles(folder.isEmpty() ? directory : directory.resolve(folder), extension, true);
+    }
+
+    /**
+     * Returns a {@link List<String>} of files in a directory if they end in a specific extension
+     *
+     * @param directory the directory to check
+     * @param folder the fallback folder
+     * @param extension the file extension
+     * @return a {@link List<String>} of files that meet the criteria
+     * @since 1.5
+     */
+    public static List<File> getFileObjects(@NotNull final Path directory, @NotNull final String folder, @NotNull String extension) {
+        List<File> files = new ArrayList<>();
+
+        getFiles(folder.isEmpty() ? directory : directory.resolve(folder), extension, true).forEach(file -> files.add(directory.resolve(folder).resolve(file).toFile()));
+
+        return files;
     }
 }

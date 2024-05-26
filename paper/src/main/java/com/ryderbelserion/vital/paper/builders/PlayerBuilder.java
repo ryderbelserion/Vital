@@ -19,6 +19,8 @@ import java.util.concurrent.CompletableFuture;
 public record PlayerBuilder(String name) {
 
     /**
+     * Gets the {@link OfflinePlayer}.
+     *
      * @return {@link OfflinePlayer}
      * @since 1.0
      */
@@ -31,6 +33,8 @@ public record PlayerBuilder(String name) {
     }
 
     /**
+     * Gets the {@link Player}.
+     *
      * @return {@link Player}
      * @since 1.0
      */

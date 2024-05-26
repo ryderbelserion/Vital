@@ -36,6 +36,8 @@ public class StructureManager implements IStructureManager {
     private final JavaPlugin plugin;
 
     /**
+     * Builds a structure manager instance.
+     *
      * @param plugin {@link JavaPlugin}
      * @since 1.0
      */

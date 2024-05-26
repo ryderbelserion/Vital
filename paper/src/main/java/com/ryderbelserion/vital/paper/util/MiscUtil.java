@@ -20,6 +20,10 @@ import java.util.UUID;
  */
 public class MiscUtil {
 
+    private MiscUtil() {
+        throw new AssertionError();
+    }
+
     /**
      * Parse a {@link String} for {@link org.bukkit.command.ConsoleCommandSender}.
      *

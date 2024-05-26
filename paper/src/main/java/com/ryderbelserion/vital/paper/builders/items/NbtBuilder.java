@@ -62,6 +62,8 @@ public class NbtBuilder {
     }
 
     /**
+     * Checks if the {@link ItemStack} has {@link ItemMeta}
+     *
      * @return true or false
      * @since 1.1
      */

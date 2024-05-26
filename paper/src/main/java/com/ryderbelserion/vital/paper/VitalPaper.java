@@ -47,6 +47,8 @@ public class VitalPaper extends AbstractPlugin {
     }
 
     /**
+     * Whether to log to console
+     *
      * @param isLogging true or false
      */
     public void setLogging(final boolean isLogging) {

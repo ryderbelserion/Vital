@@ -548,9 +548,9 @@ public class ItemBuilder {
     }
 
     /**
-     * Sets the material type.
+     * Sets the {@link Material} type.
      *
-     * @param material the material to set
+     * @param material the {@link Material} to set
      * @return {@link ItemBuilder}
      * @since 1.0
      */
@@ -563,9 +563,10 @@ public class ItemBuilder {
     }
 
     /**
-     * Sets the material type.
+     * Sets the {@link Material} type.
      *
-     * @param material the material to set
+     * @param material the {@link Material} to set
+     * @param amount the amount of {@link Material}
      * @return {@link ItemBuilder}
      * @since 1.0
      */
@@ -579,9 +580,9 @@ public class ItemBuilder {
     }
 
     /**
-     * Sets the material type.
+     * Sets the {@link Material} type.
      *
-     * @param key the material to set
+     * @param key the {@link Material} to set
      * @return {@link ItemBuilder}
      * @since 1.0
      */
@@ -902,7 +903,7 @@ public class ItemBuilder {
      * Adds a {@link PotionEffect} to the {@link ItemStack} if the {@link Material} allows it.
      *
      * @param type the type of {@link PotionEffectType}
-     * @param duration the duration of the {@link net.minecraft.world.item.alchemy.Potion}
+     * @param duration the duration of the {@link PotionType}
      * @param amplifier the potion level
      * @return {@link ItemBuilder}
      * @since 1.0
@@ -1089,6 +1090,7 @@ public class ItemBuilder {
      * Sets the amount of a damage an item can take.
      *
      * @param damage the damage
+     * @return {@link ItemBuilder}
      * @since 1.0
      */
     public @NotNull final ItemBuilder setDamage(final int damage) {
@@ -1308,6 +1310,8 @@ public class ItemBuilder {
     }
 
     /**
+     * Gets the {@link UUID} from {@link Player}.
+     *
      * @return the {@link Player} {@link UUID}
      * @since 1.0
      */
@@ -1829,6 +1833,8 @@ public class ItemBuilder {
     }
 
     /**
+     * Gets the display name of the {@link ItemStack}.
+     *
      * @return the display name without being turned into a {@link Component}
      */
     public @NotNull final String getDisplayName() {
@@ -1836,6 +1842,8 @@ public class ItemBuilder {
     }
 
     /**
+     * Checks if the {@link ItemStack} has {@link ItemMeta}.
+     *
      * @return true or false
      */
     public final boolean hasItemMeta() {
@@ -1843,6 +1851,8 @@ public class ItemBuilder {
     }
 
     /**
+     * Gets the {@link Material} type.
+     *
      * @return the {@link Material} type
      */
     public @NotNull final Material getType() {
@@ -1851,6 +1861,8 @@ public class ItemBuilder {
 
     /**
      * Reactively checks if the {@link ItemStack} {@link Material} is a {@link Banner}.
+     *
+     * @return true or false
      */
     public final boolean isBanner() {
         return BANNERS.contains(getType());
@@ -1858,13 +1870,17 @@ public class ItemBuilder {
 
     /**
      * Reactively checks if the {@link ItemStack} {@link Material} is an armor piece.
+     *
+     * @return true or false
      */
     public final boolean isArmor() {
         return ARMOR.contains(getType());
     }
 
     /**
-     * Reactively checks if the {@link ItemStack} {@link Material} is a {@link org.bukkit.entity.Shulker}
+     * Reactively checks if the {@link ItemStack} {@link Material} is a shulker box.
+     *
+     * @return true or false
      */
     public final boolean isShulker() {
         return SHULKERS.contains(getType());
@@ -1872,6 +1888,8 @@ public class ItemBuilder {
 
     /**
      * Reactively checks if the {@link ItemStack} {@link Material} is a leather variant.
+     *
+     * @return true or false
      */
     public final boolean isLeather() {
         return LEATHER_ARMOR.contains(getType());
@@ -1879,6 +1897,8 @@ public class ItemBuilder {
 
     /**
      * Reactively checks if the {@link ItemStack} {@link Material} is a potion.
+     *
+     * @return true or false
      */
     public final boolean isPotion() {
         return POTIONS.contains(getType());
@@ -1886,6 +1906,8 @@ public class ItemBuilder {
 
     /**
      * Reactively checks if the {@link ItemStack} {@link Material} is an enchanted book.
+     *
+     * @return true or false
      */
     public final boolean isEnchantedBook() {
         return getType() == Material.ENCHANTED_BOOK;
@@ -1893,6 +1915,8 @@ public class ItemBuilder {
 
     /**
      * Reactively checks if the {@link ItemStack} {@link Material} is a player head.
+     *
+     * @return true or false
      */
     public final boolean isPlayerHead() {
         return getType() == Material.PLAYER_HEAD;
@@ -1900,6 +1924,8 @@ public class ItemBuilder {
 
     /**
      * Reactively checks if the {@link ItemStack} {@link Material} is a firework star.
+     *
+     * @return true or false
      */
     public final boolean isFireworkStar() {
         return getType() == Material.FIREWORK_STAR;
@@ -1907,6 +1933,8 @@ public class ItemBuilder {
 
     /**
      * Reactively checks if the {@link ItemStack} {@link Material} is a {@link org.bukkit.entity.Firework}.
+     *
+     * @return true or false
      */
     public final boolean isFirework() {
         return getType() == Material.FIREWORK_ROCKET;
@@ -1914,6 +1942,8 @@ public class ItemBuilder {
 
     /**
      * Reactively checks if the {@link ItemStack} {@link Material} is a {@link CreatureSpawner}.
+     *
+     * @return true or false
      */
     public final boolean isSpawner() {
         return getType() == Material.SPAWNER;
@@ -1921,6 +1951,8 @@ public class ItemBuilder {
 
     /**
      * Reactively checks if the {@link ItemStack} {@link Material} is a shield.
+     *
+     * @return true or false
      */
     public final boolean isShield() {
         return getType() == Material.SHIELD;
@@ -1928,6 +1960,8 @@ public class ItemBuilder {
 
     /**
      * Reactively checks if the {@link ItemStack} {@link Material} is an {@link org.bukkit.entity.Arrow}.
+     *
+     * @return true or false
      */
     public final boolean isArrow() {
         return getType() == Material.ARROW;
@@ -1935,6 +1969,8 @@ public class ItemBuilder {
 
     /**
      * Reactively checks if the {@link ItemStack} {@link Material} is a map.
+     *
+     * @return true or false
      */
     public final boolean isMap() {
         return getType() == Material.MAP;

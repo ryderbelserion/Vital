@@ -70,18 +70,24 @@ public interface IStructureManager {
     Set<Location> getBlocks(@Nullable final Location location);
 
     /**
+     * Gets the structure's x coordinate.
+     *
      * @return {@link Double}
      * @since 1.0
      */
     double getStructureX();
 
     /**
+     * Gets the structure's y coordinate.
+     *
      * @return {@link Double}
      * @since 1.0
      */
     double getStructureY();
 
     /**
+     * Gets the structure's z coordinate.
+     *
      * @return {@link Double}
      * @since 1.0
      */
