@@ -194,7 +194,7 @@ public class FileUtil {
     public static List<File> getFileObjects(@NotNull final Path directory, @NotNull final String folder, @NotNull String extension) {
         List<File> files = new ArrayList<>();
 
-        getFiles(folder.isEmpty() ? directory : directory.resolve(folder), extension, true).forEach(file -> files.add(directory.resolve(folder).resolve(file).toFile()));
+        getFiles(folder.isEmpty() ? directory : directory.resolve(folder), extension, false).forEach(file -> files.add(directory.resolve(folder).resolve(file).toFile()));
 
         return files;
     }
