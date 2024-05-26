@@ -10,7 +10,7 @@ import java.util.logging.Logger;
  * A platform specific class for Paper extending {@link AbstractPlugin}.
  *
  * @author Ryder Belserion
- * @version 1.4
+ * @version 1.5
  * @since 1.1
  */
 public class VitalPaper extends AbstractPlugin {

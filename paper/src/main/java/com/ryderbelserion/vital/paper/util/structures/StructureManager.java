@@ -20,8 +20,13 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Level;
 
+
 /**
- {@inheritDoc}
+ * A structure manager extending {@link IStructureManager} which builds {@link Structure}.
+ *
+ * @author Ryder Belserion
+ * @version 1.5
+ * @since 1.0
  */
 public class StructureManager implements IStructureManager {
 

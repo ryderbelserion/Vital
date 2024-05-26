@@ -10,7 +10,7 @@ import java.io.File;
 /**
  * An extension of YamlConfiguration utilizing methods from PaperMC with some basic overrides for our own FileManager
  *
- * @version 1.4
+ * @version 1.5
  * @since 1.0
  */
 public class YamlFile extends org.simpleyaml.configuration.file.YamlFile {
@@ -84,6 +84,7 @@ public class YamlFile extends org.simpleyaml.configuration.file.YamlFile {
      *
      * @param path Converts a {@link String} to a {@link Component}
      * @param decoder {@link net.kyori.adventure.text.serializer.ComponentDecoder} instance used for deserialization
+     * @param <C> a generic value
      * @return {@link Component}
      */
     public <C extends Component> @Nullable C getComponent(@NotNull final String path, final net.kyori.adventure.text.serializer.@NotNull ComponentDecoder<? super String, C> decoder) { // Paper's way of adding component support to configurations.
@@ -100,6 +101,7 @@ public class YamlFile extends org.simpleyaml.configuration.file.YamlFile {
      * @param path path of the {@link Component} to get
      * @param decoder {@link net.kyori.adventure.text.serializer.ComponentDecoder} instance used for deserialization
      * @param fallback {@link Component} that will be used as fallback
+     * @param <C> a generic value
      * @return {@link Component}
      */
     public <C extends Component> @Nullable C getComponent(@NotNull final String path, final net.kyori.adventure.text.serializer.@NotNull ComponentDecoder<? super String, C> decoder, @Nullable final C fallback) { // Paper's way of adding component support to configurations.
@@ -117,6 +119,7 @@ public class YamlFile extends org.simpleyaml.configuration.file.YamlFile {
      * @param path path of the object to set
      * @param encoder the {@link ComponentEncoder} used to transform the value
      * @param value new value to set the path to
+     * @param <C> a generic value
      */
     public <C extends Component> void setComponent(@NotNull final String path, final @NotNull ComponentEncoder<C, String> encoder, @Nullable final C value) { // Paper's way of adding component support to configurations.
         java.util.Objects.requireNonNull(encoder, "encoder");

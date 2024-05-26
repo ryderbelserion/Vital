@@ -9,7 +9,7 @@ import java.util.logging.Logger;
  * An abstract class to extend in each platform.
  *
  * @author Ryder Belserion
- * @version 1.4
+ * @version 1.5
  * @since 1.0
  */
 public abstract class AbstractPlugin {
