@@ -15,6 +15,8 @@ import java.util.logging.Logger;
 public abstract class AbstractPlugin {
 
     /**
+     * Gets the instance of {@link AbstractPlugin}.
+     *
      * @return {@link AbstractPlugin}
      * @since 1.0
      */
@@ -37,12 +39,16 @@ public abstract class AbstractPlugin {
     }
 
     /**
+     * Gets the root directory.
+     *
      * @return {@link File}
      * @since 1.0
      */
     public @NotNull abstract File getDirectory();
 
     /**
+     * Gets the plugin {@link Logger}.
+     *
      * @return {@link Logger}
      * @since 1.0
      */
@@ -56,7 +62,17 @@ public abstract class AbstractPlugin {
      */
     public abstract boolean isLogging();
 
+    /**
+     * A provider class
+     * @version 1.5
+     * @since 1.0
+     */
     protected static final class Provider {
+
+        private Provider() {
+            throw new AssertionError();
+        }
+
         static AbstractPlugin api;
 
         /**

@@ -13,6 +13,10 @@ import java.util.Optional;
  */
 public class StringUtil {
 
+    private StringUtil() {
+        throw new AssertionError();
+    }
+
     /**
      * Loops through a {@link List<String>} and returns a {@link String}
      *

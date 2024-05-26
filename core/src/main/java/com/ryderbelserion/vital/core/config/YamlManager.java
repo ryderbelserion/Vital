@@ -28,6 +28,11 @@ import java.util.logging.Logger;
  */
 public class YamlManager {
 
+    /**
+     * An empty constructor that does fuck all.
+     */
+    public YamlManager() {}
+
     private @NotNull final AbstractPlugin api = AbstractPlugin.api();
     private @NotNull final Path dataFolder = this.api.getDirectory().toPath();
     private @NotNull final Logger logger = this.api.getLogger();

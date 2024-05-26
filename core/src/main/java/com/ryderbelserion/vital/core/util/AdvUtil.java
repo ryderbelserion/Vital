@@ -17,6 +17,10 @@ import java.util.Map;
  */
 public class AdvUtil {
 
+    private AdvUtil() {
+        throw new AssertionError();
+    }
+
     /**
      * Gets the requested {@link MiniMessage} formatted {@link String} as {@link Component} by path.
      * <p>
@@ -40,6 +44,7 @@ public class AdvUtil {
      * default value was specified, this will return null.
      *
      * @param fallback {@link Component} that will be used as fallback
+     * @param value Converts a {@link String} to a {@link Component}
      * @return {@link Component}
      * @since 1.0
      */
@@ -57,6 +62,7 @@ public class AdvUtil {
      *
      * @param value Converts a {@link String} to a {@link Component}
      * @param decoder {@link net.kyori.adventure.text.serializer.ComponentDecoder} instance used for deserialization
+     * @param <C> a generic value
      * @return {@link Component}
      * @since 1.0
      */
@@ -74,6 +80,7 @@ public class AdvUtil {
      * @param value path of the {@link Component} to get
      * @param decoder {@link net.kyori.adventure.text.serializer.ComponentDecoder} instance used for deserialization
      * @param fallback {@link Component} that will be used as fallback
+     * @param <C> a generic value
      * @return {@link Component}
      * @since 1.0
      */
@@ -103,7 +110,8 @@ public class AdvUtil {
      * replaced, regardless of what the new value is.
      *
      * @param encoder the {@link ComponentEncoder} used to transform the value
-     * @param value new value to set the path to.
+     * @param value new value to set the path to
+     * @param <C> a generic value
      * @return the serialized {@link String}
      * @since 1.0
      */
