@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -69,11 +70,7 @@ public class YamlManager {
         for (String folder : this.folders) {
             Path resolvedFolder = this.dataFolder.resolve(folder);
 
-            FileUtil.extract(folder, "Extracting folders...");
-
-            loadFiles(resolvedFolder);
-
-            /*if (!Files.exists(resolvedFolder)) {
+            if (!Files.exists(resolvedFolder)) {
                 // Create directory.
                 try {
                     Files.createDirectory(resolvedFolder);
@@ -88,7 +85,7 @@ public class YamlManager {
                 loadFiles(resolvedFolder);
             } else {
                 loadFiles(resolvedFolder);
-            }*/
+            }
         }
     }
 
@@ -240,10 +237,10 @@ public class YamlManager {
         List<CustomFile> files = new ArrayList<>();
 
         this.customFiles.forEach(key -> {
-            try {
-                key.reload();
-            } catch (Exception exception) {
+            if (!key.getYamlFile().getConfigurationFile().exists()) {
                 files.add(key);
+            } else {
+                key.reload();
             }
         });
 
