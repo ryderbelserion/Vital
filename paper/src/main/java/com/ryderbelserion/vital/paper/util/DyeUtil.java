@@ -11,7 +11,7 @@ import java.util.logging.Logger;
  * All utilities related to dye colors
  *
  * @author Ryder Belserion
- * @version 1.5
+ * @version 1.6
  * @since 1.0
  */
 public class DyeUtil {

@@ -9,7 +9,7 @@ import java.util.logging.Logger;
  * An abstract class to extend in each platform.
  *
  * @author Ryder Belserion
- * @version 1.5
+ * @version 1.6
  * @since 1.0
  */
 public abstract class Vital {
@@ -64,7 +64,7 @@ public abstract class Vital {
 
     /**
      * A provider class
-     * @version 1.5
+     * @version 1.6
      * @since 1.0
      */
     protected static final class Provider {
