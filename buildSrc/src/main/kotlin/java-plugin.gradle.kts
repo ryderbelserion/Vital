@@ -10,6 +10,11 @@ plugins {
     `java-library`
 }
 
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
 dependencies {
     compileOnlyApi(libs.annotations)
 }
@@ -31,17 +36,6 @@ feather {
 val javaComponent: SoftwareComponent = components["java"]
 
 tasks {
-    val sourcesJar by creating(Jar::class) {
-        archiveClassifier.set("sources")
-        from(sourceSets.main.get().allSource)
-    }
-
-    val javadocJar by creating(Jar::class) {
-        dependsOn.add(javadoc)
-        archiveClassifier.set("javadoc")
-        from(javadoc)
-    }
-
     publishing {
         repositories {
             maven {
@@ -57,9 +51,6 @@ tasks {
         publications {
             create<MavenPublication>("maven") {
                 from(javaComponent)
-
-                artifact(sourcesJar)
-                artifact(javadocJar)
 
                 group = "com.ryderbelserion.vital"
                 artifactId = project.name.lowercase()

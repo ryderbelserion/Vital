@@ -18,6 +18,11 @@ annotations = "24.1.0"
 jalu = "1.4.1"
 yaml = "1.8.4"
 
+shadowJar = "8.1.7"
+
+[plugins]
+shadow = { id = "io.github.goooler.shadow", version.ref = "shadowJar" }
+
 [libraries]
 # Kyori
 adventureMiniMessage = { module = "net.kyori:adventure-text-minimessage", version.ref = "adventure" }
