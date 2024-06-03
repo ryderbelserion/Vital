@@ -232,7 +232,18 @@ public class YamlManager {
      * @since 1.0
      */
     public final YamlManager reloadCustomFiles() {
-        this.customFiles.forEach(CustomFile::reload);
+        List<CustomFile> files = new ArrayList<>();
+
+        this.customFiles.forEach(key -> {
+            try {
+                key.reload();
+            } catch (Exception exception) {
+                files.add(key);
+            }
+        });
+
+        // Remove broken files
+        files.forEach(file -> removeCustomFile(file.getStrippedName()));
 
         return this;
     }
@@ -258,6 +269,21 @@ public class YamlManager {
         }
 
         return customFile;
+    }
+
+    /**
+     * Removes a {@link CustomFile} from the custom files map
+     *
+     * @param file the file to remove
+     */
+    public void removeCustomFile(@NotNull final String file) {
+        @Nullable final CustomFile customFile = getCustomFile(file);
+
+        // If null, return.
+        if (customFile == null) return;
+
+        // Remove if not null.
+        this.customFiles.remove(customFile);
     }
 
     /**
