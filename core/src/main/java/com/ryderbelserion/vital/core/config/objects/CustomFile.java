@@ -1,6 +1,6 @@
 package com.ryderbelserion.vital.core.config.objects;
 
-import com.ryderbelserion.vital.core.AbstractPlugin;
+import com.ryderbelserion.vital.core.Vital;
 import com.ryderbelserion.vital.core.config.YamlFile;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -19,7 +19,7 @@ import java.util.logging.Logger;
  */
 public class CustomFile {
 
-    private @NotNull final AbstractPlugin api = AbstractPlugin.api();
+    private @NotNull final Vital api = Vital.api();
     private final @NotNull Logger logger = this.api.getLogger();
     private final boolean isLogging = this.api.isLogging();
 

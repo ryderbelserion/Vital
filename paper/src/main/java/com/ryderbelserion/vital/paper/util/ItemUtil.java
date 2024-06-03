@@ -1,6 +1,6 @@
 package com.ryderbelserion.vital.paper.util;
 
-import com.ryderbelserion.vital.core.AbstractPlugin;
+import com.ryderbelserion.vital.core.Vital;
 import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
 import org.bukkit.Material;
@@ -33,7 +33,7 @@ public class ItemUtil {
         throw new AssertionError();
     }
 
-    private static final Logger logger = AbstractPlugin.api().getLogger();
+    private static final Logger logger = Vital.api().getLogger();
 
     /**
      * Get a {@link Material} from the {@link Registry}.

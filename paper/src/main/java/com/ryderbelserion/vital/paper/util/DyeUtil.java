@@ -1,6 +1,6 @@
 package com.ryderbelserion.vital.paper.util;
 
-import com.ryderbelserion.vital.core.AbstractPlugin;
+import com.ryderbelserion.vital.core.Vital;
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
 import org.jetbrains.annotations.NotNull;
@@ -20,7 +20,7 @@ public class DyeUtil {
         throw new AssertionError();
     }
 
-    private static final Logger logger = AbstractPlugin.api().getLogger();
+    private static final Logger logger = Vital.api().getLogger();
 
     /**
      * Gets the dye color from a {@link String}.

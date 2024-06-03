@@ -1,17 +1,18 @@
 package com.ryderbelserion.vital.core.config;
 
-import com.ryderbelserion.vital.core.AbstractPlugin;
+import com.ryderbelserion.vital.core.Vital;
 import com.ryderbelserion.vital.core.config.objects.CustomFile;
 import com.ryderbelserion.vital.core.util.FileUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
@@ -33,7 +34,7 @@ public class YamlManager {
      */
     public YamlManager() {}
 
-    private @NotNull final AbstractPlugin api = AbstractPlugin.api();
+    private @NotNull final Vital api = Vital.api();
     private @NotNull final Path dataFolder = this.api.getDirectory().toPath();
     private @NotNull final Logger logger = this.api.getLogger();
     private final boolean isLogging = this.api.isLogging();
@@ -68,7 +69,11 @@ public class YamlManager {
         for (String folder : this.folders) {
             Path resolvedFolder = this.dataFolder.resolve(folder);
 
-            if (!Files.exists(resolvedFolder)) {
+            FileUtil.extract(folder, "Extracting folders...");
+
+            loadFiles(resolvedFolder);
+
+            /*if (!Files.exists(resolvedFolder)) {
                 // Create directory.
                 try {
                     Files.createDirectory(resolvedFolder);
@@ -83,7 +88,7 @@ public class YamlManager {
                 loadFiles(resolvedFolder);
             } else {
                 loadFiles(resolvedFolder);
-            }
+            }*/
         }
     }
 

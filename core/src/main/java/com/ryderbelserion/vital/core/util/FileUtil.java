@@ -1,6 +1,6 @@
 package com.ryderbelserion.vital.core.util;
 
-import com.ryderbelserion.vital.core.AbstractPlugin;
+import com.ryderbelserion.vital.core.Vital;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import java.io.BufferedInputStream;
@@ -10,16 +10,24 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
 
 /**
  * A class containing utilities to extract or obtain files from directories.
@@ -34,7 +42,7 @@ public class FileUtil {
         throw new AssertionError();
     }
 
-    private static @NotNull final AbstractPlugin api = AbstractPlugin.api();
+    private static @NotNull final Vital api = Vital.api();
     private static @NotNull final Logger logger = api.getLogger();
 
     /**
@@ -62,6 +70,90 @@ public class FileUtil {
             }
         } catch (Exception exception) {
             logger.severe("Failed to extract " + fileName + " from the jar.");
+        }
+    }
+
+    /**
+     * Allows you to read the resources at a given {@link Path} within the jar file.
+     *
+     * @param consumer the consumer to read the resources
+     * @param input the input folder
+     * @throws IOException throws an exception if failed
+     */
+    public static void visit(final Consumer<Path> consumer, final String input) throws IOException {
+        final URL resource = FileUtil.class.getClassLoader().getResource("config.yml");
+
+        if (resource == null) {
+            throw new IllegalStateException("We are lacking awareness of the files in src/main/resources/" + input);
+        }
+
+        final URI path = URI.create(resource.toString().split("!")[0] + "!/");
+
+        try (final FileSystem fileSystem = FileSystems.newFileSystem(path, Map.of("create", "true"))) {
+            final Path toVisit = fileSystem.getPath(input);
+
+            if (Files.exists(toVisit)) {
+                consumer.accept(toVisit);
+            }
+        }
+    }
+
+    /**
+     * Extracts files from the jar.
+     *
+     * @param input the folder to write to
+     * @param message the message to send
+     */
+    public static void extract(String input, String message) {
+        extract(input, input, message, false);
+    }
+
+    /**
+     * Extracts files from the jar.
+     *
+     * @param input the folder to read from
+     * @param output the folder to write to
+     * @param message the message to send
+     * @param overwrite delete the existing output folder if true
+     */
+    public static void extract(String input, String output, String message, boolean overwrite) {
+        try {
+            visit(path -> {
+                if (api.isLogging()) logger.info(message);
+
+                final Path directory = api.getDirectory().toPath().resolve(output);
+
+                try {
+                    // If true, we delete the directory and then instantly re-create!
+                    if (overwrite) {
+                        Files.deleteIfExists(directory);
+                    }
+
+                    if (!Files.exists(directory)) {
+                        Files.createDirectory(directory);
+
+                        try (final Stream<Path> files = Files.walk(path)) {
+                            files.filter(Files::isRegularFile).forEach(file -> {
+                                try {
+                                    final Path langFile = directory.resolve(file.getFileName().toString());
+
+                                    if (!Files.exists(langFile)) {
+                                        try (final InputStream stream = Files.newInputStream(file)) {
+                                            Files.copy(stream, langFile);
+                                        }
+                                    }
+                                } catch (IOException exception) {
+                                    logger.log(Level.SEVERE, "Encountered an I/O error whilst trying to load the file: " + file.getFileName().toString(), exception);
+                                }
+                            });
+                        }
+                    }
+                } catch (IOException exception) {
+                    logger.log(Level.SEVERE, "Encountered an I/O error whilst trying to load the directory: " + directory, exception);
+                }
+            }, input);
+        } catch (IOException exception) {
+            logger.log(Level.SEVERE, "Encountered an I/O error whilst loading files.", exception);
         }
     }
 

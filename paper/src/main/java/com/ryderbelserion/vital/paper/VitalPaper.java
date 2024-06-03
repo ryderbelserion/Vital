@@ -1,19 +1,19 @@
 package com.ryderbelserion.vital.paper;
 
-import com.ryderbelserion.vital.core.AbstractPlugin;
+import com.ryderbelserion.vital.core.Vital;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.util.logging.Logger;
 
 /**
- * A platform specific class for Paper extending {@link AbstractPlugin}.
+ * A platform specific class for Paper extending {@link Vital}.
  *
  * @author Ryder Belserion
  * @version 1.5
  * @since 1.1
  */
-public class VitalPaper extends AbstractPlugin {
+public class VitalPaper extends Vital {
 
     private final Logger logger;
     private boolean isLogging;

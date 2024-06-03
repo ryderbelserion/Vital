@@ -2,7 +2,7 @@ package com.ryderbelserion.vital.paper.builders.items;
 
 import com.destroystokyo.paper.profile.PlayerProfile;
 import com.destroystokyo.paper.profile.ProfileProperty;
-import com.ryderbelserion.vital.core.AbstractPlugin;
+import com.ryderbelserion.vital.core.Vital;
 import com.ryderbelserion.vital.core.util.StringUtil;
 import com.ryderbelserion.vital.paper.builders.PlayerBuilder;
 import com.ryderbelserion.vital.paper.enums.Support;
@@ -1737,7 +1737,7 @@ public class ItemBuilder {
                 try {
                     textures.setSkin(URI.create(this.url).toURL(), PlayerTextures.SkinModel.CLASSIC);
                 } catch (MalformedURLException exception) {
-                    AbstractPlugin.api().getLogger().log(Level.SEVERE, "Failed to set the texture url", exception);
+                    Vital.api().getLogger().log(Level.SEVERE, "Failed to set the texture url", exception);
                 }
 
                 profile.setTextures(textures);

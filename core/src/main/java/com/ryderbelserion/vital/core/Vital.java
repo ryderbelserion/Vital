@@ -12,15 +12,15 @@ import java.util.logging.Logger;
  * @version 1.5
  * @since 1.0
  */
-public abstract class AbstractPlugin {
+public abstract class Vital {
 
     /**
-     * Gets the instance of {@link AbstractPlugin}.
+     * Gets the instance of {@link Vital}.
      *
-     * @return {@link AbstractPlugin}
+     * @return {@link Vital}
      * @since 1.0
      */
-    public static @NotNull AbstractPlugin api() {
+    public static @NotNull Vital api() {
         return Provider.api();
     }
 
@@ -28,7 +28,7 @@ public abstract class AbstractPlugin {
      * Use reflection for the api
      * @since 1.0
      */
-    public AbstractPlugin() {
+    public Vital() {
         try {
             Field api = Provider.class.getDeclaredField("api");
             api.setAccessible(true);
@@ -73,13 +73,13 @@ public abstract class AbstractPlugin {
             throw new AssertionError();
         }
 
-        static AbstractPlugin api;
+        static Vital api;
 
         /**
-         * @return {@link AbstractPlugin}
+         * @return {@link Vital}
          * @since 1.0
          */
-        static @NotNull AbstractPlugin api() {
+        static @NotNull Vital api() {
             return Provider.api;
         }
     }
