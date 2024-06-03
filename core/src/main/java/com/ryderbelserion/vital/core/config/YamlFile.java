@@ -10,7 +10,7 @@ import java.io.File;
 /**
  * An extension of YamlConfiguration utilizing methods from PaperMC with some basic overrides for our own FileManager
  *
- * @version 1.6
+ * @version 1.5.1
  * @since 1.0
  */
 public class YamlFile extends org.simpleyaml.configuration.file.YamlFile {
