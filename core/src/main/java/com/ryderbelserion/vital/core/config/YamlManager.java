@@ -9,11 +9,9 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
@@ -66,6 +64,8 @@ public class YamlManager {
      * @since 1.0
      */
     public void init() {
+        this.customFiles.clear();
+
         // Creates the custom folders.
         for (String folder : this.folders) {
             Path resolvedFolder = this.dataFolder.resolve(folder);
@@ -225,29 +225,6 @@ public class YamlManager {
                 this.logger.log(Level.SEVERE, "Failed to create default file: " + resolvedFolder.toFile().getPath() + "...", exception);
             }
         });
-    }
-
-    /**
-     * Reload all {@link CustomFile}'s.
-     *
-     * @return {@link YamlManager}
-     * @since 1.0
-     */
-    public final YamlManager reloadCustomFiles() {
-        List<CustomFile> files = new ArrayList<>();
-
-        this.customFiles.forEach(key -> {
-            if (!key.getYamlFile().getConfigurationFile().exists()) {
-                files.add(key);
-            } else {
-                key.reload();
-            }
-        });
-
-        // Remove broken files
-        files.forEach(file -> removeCustomFile(file.getStrippedName()));
-
-        return this;
     }
 
     /**
