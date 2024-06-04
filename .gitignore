@@ -9,3 +9,16 @@ core/build
 
 .gradle
 .idea
+
+example/.gradle
+example/build
+
+example/run/
+
+!example/run/config/paper-global.yml
+!example/run/config/paper-world-defaults.yml
+!example/run/bukkit.yml
+!example/run/eula.txt
+!example/run/ops.json
+!example/run/server.properties
+!example/run/spigot.yml

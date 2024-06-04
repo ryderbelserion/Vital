@@ -18,9 +18,11 @@ annotations = "24.1.0"
 jalu = "1.4.1"
 yaml = "1.8.4"
 
+runPaper = "2.3.0"
 shadowJar = "8.1.7"
 
 [plugins]
+runPaper = { id = "xyz.jpenilla.run-paper", version.ref = "runPaper" }
 shadow = { id = "io.github.goooler.shadow", version.ref = "shadowJar" }
 
 [libraries]

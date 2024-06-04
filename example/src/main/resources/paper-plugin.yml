@@ -1,0 +1,9 @@
+name: 'Vital'
+main: 'com.ryderbelserion.vital.TestPlugin'
+
+version: '1.0'
+api-version: '1.20'
+description: 'A description'
+website: 'a website'
+
+folia-supported: true
