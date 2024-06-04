@@ -13,7 +13,7 @@ import java.util.concurrent.CompletableFuture;
  * @param name the name of the player
  *
  * @author Ryder Belserion
- * @version 1.5.1
+ * @version 1.5.2
  * @since 1.0
  */
 public record PlayerBuilder(String name) {

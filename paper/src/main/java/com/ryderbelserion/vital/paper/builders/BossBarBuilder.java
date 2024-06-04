@@ -9,7 +9,7 @@ import org.jetbrains.annotations.Nullable;
  * Builds a bossbar to send to a target
  *
  * @author Ryder Belserion
- * @version 1.5.1
+ * @version 1.5.2
  * @since 1.0
  */
 public class BossBarBuilder {

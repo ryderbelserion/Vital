@@ -25,7 +25,7 @@ import java.util.logging.Level;
  * A structure manager extending {@link IStructureManager} which builds {@link Structure}.
  *
  * @author Ryder Belserion
- * @version 1.5.1
+ * @version 1.5.2
  * @since 1.0
  */
 public class StructureManager implements IStructureManager {
