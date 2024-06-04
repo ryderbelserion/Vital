@@ -5,7 +5,7 @@ plugins {
 }
 
 dependencies {
-    compileOnly(libs.bundles.plugins)
+    compileOnlyApi(libs.bundles.plugins)
 
     api(projects.core)
 }
