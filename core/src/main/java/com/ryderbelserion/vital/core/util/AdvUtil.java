@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * A class handling components or minimessage related functions
  *
- * @version 1.5.3
+ * @version 1.5.4
  * @since 1.0
  */
 public class AdvUtil {

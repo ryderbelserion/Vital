@@ -14,7 +14,7 @@ import java.util.logging.Logger;
  * Builds a custom file to load with the File Manager
  *
  * @author Ryder Belserion
- * @version 1.5.3
+ * @version 1.5.4
  * @since 1.0
  */
 public class CustomFile {
