@@ -9,7 +9,7 @@ import com.ryderbelserion.vital.paper.enums.Support;
 import com.ryderbelserion.vital.paper.util.DyeUtil;
 import com.ryderbelserion.vital.paper.util.ItemUtil;
 import com.ryderbelserion.vital.paper.util.MiscUtil;
-import dev.lone.itemsadder.api.CustomStack;
+//import dev.lone.itemsadder.api.CustomStack;
 import io.th0rgal.oraxen.api.OraxenItems;
 import me.arcaniax.hdb.api.HeadDatabaseAPI;
 import me.clip.placeholderapi.PlaceholderAPI;
@@ -586,7 +586,7 @@ public class ItemBuilder {
      * @return {@link ItemBuilder}
      * @since 1.0
      */
-    @SuppressWarnings("UnreachableCode")
+    //@SuppressWarnings("UnreachableCode")
     public @NotNull final ItemBuilder withType(@NotNull final String key) {
         if (key.isEmpty()) return this;
 
@@ -602,7 +602,7 @@ public class ItemBuilder {
             }
         }
 
-        if (Support.items_adder.isEnabled()) {
+        /*if (Support.items_adder.isEnabled()) {
             if (CustomStack.isInRegistry(key)) {
                 setCustom(true);
 
@@ -610,7 +610,7 @@ public class ItemBuilder {
 
                 return this;
             }
-        }
+        }*/
 
         // Don't override the provided material but copy it instead.
         String type = key;
