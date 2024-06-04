@@ -10,7 +10,7 @@ import java.util.logging.Logger;
  * A platform specific class for Paper extending {@link Vital}.
  *
  * @author Ryder Belserion
- * @version 1.5.2
+ * @version 1.5.3
  * @since 1.1
  */
 public class VitalPaper extends Vital {

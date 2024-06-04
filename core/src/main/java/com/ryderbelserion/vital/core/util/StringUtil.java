@@ -8,7 +8,7 @@ import java.util.Optional;
  * A class containing utilities to convert or chomp strings
  *
  * @author Ryder Belserion
- * @version 1.5.2
+ * @version 1.5.3
  * @since 1.0
  */
 public class StringUtil {
