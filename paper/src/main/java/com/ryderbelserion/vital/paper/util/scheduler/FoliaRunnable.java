@@ -217,7 +217,7 @@ public abstract class FoliaRunnable implements Runnable {
         } else if (this.entityScheduler != null) {
             return setupTask(this.entityScheduler.runAtFixedRate(plugin, scheduledTask -> this.run(), this.entityRetired, delay, period));
         } else if (this.regionScheduler != null) {
-            return setupTask(this.regionScheduler.runDelayed(plugin, world, chunkX, chunkZ, scheduledTask -> this.run(), delay));
+            return setupTask(this.regionScheduler.runAtFixedRate(plugin, world, chunkX, chunkZ, scheduledTask -> this.run(), delay, period));
         } else if (this.asyncScheduler != null && this.timeUnit != null) {
             return setupTask(this.asyncScheduler.runAtFixedRate(plugin, scheduledTask -> this.run(), delay, period, this.timeUnit));
         } else {
