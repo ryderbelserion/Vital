@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
  * A runnable class with both Paper and Folia Support
  *
  * @author Euphyllia
- * @version 1.5.4
+ * @version 1.5.6
  * @since 1.0
  */
 public abstract class FoliaRunnable implements Runnable {
@@ -28,8 +28,7 @@ public abstract class FoliaRunnable implements Runnable {
     private @Nullable Runnable entityRetired;
     private @Nullable GlobalRegionScheduler globalRegionScheduler;
     private @Nullable RegionScheduler regionScheduler;
-    private @Nullable Location location;
-    private @Nullable World world;
+    private World world;
     private int chunkX;
     private int chunkZ;
 
@@ -74,9 +73,8 @@ public abstract class FoliaRunnable implements Runnable {
      * @param location the {@link Location}
      * @since 1.0
      */
-    public FoliaRunnable(@NotNull final RegionScheduler scheduler, @Nullable final Location location) {
-        this.regionScheduler = scheduler;
-        this.location = location;
+    public FoliaRunnable(@NotNull final RegionScheduler scheduler, @NotNull final Location location) {
+        this(scheduler, location.getWorld(), location.getBlockX() >> 4, location.getBlockZ() >> 4);
     }
 
     /**
@@ -88,7 +86,7 @@ public abstract class FoliaRunnable implements Runnable {
      * @param chunkZ the chunk's {@link Integer}
      * @since 1.0
      */
-    public FoliaRunnable(@NotNull final RegionScheduler scheduler, @Nullable final World world, final int chunkX, final int chunkZ) {
+    public FoliaRunnable(@NotNull final RegionScheduler scheduler, @NotNull final World world, final int chunkX, final int chunkZ) {
         this.regionScheduler = scheduler;
         this.world = world;
         this.chunkX = chunkX;
@@ -119,7 +117,32 @@ public abstract class FoliaRunnable implements Runnable {
     }
 
     /**
-     * Runs a task supporting Folia/Paper
+     * Runs a task immediately supporting Folia/Paper.
+     *
+     * @param plugin the {@link JavaPlugin}
+     * @return true if the task was successfully executed.
+     * @throws IllegalArgumentException throws this exception if it fails
+     * @throws IllegalStateException throws this exception if it is unstable
+     * @since 1.5.6
+     */
+    public final boolean execute(@NotNull final JavaPlugin plugin) throws IllegalArgumentException, IllegalStateException {
+        checkNotYetScheduled();
+        if (this.globalRegionScheduler != null) {
+            this.globalRegionScheduler.execute(plugin, this);
+        } else if (this.entityScheduler != null) {
+            return this.entityScheduler.execute(plugin, this, entityRetired, 1L);
+        } else if (this.regionScheduler != null) {
+            this.regionScheduler.execute(plugin, world, chunkX, chunkZ, this);
+        } else if (this.asyncScheduler != null) {
+            this.asyncScheduler.runNow(plugin, scheduledTask -> this.run());
+        } else {
+            throw new UnsupportedOperationException("The task type is not supported.");
+        }
+        return true;
+    }
+
+    /**
+     * Runs a task on the next tick supporting Folia/Paper.
      *
      * @param plugin the {@link JavaPlugin}
      * @return a scheduled task
@@ -135,15 +158,9 @@ public abstract class FoliaRunnable implements Runnable {
         } else if (this.entityScheduler != null) {
             return setupTask(this.entityScheduler.run(plugin, scheduledTask -> this.run(), entityRetired));
         } else if (this.regionScheduler != null) {
-            if (this.location != null) {
-                return setupTask(this.regionScheduler.run(plugin, location, scheduledTask -> this.run()));
-            } else if (world != null) {
-                return setupTask(this.regionScheduler.run(plugin, world, chunkX, chunkZ, scheduledTask -> this.run()));
-            } else {
-                throw new UnsupportedOperationException("The region type is not supported.");
-            }
+            return setupTask(this.regionScheduler.run(plugin, world, chunkX, chunkZ, scheduledTask -> this.run()));
         } else if (this.asyncScheduler != null) {
-            return setupTask(this.asyncScheduler.runNow(plugin, scheduledTask -> this.run()));
+            return setupTask(this.asyncScheduler.runDelayed(plugin, scheduledTask -> this.run(), 50, TimeUnit.MILLISECONDS));
         } else {
             throw new UnsupportedOperationException("The task type is not supported.");
         }
@@ -169,13 +186,7 @@ public abstract class FoliaRunnable implements Runnable {
         } else if (this.entityScheduler != null) {
             return setupTask(this.entityScheduler.runDelayed(plugin, scheduledTask -> this.run(), entityRetired, delay));
         } else if (this.regionScheduler != null) {
-            if (this.location != null) {
-                return setupTask(this.regionScheduler.runDelayed(plugin, location, scheduledTask -> this.run(), delay));
-            } else if (world != null) {
-                return setupTask(this.regionScheduler.runDelayed(plugin, world, chunkX, chunkZ, scheduledTask -> this.run(), delay));
-            } else {
-                throw new UnsupportedOperationException("The region type is not supported.");
-            }
+            return setupTask(this.regionScheduler.runDelayed(plugin, world, chunkX, chunkZ, scheduledTask -> this.run(), delay));
         } else if (this.asyncScheduler != null && this.timeUnit != null) {
             return setupTask(this.asyncScheduler.runDelayed(plugin, scheduledTask -> this.run(), delay, timeUnit));
         } else {
@@ -206,13 +217,7 @@ public abstract class FoliaRunnable implements Runnable {
         } else if (this.entityScheduler != null) {
             return setupTask(this.entityScheduler.runAtFixedRate(plugin, scheduledTask -> this.run(), this.entityRetired, delay, period));
         } else if (this.regionScheduler != null) {
-            if (this.location != null) {
-                return setupTask(this.regionScheduler.runAtFixedRate(plugin, this.location, scheduledTask -> this.run(), delay, period));
-            } else if (world != null) {
-                return setupTask(this.regionScheduler.runAtFixedRate(plugin, this.world, this.chunkX, this.chunkZ, scheduledTask -> this.run(), delay, period));
-            } else {
-                throw new UnsupportedOperationException("The region type is not supported.");
-            }
+            return setupTask(this.regionScheduler.runDelayed(plugin, world, chunkX, chunkZ, scheduledTask -> this.run(), delay));
         } else if (this.asyncScheduler != null && this.timeUnit != null) {
             return setupTask(this.asyncScheduler.runAtFixedRate(plugin, scheduledTask -> this.run(), delay, period, this.timeUnit));
         } else {
