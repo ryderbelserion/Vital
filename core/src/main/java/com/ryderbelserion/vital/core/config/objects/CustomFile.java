@@ -4,8 +4,8 @@ import com.ryderbelserion.vital.core.Vital;
 import com.ryderbelserion.vital.core.config.YamlFile;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,47 +25,43 @@ public class CustomFile {
 
     private YamlFile configuration = null;
 
-    private String strippedName = "";
-    private String filePath = "";
+    private final File directory;
 
-    private final Path directory;
+    private String strippedName = "";
+    private String fileName = "";
 
     /**
      * A constructor to build a custom file.
      *
      * @param directory the directory
      */
-    public CustomFile(@NotNull final Path directory) {
+    public CustomFile(@NotNull final File directory) {
         this.directory = directory;
     }
 
     /**
      * Populates the data in the class.
      *
-     * @param filePath the name of the file
+     * @param fileName the name of the file
      * @return {@link CustomFile}
      */
-    public @Nullable final CustomFile apply(@NotNull final String filePath) {
-        if (filePath.isEmpty()) {
+    public @Nullable final CustomFile apply(@NotNull final String fileName) {
+        if (fileName.isEmpty()) {
             List.of(
-                    "The file path cannot be empty!",
-                    "File Path: " + filePath
+                    "The file name cannot be empty!",
+                    "File Name: " + fileName
             ).forEach(this.logger::severe);
 
             return null;
         }
 
-        int index = filePath.lastIndexOf("\\");
-
-        this.strippedName = index != 1 ? filePath.substring(index + 1).replace(".yml", "") : filePath.replace(".yml", "");
-        this.filePath = filePath;
-
-        YamlFile file = new YamlFile(this.directory.resolve(this.filePath).toString());
+        this.strippedName = fileName.replace(".yml", "");
+        this.fileName = fileName;
 
         try {
             if (this.isLogging) this.logger.info("Loading " + this.strippedName + ".yml...");
 
-            this.configuration = file;
+            this.configuration = new YamlFile(new File(this.directory, this.fileName));
             this.configuration.loadWithComments();
         } catch (Exception exception) {
             this.logger.log(Level.SEVERE, "Failed to load or create " + this.strippedName + ".yml...", exception);
@@ -88,8 +84,8 @@ public class CustomFile {
      *
      * @return the name of the file
      */
-    public final String getFilePath() {
-        return this.filePath;
+    public final String getFileName() {
+        return this.fileName;
     }
 
     /**
@@ -114,7 +110,7 @@ public class CustomFile {
      * Saves a custom configuration.
      */
     public void save() {
-        if (this.filePath.isEmpty()) return;
+        if (this.fileName.isEmpty()) return;
 
         if (!exists()) return;
 
@@ -129,12 +125,12 @@ public class CustomFile {
      * Reloads a custom configuration.
      */
     public void reload() {
-        if (this.filePath.isEmpty()) return;
+        if (this.fileName.isEmpty()) return;
 
         if (!exists()) return;
 
         try {
-            this.configuration = new YamlFile(this.directory.resolve(this.filePath).toString());
+            this.configuration = new YamlFile(new File(this.directory, this.fileName));
             this.configuration.loadWithComments();
         } catch (Exception exception) {
             this.logger.log(Level.SEVERE, "Could not reload the " + this.strippedName + ".yml...", exception);

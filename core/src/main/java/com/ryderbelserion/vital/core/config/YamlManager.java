@@ -82,9 +82,9 @@ public class YamlManager {
                 FileUtil.extracts(YamlManager.class, "/" + folder + "/", resolvedFolder, true);
 
                 // get all files with recursion
-                loadFiles(resolvedFolder);
+                loadFiles(resolvedFolder.toFile(), folder);
             } else {
-                loadFiles(resolvedFolder);
+                loadFiles(resolvedFolder.toFile(), "");
             }
         }
     }
@@ -215,16 +215,42 @@ public class YamlManager {
      * @param resolvedFolder the {@link Path} to check
      * @since 1.0
      */
-    private void loadFiles(Path resolvedFolder) {
-        FileUtil.getFiles(resolvedFolder, ".yml", false).forEach(fileName -> {
-            try {
-                CustomFile customFile = new CustomFile(resolvedFolder).apply(fileName);
+    private void loadFiles(final File resolvedFolder, final String folder) {
+        File[] filesList = resolvedFolder.listFiles();
 
-                this.customFiles.add(customFile);
-            } catch (Exception exception) {
-                this.logger.log(Level.SEVERE, "Failed to create default file: " + resolvedFolder.toFile().getPath() + "...", exception);
+        if (filesList != null) {
+            for (File directory : filesList) {
+                if (directory.isDirectory()) {
+                    String[] dir = directory.list();
+
+                    if (dir != null) {
+                        for (String name : dir) {
+                            if (!name.endsWith(".yml")) continue;
+
+                            final CustomFile file = new CustomFile(directory).apply(name);
+
+                            if (file != null && file.exists()) {
+                                this.customFiles.add(file);
+
+                                if (this.isLogging) this.logger.info("Loaded new custom file: " + folder + "/" + directory.getName() + "/" + name + ".");
+                            }
+                        }
+                    }
+                } else {
+                    String name = directory.getName();
+
+                    if (!name.endsWith(".yml")) continue;
+
+                    final CustomFile file = new CustomFile(resolvedFolder).apply(name);
+
+                    if (file != null && file.exists()) {
+                        this.customFiles.add(file);
+
+                        if (this.isLogging) this.logger.info("Loaded new custom file: " + folder + "/" + name + ".");
+                    }
+                }
             }
-        });
+        }
     }
 
     /**
