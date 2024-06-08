@@ -19,6 +19,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
@@ -223,42 +224,43 @@ public class FileUtil {
     /**
      * Returns a {@link List<String>} of files in a directory if they end in a specific extension
      *
-     * @param directory the folder to check
+     * @param dir the folder to check
      * @param extension the file extension
-     * @param removeExtension removes the file extension if true
      * @return a {@link List<String>} of files that meet the criteria
      * @since 1.0
      */
-    public static List<String> getFiles(@NotNull final Path directory, @NotNull final String extension, boolean removeExtension) {
-        final List<String> files = new ArrayList<>();
+    public static List<String> getFiles(@NotNull final File dir, @NotNull final String extension) {
+        List<String> files = new ArrayList<>();
 
-        final File[] iterator = directory.toFile().listFiles();
+        String[] file = dir.list();
 
-        if (iterator == null) return files;
+        if (file != null) {
+            File[] filesList = dir.listFiles();
 
-        for (final File file : iterator) {
-            if (file.isDirectory()) {
-                final File[] recursive = directory.resolve(file.getName()).toFile().listFiles();
+            if (filesList != null) {
+                for (File directory : filesList) {
+                    if (directory.isDirectory()) {
+                        String[] folder = directory.list();
 
-                if (recursive != null) {
-                    for (File key : recursive) {
-                        final String name = key.getName();
+                        if (folder != null) {
+                            for (String name : folder) {
+                                if (!name.endsWith(extension)) continue;
 
-                        if (!name.endsWith(extension)) continue;
-
-                        files.add(removeExtension ? name.replace(extension, "") : file.getName() + File.separator + name);
+                                files.add(name.replaceAll(extension, ""));
+                            }
+                        }
                     }
                 }
-            } else {
-                final String name = file.getName();
+            }
 
+            for (String name : file) {
                 if (!name.endsWith(extension)) continue;
 
-                files.add(removeExtension ? name.replace(extension, "") : name);
+                files.add(name.replaceAll(extension, ""));
             }
         }
 
-        return files;
+        return Collections.unmodifiableList(files);
     }
 
     /**
@@ -270,8 +272,8 @@ public class FileUtil {
      * @return a {@link List<String>} of files that meet the criteria
      * @since 1.0
      */
-    public static List<String> getFiles(@NotNull final Path directory, @NotNull final String folder, @NotNull String extension) {
-        return getFiles(folder.isEmpty() ? directory : directory.resolve(folder), extension, true);
+    public static List<String> getFiles(@NotNull final File directory, @NotNull final String folder, @NotNull String extension) {
+        return getFiles(folder.isEmpty() ? directory : new File(directory, folder), extension);
     }
 
     /**
@@ -283,10 +285,12 @@ public class FileUtil {
      * @return a {@link List<String>} of files that meet the criteria
      * @since 1.5
      */
-    public static List<File> getFileObjects(@NotNull final Path directory, @NotNull final String folder, @NotNull String extension) {
-        List<File> files = new ArrayList<>();
+    public static List<File> getFileObjects(@NotNull final File directory, @NotNull final String folder, @NotNull String extension) {
+        final List<File> files = new ArrayList<>();
 
-        getFiles(folder.isEmpty() ? directory : directory.resolve(folder), extension, false).forEach(file -> files.add(directory.resolve(folder).resolve(file).toFile()));
+        final File root = new File(directory, folder);
+
+        getFiles(folder.isEmpty() ? directory : root, extension).forEach(file -> files.add(new File(root, file)));
 
         return files;
     }
