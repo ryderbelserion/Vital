@@ -8,7 +8,7 @@ import com.ryderbelserion.vital.paper.builders.PlayerBuilder;
 import com.ryderbelserion.vital.paper.enums.Support;
 import com.ryderbelserion.vital.paper.util.DyeUtil;
 import com.ryderbelserion.vital.paper.util.ItemUtil;
-import com.ryderbelserion.vital.paper.util.MiscUtil;
+import com.ryderbelserion.vital.paper.util.AdvUtil;
 //import dev.lone.itemsadder.api.CustomStack;
 import io.th0rgal.oraxen.api.OraxenItems;
 import me.arcaniax.hdb.api.HeadDatabaseAPI;
@@ -72,7 +72,7 @@ import java.util.logging.Level;
  *
  * @author SvenjaReissaus
  * @author Ryder Belserion
- * @version 1.5.4
+ * @version 1.5.6
  * @since 1.0
  */
 public class ItemBuilder {
@@ -494,7 +494,7 @@ public class ItemBuilder {
                     }
                 }
 
-                itemMeta.displayName(this.displayComponent = MiscUtil.parse(displayName));
+                itemMeta.displayName(this.displayComponent = AdvUtil.parse(displayName));
             }
 
             if (!this.displayLore.isEmpty()) {
@@ -512,7 +512,7 @@ public class ItemBuilder {
                         }
                     }
 
-                    components.add(MiscUtil.parse(line));
+                    components.add(AdvUtil.parse(line));
                 }
 
                 itemMeta.lore(this.displayComponentLore = components);

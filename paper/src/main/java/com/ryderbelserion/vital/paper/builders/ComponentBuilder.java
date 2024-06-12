@@ -1,6 +1,6 @@
 package com.ryderbelserion.vital.paper.builders;
 
-import com.ryderbelserion.vital.paper.util.MiscUtil;
+import com.ryderbelserion.vital.paper.util.AdvUtil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
  * Builds a component to send to a player.
  *
  * @author Ryder Belserion
- * @version 1.5.4
+ * @version 1.5.6
  * @since 1.0
  */
 public class ComponentBuilder {
@@ -57,7 +57,7 @@ public class ComponentBuilder {
     public @NotNull final ComponentBuilder applyHover(@NotNull final String text) {
         if (text.isEmpty()) return this;
 
-        this.builder.hoverEvent(HoverEvent.showText(MiscUtil.parse(text)));
+        this.builder.hoverEvent(HoverEvent.showText(AdvUtil.parse(text)));
 
         return this;
     }
@@ -87,7 +87,7 @@ public class ComponentBuilder {
     public @NotNull final TextComponent getComponent() {
         if (this.value.isEmpty()) return Component.empty();
 
-        Component message = MiscUtil.parse(this.value);
+        Component message = AdvUtil.parse(this.value);
 
         return this.builder.append(message).build();
     }

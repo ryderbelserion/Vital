@@ -11,9 +11,6 @@ dependencies {
     compileOnly(libs.annotations)
 
     api(libs.configme)
-    api(libs.yaml) {
-        exclude("org.yaml")
-    }
 }
 
 tasks {

@@ -1,8 +1,8 @@
-package com.ryderbelserion.vital.core.config;
+package com.ryderbelserion.vital.paper.files.config;
 
 import com.ryderbelserion.vital.core.Vital;
-import com.ryderbelserion.vital.core.config.objects.CustomFile;
 import com.ryderbelserion.vital.core.util.FileUtil;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import java.io.File;
@@ -23,52 +23,40 @@ import java.util.logging.Logger;
  * @author Ryder Belserion
  * @author BadBones69
  *
- * @version 1.5.4
+ * @version 1.5.6
  * @since 1.0
  */
-public class YamlManager {
+public class FileManager {
 
     /**
      * An empty constructor that does fuck all.
      */
-    public YamlManager() {}
+    public FileManager() {}
 
     private @NotNull final Vital api = Vital.api();
-    private @NotNull final Path dataFolder = this.api.getDirectory().toPath();
+    private @NotNull final File dataFolder = this.api.getDirectory();
     private @NotNull final Logger logger = this.api.getLogger();
     private final boolean isLogging = this.api.isLogging();
 
     // Holds static files
-    private final Map<String, YamlFile> files = new HashMap<>();
+    private final Map<String, YamlConfiguration> files = new HashMap<>();
 
     // Holds the folders to load dynamic files in
     private final Set<CustomFile> customFiles = new HashSet<>();
     private final Set<String> folders = new HashSet<>();
 
     /**
-     * Creates the plugin directory.
-     * @since 1.1
-     */
-    public void createPluginDirectory() {
-        File directory = this.dataFolder.toFile();
-
-        if (!directory.exists()) {
-            if (directory.mkdir()) {
-                if (this.isLogging) this.logger.warning("Created " + directory.getName() + " because it was not found.");
-            }
-        }
-    }
-
-    /**
      * Creates the data folder and anything else we need.
      * @since 1.0
      */
     public void init() {
+        this.dataFolder.mkdirs();
+
         this.customFiles.clear();
 
         // Creates the custom folders.
         for (String folder : this.folders) {
-            Path resolvedFolder = this.dataFolder.resolve(folder);
+            Path resolvedFolder = new File(this.dataFolder, folder).toPath();
 
             if (!Files.exists(resolvedFolder)) {
                 // Create directory.
@@ -79,7 +67,7 @@ public class YamlManager {
                 }
 
                 // extract files if needed.
-                FileUtil.extracts(YamlManager.class, "/" + folder + "/", resolvedFolder, true);
+                FileUtil.extracts(FileManager.class, "/" + folder + "/", resolvedFolder, true);
 
                 // get all files with recursion
                 loadFiles(resolvedFolder.toFile(), folder);
@@ -90,21 +78,23 @@ public class YamlManager {
     }
 
     /**
-     * Reload a {@link YamlFile}.
+     * Reload a {@link YamlConfiguration}.
      *
-     * @param file the name of the {@link YamlFile} to save
-     * @return {@link YamlManager}
+     * @param file the name of the {@link YamlConfiguration} to save
+     * @return {@link FileManager}
      * @since 1.0
      */
-    public @NotNull final YamlManager reloadFile(@NotNull final String file) {
+    public @NotNull final FileManager reloadFile(@NotNull final String file) {
         if (file.isEmpty()) return this;
 
-        YamlFile yamlFile = getFile(file);
+        final YamlConfiguration configuration = getFile(file);
 
-        if (yamlFile == null) return this;
+        if (configuration == null) return this;
+
+        final File key = new File(this.dataFolder, file);
 
         try {
-            yamlFile.loadWithComments();
+            this.files.put(file, YamlConfiguration.loadConfiguration(key));
         } catch (Exception exception) {
             this.logger.log(Level.SEVERE, "Failed to load: " + file + "...", exception);
         }
@@ -113,31 +103,28 @@ public class YamlManager {
     }
 
     /**
-     * Adds a {@link YamlFile}.
+     * Adds a {@link YamlConfiguration}.
      *
-     * @param fileName the name of the {@link YamlFile} to add
-     * @return {@link YamlManager}
+     * @param fileName the name of the {@link YamlConfiguration} to add
+     * @return {@link FileManager}
      * @since 1.0
      */
-    public @NotNull final YamlManager addFile(@NotNull final String fileName) {
+    public @NotNull final FileManager addFile(@NotNull final String fileName) {
         if (fileName.isEmpty()) return this;
 
-        YamlFile file = new YamlFile(this.dataFolder.resolve(fileName).toString());
+        final File file = new File(this.dataFolder, fileName);
 
         try {
-            if (!file.exists()) {
-                FileUtil.extract(YamlManager.class, fileName, this.dataFolder, false);
+            if (file.exists()) {
+                FileUtil.extract(FileManager.class, fileName, this.dataFolder.toPath(), false);
 
                 if (this.isLogging) this.logger.info("Copied " + fileName + " because it did not exist...");
             } else {
                 if (this.isLogging) this.logger.info("Loading the file " + fileName + "...");
             }
 
-            // Load the file with comments intact
-            file.loadWithComments();
-
             // Add other file
-            this.files.put(fileName, file);
+            this.files.put(fileName, YamlConfiguration.loadConfiguration(file));
         } catch (Exception exception) {
             this.logger.log(Level.SEVERE, "Failed to load or create " + fileName + "...", exception);
         }
@@ -146,61 +133,61 @@ public class YamlManager {
     }
 
     /**
-     * Saves a {@link YamlFile}.
+     * Saves a {@link YamlConfiguration}.
      *
-     * @param file the name of the {@link YamlFile} to save
-     * @return {@link YamlManager}
+     * @param fileName the name of the {@link YamlConfiguration} to save
+     * @return {@link FileManager}
      * @since 1.0
      */
-    public @NotNull final YamlManager saveFile(@NotNull final String file) {
-        if (file.isEmpty()) return this;
+    public @NotNull final FileManager saveFile(@NotNull final String fileName) {
+        if (fileName.isEmpty()) return this;
 
-        YamlFile yamlFile = getFile(file);
+        YamlConfiguration configuration = getFile(fileName);
 
-        if (yamlFile == null) return this;
+        if (configuration == null) return this;
 
         try {
-            yamlFile.save();
+            configuration.save(new File(this.dataFolder, configuration.getName()));
         } catch (Exception exception) {
-            this.logger.log(Level.SEVERE, "Failed to save: " + file + "...", exception);
+            this.logger.log(Level.SEVERE, "Failed to save: " + fileName + "...", exception);
         }
 
         return this;
     }
 
     /**
-     * Gets a {@link YamlFile}.
+     * Gets a {@link YamlConfiguration}.
      *
-     * @param file the name of the {@link YamlFile} to save
-     * @return {@link YamlFile}
+     * @param fileName the name of the {@link YamlConfiguration} to save
+     * @return {@link YamlConfiguration}
      * @since 1.0
      */
-    public @Nullable final YamlFile getFile(@NotNull final String file) {
-        if (file.isEmpty()) return null;
+    public @Nullable final YamlConfiguration getFile(@NotNull final String fileName) {
+        if (fileName.isEmpty()) return null;
 
-        YamlFile yamlFile = null;
+        YamlConfiguration configuration = null;
 
         for (String key : this.files.keySet()) {
-            if (!key.equalsIgnoreCase(file)) continue;
+            if (!key.equalsIgnoreCase(fileName)) continue;
 
-            yamlFile = this.files.get(key);
+            configuration = this.files.get(key);
 
             break;
         }
 
-        return yamlFile;
+        return configuration;
     }
 
     /**
-     * Reload all other {@link YamlFile}'s.
+     * Reload all other {@link YamlConfiguration}'s.
      *
-     * @return {@link YamlManager}
+     * @return {@link FileManager}
      * @since 1.0
      */
-    public @NotNull final YamlManager reloadFiles() {
-        this.files.forEach((key, yamlFile) -> {
+    public @NotNull final FileManager reloadFiles() {
+        this.files.forEach((key, configuration) -> {
             try {
-                yamlFile.loadWithComments();
+                configuration.save(key);
             } catch (IOException exception) {
                 this.logger.log(Level.SEVERE, "Failed to load: " + key + "...", exception);
             }
@@ -257,7 +244,7 @@ public class YamlManager {
      * Get a {@link CustomFile}.
      *
      * @param file the {@link CustomFile} without the file extension
-     * @return {@link YamlManager}
+     * @return {@link FileManager}
      * @since 1.0
      */
     public @Nullable final CustomFile getCustomFile(@NotNull final String file) {
@@ -295,10 +282,10 @@ public class YamlManager {
      * Adds a {@link CustomFile}.
      *
      * @param file the {@link CustomFile} to add
-     * @return {@link YamlManager}
+     * @return {@link FileManager}
      * @since 1.0
      */
-    public final YamlManager addCustomFile(@Nullable final CustomFile file) {
+    public @NotNull final FileManager addCustomFile(@Nullable final CustomFile file) {
         if (file == null) return this;
 
         this.customFiles.add(file);
@@ -310,21 +297,17 @@ public class YamlManager {
      * Save a {@link CustomFile}.
      *
      * @param key the name of the {@link CustomFile} to save
-     * @return {@link YamlManager}
+     * @return {@link FileManager}
      * @since 1.0
      */
-    public final YamlManager saveCustomFile(@NotNull final String key) {
+    public @NotNull final FileManager saveCustomFile(@NotNull final String key) {
         if (key.isEmpty()) return this;
 
-        CustomFile file = getCustomFile(key);
+        final CustomFile file = getCustomFile(key);
 
         if (file == null) return this;
 
-        try {
-            file.getYamlFile().save();
-        } catch (IOException exception) {
-            this.logger.log(Level.SEVERE, "Could not save " + key + "...", exception);
-        }
+        file.save();
 
         return this;
     }
@@ -332,22 +315,18 @@ public class YamlManager {
     /**
      * Reload a specific {@link CustomFile}.
      *
-     * @param key the name of the {@link YamlFile} to reload
-     * @return {@link YamlManager}
+     * @param key the name of the {@link YamlConfiguration} to reload
+     * @return {@link FileManager}
      * @since 1.0
      */
-    public final YamlManager reloadCustomFile(@NotNull final String key) {
+    public @NotNull final FileManager reloadCustomFile(@NotNull final String key) {
         if (key.isEmpty()) return this;
 
-        CustomFile file = getCustomFile(key);
+        final CustomFile file = getCustomFile(key);
 
         if (file == null) return this;
 
-        try {
-            file.getYamlFile().loadWithComments();
-        } catch (IOException exception) {
-            this.logger.log(Level.SEVERE, "Failed to load: " + key + "...", exception);
-        }
+        file.reload();
 
         return this;
     }
@@ -356,10 +335,10 @@ public class YamlManager {
      * Adds a folder to the hashset if it doesn't exist.
      *
      * @param folder the folder to add
-     * @return {@link YamlManager}
+     * @return {@link FileManager}
      * @since 1.0
      */
-    public final YamlManager addFolder(@NotNull final String folder) {
+    public @NotNull final FileManager addFolder(@NotNull final String folder) {
         if (folder.isEmpty()) return this;
         if (this.folders.contains(folder)) return this;
 
@@ -372,10 +351,10 @@ public class YamlManager {
      * Removes a folder from the hashset if it exists.
      *
      * @param folder the folder to remove
-     * @return {@link YamlManager}
+     * @return {@link FileManager}
      * @since 1.0
      */
-    public final YamlManager removeFolder(@NotNull final String folder) {
+    public @NotNull final FileManager removeFolder(@NotNull final String folder) {
         if (folder.isEmpty()) return this;
 
         this.folders.remove(folder);
@@ -388,7 +367,7 @@ public class YamlManager {
      *
      * @return the {@link Path}
      */
-    public @NotNull final Path getDataFolder() {
+    public final @NotNull File getDataFolder() {
         return this.dataFolder;
     }
 
@@ -408,7 +387,7 @@ public class YamlManager {
      * @return an unmodifiable set of files
      * @since 1.1
      */
-    public Set<CustomFile> getCustomFiles() {
+    public @NotNull final Set<CustomFile> getCustomFiles() {
         return Collections.unmodifiableSet(this.customFiles);
     }
 
@@ -418,7 +397,7 @@ public class YamlManager {
      * @return an unmodifiable map of other files
      * @since 1.1
      */
-    public Map<String, YamlFile> getFiles() {
+    public @NotNull final Map<String, YamlConfiguration> getFiles() {
         return Collections.unmodifiableMap(this.files);
     }
 }

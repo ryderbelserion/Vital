@@ -1,7 +1,7 @@
-package com.ryderbelserion.vital.core.config.objects;
+package com.ryderbelserion.vital.paper.files.config;
 
 import com.ryderbelserion.vital.core.Vital;
-import com.ryderbelserion.vital.core.config.YamlFile;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import java.io.File;
@@ -14,7 +14,7 @@ import java.util.logging.Logger;
  * Builds a custom file to load with the File Manager
  *
  * @author Ryder Belserion
- * @version 1.5.4
+ * @version 1.5.6
  * @since 1.0
  */
 public class CustomFile {
@@ -23,12 +23,13 @@ public class CustomFile {
     private final @NotNull Logger logger = this.api.getLogger();
     private final boolean isLogging = this.api.isLogging();
 
-    private YamlFile configuration = null;
+    private YamlConfiguration configuration = null;
 
     private final File directory;
 
     private String strippedName = "";
     private String fileName = "";
+    private File file = null;
 
     /**
      * A constructor to build a custom file.
@@ -58,11 +59,12 @@ public class CustomFile {
         this.strippedName = fileName.replace(".yml", "");
         this.fileName = fileName;
 
+        this.file = new File(this.directory, this.fileName);
+
         try {
             if (this.isLogging) this.logger.info("Loading " + this.strippedName + ".yml...");
 
-            this.configuration = new YamlFile(new File(this.directory, this.fileName));
-            this.configuration.loadWithComments();
+            this.configuration = YamlConfiguration.loadConfiguration(this.file);
         } catch (Exception exception) {
             this.logger.log(Level.SEVERE, "Failed to load or create " + this.strippedName + ".yml...", exception);
         }
@@ -93,7 +95,7 @@ public class CustomFile {
      *
      * @return the current configuration
      */
-    public final YamlFile getYamlFile() {
+    public final YamlConfiguration getConfiguration() {
         return this.configuration;
     }
 
@@ -107,6 +109,15 @@ public class CustomFile {
     }
 
     /**
+     * Gets the {@link File}.
+     *
+     * @return the {@link File}
+     */
+    public final File getFile() {
+        return this.file;
+    }
+
+    /**
      * Saves a custom configuration.
      */
     public void save() {
@@ -115,7 +126,7 @@ public class CustomFile {
         if (!exists()) return;
 
         try {
-            this.configuration.save();
+            this.configuration.save(this.file);
         } catch (IOException exception) {
             this.logger.log(Level.SEVERE, "Could not save " + this.strippedName + ".yml...", exception);
         }
@@ -130,8 +141,7 @@ public class CustomFile {
         if (!exists()) return;
 
         try {
-            this.configuration = new YamlFile(new File(this.directory, this.fileName));
-            this.configuration.loadWithComments();
+            this.configuration = YamlConfiguration.loadConfiguration(this.file);
         } catch (Exception exception) {
             this.logger.log(Level.SEVERE, "Could not reload the " + this.strippedName + ".yml...", exception);
         }
