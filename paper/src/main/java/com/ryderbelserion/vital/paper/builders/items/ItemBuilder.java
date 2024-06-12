@@ -72,7 +72,7 @@ import java.util.logging.Level;
  *
  * @author SvenjaReissaus
  * @author Ryder Belserion
- * @version 1.5.6
+ * @version 1.5.7
  * @since 1.0
  */
 public class ItemBuilder {

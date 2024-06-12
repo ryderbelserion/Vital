@@ -23,7 +23,7 @@ import java.util.logging.Logger;
  * @author Ryder Belserion
  * @author BadBones69
  *
- * @version 1.5.6
+ * @version 1.5.7
  * @since 1.0
  */
 public class FileManager {
@@ -115,7 +115,7 @@ public class FileManager {
         final File file = new File(this.dataFolder, fileName);
 
         try {
-            if (file.exists()) {
+            if (!file.exists()) {
                 FileUtil.extract(FileManager.class, fileName, this.dataFolder.toPath(), false);
 
                 if (this.isLogging) this.logger.info("Copied " + fileName + " because it did not exist...");
