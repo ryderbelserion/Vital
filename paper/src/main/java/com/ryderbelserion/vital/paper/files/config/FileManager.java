@@ -2,6 +2,7 @@ package com.ryderbelserion.vital.paper.files.config;
 
 import com.ryderbelserion.vital.core.Vital;
 import com.ryderbelserion.vital.core.util.FileUtil;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -23,7 +24,7 @@ import java.util.logging.Logger;
  * @author Ryder Belserion
  * @author BadBones69
  *
- * @version 1.5.7
+ * @version 1.5.8
  * @since 1.0
  */
 public class FileManager {
@@ -147,7 +148,7 @@ public class FileManager {
         if (configuration == null) return this;
 
         try {
-            configuration.save(new File(this.dataFolder, configuration.getName()));
+            configuration.save(new File(this.dataFolder, fileName));
         } catch (Exception exception) {
             this.logger.log(Level.SEVERE, "Failed to save: " + fileName + "...", exception);
         }
@@ -188,7 +189,8 @@ public class FileManager {
         this.files.forEach((key, configuration) -> {
             try {
                 configuration.save(key);
-            } catch (IOException exception) {
+                configuration.load(key);
+            } catch (IOException | InvalidConfigurationException exception) {
                 this.logger.log(Level.SEVERE, "Failed to load: " + key + "...", exception);
             }
         });

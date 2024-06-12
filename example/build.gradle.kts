@@ -7,6 +7,8 @@ plugins {
 
 dependencies {
     api(projects.paper)
+
+    implementation(libs.triumph.cmds)
 }
 
 tasks {

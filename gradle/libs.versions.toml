@@ -21,6 +21,8 @@ yaml = "1.8.4"
 runPaper = "2.3.0"
 shadowJar = "8.1.7"
 
+triumph-cmd = "2.0.0-ALPHA-10"
+
 [plugins]
 runPaper = { id = "xyz.jpenilla.run-paper", version.ref = "runPaper" }
 shadow = { id = "io.github.goooler.shadow", version.ref = "shadowJar" }
@@ -29,6 +31,8 @@ shadow = { id = "io.github.goooler.shadow", version.ref = "shadowJar" }
 # Kyori
 adventureMiniMessage = { module = "net.kyori:adventure-text-minimessage", version.ref = "adventure" }
 adventureApi = { module = "net.kyori:adventure-api", version.ref = "adventure" }
+
+triumph-cmds = { module = "dev.triumphteam:triumph-cmd-bukkit", version.ref = "triumph-cmd" }
 
 # Paper
 papermc = { module = "io.papermc.paper:paper-api", version.ref = "paper" }
