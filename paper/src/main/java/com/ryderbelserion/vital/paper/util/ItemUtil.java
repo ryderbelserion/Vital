@@ -1,8 +1,6 @@
 package com.ryderbelserion.vital.paper.util;
 
 import com.ryderbelserion.vital.core.Vital;
-import io.papermc.paper.registry.RegistryAccess;
-import io.papermc.paper.registry.RegistryKey;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
@@ -24,7 +22,7 @@ import java.util.logging.Logger;
  * All utilities related to items and ids.
  *
  * @author Ryder Belserion
- * @version 1.5.8
+ * @version 1.0.2
  * @since 1.0
  */
 public class ItemUtil {
@@ -119,7 +117,7 @@ public class ItemUtil {
         }
 
         try {
-            return RegistryAccess.registryAccess().getRegistry(RegistryKey.TRIM_PATTERN).get(getKey(value));
+            return Registry.TRIM_PATTERN.get(getKey(value));
         } catch (Exception exception) {
             logger.severe(value + " is an invalid trim pattern.");
 
@@ -142,7 +140,7 @@ public class ItemUtil {
         }
 
         try {
-            return RegistryAccess.registryAccess().getRegistry(RegistryKey.TRIM_MATERIAL).get(getKey(value));
+            return Registry.TRIM_MATERIAL.get(getKey(value));
         } catch (Exception exception) {
             logger.severe(value + " is an invalid trim material.");
 

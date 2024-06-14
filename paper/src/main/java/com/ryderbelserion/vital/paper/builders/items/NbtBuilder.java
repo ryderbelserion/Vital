@@ -14,7 +14,7 @@ import java.util.List;
  * Handles pdc on item stacks
  *
  * @author Ryder Belserion
- * @version 1.5.8
+ * @version 1.0.2
  * @since 1.1
  */
 public class NbtBuilder {
@@ -76,7 +76,7 @@ public class NbtBuilder {
      *
      * @param key the {@link NamespacedKey}
      * @param value the {@link Double} to set
-     * @return {@link ItemBuilder}
+     * @return {@link NbtBuilder}
      * @since 1.1
      */
     public @NotNull final NbtBuilder setPersistentDouble(@NotNull final NamespacedKey key, final double value) {
@@ -95,7 +95,7 @@ public class NbtBuilder {
      *
      * @param key the {@link NamespacedKey}
      * @param value the {@link Integer} to set
-     * @return {@link ItemBuilder}
+     * @return {@link NbtBuilder}
      * @since 1.1
      */
     public @NotNull final NbtBuilder setPersistentInteger(@NotNull final NamespacedKey key, final int value) {
@@ -114,7 +114,7 @@ public class NbtBuilder {
      *
      * @param key the {@link NamespacedKey}
      * @param value the {@link Boolean} to set
-     * @return {@link ItemBuilder}
+     * @return {@link NbtBuilder}
      * @since 1.1
      */
     public @NotNull final NbtBuilder setPersistentBoolean(@NotNull final NamespacedKey key, final boolean value) {
@@ -133,7 +133,7 @@ public class NbtBuilder {
      *
      * @param key the {@link NamespacedKey}
      * @param value the {@link String} to set
-     * @return {@link ItemBuilder}
+     * @return {@link NbtBuilder}
      * @since 1.1
      */
     public @NotNull final NbtBuilder setPersistentString(@NotNull final NamespacedKey key, @NotNull final String value) {
@@ -152,7 +152,7 @@ public class NbtBuilder {
      *
      * @param key the {@link NamespacedKey}
      * @param values the {@link List<String>} to set
-     * @return {@link ItemBuilder}
+     * @return {@link NbtBuilder}
      * @since 1.1
      */
     public @NotNull final NbtBuilder setPersistentList(@NotNull final NamespacedKey key, @NotNull final List<String> values) {
@@ -170,7 +170,7 @@ public class NbtBuilder {
      * Gets a {@link Boolean} from the {@link ItemStack} {@link org.bukkit.persistence.PersistentDataContainer}.
      *
      * @param key the {@link NamespacedKey}
-     * @return {@link ItemBuilder}
+     * @return {@link NbtBuilder}
      * @since 1.1
      */
     public final boolean getBoolean(@NotNull final NamespacedKey key) {
@@ -187,7 +187,7 @@ public class NbtBuilder {
      * Gets a {@link Double} from the {@link ItemStack} {@link org.bukkit.persistence.PersistentDataContainer}.
      *
      * @param key the {@link NamespacedKey}
-     * @return {@link ItemBuilder}
+     * @return {@link NbtBuilder}
      * @since 1.1
      */
     public final double getDouble(@NotNull final NamespacedKey key) {
@@ -204,7 +204,7 @@ public class NbtBuilder {
      * Gets a {@link Integer} from the {@link ItemStack} {@link org.bukkit.persistence.PersistentDataContainer}.
      *
      * @param key the {@link NamespacedKey}
-     * @return {@link ItemBuilder}
+     * @return {@link NbtBuilder}
      * @since 1.1
      */
     public final int getInteger(@NotNull final NamespacedKey key) {
@@ -221,7 +221,7 @@ public class NbtBuilder {
      * Gets a {@link List<String>} from the {@link ItemStack} {@link org.bukkit.persistence.PersistentDataContainer}.
      *
      * @param key the {@link NamespacedKey}
-     * @return {@link ItemBuilder}
+     * @return {@link NbtBuilder}
      * @since 1.1
      */
     public @NotNull final List<String> getList(@NotNull final NamespacedKey key) {
@@ -238,7 +238,7 @@ public class NbtBuilder {
      * Gets a {@link String} from the {@link ItemStack} {@link org.bukkit.persistence.PersistentDataContainer}.
      *
      * @param key the {@link NamespacedKey}
-     * @return {@link ItemBuilder}
+     * @return {@link NbtBuilder}
      * @since 1.1
      */
     public @NotNull final String getString(@NotNull final NamespacedKey key) {
@@ -255,7 +255,7 @@ public class NbtBuilder {
      * Removes {@link NamespacedKey} from the {@link ItemStack} {@link org.bukkit.persistence.PersistentDataContainer}.
      *
      * @param key the {@link NamespacedKey}
-     * @return {@link ItemBuilder}
+     * @return {@link NbtBuilder}
      * @since 1.1
      */
     public @NotNull final NbtBuilder removePersistentKey(@Nullable final NamespacedKey key) {
@@ -272,7 +272,7 @@ public class NbtBuilder {
      *
      * @param key the {@link NamespacedKey}
      * @param itemMeta the {@link ItemMeta}
-     * @return {@link ItemBuilder}
+     * @return {@link NbtBuilder}
      * @since 1.1
      */
     public boolean hasKey(@NotNull final NamespacedKey key, @NotNull final ItemMeta itemMeta) {

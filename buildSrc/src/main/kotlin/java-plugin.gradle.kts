@@ -29,7 +29,7 @@ feather {
     configureJava {
         javaSource(JvmVendorSpec.ADOPTIUM)
 
-        javaVersion(21)
+        javaVersion(17)
     }
 }
 
