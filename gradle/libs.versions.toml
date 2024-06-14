@@ -3,7 +3,7 @@
 kotlin = "1.9.24"
 
 # Minecraft
-paper = "1.20.6-R0.1-SNAPSHOT"
+paper = "1.21-R0.1-SNAPSHOT"
 paperweight = "1.7.1"
 adventure = "4.17.0"
 

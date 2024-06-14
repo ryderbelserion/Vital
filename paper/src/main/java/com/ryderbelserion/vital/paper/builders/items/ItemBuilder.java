@@ -1345,7 +1345,7 @@ public class ItemBuilder {
         if (player.isEmpty()) return this;
 
         // This is temporary until HDB is updated, The dev of the plugin has a house now
-        // and his plugin doesn't work on 1.20.6
+        // and his plugin doesn't work on 1.21
         if (player.length() > 16) {
             this.url = "https://textures.minecraft.net/texture/" + player;
 
