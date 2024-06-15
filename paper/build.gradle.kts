@@ -7,7 +7,10 @@ plugins {
 dependencies {
     compileOnlyApi(libs.bundles.plugins)
 
-    api(projects.core)
+    api(projects.core) {
+        exclude("org.jetbrains")
+        exclude("org.yaml")
+    }
 }
 
 tasks {
