@@ -12,19 +12,21 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.block.banner.PatternType;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.trim.TrimMaterial;
 import org.bukkit.inventory.meta.trim.TrimPattern;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import java.util.Base64;
 import java.util.logging.Logger;
 
 /**
  * All utilities related to items and ids.
  *
  * @author Ryder Belserion
- * @version 1.5.8
+ * @version 1.6
  * @since 1.0
  */
 public class ItemUtil {
@@ -321,5 +323,27 @@ public class ItemUtil {
      */
     private static @NotNull NamespacedKey getKey(@NotNull final String value) {
         return NamespacedKey.minecraft(value);
+    }
+
+    /**
+     * Encodes and serializes an {@link ItemStack} into a {@link String}
+     *
+     * @param itemStack {@link ItemStack}
+     * @return {@link String}
+     * @since 1.6
+     */
+    public static String toBase64(final ItemStack itemStack) {
+        return Base64.getEncoder().encodeToString(itemStack.serializeAsBytes());
+    }
+
+    /**
+     * Deserialize a base64 {@link String} back into an {@link ItemStack}
+     *
+     * @param base64 the base64 {@link String}
+     * @return {@link ItemStack}
+     * @since 1.6
+     */
+    public static @NotNull ItemStack fromBase64(final String base64) {
+        return ItemStack.deserializeBytes(Base64.getDecoder().decode(base64));
     }
 }
