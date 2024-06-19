@@ -548,6 +548,28 @@ public class ItemBuilder {
     }
 
     /**
+     * Encodes and serializes an {@link ItemStack} into a {@link String}
+     *
+     * @return {@link String}
+     * @since 1.6
+     */
+    public String toBase64() {
+        return ItemUtil.toBase64(getStack());
+    }
+
+    /**
+     * Deserialize a base64 {@link String} back into an {@link ItemStack}
+     *
+     * @param base64 the base64 {@link String}
+     * @since 1.6
+     */
+    public void fromBase64(final String base64) {
+        if (base64.isEmpty()) return;
+
+        new ItemBuilder(ItemUtil.fromBase64(base64));
+    }
+
+    /**
      * Sets the {@link Material} type.
      *
      * @param material the {@link Material} to set
