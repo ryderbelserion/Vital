@@ -561,12 +561,13 @@ public class ItemBuilder {
      * Deserialize a base64 {@link String} back into an {@link ItemStack}
      *
      * @param base64 the base64 {@link String}
+     * @return {@link ItemBuilder}
      * @since 1.6
      */
-    public void fromBase64(final String base64) {
-        if (base64.isEmpty()) return;
+    public ItemBuilder fromBase64(final String base64) {
+        if (base64.isEmpty()) return null;
 
-        new ItemBuilder(ItemUtil.fromBase64(base64));
+        return new ItemBuilder(ItemUtil.fromBase64(base64));
     }
 
     /**
