@@ -1,5 +1,8 @@
 package com.ryderbelserion.vital.core.util;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +18,19 @@ public class StringUtil {
 
     private StringUtil() {
         throw new AssertionError();
+    }
+
+    /**
+     * Parses a message
+     *
+     * @param message the {@link String} to alter
+     * @return {@link Component}
+     * @since 1.0
+     */
+    public static @NotNull Component parse(@NotNull final String message) {
+        if (message.isEmpty()) return Component.empty();
+
+        return MiniMessage.miniMessage().deserialize(message).decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE);
     }
 
     /**

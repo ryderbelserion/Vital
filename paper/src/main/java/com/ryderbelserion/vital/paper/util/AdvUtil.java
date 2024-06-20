@@ -1,5 +1,6 @@
 package com.ryderbelserion.vital.paper.util;
 
+import com.ryderbelserion.vital.core.util.StringUtil;
 import com.ryderbelserion.vital.paper.enums.Support;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;
@@ -62,19 +63,6 @@ public class AdvUtil {
             }
         }
 
-        return parse(clonedMessage);
-    }
-
-    /**
-     * Parses a message
-     *
-     * @param message the {@link String} to alter
-     * @return {@link Component}
-     * @since 1.0
-     */
-    public static @NotNull Component parse(@NotNull final String message) {
-        if (message.isEmpty()) return Component.empty();
-
-        return MiniMessage.miniMessage().deserialize(message).decorationIfAbsent(TextDecoration.ITALIC, TextDecoration.State.FALSE);
+        return StringUtil.parse(clonedMessage);
     }
 }

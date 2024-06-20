@@ -1,5 +1,6 @@
 package com.ryderbelserion.vital.paper.builders;
 
+import com.ryderbelserion.vital.core.util.StringUtil;
 import com.ryderbelserion.vital.paper.util.AdvUtil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
@@ -57,7 +58,7 @@ public class ComponentBuilder {
     public @NotNull final ComponentBuilder applyHover(@NotNull final String text) {
         if (text.isEmpty()) return this;
 
-        this.builder.hoverEvent(HoverEvent.showText(AdvUtil.parse(text)));
+        this.builder.hoverEvent(HoverEvent.showText(StringUtil.parse(text)));
 
         return this;
     }
@@ -87,9 +88,7 @@ public class ComponentBuilder {
     public @NotNull final TextComponent getComponent() {
         if (this.value.isEmpty()) return Component.empty();
 
-        Component message = AdvUtil.parse(this.value);
-
-        return this.builder.append(message).build();
+        return this.builder.append(StringUtil.parse(this.value)).build();
     }
 
     /**

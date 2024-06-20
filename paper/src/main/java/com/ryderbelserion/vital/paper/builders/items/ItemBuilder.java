@@ -494,7 +494,7 @@ public class ItemBuilder {
                     }
                 }
 
-                itemMeta.displayName(this.displayComponent = AdvUtil.parse(displayName));
+                itemMeta.displayName(this.displayComponent = StringUtil.parse(displayName));
             }
 
             if (!this.displayLore.isEmpty()) {
@@ -512,7 +512,7 @@ public class ItemBuilder {
                         }
                     }
 
-                    components.add(AdvUtil.parse(line));
+                    components.add(StringUtil.parse(line));
                 }
 
                 itemMeta.lore(this.displayComponentLore = components);
