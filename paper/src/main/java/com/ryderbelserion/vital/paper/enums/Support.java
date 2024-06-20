@@ -47,7 +47,11 @@ public enum Support {
     /**
      * PlaceholderAPI Plugin
      */
-    placeholder_api("PlaceholderAPI");
+    placeholder_api("PlaceholderAPI"),
+    /**
+     * Vault Plugin
+     */
+    vault("Vault");
 
     private final String name;
 
