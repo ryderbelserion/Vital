@@ -1,6 +1,7 @@
 package com.ryderbelserion.vital.paper;
 
 import com.ryderbelserion.vital.core.Vital;
+import com.ryderbelserion.vital.paper.commands.PaperCommandManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import java.io.File;
@@ -15,6 +16,9 @@ import java.util.logging.Logger;
  */
 public class VitalPaper extends Vital {
 
+    private final PaperCommandManager commandManager;
+
+    private final JavaPlugin plugin;
     private final Logger logger;
     private boolean isLogging;
     private final File file;
@@ -26,8 +30,19 @@ public class VitalPaper extends Vital {
      * @since 1.1
      */
     public VitalPaper(@NotNull final JavaPlugin plugin) {
-        this.logger = plugin.getLogger();
+        this.commandManager = new PaperCommandManager();
+
         this.file = plugin.getDataFolder();
+        this.logger = plugin.getLogger();
+        this.plugin = plugin;
+    }
+
+    public @NotNull final PaperCommandManager getCommandManager() {
+        return this.commandManager;
+    }
+
+    public @NotNull final JavaPlugin getPlugin() {
+        return this.plugin;
     }
 
     /**
