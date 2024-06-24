@@ -18,4 +18,8 @@ tasks {
             from(project(":core").tasks.named<Jar>("shadowJar").get().manifest)
         }
     }
+
+    compileJava {
+        options.compilerArgs.add("--enable-preview")
+    }
 }
