@@ -1687,6 +1687,8 @@ public class ItemBuilder {
 
         this.itemStack.editMeta(itemMeta -> {
             if (itemMeta instanceof final Damageable damageable) {
+                if (this.damage <= 0) return;
+
                 if (this.damage >= getType().getMaxDurability()) {
                     damageable.setDamage(getType().getMaxDurability());
                 } else {
