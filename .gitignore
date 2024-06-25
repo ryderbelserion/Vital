@@ -1,6 +1,9 @@
 buildSrc/.gradle
 buildSrc/build
 
+discord/.gradle
+discord/build
+
 paper/.gradle
 paper/build
 
