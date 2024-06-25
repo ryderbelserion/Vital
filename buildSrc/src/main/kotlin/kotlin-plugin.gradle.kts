@@ -11,6 +11,10 @@ repositories {
     mavenCentral()
 }
 
+kotlin {
+    explicitApi()
+}
+
 feather {
     repository("https://repo.codemc.io/repository/maven-public")
 

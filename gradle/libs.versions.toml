@@ -23,6 +23,10 @@ shadowJar = "8.1.7"
 
 triumph-cmd = "2.0.0-ALPHA-10"
 
+jda-ktx = "0.11.0-beta.20"
+jda = "5.0.0-beta.24"
+logback = "1.5.6"
+
 [plugins]
 runPaper = { id = "xyz.jpenilla.run-paper", version.ref = "runPaper" }
 shadow = { id = "io.github.goooler.shadow", version.ref = "shadowJar" }
@@ -49,6 +53,10 @@ configme = { module = "ch.jalu:configme", version.ref = "jalu" }
 
 # Kotlin
 kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+
+logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+jda-ktx = { module = "club.minnced:jda-ktx", version.ref = "jda-ktx" }
+jda = { module = "net.dv8tion:JDA", version.ref = "jda" }
 
 [bundles]
 plugins = [ "headdatabaseapi", "placeholderapi", "itemsadder", "oraxen" ]
