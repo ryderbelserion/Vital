@@ -41,10 +41,6 @@ public abstract class VitalDiscord(
 
     public abstract fun stop()
 
-    public fun init() {
-
-    }
-
     public fun VitalDiscord.listeners(configuration: ListenerBuilder.() -> Unit): ListenerBuilder {
         return ListenerBuilder(this.jda).apply(configuration)
     }
