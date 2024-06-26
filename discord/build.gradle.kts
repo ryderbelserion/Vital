@@ -4,7 +4,7 @@ plugins {
     `kotlin-plugin`
 }
 
-project.version = "1.8"
+project.version = "1.8.1"
 
 dependencies {
     api(projects.core) {
@@ -15,7 +15,11 @@ dependencies {
     }
 
     api(libs.logback)
-    api(libs.jda.ktx)
+
+    api(libs.jda.ktx) {
+        exclude("org.jetbrains.kotlin", "kotlin-stdlib")
+    }
+
     api(libs.jda)
 }
 
