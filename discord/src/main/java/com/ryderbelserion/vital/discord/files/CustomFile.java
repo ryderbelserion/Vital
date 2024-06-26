@@ -1,14 +1,12 @@
 package com.ryderbelserion.vital.discord.files;
 
-import com.ryderbelserion.vital.core.Vital;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.simpleyaml.configuration.file.YamlConfiguration;
+import org.slf4j.Logger;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Builds a custom file to load with the File Manager
@@ -19,13 +17,10 @@ import java.util.logging.Logger;
  */
 public class CustomFile {
 
-    private @NotNull final Vital api = Vital.api();
-    private final @NotNull Logger logger = this.api.getLogger();
-    private final boolean isLogging = this.api.isLogging();
-
     private YamlConfiguration configuration = null;
 
     private final File directory;
+    private final Logger logger;
 
     private String strippedName = "";
     private String fileName = "";
@@ -36,7 +31,8 @@ public class CustomFile {
      *
      * @param directory the directory
      */
-    public CustomFile(@NotNull final File directory) {
+    public CustomFile(@NotNull final Logger logger, @NotNull final File directory) {
+        this.logger = logger;
         this.directory = directory;
     }
 
@@ -51,7 +47,7 @@ public class CustomFile {
             List.of(
                     "The file name cannot be empty!",
                     "File Name: " + fileName
-            ).forEach(this.logger::severe);
+            ).forEach(this.logger::error);
 
             return null;
         }
@@ -62,11 +58,11 @@ public class CustomFile {
         this.file = new File(this.directory, this.fileName);
 
         try {
-            if (this.isLogging) this.logger.info("Loading " + this.strippedName + ".yml...");
+            this.logger.info("Loading {}.yml...", this.strippedName);
 
             this.configuration = YamlConfiguration.loadConfiguration(this.file);
         } catch (Exception exception) {
-            this.logger.log(Level.SEVERE, "Failed to load or create " + this.strippedName + ".yml...", exception);
+            this.logger.error("Failed to load or create {}.yml...", this.strippedName);
         }
 
         return this;
@@ -128,7 +124,7 @@ public class CustomFile {
         try {
             this.configuration.save(this.file);
         } catch (IOException exception) {
-            this.logger.log(Level.SEVERE, "Could not save " + this.strippedName + ".yml...", exception);
+            this.logger.error("Could not save {}.yml...", this.strippedName);
         }
     }
 
@@ -143,7 +139,7 @@ public class CustomFile {
         try {
             this.configuration = YamlConfiguration.loadConfiguration(this.file);
         } catch (Exception exception) {
-            this.logger.log(Level.SEVERE, "Could not reload the " + this.strippedName + ".yml...", exception);
+            this.logger.error("Could not reload the {}.yml...", this.strippedName);
         }
     }
 }

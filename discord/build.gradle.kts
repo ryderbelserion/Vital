@@ -4,7 +4,7 @@ plugins {
     `java-plugin`
 }
 
-project.version = "1.8.1"
+project.version = "1.8.2"
 
 dependencies {
     api(projects.core)

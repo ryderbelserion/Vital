@@ -1,12 +1,11 @@
 package com.ryderbelserion.vital.discord.files;
 
-import com.ryderbelserion.vital.core.Vital;
 import com.ryderbelserion.vital.core.util.FileUtil;
+import com.ryderbelserion.vital.discord.VitalDiscord;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.simpleyaml.configuration.file.YamlConfiguration;
-import org.simpleyaml.exceptions.InvalidConfigurationException;
-
+import org.slf4j.Logger;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -17,7 +16,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * A file manager that handles yml configs
@@ -30,15 +28,18 @@ import java.util.logging.Logger;
  */
 public class FileManager {
 
+    private final VitalDiscord vital;
+    private final File dataFolder;
+    private final Logger logger;
+
     /**
      * An empty constructor that does fuck all.
      */
-    public FileManager() {}
-
-    private @NotNull final Vital api = Vital.api();
-    private @NotNull final File dataFolder = this.api.getDirectory();
-    private @NotNull final Logger logger = this.api.getLogger();
-    private final boolean isLogging = this.api.isLogging();
+    public FileManager(VitalDiscord vital) {
+        this.vital = vital;
+        this.dataFolder = this.vital.getDirectory();
+        this.logger = this.vital.getLogger();
+    }
 
     // Holds static files
     private final Map<String, YamlConfiguration> files = new HashMap<>();
@@ -66,7 +67,7 @@ public class FileManager {
                 try {
                     Files.createDirectory(resolvedFolder);
                 } catch (IOException e) {
-                    this.logger.severe("Failed to create directory: " + resolvedFolder.toFile().getName() + "...");
+                    this.logger.error("Failed to create directory: {}...", resolvedFolder.toFile().getName());
                 }
 
                 // extract files if needed.
@@ -99,7 +100,7 @@ public class FileManager {
         try {
             this.files.put(file, YamlConfiguration.loadConfiguration(key));
         } catch (Exception exception) {
-            this.logger.log(Level.SEVERE, "Failed to load: " + file + "...", exception);
+            this.logger.error("Failed to load: {}...", file);
         }
 
         return this;
@@ -121,15 +122,15 @@ public class FileManager {
             if (!file.exists()) {
                 FileUtil.extract(FileManager.class, fileName, this.dataFolder.toPath(), false);
 
-                if (this.isLogging) this.logger.info("Copied " + fileName + " because it did not exist...");
+                this.logger.info("Copied {} because it did not exist...", fileName);
             } else {
-                if (this.isLogging) this.logger.info("Loading the file " + fileName + "...");
+                this.logger.info("Loading the file {}...", fileName);
             }
 
             // Add other file
             this.files.put(fileName, YamlConfiguration.loadConfiguration(file));
         } catch (Exception exception) {
-            this.logger.log(Level.SEVERE, "Failed to load or create " + fileName + "...", exception);
+            this.logger.error("Failed to load or create {}...", fileName);
         }
 
         return this;
@@ -152,7 +153,7 @@ public class FileManager {
         try {
             configuration.save(new File(this.dataFolder, fileName));
         } catch (Exception exception) {
-            this.logger.log(Level.SEVERE, "Failed to save: " + fileName + "...", exception);
+            this.logger.error("Failed to save: {}...", fileName);
         }
 
         return this;
@@ -193,7 +194,7 @@ public class FileManager {
                 configuration.save(key);
                 configuration.load(key);
             } catch (IOException exception) {
-                this.logger.log(Level.SEVERE, "Failed to load: " + key + "...", exception);
+                this.logger.error("Failed to load: {}...", key);
             }
         });
 
@@ -218,12 +219,12 @@ public class FileManager {
                         for (String name : dir) {
                             if (!name.endsWith(".yml")) continue;
 
-                            final CustomFile file = new CustomFile(directory).apply(name);
+                            final CustomFile file = new CustomFile(this.logger, directory).apply(name);
 
                             if (file != null && file.exists()) {
                                 this.customFiles.add(file);
 
-                                if (this.isLogging) this.logger.info("Loaded new custom file: " + folder + "/" + directory.getName() + "/" + name + ".");
+                                this.logger.info("Loaded new custom file: {}/{}/{}.", folder, directory.getName(), name);
                             }
                         }
                     }
@@ -232,12 +233,12 @@ public class FileManager {
 
                     if (!name.endsWith(".yml")) continue;
 
-                    final CustomFile file = new CustomFile(resolvedFolder).apply(name);
+                    final CustomFile file = new CustomFile(this.logger, resolvedFolder).apply(name);
 
                     if (file != null && file.exists()) {
                         this.customFiles.add(file);
 
-                        if (this.isLogging) this.logger.info("Loaded new custom file: " + folder + "/" + name + ".");
+                        this.logger.info("Loaded new custom file: {}/{}.", folder, name);
                     }
                 }
             }

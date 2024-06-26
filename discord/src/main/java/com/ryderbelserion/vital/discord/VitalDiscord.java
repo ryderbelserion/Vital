@@ -1,18 +1,16 @@
 package com.ryderbelserion.vital.discord;
 
-import com.ryderbelserion.vital.core.Vital;
 import com.ryderbelserion.vital.discord.listeners.GenericListener;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
-import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
 import java.io.File;
 import java.util.List;
-import java.util.logging.Logger;
 
-public abstract class VitalDiscord extends Vital {
+public abstract class VitalDiscord {
 
     private final Logger logger;
     private final File file;
@@ -34,18 +32,11 @@ public abstract class VitalDiscord extends Vital {
 
     public abstract void stop();
 
-    @Override
-    public @NotNull final File getDirectory() {
+    public final File getDirectory() {
         return this.file;
     }
 
-    @Override
-    public boolean isLogging() {
-        return true;
-    }
-
-    @Override
-    public @NotNull Logger getLogger() {
+    public final Logger getLogger() {
         return this.logger;
     }
 
