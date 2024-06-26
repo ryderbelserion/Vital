@@ -16,8 +16,8 @@ public class Embed {
     /**
      * Sets the title of the embed.
      *
-     * @param text the text in the title.
-     * @return the embed class with updated information.
+     * @param text the text in the title
+     * @return the embed class with updated information
      */
     public fun title(text: String): Embed {
         this.builder.setTitle(text)
@@ -28,9 +28,9 @@ public class Embed {
     /**
      * Sets the footer using text/icon
      *
-     * @param text the text in the footer.
-     * @param icon the icon in the footer.
-     * @return the embed class with updated information.
+     * @param text the text in the footer
+     * @param icon the icon in the footer
+     * @return the embed class with updated information
      */
     public fun footer(text: String, icon: String? = null): Embed {
         this.builder.setFooter(text, icon)
@@ -41,8 +41,8 @@ public class Embed {
     /**
      * Sets the footer using the user object.
      *
-     * @param user the user in the footer.
-     * @return the embed class with updated information.
+     * @param user the user in the footer
+     * @return the embed class with updated information
      */
     public fun footer(user: User): Embed {
         this.builder.setFooter("Requested by: ${user.asMention}", user.effectiveAvatarUrl)
@@ -53,7 +53,7 @@ public class Embed {
     /**
      * Set the footer using the user object.
      *
-     * @param user - The member in question.
+     * @param user - The member in question
      */
     public fun footer(user: User, guild: Guild): Embed {
         val avatar = guild.getMember(user)?.effectiveAvatarUrl
@@ -66,8 +66,8 @@ public class Embed {
     /**
      * Sets the description of the embed.
      *
-     * @param text the text to use.
-     * @return the embed class with updated information.
+     * @param text the text to use
+     * @return the embed class with updated information
      */
     public fun description(text: String): Embed {
         this.builder.setDescription(text)
@@ -78,8 +78,8 @@ public class Embed {
     /**
      * Sets the thumbnail using a url.
      *
-     * @param url the url to use.
-     * @return the embed class with updated information.
+     * @param url the url to use
+     * @return the embed class with updated information
      */
     public fun thumbnail(url: String): Embed {
         this.builder.setThumbnail(url)
@@ -90,8 +90,8 @@ public class Embed {
     /**
      * Set the thumbnail using the user object.
      *
-     * @param user - The member in question.
-     * @param guild - Used to fetch the member's guild avatar otherwise fetches global avatar.
+     * @param user - The member in question
+     * @param guild - Used to fetch the member's guild avatar otherwise fetches global avatar
      */
     public fun thumbnail(user: User, guild: Guild?): Embed {
         val avatar = user.let { guild?.getMember(it)?.effectiveAvatarUrl }
@@ -104,8 +104,8 @@ public class Embed {
     /**
      * Sets the thumbnail using a user object.
      *
-     * @param user the user to use.
-     * @return the embed class with updated information.
+     * @param user the user to use
+     * @return the embed class with updated information
      */
     public fun thumbnail(user: User): Embed {
         this.builder.setThumbnail(user.effectiveAvatarUrl)
@@ -114,10 +114,10 @@ public class Embed {
     }
 
     /**
-     * Sets the embed image using a url.
+     * Sets the embed image using an url.
      *
-     * @param url the url to use.
-     * @return the embed class with updated information.
+     * @param url the url to use
+     * @return the embed class with updated information
      */
     public fun image(url: String): Embed {
         this.builder.setImage(url)
@@ -128,8 +128,8 @@ public class Embed {
     /**
      * Sets the embed image using a user object.
      *
-     * @param user the user to use.
-     * @return the embed class with updated information.
+     * @param user the user to use
+     * @return the embed class with updated information
      */
     public fun image(user: User): Embed {
         this.builder.setImage(user.effectiveAvatarUrl)
@@ -140,9 +140,9 @@ public class Embed {
     /**
      * Sets the author using name/url
      *
-     * @param name the name to use.
-     * @param url the url to use.
-     * @return the embed class with updated information.
+     * @param name the name to use
+     * @param url the url to use
+     * @return the embed class with updated information
      */
     public fun author(name: String, url: String? = null): Embed {
         this.builder.setAuthor(name, null, url)
@@ -153,8 +153,8 @@ public class Embed {
     /**
      * Sets the author using a user object.
      *
-     * @param user the user to use.
-     * @return the embed class with updated information.
+     * @param user the user to use
+     * @return the embed class with updated information
      */
     public fun author(user: User): Embed {
         this.builder.setAuthor(user.effectiveName, null, user.effectiveAvatarUrl)
@@ -165,8 +165,8 @@ public class Embed {
     /**
      * Set the author using the user object.
      *
-     * @param user - The member in question.
-     * @param guild - Used to fetch the member's guild avatar otherwise fetches global avatar.
+     * @param user - The member in question
+     * @param guild - Used to fetch the member's guild avatar otherwise fetches global avatar
      */
     public fun author(user: User, guild: Guild?): Embed {
         val member = user.let { guild?.getMember(it) }
@@ -181,8 +181,8 @@ public class Embed {
     /**
      * Sets the color of the embed.
      *
-     * @param value the color to use.
-     * @return the embed class with updated information.
+     * @param value the color to use
+     * @return the embed class with updated information
      */
     public fun color(value: String): Embed {
         this.builder.setColor(value.toColor())
@@ -193,7 +193,7 @@ public class Embed {
     /**
      * Set a color using one of our pre-set colors.
      *
-     * @param color - A preset enum of colors.
+     * @param color - A preset enum of colors
      */
     public fun color(color: EmbedColors): Embed {
         this.builder.setColor(color.code.toColor())
@@ -204,8 +204,8 @@ public class Embed {
     /**
      * Sets the timezone in the embed.
      *
-     * @param timezone the timezone to use for embeds.
-     * @return the embed class with updated information.
+     * @param timezone the timezone to use for embeds
+     * @return the embed class with updated information
      */
     public fun timestamp(timezone: String = "America/New_York"): Embed {
         this.builder.setTimestamp(LocalDateTime.now().atZone(ZoneId.of(timezone)))
@@ -216,8 +216,8 @@ public class Embed {
     /**
      * Add multiple fields to the embed.
      *
-     * @param block the list of fields to add.
-     * @return the embed class with updated information.
+     * @param block the list of fields to add
+     * @return the embed class with updated information
      */
     public fun fields(block: Fields.() -> Unit): Embed {
         block(this.fields)
@@ -226,7 +226,7 @@ public class Embed {
     }
 
     /**
-     * @return the built embed.
+     * @return the built embed
      */
     public fun build(): MessageEmbed {
         return this.builder.build()
@@ -234,7 +234,7 @@ public class Embed {
 }
 
 /**
- * @return the built embed.
+ * @return the built embed
  */
 public inline fun embed(builder: Embed.() -> Unit): MessageEmbed {
     return Embed().apply(builder).build()

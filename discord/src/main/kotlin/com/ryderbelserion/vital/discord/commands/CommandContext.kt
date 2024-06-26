@@ -44,7 +44,7 @@ public class CommandContext(private val event: SlashCommandInteractionEvent) : C
     }
 
     /**
-     * @author of the message.
+     * @author aythor of the message
      */
     public override fun author(): User {
         return this.event.user
