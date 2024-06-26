@@ -15,7 +15,21 @@ dependencies {
     api(libs.configme)
 }
 
+val javaComponent: SoftwareComponent = components["java"]
+
 tasks {
+    publishing {
+        publications {
+            create<MavenPublication>("maven") {
+                from(javaComponent)
+
+                group = "com.ryderbelserion.vital"
+                artifactId = project.name.lowercase()
+                version = "${project.version}"
+            }
+        }
+    }
+
     shadowJar {
         mergeServiceFiles()
 

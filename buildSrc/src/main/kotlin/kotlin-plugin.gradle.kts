@@ -32,8 +32,6 @@ feather {
     }
 }
 
-val javaComponent: SoftwareComponent = components["java"]
-
 tasks {
     publishing {
         repositories {
@@ -43,53 +41,6 @@ tasks {
                 credentials {
                     this.username = System.getenv("gradle_username")
                     this.password = System.getenv("gradle_password")
-                }
-            }
-        }
-
-        publications {
-            create<MavenPublication>("maven") {
-                from(javaComponent)
-
-                group = "com.ryderbelserion.vital"
-                artifactId = project.name.lowercase()
-                version = "${project.version}"
-
-                versionMapping {
-                    usage("java-api") {
-                        fromResolutionOf("runtimeClasspath")
-                    }
-
-                    usage("java-runtime") {
-                        fromResolutionResult()
-                    }
-                }
-
-                pom {
-                    name.set("Vital API")
-                    description.set("A library with a slew of things")
-                    url.set("https://github.com/ryderbelserion/Vital")
-
-                    licenses {
-                        licenses {
-                            name.set("MIT")
-                            url.set("https://opensource.org/licenses/MIT")
-                        }
-                    }
-
-                    developers {
-                        developer {
-                            id.set("ryderbelserion")
-                            name.set("Ryder Belserion")
-                            email.set("no-reply@ryderbelserion.com")
-                        }
-                    }
-
-                    scm {
-                        connection.set("scm:git:git://github.com/ryderbelserion/Vital")
-                        developerConnection.set("scm:git:ssh://github.com/ryderbelserion/Vital")
-                        url.set("https://github.com/ryderbelserion/Vital")
-                    }
                 }
             }
         }
