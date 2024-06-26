@@ -54,7 +54,7 @@ tasks {
 
                 group = "com.ryderbelserion.vital"
                 artifactId = project.name.lowercase()
-                version = "${rootProject.version}"
+                version = "${project.version}"
 
                 versionMapping {
                     usage("java-api") {

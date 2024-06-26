@@ -4,6 +4,8 @@ plugins {
     `paper-plugin`
 }
 
+project.version = "1.8"
+
 dependencies {
     compileOnlyApi(libs.bundles.plugins)
 

@@ -4,6 +4,8 @@ plugins {
     `kotlin-plugin`
 }
 
+project.version = "1.8"
+
 dependencies {
     api(projects.core)
 

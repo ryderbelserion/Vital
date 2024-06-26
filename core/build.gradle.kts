@@ -6,6 +6,8 @@ plugins {
     `java-plugin`
 }
 
+project.version = "1.8"
+
 dependencies {
     compileOnly(libs.bundles.adventure)
     compileOnly(libs.annotations)
