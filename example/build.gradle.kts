@@ -9,6 +9,8 @@ dependencies {
     api(projects.paper)
 
     implementation(libs.triumph.cmds)
+
+    compileOnly(libs.papermc)
 }
 
 tasks {
@@ -17,6 +19,6 @@ tasks {
 
         defaultCharacterEncoding = Charsets.UTF_8.name()
 
-        minecraftVersion("1.20.6")
+        minecraftVersion("1.21")
     }
 }

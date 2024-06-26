@@ -1,6 +1,7 @@
 package com.ryderbelserion.vital.commands;
 
 import com.ryderbelserion.vital.TestPlugin;
+import com.ryderbelserion.vital.commands.types.admin.CommandItem;
 import com.ryderbelserion.vital.commands.types.admin.CommandReload;
 import dev.triumphteam.cmd.bukkit.BukkitCommandManager;
 import org.bukkit.command.CommandSender;
@@ -19,7 +20,8 @@ public class CommandManager {
      */
     public static void load() {
         List.of(
-                new CommandReload()
+                new CommandReload(),
+                new CommandItem()
         ).forEach(commandManager::registerCommand);
     }
 
