@@ -4,9 +4,11 @@ plugins {
     `kotlin-plugin`
 }
 
-project.version = "1.8.1"
+project.version = "1.8.3"
 
 dependencies {
+    api(kotlin("stdlib"))
+
     api(projects.core) {
         exclude("com.github.LoneDev6")
         exclude("io.th0rgal")
