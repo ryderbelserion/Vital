@@ -1,26 +1,15 @@
 plugins {
     alias(libs.plugins.shadow)
 
-    `kotlin-plugin`
+    `java-plugin`
 }
 
-project.version = "1.8.4"
+project.version = "1.8"
 
 dependencies {
-    api(kotlin("stdlib"))
-
-    api(projects.core) {
-        exclude("com.github.LoneDev6")
-        exclude("io.th0rgal")
-        exclude("net.kyori")
-        exclude("me.clip")
-    }
+    api(projects.core)
 
     api(libs.logback)
-
-    api(libs.jda.ktx) {
-        exclude("org.jetbrains.kotlin", "kotlin-stdlib")
-    }
 
     api(libs.yaml) {
         exclude("org.yaml", "snakeyaml")
