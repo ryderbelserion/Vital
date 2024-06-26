@@ -1,38 +1,35 @@
-import com.ryderbelserion.feather.enums.Repository
-import gradle.kotlin.dsl.accessors._5eb79900c8ae59d7bb3a62f4246cfb92.feather
-import gradle.kotlin.dsl.accessors._5eb79900c8ae59d7bb3a62f4246cfb92.publishing
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    id("com.ryderbelserion.feather-core")
-
     `maven-publish`
 
     kotlin("jvm")
 }
 
 repositories {
+    maven("https://repo.codemc.io/repository/maven-public")
+
+    maven("https://repo.crazycrew.us/releases")
+
+    maven("https://jitpack.io")
+
     mavenCentral()
 }
 
 kotlin {
+    jvmToolchain(21)
+
     explicitApi()
 }
 
-feather {
-    repository("https://repo.codemc.io/repository/maven-public")
-
-    repository(Repository.CrazyCrewReleases.url)
-
-    repository(Repository.Jitpack.url)
-
-    configureKotlin {
-        javaSource(JvmVendorSpec.ADOPTIUM)
-
-        javaVersion(21)
-    }
-}
-
 tasks {
+    compileKotlin {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_21)
+            javaParameters = true
+        }
+    }
+
     publishing {
         repositories {
             maven {

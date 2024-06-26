@@ -1,5 +1,3 @@
-import com.ryderbelserion.feather.tools.latestCommitHash
-
 plugins {
     alias(libs.plugins.shadow)
 
@@ -32,9 +30,5 @@ tasks {
 
     shadowJar {
         mergeServiceFiles()
-
-        manifest {
-            attributes["Git-Commit"] = latestCommitHash()
-        }
     }
 }

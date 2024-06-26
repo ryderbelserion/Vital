@@ -1,19 +1,17 @@
-import com.ryderbelserion.feather.enums.Repository
-
 plugins {
     id("java-plugin")
 }
 
-feather {
-    repository("https://repo.extendedclip.com/content/repositories/placeholderapi")
+repositories {
+    maven("https://repo.extendedclip.com/content/repositories/placeholderapi")
 
-    repository("https://repo.papermc.io/repository/maven-public")
+    maven("https://papermc.io/repo/repository/maven-public")
 
-    repository("https://repo.codemc.io/repository/maven-public")
+    maven("https://repo.papermc.io/repository/maven-public")
 
-    repository("https://repo.triumphteam.dev/snapshots")
+    maven("https://repo.codemc.io/repository/maven-public")
 
-    repository("https://repo.oraxen.com/releases")
+    maven("https://repo.triumphteam.dev/snapshots")
 
-    repository(Repository.Paper.url)
+    maven("https://repo.oraxen.com/releases")
 }

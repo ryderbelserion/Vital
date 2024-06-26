@@ -1,32 +1,42 @@
-import com.ryderbelserion.feather.enums.Repository
-
 plugins {
-    id("com.ryderbelserion.feather-core")
-
     `maven-publish`
     `java-library`
 }
 
+repositories {
+    maven("https://repo.codemc.io/repository/maven-public")
+
+    maven("https://repo.crazycrew.us/releases")
+
+    maven("https://jitpack.io")
+
+    mavenCentral()
+}
+
 java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(21))
+        vendor.set(JvmVendorSpec.ADOPTIUM)
+    }
+
     withJavadocJar()
     withSourcesJar()
 }
 
-feather {
-    repository("https://repo.codemc.io/repository/maven-public")
-
-    repository(Repository.CrazyCrewReleases.url)
-
-    repository(Repository.Jitpack.url)
-
-    configureJava {
-        javaSource(JvmVendorSpec.ADOPTIUM)
-
-        javaVersion(21)
-    }
-}
-
 tasks {
+    compileJava {
+        options.encoding = Charsets.UTF_8.name()
+        options.release.set(21)
+    }
+
+    javadoc {
+        options.encoding = Charsets.UTF_8.name()
+    }
+
+    processResources {
+        filteringCharset = Charsets.UTF_8.name()
+    }
+
     publishing {
         repositories {
             maven {
