@@ -16,12 +16,16 @@ oraxen = "1.171.0"
 # Core
 annotations = "24.1.0"
 jalu = "1.4.1"
+yaml = "1.8.4"
 
+# Paper
 runPaper = "2.3.0"
 shadowJar = "8.1.7"
 
+# TriumphTeam
 triumph-cmd = "2.0.0-ALPHA-10"
 
+# JDA
 jda-ktx = "0.11.0-beta.20"
 jda = "5.0.0-beta.24"
 logback = "1.5.6"
@@ -35,17 +39,20 @@ shadow = { id = "io.github.goooler.shadow", version.ref = "shadowJar" }
 adventureMiniMessage = { module = "net.kyori:adventure-text-minimessage", version.ref = "adventure" }
 adventureApi = { module = "net.kyori:adventure-api", version.ref = "adventure" }
 
+# TriumphTeam
 triumph-cmds = { module = "dev.triumphteam:triumph-cmd-bukkit", version.ref = "triumph-cmd" }
 
 # Paper
 papermc = { module = "io.papermc.paper:paper-api", version.ref = "paper" }
 
+# Plugins
 headdatabaseapi = { module = "com.arcaniax:HeadDatabase-API", version.ref = "headdatabaseapi" }
 placeholderapi = { module = "com.github.LoneDev6:api-itemsadder", version.ref = "itemsadder" }
 itemsadder = { module = "me.clip:placeholderapi", version.ref = "placeholderapi" }
 oraxen = { module = "io.th0rgal:oraxen", version.ref = "oraxen" }
 
 # Core
+yaml = { module = "com.github.Carleslc.Simple-YAML:Simple-Yaml", version.ref = "yaml" }
 annotations = { module = "org.jetbrains:annotations", version.ref = "annotations" }
 configme = { module = "ch.jalu:configme", version.ref = "jalu" }
 

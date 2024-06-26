@@ -4,7 +4,7 @@ plugins {
     `kotlin-plugin`
 }
 
-project.version = "1.8.3"
+project.version = "1.8.4"
 
 dependencies {
     api(kotlin("stdlib"))
@@ -20,6 +20,10 @@ dependencies {
 
     api(libs.jda.ktx) {
         exclude("org.jetbrains.kotlin", "kotlin-stdlib")
+    }
+
+    api(libs.yaml) {
+        exclude("org.yaml", "snakeyaml")
     }
 
     api(libs.jda)
