@@ -1,12 +1,12 @@
 package com.ryderbelserion.vital.discord;
 
+import ch.qos.logback.classic.Logger;
 import com.ryderbelserion.vital.discord.listeners.GenericListener;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
-import org.slf4j.Logger;
 import java.io.File;
 import java.util.List;
 
@@ -14,7 +14,7 @@ public abstract class VitalDiscord {
 
     private final Logger logger;
     private final File file;
-    private final JDA jda;
+    protected final JDA jda;
 
     public VitalDiscord(final Logger logger, final String folder, final String token, final List<GatewayIntent> intents, final List<CacheFlag> flags) {
         this.logger = logger;
@@ -38,9 +38,5 @@ public abstract class VitalDiscord {
 
     public final Logger getLogger() {
         return this.logger;
-    }
-
-    protected final JDA getJDA() {
-        return this.jda;
     }
 }
