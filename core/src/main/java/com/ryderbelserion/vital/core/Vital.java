@@ -25,7 +25,8 @@ public abstract class Vital {
     }
 
     /**
-     * Use reflection for the api
+     * Use reflection for the api.
+     *
      * @since 1.0
      */
     public Vital() {
@@ -55,7 +56,7 @@ public abstract class Vital {
     public @NotNull abstract Logger getLogger();
 
     /**
-     * Whether we are logging or not
+     * Whether we are logging or not.
      *
      * @return true or false
      * @since 1.4

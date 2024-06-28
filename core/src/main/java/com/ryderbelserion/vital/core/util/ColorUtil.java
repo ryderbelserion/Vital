@@ -1,9 +1,9 @@
-package com.ryderbelserion.vital.discord.util;
+package com.ryderbelserion.vital.core.util;
 
 import java.awt.Color;
 
 /**
- * Utilities related to colors
+ * Utilities related to colors.
  *
  * @version 1.8
  * @since 1.8

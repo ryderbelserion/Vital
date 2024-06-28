@@ -26,8 +26,6 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 /**
@@ -44,7 +42,6 @@ public class FileUtil {
     }
 
     private static @NotNull final Vital api = Vital.api();
-    private static @NotNull final Logger logger = api.getLogger();
 
     /**
      * Extracts a single file from a directory in the jar.
@@ -70,7 +67,7 @@ public class FileUtil {
                 Files.copy(stream, path, StandardCopyOption.REPLACE_EXISTING);
             }
         } catch (Exception exception) {
-            logger.severe("Failed to extract " + fileName + " from the jar.");
+            exception.printStackTrace();
         }
     }
 
@@ -103,10 +100,9 @@ public class FileUtil {
      * Extracts files from the jar.
      *
      * @param input the folder to write to
-     * @param message the message to send
      */
-    public static void extract(String input, String message) {
-        extract(input, input, message, false);
+    public static void extract(String input) {
+        extract(input, input, false);
     }
 
     /**
@@ -114,14 +110,11 @@ public class FileUtil {
      *
      * @param input the folder to read from
      * @param output the folder to write to
-     * @param message the message to send
      * @param overwrite delete the existing output folder if true
      */
-    public static void extract(String input, String output, String message, boolean overwrite) {
+    public static void extract(String input, String output, boolean overwrite) {
         try {
             visit(path -> {
-                if (api.isLogging()) logger.info(message);
-
                 final Path directory = api.getDirectory().toPath().resolve(output);
 
                 try {
@@ -144,17 +137,17 @@ public class FileUtil {
                                         }
                                     }
                                 } catch (IOException exception) {
-                                    logger.log(Level.SEVERE, "Encountered an I/O error whilst trying to load the file: " + file.getFileName().toString(), exception);
+                                    exception.printStackTrace();
                                 }
                             });
                         }
                     }
                 } catch (IOException exception) {
-                    logger.log(Level.SEVERE, "Encountered an I/O error whilst trying to load the directory: " + directory, exception);
+                    exception.printStackTrace();
                 }
             }, input);
         } catch (IOException exception) {
-            logger.log(Level.SEVERE, "Encountered an I/O error whilst loading files.", exception);
+            exception.printStackTrace();
         }
     }
 
@@ -191,7 +184,7 @@ public class FileUtil {
                         try {
                             Files.createDirectories(file);
                         } catch (IOException exception) {
-                            logger.severe(name + " could not be created");
+                            exception.printStackTrace();
                         }
                     }
 
@@ -211,11 +204,11 @@ public class FileUtil {
 
                     outputStream.flush();
                 } catch (IOException exception) {
-                    logger.severe("Failed to extract (" + name + ") from jar!");
+                    exception.printStackTrace();
                 }
             }
         } catch (IOException exception) {
-            logger.severe("Failed to extract file (" + sourceDir + ") from jar!");
+            exception.printStackTrace();
         } catch (URISyntaxException exception) {
             throw new RuntimeException(exception);
         }
@@ -282,6 +275,7 @@ public class FileUtil {
      * @param directory the directory to check
      * @param folder the fallback folder
      * @param extension the file extension
+     *
      * @return a {@link List<String>} of files that meet the criteria
      * @since 1.5
      */

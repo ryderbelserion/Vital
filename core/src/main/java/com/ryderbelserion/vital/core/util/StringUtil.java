@@ -18,7 +18,7 @@ public class StringUtil {
     }
 
     /**
-     * Loops through a {@link List<String>} and returns a {@link String}
+     * Loops through a {@link List<String>} and returns a {@link String}.
      *
      * @param list the {@link List<String>} to convert
      * @return {@link String}
@@ -37,8 +37,8 @@ public class StringUtil {
     }
 
     /**
-     * Chomps the end of a {@link String} by removing \n or \r
-     * This was taken from Apache StringUtils
+     * Chomps the end of a {@link String} by removing \n or \r.
+     * This was taken from Apache StringUtils.
      *
      * @param key the {@link String} to check
      * @return {@link String}
