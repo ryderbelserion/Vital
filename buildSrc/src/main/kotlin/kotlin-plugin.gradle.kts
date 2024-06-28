@@ -1,6 +1,9 @@
+import com.ryderbelserion.feather.enums.Repository
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
+    id("com.ryderbelserion.feather-core")
+
     `maven-publish`
 
     kotlin("jvm")
@@ -9,9 +12,9 @@ plugins {
 repositories {
     maven("https://repo.codemc.io/repository/maven-public")
 
-    maven("https://repo.crazycrew.us/releases")
+    maven(Repository.CrazyCrewReleases.url)
 
-    maven("https://jitpack.io")
+    maven(Repository.Jitpack.url)
 
     mavenCentral()
 }
