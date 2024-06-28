@@ -134,7 +134,7 @@ public abstract class FoliaRunnable implements Runnable {
         } else if (this.regionScheduler != null) {
             this.regionScheduler.execute(plugin, this.world, this.chunkX, this.chunkZ, this);
         } else if (this.asyncScheduler != null) {
-            this.asyncScheduler.runNow(plugin, _ -> this.run());
+            this.asyncScheduler.runNow(plugin, scheduledTask -> this.run());
         } else {
             throw new UnsupportedOperationException("The task type is not supported.");
         }
@@ -154,13 +154,13 @@ public abstract class FoliaRunnable implements Runnable {
         checkNotYetScheduled();
 
         if (this.globalRegionScheduler != null) {
-            return setupTask(this.globalRegionScheduler.run(plugin, _ -> this.run()));
+            return setupTask(this.globalRegionScheduler.run(plugin, scheduledTask -> this.run()));
         } else if (this.entityScheduler != null) {
-            return setupTask(this.entityScheduler.run(plugin, _ -> this.run(), this.entityRetired));
+            return setupTask(this.entityScheduler.run(plugin, scheduledTask -> this.run(), this.entityRetired));
         } else if (this.regionScheduler != null) {
-            return setupTask(this.regionScheduler.run(plugin, this.world, this.chunkX, this.chunkZ, _ -> this.run()));
+            return setupTask(this.regionScheduler.run(plugin, this.world, this.chunkX, this.chunkZ, scheduledTask -> this.run()));
         } else if (this.asyncScheduler != null) {
-            return setupTask(this.asyncScheduler.runDelayed(plugin, _ -> this.run(), 50, TimeUnit.MILLISECONDS));
+            return setupTask(this.asyncScheduler.runDelayed(plugin, scheduledTask -> this.run(), 50, TimeUnit.MILLISECONDS));
         } else {
             throw new UnsupportedOperationException("The task type is not supported.");
         }
@@ -182,13 +182,13 @@ public abstract class FoliaRunnable implements Runnable {
         delay = Math.max(1, delay);
 
         if (this.globalRegionScheduler != null) {
-            return setupTask(this.globalRegionScheduler.runDelayed(plugin, _ -> this.run(), delay));
+            return setupTask(this.globalRegionScheduler.runDelayed(plugin, scheduledTask -> this.run(), delay));
         } else if (this.entityScheduler != null) {
-            return setupTask(this.entityScheduler.runDelayed(plugin, _ -> this.run(), this.entityRetired, delay));
+            return setupTask(this.entityScheduler.runDelayed(plugin, scheduledTask -> this.run(), this.entityRetired, delay));
         } else if (this.regionScheduler != null) {
-            return setupTask(this.regionScheduler.runDelayed(plugin, this.world, this.chunkX, this.chunkZ, _ -> this.run(), delay));
+            return setupTask(this.regionScheduler.runDelayed(plugin, this.world, this.chunkX, this.chunkZ, scheduledTask -> this.run(), delay));
         } else if (this.asyncScheduler != null && this.timeUnit != null) {
-            return setupTask(this.asyncScheduler.runDelayed(plugin, _ -> this.run(), delay, this.timeUnit));
+            return setupTask(this.asyncScheduler.runDelayed(plugin, scheduledTask -> this.run(), delay, this.timeUnit));
         } else {
             throw new UnsupportedOperationException("The task type is not supported.");
         }
@@ -213,13 +213,13 @@ public abstract class FoliaRunnable implements Runnable {
         period = Math.max(1, period);
 
         if (this.globalRegionScheduler != null) {
-            return setupTask(this.globalRegionScheduler.runAtFixedRate(plugin, _ -> this.run(), delay, period));
+            return setupTask(this.globalRegionScheduler.runAtFixedRate(plugin, scheduledTask -> this.run(), delay, period));
         } else if (this.entityScheduler != null) {
-            return setupTask(this.entityScheduler.runAtFixedRate(plugin, _ -> this.run(), this.entityRetired, delay, period));
+            return setupTask(this.entityScheduler.runAtFixedRate(plugin, scheduledTask -> this.run(), this.entityRetired, delay, period));
         } else if (this.regionScheduler != null) {
-            return setupTask(this.regionScheduler.runAtFixedRate(plugin, this.world, this.chunkX, this.chunkZ, _ -> this.run(), delay, period));
+            return setupTask(this.regionScheduler.runAtFixedRate(plugin, this.world, this.chunkX, this.chunkZ, scheduledTask -> this.run(), delay, period));
         } else if (this.asyncScheduler != null && this.timeUnit != null) {
-            return setupTask(this.asyncScheduler.runAtFixedRate(plugin, _ -> this.run(), delay, period, this.timeUnit));
+            return setupTask(this.asyncScheduler.runAtFixedRate(plugin, scheduledTask -> this.run(), delay, period, this.timeUnit));
         } else {
             throw new UnsupportedOperationException("The task type is not supported.");
         }
