@@ -15,6 +15,8 @@ public interface CommandFlow {
 
     void addCommand(final CommandEngine engine, final OptionType type, final String name, final String description);
 
+    void removeCommand(final CommandEngine engine);
+
     void addGuildCommand(final CommandEngine engine);
 
     void addGuildCommand(final CommandEngine engine, final OptionData optionData);
@@ -26,6 +28,8 @@ public interface CommandFlow {
     void addGuildCommands(final List<CommandEngine> commands);
 
     void addCommands(final List<CommandEngine> commands);
+
+    boolean hasCommand(final String command);
 
     void purgeGuildCommands();
 

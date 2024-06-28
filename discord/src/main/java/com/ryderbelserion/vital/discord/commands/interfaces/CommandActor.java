@@ -14,6 +14,10 @@ public interface CommandActor {
 
     void reply(final MessageEmbed message, final boolean ephemeral);
 
+    void reply(final String message);
+
+    void reply(final MessageEmbed message);
+
     CommandContext defer(final boolean ephemeral);
 
     OptionMapping getOption(final String option);

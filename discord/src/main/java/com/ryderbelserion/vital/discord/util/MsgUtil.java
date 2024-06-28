@@ -7,12 +7,33 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 
 /**
- * Utilities related to sending messages
+ * Utilities related to sending messages.
  *
  * @version 1.8
  * @since 1.8
  */
-public class StringUtil {
+public class MsgUtil {
+
+    /**
+     * Checks if a command is a valid command.
+     *
+     * @param prefix the prefix
+     * @param command the command
+     * @return true or false
+     */
+    public static boolean isCommand(final String prefix, final String command) {
+        return command.toLowerCase().startsWith(prefix);
+    }
+
+    /**
+     * Gets the arguments from a command.
+     *
+     * @param command the command
+     * @return the arguments
+     */
+    public static String[] getArguments(final String command) {
+        return command.substring(1).split(" ");
+    }
 
     /**
      * Send a message to a channel

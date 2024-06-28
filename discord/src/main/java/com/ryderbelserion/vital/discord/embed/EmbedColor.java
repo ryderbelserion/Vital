@@ -1,7 +1,7 @@
 package com.ryderbelserion.vital.discord.embed;
 
-import com.ryderbelserion.vital.discord.util.ColorUtil;
-import java.awt.*;
+import com.ryderbelserion.vital.core.util.ColorUtil;
+import java.awt.Color;
 
 public enum EmbedColor {
 

@@ -1,6 +1,6 @@
 package com.ryderbelserion.vital.discord.embed;
 
-import com.ryderbelserion.vital.discord.util.ColorUtil;
+import com.ryderbelserion.vital.core.util.ColorUtil;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -8,12 +8,10 @@ import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.List;
 
 public class Embed {
 
     private final EmbedBuilder builder = new EmbedBuilder();
-    private final EmbedField field = new EmbedField(this.builder);
 
     /**
      * Sets the title of the embed.
@@ -47,7 +45,7 @@ public class Embed {
      * @return the embed class with updated information
      */
     public final Embed footer(final User user) {
-        this.builder.setFooter("Requested by " + user.getAsMention(), user.getEffectiveAvatarUrl());
+        this.builder.setFooter(String.format("Requested by %s", user.getAsMention()), user.getEffectiveAvatarUrl());
 
         return this;
     }
@@ -64,7 +62,7 @@ public class Embed {
 
         String avatar = member.getEffectiveAvatarUrl();
 
-        this.builder.setFooter("Requested by " + user.getAsMention(), avatar);
+        this.builder.setFooter(String.format("Requested by %s", user.getAsMention()), avatar);
 
         return this;
     }
@@ -178,9 +176,7 @@ public class Embed {
      * @param guild fetch the member's guild avatar otherwise fetches global avatar
      */
     public final Embed author(final User user, final Guild guild) {
-        final Member member = guild.getMember(user);
-
-        if (member == null) return this;
+        final Member member = guild.retrieveMemberById(user.getId()).complete();
 
         String avatar = member.getEffectiveAvatarUrl();
 
@@ -224,8 +220,50 @@ public class Embed {
         return this;
     }
 
-    public final Embed fields(List<MessageEmbed.Field> fields) {
-        fields.forEach(this.field::field);
+    /**
+     * Adds a field using Strings.
+     *
+     * @param title the title of the embed
+     * @param body the text for the field description
+     * @param inline whether the field should be inline
+     */
+    public Embed addField(final String title, final String body, final boolean inline) {
+        this.builder.addField(title, body, inline);
+
+        return this;
+    }
+
+    /**
+     * Adds a field based on the field object.
+     *
+     * @param field the field object containing all the information we need
+     */
+    public Embed addField(final MessageEmbed.Field field) {
+        addField(field.getName(), field.getValue(), field.isInline());
+
+        return this;
+    }
+
+    /**
+     * Adds a field using Strings.
+     *
+     * @param title the title of the embed
+     * @param body the text for the field description
+     */
+    public Embed addField(final String title, final String body) {
+        addField(title, body, false);
+
+        return this;
+    }
+
+
+    /**
+     * Adds a blank field.
+     *
+     * @param blankField blank field
+     */
+    public Embed addEmptyField(final boolean blankField) {
+        this.builder.addBlankField(blankField);
 
         return this;
     }

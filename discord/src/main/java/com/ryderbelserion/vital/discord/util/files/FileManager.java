@@ -1,4 +1,4 @@
-package com.ryderbelserion.vital.discord.files;
+package com.ryderbelserion.vital.discord.util.files;
 
 import com.ryderbelserion.vital.core.util.FileUtil;
 import com.ryderbelserion.vital.discord.VitalDiscord;
@@ -15,10 +15,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
 
 /**
- * A file manager that handles yml configs
+ * A file manager that handles yml configs.
  *
  * @author Ryder Belserion
  * @author BadBones69
@@ -28,23 +27,17 @@ import java.util.logging.Level;
  */
 public class FileManager {
 
-    private final VitalDiscord vital;
     private final File dataFolder;
-    private final Logger logger;
 
     /**
      * An empty constructor that does fuck all.
      */
-    public FileManager(VitalDiscord vital) {
-        this.vital = vital;
-        this.dataFolder = this.vital.getDirectory();
-        this.logger = this.vital.getLogger();
+    public FileManager(final File dataFolder) {
+        this.dataFolder = dataFolder;
     }
 
-    // Holds static files
     private final Map<String, YamlConfiguration> files = new HashMap<>();
 
-    // Holds the folders to load dynamic files in
     private final Set<CustomFile> customFiles = new HashSet<>();
     private final Set<String> folders = new HashSet<>();
 
@@ -60,23 +53,48 @@ public class FileManager {
 
         // Creates the custom folders.
         for (String folder : this.folders) {
-            Path resolvedFolder = new File(this.dataFolder, folder).toPath();
+            File file = new File(this.dataFolder, folder);
 
-            if (!Files.exists(resolvedFolder)) {
-                // Create directory.
+            if (!file.exists()) {
                 try {
-                    Files.createDirectory(resolvedFolder);
-                } catch (IOException e) {
-                    this.logger.error("Failed to create directory: {}...", resolvedFolder.toFile().getName());
+                    file.mkdir();
+                } catch (Exception exception) {
+                    exception.printStackTrace();
                 }
 
-                // extract files if needed.
-                FileUtil.extracts(FileManager.class, "/" + folder + "/", resolvedFolder, true);
+                FileUtil.extracts(FileManager.class, String.format("/%s/", folder), file.toPath(), true);
+            }
 
-                // get all files with recursion
-                loadFiles(resolvedFolder.toFile(), folder);
-            } else {
-                loadFiles(resolvedFolder.toFile(), "");
+            final File[] files = file.listFiles();
+
+            if (files == null) return;
+
+            for (File key : files) {
+                if (key.isDirectory()) {
+                    String[] dir = file.list();
+
+                    if (dir == null) continue;
+
+                    for (String pair : dir) {
+                        if (!pair.endsWith(".yml")) continue;
+
+                        final CustomFile customFile = new CustomFile(file).apply(pair);
+
+                        if (customFile != null && customFile.exists()) {
+                            this.customFiles.add(customFile);
+                        }
+                    }
+                } else {
+                    final String name = file.getName();
+
+                    if (!name.endsWith(".yml")) continue;
+
+                    final CustomFile customFile = new CustomFile(file).apply(name);
+
+                    if (customFile != null && customFile.exists()) {
+                        this.customFiles.add(customFile);
+                    }
+                }
             }
         }
     }
@@ -100,7 +118,7 @@ public class FileManager {
         try {
             this.files.put(file, YamlConfiguration.loadConfiguration(key));
         } catch (Exception exception) {
-            this.logger.error("Failed to load: {}...", file);
+            exception.printStackTrace();
         }
 
         return this;
@@ -121,16 +139,11 @@ public class FileManager {
         try {
             if (!file.exists()) {
                 FileUtil.extract(FileManager.class, fileName, this.dataFolder.toPath(), false);
-
-                this.logger.info("Copied {} because it did not exist...", fileName);
-            } else {
-                this.logger.info("Loading the file {}...", fileName);
             }
 
-            // Add other file
             this.files.put(fileName, YamlConfiguration.loadConfiguration(file));
         } catch (Exception exception) {
-            this.logger.error("Failed to load or create {}...", fileName);
+            exception.printStackTrace();
         }
 
         return this;
@@ -153,7 +166,7 @@ public class FileManager {
         try {
             configuration.save(new File(this.dataFolder, fileName));
         } catch (Exception exception) {
-            this.logger.error("Failed to save: {}...", fileName);
+            exception.printStackTrace();
         }
 
         return this;
@@ -193,56 +206,12 @@ public class FileManager {
             try {
                 configuration.save(key);
                 configuration.load(key);
-            } catch (IOException exception) {
-                this.logger.error("Failed to load: {}...", key);
+            } catch (Exception exception) {
+                exception.printStackTrace();
             }
         });
 
         return this;
-    }
-
-    /**
-     * Load files with one level of recursion
-     *
-     * @param resolvedFolder the {@link Path} to check
-     * @since 1.8
-     */
-    private void loadFiles(final File resolvedFolder, final String folder) {
-        File[] filesList = resolvedFolder.listFiles();
-
-        if (filesList != null) {
-            for (File directory : filesList) {
-                if (directory.isDirectory()) {
-                    String[] dir = directory.list();
-
-                    if (dir != null) {
-                        for (String name : dir) {
-                            if (!name.endsWith(".yml")) continue;
-
-                            final CustomFile file = new CustomFile(this.logger, directory).apply(name);
-
-                            if (file != null && file.exists()) {
-                                this.customFiles.add(file);
-
-                                this.logger.info("Loaded new custom file: {}/{}/{}.", folder, directory.getName(), name);
-                            }
-                        }
-                    }
-                } else {
-                    String name = directory.getName();
-
-                    if (!name.endsWith(".yml")) continue;
-
-                    final CustomFile file = new CustomFile(this.logger, resolvedFolder).apply(name);
-
-                    if (file != null && file.exists()) {
-                        this.customFiles.add(file);
-
-                        this.logger.info("Loaded new custom file: {}/{}.", folder, name);
-                    }
-                }
-            }
-        }
     }
 
     /**
@@ -269,17 +238,15 @@ public class FileManager {
     }
 
     /**
-     * Removes a {@link CustomFile} from the custom files map
+     * Removes a {@link CustomFile} from the custom files map.
      *
      * @param file the file to remove
      */
     public void removeCustomFile(@NotNull final String file) {
         @Nullable final CustomFile customFile = getCustomFile(file);
 
-        // If null, return.
         if (customFile == null) return;
 
-        // Remove if not null.
         this.customFiles.remove(customFile);
     }
 
@@ -344,8 +311,7 @@ public class FileManager {
      * @since 1.8
      */
     public @NotNull final FileManager addFolder(@NotNull final String folder) {
-        if (folder.isEmpty()) return this;
-        if (this.folders.contains(folder)) return this;
+        if (folder.isEmpty() || this.folders.contains(folder)) return this;
 
         this.folders.add(folder);
 
