@@ -14,7 +14,7 @@ plugins {
     id("com.ryderbelserion.feather-settings") version "0.0.1"
 }
 
-include("example")
+//include("example")
 include("discord")
 include("paper")
 include("core")
