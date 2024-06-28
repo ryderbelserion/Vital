@@ -11,7 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Builds a custom file to load with the File Manager
+ * Builds a custom file to load with the File Manager.
  *
  * @author Ryder Belserion
  * @version 1.8

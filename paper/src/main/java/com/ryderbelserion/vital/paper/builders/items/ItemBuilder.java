@@ -456,17 +456,17 @@ public class ItemBuilder {
     private Boolean isGlowing = null;
 
     /**
-     * Holds the {@link TrimMaterial} for the armor
+     * Holds the {@link TrimMaterial} for the armor.
      */
     private TrimMaterial trimMaterial;
 
     /**
-     * Holds the {@link TrimPattern} for the armor
+     * Holds the {@link TrimPattern} for the armor.
      */
     private TrimPattern trimPattern;
 
     /**
-     * Turns the builder into {@link ItemStack}
+     * Turns the builder into {@link ItemStack}.
      *
      * @return the fully built {@link ItemStack}
      * @since 1.0
@@ -548,7 +548,7 @@ public class ItemBuilder {
     }
 
     /**
-     * Encodes and serializes an {@link ItemStack} into a {@link String}
+     * Encodes and serializes an {@link ItemStack} into a {@link String}.
      *
      * @return {@link String}
      * @since 1.6
@@ -558,7 +558,7 @@ public class ItemBuilder {
     }
 
     /**
-     * Deserialize a base64 {@link String} back into an {@link ItemStack}
+     * Deserialize a base64 {@link String} back into an {@link ItemStack}.
      *
      * @param base64 the base64 {@link String}
      * @return {@link ItemBuilder}
@@ -1035,7 +1035,7 @@ public class ItemBuilder {
     }
 
     /**
-     * Add a {@link FoodComponent.FoodEffect} to the {@link List<FoodComponent.FoodEffect>}
+     * Add a {@link FoodComponent.FoodEffect} to the {@link List<FoodComponent.FoodEffect>}.
      *
      * @param effect the {@link FoodComponent.FoodEffect} to add
      * @return {@link ItemBuilder}
@@ -1123,7 +1123,7 @@ public class ItemBuilder {
     }
 
     /**
-     * Adds a {@link Double} to the {@link ItemStack} {@link org.bukkit.persistence.PersistentDataContainer}
+     * Adds a {@link Double} to the {@link ItemStack} {@link org.bukkit.persistence.PersistentDataContainer}.
      *
      * @param key the {@link NamespacedKey}
      * @param value the {@link Double} to set
@@ -1142,7 +1142,7 @@ public class ItemBuilder {
     }
 
     /**
-     * Adds a {@link Integer} to the {@link ItemStack} {@link org.bukkit.persistence.PersistentDataContainer}
+     * Adds a {@link Integer} to the {@link ItemStack} {@link org.bukkit.persistence.PersistentDataContainer}.
      *
      * @param key the {@link NamespacedKey}
      * @param value the {@link Integer} to set
@@ -1161,7 +1161,7 @@ public class ItemBuilder {
     }
 
     /**
-     * Adds a {@link Boolean} to the {@link ItemStack} {@link org.bukkit.persistence.PersistentDataContainer}
+     * Adds a {@link Boolean} to the {@link ItemStack} {@link org.bukkit.persistence.PersistentDataContainer}.
      *
      * @param key the {@link NamespacedKey}
      * @param value the {@link Boolean} to set
@@ -1180,7 +1180,7 @@ public class ItemBuilder {
     }
 
     /**
-     * Adds a {@link String} to the {@link ItemStack} {@link org.bukkit.persistence.PersistentDataContainer}
+     * Adds a {@link String} to the {@link ItemStack} {@link org.bukkit.persistence.PersistentDataContainer}.
      *
      * @param key the {@link NamespacedKey}
      * @param value the {@link String} to set
@@ -1199,7 +1199,7 @@ public class ItemBuilder {
     }
 
     /**
-     * Adds a {@link List<String>} to the {@link ItemStack} {@link org.bukkit.persistence.PersistentDataContainer}
+     * Adds a {@link List<String>} to the {@link ItemStack} {@link org.bukkit.persistence.PersistentDataContainer}.
      *
      * @param key the {@link NamespacedKey}
      * @param values the {@link List<String>} to set
@@ -1406,7 +1406,7 @@ public class ItemBuilder {
     }
 
     /**
-     * Sets a custom skull
+     * Sets a custom skull.
      *
      * @param skull the id of the skull
      * @param hdb the {@link HeadDatabaseAPI}
@@ -1454,7 +1454,7 @@ public class ItemBuilder {
     }
 
     /**
-     * Removes an {@link Enchantment} from {@link ItemMeta}
+     * Removes an {@link Enchantment} from {@link ItemMeta}.
      *
      * @param enchant the enchant name
      * @return {@link ItemBuilder}
@@ -1591,7 +1591,7 @@ public class ItemBuilder {
     }
 
     /**
-     * Adds a {@link ArmorTrim} to a piece of armor using {@link String}
+     * Adds a {@link ArmorTrim} to a piece of armor using {@link String}.
      *
      * @param pattern the pattern to add
      * @param material the material to use
@@ -1610,7 +1610,7 @@ public class ItemBuilder {
     }
 
     /**
-     * Populates a {@link TrimPattern} variable
+     * Populates a {@link TrimPattern} variable.
      *
      * @param pattern the pattern to add
      * @return {@link ItemBuilder}
@@ -1629,7 +1629,7 @@ public class ItemBuilder {
     }
 
     /**
-     * Populates a {@link TrimMaterial} variable
+     * Populates a {@link TrimMaterial} variable.
      *
      * @param material the material to add
      * @return {@link ItemBuilder}
@@ -1741,7 +1741,7 @@ public class ItemBuilder {
     }
 
     /**
-     * Applies a custom texture using player profiles
+     * Applies a custom texture using player profiles.
      *
      * @return {@link ItemBuilder}
      * @since 1.0
@@ -2046,7 +2046,7 @@ public class ItemBuilder {
     }
 
     /**
-     * Get an {@link Player} by {@link UUID}
+     * Get an {@link Player} by {@link UUID}.
      *
      * @param uuid the uuid of the {@link Player}
      * @return the {@link Player}

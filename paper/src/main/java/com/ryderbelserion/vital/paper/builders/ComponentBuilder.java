@@ -25,7 +25,7 @@ public class ComponentBuilder {
     private String value;
 
     /**
-     * A constructor to build a {@link Component}
+     * A constructor to build a {@link Component}.
      *
      * @param target the {@link Player} to send to
      * @since 1.0
@@ -35,7 +35,7 @@ public class ComponentBuilder {
     }
 
     /**
-     * Appends a new {@link Component} to the {@link TextComponent.Builder}
+     * Appends a new {@link Component} to the {@link TextComponent.Builder}.
      *
      * @param component the {@link Component} to append
      * @return {@link ComponentBuilder}
@@ -93,7 +93,8 @@ public class ComponentBuilder {
     }
 
     /**
-     * Send a {@link Component} to someone
+     * Send a {@link Component} to someone.
+     *
      * @since 1.0
      */
     public void send() {

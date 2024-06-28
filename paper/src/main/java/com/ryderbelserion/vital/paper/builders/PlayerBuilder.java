@@ -8,7 +8,7 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * Builds a player
+ * Builds a player.
  *
  * @param name the name of the player
  *

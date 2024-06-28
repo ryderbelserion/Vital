@@ -13,43 +13,43 @@ import org.jetbrains.annotations.NotNull;
 public enum Support {
 
     /**
-     * Oraxen Plugin
+     * Oraxen Plugin.
      */
     oraxen("Oraxen"),
     /**
-     * ItemsAdder Plugin
+     * ItemsAdder Plugin.
      */
     items_adder("ItemsAdder"),
     /**
-     * HeadDatabase Plugin
+     * HeadDatabase Plugin.
      */
     head_database("HeadDatabase"),
     /**
-     * FancyHolograms Plugin
+     * FancyHolograms Plugin.
      */
     fancy_holograms("FancyHolograms"),
     /**
-     * DecentHolograms Plugin
+     * DecentHolograms Plugin.
      */
     decent_holograms("DecentHolograms"),
     /**
-     * WorldGuard Plugin
+     * WorldGuard Plugin.
      */
     worldguard("WorldGuard"),
     /**
-     * WorldEdit Plugin
+     * WorldEdit Plugin.
      */
     worldedit("WorldEdit"),
     /**
-     * CMI Plugin
+     * CMI Plugin.
      */
     cmi("CMI"),
     /**
-     * PlaceholderAPI Plugin
+     * PlaceholderAPI Plugin.
      */
     placeholder_api("PlaceholderAPI"),
     /**
-     * Vault Plugin
+     * Vault Plugin.
      */
     vault("Vault");
 

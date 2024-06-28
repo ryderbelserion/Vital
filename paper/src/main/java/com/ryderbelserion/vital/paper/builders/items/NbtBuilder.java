@@ -11,7 +11,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Handles pdc on item stacks
+ * Handles pdc on item stacks.
  *
  * @author Ryder Belserion
  * @version 1.8
@@ -23,6 +23,7 @@ public class NbtBuilder {
 
     /**
      * Constructs a new {@link ItemStack} with a dummy {@link Material}.
+     *
      * @since 1.1
      */
     public NbtBuilder() {
@@ -62,7 +63,7 @@ public class NbtBuilder {
     }
 
     /**
-     * Checks if the {@link ItemStack} has {@link ItemMeta}
+     * Checks if the {@link ItemStack} has {@link ItemMeta}.
      *
      * @return true or false
      * @since 1.1
@@ -72,7 +73,7 @@ public class NbtBuilder {
     }
 
     /**
-     * Adds a {@link Double} to the {@link ItemStack} {@link org.bukkit.persistence.PersistentDataContainer}
+     * Adds a {@link Double} to the {@link ItemStack} {@link org.bukkit.persistence.PersistentDataContainer}.
      *
      * @param key the {@link NamespacedKey}
      * @param value the {@link Double} to set
@@ -91,7 +92,7 @@ public class NbtBuilder {
     }
 
     /**
-     * Adds a {@link Integer} to the {@link ItemStack} {@link org.bukkit.persistence.PersistentDataContainer}
+     * Adds a {@link Integer} to the {@link ItemStack} {@link org.bukkit.persistence.PersistentDataContainer}.
      *
      * @param key the {@link NamespacedKey}
      * @param value the {@link Integer} to set
@@ -110,7 +111,7 @@ public class NbtBuilder {
     }
 
     /**
-     * Adds a {@link Boolean} to the {@link ItemStack} {@link org.bukkit.persistence.PersistentDataContainer}
+     * Adds a {@link Boolean} to the {@link ItemStack} {@link org.bukkit.persistence.PersistentDataContainer}.
      *
      * @param key the {@link NamespacedKey}
      * @param value the {@link Boolean} to set
@@ -129,7 +130,7 @@ public class NbtBuilder {
     }
 
     /**
-     * Adds a {@link String} to the {@link ItemStack} {@link org.bukkit.persistence.PersistentDataContainer}
+     * Adds a {@link String} to the {@link ItemStack} {@link org.bukkit.persistence.PersistentDataContainer}.
      *
      * @param key the {@link NamespacedKey}
      * @param value the {@link String} to set
@@ -148,7 +149,7 @@ public class NbtBuilder {
     }
 
     /**
-     * Adds a {@link List<String>} to the {@link ItemStack} {@link org.bukkit.persistence.PersistentDataContainer}
+     * Adds a {@link List<String>} to the {@link ItemStack} {@link org.bukkit.persistence.PersistentDataContainer}.
      *
      * @param key the {@link NamespacedKey}
      * @param values the {@link List<String>} to set

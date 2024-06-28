@@ -5,7 +5,7 @@ import net.dv8tion.jda.api.entities.Role;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Utilities related to roles
+ * Utilities related to roles.
  *
  * @version 1.8
  * @since 1.8

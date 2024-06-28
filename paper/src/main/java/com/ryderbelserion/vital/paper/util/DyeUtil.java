@@ -8,7 +8,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.logging.Logger;
 
 /**
- * All utilities related to dye colors
+ * All utilities related to dye colors.
  *
  * @author Ryder Belserion
  * @version 1.8
@@ -44,7 +44,7 @@ public class DyeUtil {
     }
 
     /**
-     * Get the {@link Color} from a {@link String}
+     * Get the {@link Color} from a {@link String}.
      *
      * @param color the {@link String} to check
      * @return {@link Color}
@@ -75,7 +75,7 @@ public class DyeUtil {
     }
 
     /**
-     * Get the {@link Color} from a {@link String} by splitting it and converting it to rgb
+     * Get the {@link Color} from a {@link String} by splitting it and converting it to rgb.
      *
      * @param color the {@link String} to check
      * @return {@link Color}

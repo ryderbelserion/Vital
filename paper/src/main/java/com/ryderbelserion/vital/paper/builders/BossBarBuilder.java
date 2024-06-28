@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Builds a bossbar to send to a target
+ * Builds a bossbar to send to a target.
  *
  * @author Ryder Belserion
  * @version 1.8
@@ -32,7 +32,7 @@ public class BossBarBuilder {
     }
 
     /**
-     * Gets the target recipient
+     * Gets the target recipient.
      *
      * @return the {@link Player}
      * @since 1.0
@@ -52,7 +52,7 @@ public class BossBarBuilder {
     }
 
     /**
-     * Sets the {@link BossBar}
+     * Sets the {@link BossBar}.
      *
      * @param bossBar the new {@link BossBar}
      * @since 1.0
@@ -63,6 +63,7 @@ public class BossBarBuilder {
 
     /**
      * Hides the {@link BossBar} then sets the variable to null.
+     *
      * @since 1.0
      */
     public void hideBossBar() {

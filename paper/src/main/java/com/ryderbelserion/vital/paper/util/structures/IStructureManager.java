@@ -19,7 +19,7 @@ import java.util.Set;
 public interface IStructureManager {
 
     /**
-     * Loads the {@link File} as a structure
+     * Loads the {@link File} as a structure.
      *
      * @param file {@link File}
      * @since 1.0
@@ -56,6 +56,7 @@ public interface IStructureManager {
 
     /**
      * Remove the {@link org.bukkit.structure.Structure}.
+     *
      * @since 1.0
      */
     void removeStructure();

@@ -19,7 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * A file manager that handles yml configs
+ * A file manager that handles yml configs.
  *
  * @author Ryder Belserion
  * @author BadBones69
@@ -39,15 +39,14 @@ public class FileManager {
     private @NotNull final Logger logger = this.api.getLogger();
     private final boolean isLogging = this.api.isLogging();
 
-    // Holds static files
     private final Map<String, YamlConfiguration> files = new HashMap<>();
 
-    // Holds the folders to load dynamic files in
     private final Set<CustomFile> customFiles = new HashSet<>();
     private final Set<String> folders = new HashSet<>();
 
     /**
      * Creates the data folder and anything else we need.
+     *
      * @since 1.0
      */
     public void init() {
@@ -199,7 +198,7 @@ public class FileManager {
     }
 
     /**
-     * Load files with one level of recursion
+     * Load files with one level of recursion.
      *
      * @param resolvedFolder the {@link Path} to check
      * @since 1.0
@@ -266,7 +265,7 @@ public class FileManager {
     }
 
     /**
-     * Removes a {@link CustomFile} from the custom files map
+     * Removes a {@link CustomFile} from the custom files map.
      *
      * @param file the file to remove
      */

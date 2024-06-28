@@ -20,7 +20,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Level;
 
-
 /**
  * A structure manager extending {@link IStructureManager} which builds {@link Structure}.
  *

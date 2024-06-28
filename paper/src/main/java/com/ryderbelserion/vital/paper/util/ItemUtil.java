@@ -98,7 +98,7 @@ public class ItemUtil {
         }
 
         try {
-            return Registry.ENCHANTMENT.get(getKey(value));
+            return RegistryAccess.registryAccess().getRegistry(RegistryKey.ENCHANTMENT).get(getKey(value));
         } catch (Exception exception) {
             logger.severe(value + " is an invalid enchantment.");
 
@@ -326,7 +326,7 @@ public class ItemUtil {
     }
 
     /**
-     * Encodes and serializes an {@link ItemStack} into a {@link String}
+     * Encodes and serializes an {@link ItemStack} into a {@link String}.
      *
      * @param itemStack {@link ItemStack}
      * @return {@link String}
@@ -337,7 +337,7 @@ public class ItemUtil {
     }
 
     /**
-     * Deserialize a base64 {@link String} back into an {@link ItemStack}
+     * Deserialize a base64 {@link String} back into an {@link ItemStack}.
      *
      * @param base64 the base64 {@link String}
      * @return {@link ItemStack}

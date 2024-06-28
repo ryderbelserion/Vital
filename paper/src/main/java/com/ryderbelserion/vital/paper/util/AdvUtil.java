@@ -66,7 +66,7 @@ public class AdvUtil {
     }
 
     /**
-     * Parses a message
+     * Parses a message.
      *
      * @param message the {@link String} to alter
      * @return {@link Component}
