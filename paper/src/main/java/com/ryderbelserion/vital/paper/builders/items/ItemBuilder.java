@@ -1753,13 +1753,9 @@ public class ItemBuilder {
 
         this.itemStack.editMeta(itemMeta -> {
             if (itemMeta instanceof final SkullMeta skullMeta) {
-                final UUID uuid = UUID.randomUUID();
+                final PlayerProfile profile = Bukkit.getServer().createProfile(null, "");
 
-                final String small = uuid.toString().replace("-", "").substring(0, 12);
-
-                final PlayerProfile profile = Bukkit.getServer().createProfile(uuid, small);
-
-                profile.setProperty(new ProfileProperty(small, small));
+                profile.setProperty(new ProfileProperty("", ""));
 
                 PlayerTextures textures = profile.getTextures();
 
