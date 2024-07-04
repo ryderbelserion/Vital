@@ -13,6 +13,8 @@ public class PluginManager {
 
     public static void registerPlugin(@NotNull final Plugin plugin) {
         plugins.put(plugin.getName(), plugin);
+
+        plugin.register();
     }
 
     public static Plugin getPlugin(@NotNull final String name) {
@@ -25,6 +27,8 @@ public class PluginManager {
 
     public static void unregisterPlugin(@NotNull final Plugin plugin) {
         plugins.remove(plugin.getName());
+
+        plugin.unregister();
     }
 
     public static void printPlugins(final Logger logger) {

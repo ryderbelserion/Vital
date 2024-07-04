@@ -6,6 +6,10 @@ public abstract class Plugin {
 
     public abstract String getName();
 
+    public abstract void register();
+
+    public abstract void unregister();
+
     public boolean isVanished() { return false; }
 
 }
