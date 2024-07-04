@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class PluginManager {
 
@@ -24,6 +25,18 @@ public class PluginManager {
 
     public static void unregisterPlugin(@NotNull final Plugin plugin) {
         plugins.remove(plugin.getName());
+    }
+
+    public static void printPlugins(final Logger logger) {
+        getPlugins().forEach((name, plugin) -> {
+            if (plugin.isEnabled()) {
+                logger.info(name + " Enabled");
+
+                return;
+            }
+
+            logger.info(name + " Disabled");
+        });
     }
 
     public static Map<String, Plugin> getPlugins() {
