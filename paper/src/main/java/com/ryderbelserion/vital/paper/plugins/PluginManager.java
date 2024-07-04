@@ -30,12 +30,12 @@ public class PluginManager {
     public static void printPlugins(final Logger logger) {
         getPlugins().forEach((name, plugin) -> {
             if (plugin.isEnabled()) {
-                logger.info(name + " Enabled");
+                logger.info(name + ": FOUND");
 
                 return;
             }
 
-            logger.info(name + " Disabled");
+            logger.info(name + ": NOT FOUND");
         });
     }
 
