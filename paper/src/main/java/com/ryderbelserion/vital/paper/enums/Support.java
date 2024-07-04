@@ -21,37 +21,9 @@ public enum Support {
      */
     items_adder("ItemsAdder"),
     /**
-     * HeadDatabase Plugin.
-     */
-    head_database("HeadDatabase"),
-    /**
-     * FancyHolograms Plugin.
-     */
-    fancy_holograms("FancyHolograms"),
-    /**
-     * DecentHolograms Plugin.
-     */
-    decent_holograms("DecentHolograms"),
-    /**
-     * WorldGuard Plugin.
-     */
-    worldguard("WorldGuard"),
-    /**
-     * WorldEdit Plugin.
-     */
-    worldedit("WorldEdit"),
-    /**
-     * CMI Plugin.
-     */
-    cmi("CMI"),
-    /**
      * PlaceholderAPI Plugin.
      */
-    placeholder_api("PlaceholderAPI"),
-    /**
-     * Vault Plugin.
-     */
-    vault("Vault");
+    placeholder_api("PlaceholderAPI");
 
     private final String name;
 
