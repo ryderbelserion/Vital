@@ -6,5 +6,6 @@ public abstract class Plugin {
 
     public abstract String getName();
 
+    public boolean isVanished() { return false; }
 
 }
