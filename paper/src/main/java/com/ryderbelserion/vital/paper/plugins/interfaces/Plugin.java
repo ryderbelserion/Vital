@@ -1,9 +1,10 @@
 package com.ryderbelserion.vital.paper.plugins.interfaces;
 
-public interface Plugin {
+public abstract class Plugin {
 
-    boolean isEnabled();
+    public abstract boolean isEnabled();
 
-    String getName();
+    public abstract String getName();
+
 
 }
