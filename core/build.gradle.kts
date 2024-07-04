@@ -10,7 +10,7 @@ dependencies {
     compileOnly(libs.bundles.adventure)
     compileOnly(libs.annotations)
 
-    api(libs.configme)
+    compileOnly(libs.configme)
 }
 
 tasks {

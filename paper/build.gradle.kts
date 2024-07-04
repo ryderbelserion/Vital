@@ -9,7 +9,11 @@ dependencies {
 
     compileOnly(libs.papermc)
 
-    api(projects.core)
+    implementation(libs.configme) {
+        exclude("org.yaml", "snakeyaml")
+    }
+
+    implementation(projects.core)
 }
 
 tasks {
