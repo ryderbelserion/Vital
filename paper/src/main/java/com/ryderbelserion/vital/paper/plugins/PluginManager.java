@@ -14,7 +14,7 @@ public class PluginManager {
     public static void registerPlugin(@NotNull final Plugin plugin) {
         plugins.put(plugin.getName(), plugin);
 
-        plugin.register();
+        plugin.add();
     }
 
     public static Plugin getPlugin(@NotNull final String name) {
@@ -28,12 +28,12 @@ public class PluginManager {
     public static void unregisterPlugin(@NotNull final Plugin plugin) {
         plugins.remove(plugin.getName());
 
-        plugin.unregister();
+        plugin.remove();
     }
 
     public static void printPlugins(final Logger logger) {
         getPlugins().forEach((name, plugin) -> {
-            if (plugin.isEnabled()) {
+            if (plugin.isEnabled() && !name.isEmpty()) {
                 logger.info(name + ": FOUND");
 
                 return;

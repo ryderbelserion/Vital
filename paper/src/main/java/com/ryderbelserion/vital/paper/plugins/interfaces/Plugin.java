@@ -2,18 +2,16 @@ package com.ryderbelserion.vital.paper.plugins.interfaces;
 
 import java.util.UUID;
 
-public abstract class Plugin {
+public interface Plugin {
 
-    public abstract boolean isEnabled();
+    default boolean isEnabled() { return false; }
 
-    public abstract String getName();
+    default String getName() { return ""; }
 
-    public abstract void register();
+    default void add() {}
 
-    public abstract void unregister();
+    default void remove() {}
 
-    public boolean isVanished() { return false; }
-
-    public UUID getPlayer() { return UUID.randomUUID(); }
+    default boolean isVanished(final UUID uuid) { return false; }
 
 }

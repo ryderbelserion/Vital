@@ -9,17 +9,7 @@ dependencies {
 
     compileOnly(libs.papermc)
 
-    implementation(libs.configme) {
+    api(project(":core")) {
         exclude("org.yaml", "snakeyaml")
-    }
-
-    implementation(projects.core)
-}
-
-tasks {
-    shadowJar {
-        manifest {
-            from(project(":core").tasks.named<Jar>("shadowJar").get().manifest)
-        }
     }
 }
