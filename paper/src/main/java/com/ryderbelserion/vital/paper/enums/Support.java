@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
  * An enum of plugins supported.
  *
  * @author Ryder Belserion
- * @version 1.8
+ * @version 1.8.2
  * @since 1.0
  */
 public enum Support {
@@ -20,6 +20,22 @@ public enum Support {
      * ItemsAdder Plugin.
      */
     items_adder("ItemsAdder"),
+    /**
+     * HeadDatabase Plugin.
+     */
+    head_database("HeadDatabase"),
+    /**
+     * CMI Plugin.
+     */
+    cmi("cmi"),
+    /**
+     * FancyHolograms Plugin.
+     */
+    fancy_holograms("FancyHolograms"),
+    /**
+     * DecentHolograms Plugin.
+     */
+    decent_holograms("DecentHolograms"),
     /**
      * PlaceholderAPI Plugin.
      */

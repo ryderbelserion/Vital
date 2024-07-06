@@ -10,7 +10,7 @@ import java.io.IOException;
  * Builds a custom file to load with the File Manager.
  *
  * @author Ryder Belserion
- * @version 1.8
+ * @version 1.8.2
  * @since 1.8
  */
 public class CustomFile {

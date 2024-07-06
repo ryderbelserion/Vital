@@ -26,7 +26,7 @@ import java.util.logging.Logger;
  * All utilities related to items and ids.
  *
  * @author Ryder Belserion
- * @version 1.8
+ * @version 1.8.2
  * @since 1.0
  */
 public class ItemUtil {

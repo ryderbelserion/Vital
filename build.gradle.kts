@@ -1,4 +1,4 @@
 import com.ryderbelserion.feather.tools.latestCommitHash
 
 //rootProject.version = latestCommitHash()
-rootProject.version = "1.8"
+rootProject.version = "1.8.2"
