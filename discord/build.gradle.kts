@@ -15,11 +15,3 @@ dependencies {
 
     api(libs.jda)
 }
-
-tasks {
-    shadowJar {
-        manifest {
-            from(project(":core").tasks.named<Jar>("shadowJar").get().manifest)
-        }
-    }
-}

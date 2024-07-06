@@ -1,7 +1,7 @@
 import com.ryderbelserion.feather.feather
 
 plugins {
-    id("com.ryderbelserion.feather-logic") version "0.0.1"
+    id("com.ryderbelserion.feather-logic") version "0.0.3"
 
     `kotlin-dsl`
 }
@@ -9,5 +9,5 @@ plugins {
 dependencies {
     implementation(libs.kotlin)
 
-    feather("0.0.1")
+    feather("0.0.3")
 }
