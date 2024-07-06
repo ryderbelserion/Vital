@@ -9,7 +9,7 @@ import java.lang.reflect.Field;
  * An abstract class to extend in each platform.
  *
  * @author Ryder Belserion
- * @version 1.8.2
+ * @version 1.8.3
  * @since 1.0
  */
 public abstract class Vital {
