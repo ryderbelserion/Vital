@@ -534,7 +534,11 @@ public class ItemBuilder {
                 }
             }
 
-            this.customModelData.ifPresent(number -> itemMeta.setCustomModelData(number.intValue()));
+            this.customModelData.ifPresent(number -> {
+                if (number.intValue() == -1) return;
+
+                itemMeta.setCustomModelData(number.intValue());
+            });
 
             if (this.isHidingItemFlags) itemMeta.addItemFlags(ItemFlag.values()); else this.itemFlags.forEach(itemMeta::addItemFlags);
 
@@ -733,6 +737,8 @@ public class ItemBuilder {
      * @since 1.0
      */
     public @NotNull final ItemBuilder setCustomModelData(final int model) {
+        if (model == -1) return this;
+
         this.customModelData = Optional.of(model);
 
         return this;
