@@ -1762,7 +1762,7 @@ public class ItemBuilder {
                 try {
                     textures.setSkin(URI.create(this.url).toURL(), PlayerTextures.SkinModel.CLASSIC);
                 } catch (MalformedURLException exception) {
-                    if (Vital.api().isLogging()) Vital.api().getLogger().log(Level.SEVERE, "Failed to set the texture url", exception);
+                    if (Vital.api().isLogging()) Vital.api().getLogger().error("Failed to set the texture url", exception);
                 }
 
                 profile.setTextures(textures);

@@ -1,14 +1,14 @@
 package com.ryderbelserion.vital.paper.files.config;
 
 import com.ryderbelserion.vital.core.Vital;
+import com.ryderbelserion.vital.paper.util.scheduler.FoliaRunnable;
+import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Builds a custom file to load with the File Manager.
@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 public class CustomFile {
 
     private @NotNull final Vital api = Vital.api();
-    private final @NotNull Logger logger = this.api.getLogger();
+    private final @NotNull ComponentLogger logger = this.api.getLogger();
     private final boolean isLogging = this.api.isLogging();
 
     private YamlConfiguration configuration = null;
@@ -52,7 +52,7 @@ public class CustomFile {
                 List.of(
                         "The file name cannot be empty!",
                         "File Name: " + fileName
-                ).forEach(this.logger::severe);
+                ).forEach(this.logger::error);
             }
 
             return null;
@@ -68,8 +68,10 @@ public class CustomFile {
 
             this.configuration = YamlConfiguration.loadConfiguration(this.file);
         } catch (Exception exception) {
-            if (this.isLogging)this.logger.log(Level.SEVERE, "Failed to load or create " + this.strippedName + ".yml...", exception);
+            if (this.isLogging) this.logger.error("Failed to load or create " + this.strippedName + ".yml...", exception);
         }
+
+        new FoliaRunnable(this.api.)
 
         return this;
     }
@@ -130,7 +132,7 @@ public class CustomFile {
         try {
             this.configuration.save(this.file);
         } catch (IOException exception) {
-            if (this.isLogging)this.logger.log(Level.SEVERE, "Could not save " + this.strippedName + ".yml...", exception);
+            if (this.isLogging) this.logger.error("Could not save " + this.strippedName + ".yml...", exception);
         }
     }
 
@@ -145,7 +147,7 @@ public class CustomFile {
         try {
             this.configuration = YamlConfiguration.loadConfiguration(this.file);
         } catch (Exception exception) {
-            if (this.isLogging)this.logger.log(Level.SEVERE, "Could not reload the " + this.strippedName + ".yml...", exception);
+            if (this.isLogging) this.logger.error("Could not reload the " + this.strippedName + ".yml...", exception);
         }
     }
 }

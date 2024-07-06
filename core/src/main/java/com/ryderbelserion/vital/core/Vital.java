@@ -1,9 +1,9 @@
 package com.ryderbelserion.vital.core;
 
+import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.lang.reflect.Field;
-import java.util.logging.Logger;
 
 /**
  * An abstract class to extend in each platform.
@@ -48,12 +48,12 @@ public abstract class Vital {
     public @NotNull abstract File getDirectory();
 
     /**
-     * Gets the plugin {@link Logger}.
+     * Gets the plugin {@link ComponentLogger}.
      *
-     * @return {@link Logger}
+     * @return {@link ComponentLogger}
      * @since 1.0
      */
-    public @NotNull abstract Logger getLogger();
+    public @NotNull abstract ComponentLogger getLogger();
 
     /**
      * Whether we are logging or not.

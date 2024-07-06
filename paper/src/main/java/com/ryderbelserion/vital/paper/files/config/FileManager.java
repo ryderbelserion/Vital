@@ -2,6 +2,7 @@ package com.ryderbelserion.vital.paper.files.config;
 
 import com.ryderbelserion.vital.core.Vital;
 import com.ryderbelserion.vital.core.util.FileUtil;
+import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
@@ -16,7 +17,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * A file manager that handles yml configs.
@@ -36,7 +36,7 @@ public class FileManager {
 
     private @NotNull final Vital api = Vital.api();
     private @NotNull final File dataFolder = this.api.getDirectory();
-    private @NotNull final Logger logger = this.api.getLogger();
+    private final @NotNull ComponentLogger logger = this.api.getLogger();
     private final boolean isLogging = this.api.isLogging();
 
     private final Map<String, YamlConfiguration> files = new HashMap<>();
@@ -63,7 +63,7 @@ public class FileManager {
                 try {
                     Files.createDirectory(resolvedFolder);
                 } catch (IOException e) {
-                    if (this.isLogging)this.logger.severe("Failed to create directory: " + resolvedFolder.toFile().getName() + "...");
+                    if (this.isLogging) this.logger.error("Failed to create directory: " + resolvedFolder.toFile().getName() + "...");
                 }
 
                 // extract files if needed.
@@ -96,7 +96,7 @@ public class FileManager {
         try {
             this.files.put(file, YamlConfiguration.loadConfiguration(key));
         } catch (Exception exception) {
-            if (this.isLogging)this.logger.log(Level.SEVERE, "Failed to load: " + file + "...", exception);
+            if (this.isLogging) this.logger.error("Failed to load: " + file + "...", exception);
         }
 
         return this;
@@ -126,7 +126,7 @@ public class FileManager {
             // Add other file
             this.files.put(fileName, YamlConfiguration.loadConfiguration(file));
         } catch (Exception exception) {
-            if (this.isLogging)this.logger.log(Level.SEVERE, "Failed to load or create " + fileName + "...", exception);
+            if (this.isLogging) this.logger.error("Failed to load or create " + fileName + "...", exception);
         }
 
         return this;
@@ -149,7 +149,7 @@ public class FileManager {
         try {
             configuration.save(new File(this.dataFolder, fileName));
         } catch (Exception exception) {
-            if (this.isLogging)this.logger.log(Level.SEVERE, "Failed to save: " + fileName + "...", exception);
+            if (this.isLogging) this.logger.error("Failed to save: " + fileName + "...", exception);
         }
 
         return this;
@@ -190,7 +190,7 @@ public class FileManager {
                 configuration.save(key);
                 configuration.load(key);
             } catch (IOException | InvalidConfigurationException exception) {
-                if (this.isLogging)this.logger.log(Level.SEVERE, "Failed to load: " + key + "...", exception);
+                if (this.isLogging) this.logger.error("Failed to load: " + key + "...", exception);
             }
         });
 

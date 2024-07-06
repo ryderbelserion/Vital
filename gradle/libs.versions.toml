@@ -37,6 +37,7 @@ shadow = { id = "io.github.goooler.shadow", version.ref = "shadowJar" }
 [libraries]
 # Kyori
 adventureMiniMessage = { module = "net.kyori:adventure-text-minimessage", version.ref = "adventure" }
+adventureLogger = { module = "net.kyori:adventure-text-logger-slf4j", version.ref = "adventure" }
 adventureApi = { module = "net.kyori:adventure-api", version.ref = "adventure" }
 
 # TriumphTeam
@@ -66,4 +67,4 @@ jda = { module = "net.dv8tion:JDA", version.ref = "jda" }
 
 [bundles]
 plugins = [ "headdatabaseapi", "placeholderapi", "itemsadder", "oraxen" ]
-adventure = ["adventureApi", "adventureMiniMessage"]
+adventure = ["adventureApi", "adventureLogger", "adventureMiniMessage"]

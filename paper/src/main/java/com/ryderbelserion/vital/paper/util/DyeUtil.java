@@ -1,11 +1,11 @@
 package com.ryderbelserion.vital.paper.util;
 
 import com.ryderbelserion.vital.core.Vital;
+import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import java.util.logging.Logger;
 
 /**
  * All utilities related to dye colors.
@@ -20,7 +20,7 @@ public class DyeUtil {
         throw new AssertionError();
     }
 
-    private static final Logger logger = Vital.api().getLogger();
+    private static final ComponentLogger logger = Vital.api().getLogger();
     private static final boolean isLogging = Vital.api().isLogging();
 
     /**
@@ -36,7 +36,7 @@ public class DyeUtil {
         Color color = getColor(value);
 
         if (color == null) {
-            if (isLogging) logger.severe(value + " is not a valid color.");
+            if (isLogging) logger.error(value + " is not a valid color.");
 
             return null;
         }
