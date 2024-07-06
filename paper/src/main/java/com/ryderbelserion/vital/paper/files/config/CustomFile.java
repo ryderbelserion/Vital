@@ -71,8 +71,6 @@ public class CustomFile {
             if (this.isLogging) this.logger.error("Failed to load or create " + this.strippedName + ".yml...", exception);
         }
 
-        new FoliaRunnable(this.api.)
-
         return this;
     }
 
