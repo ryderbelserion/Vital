@@ -655,11 +655,11 @@ public class ItemBuilder {
             final Optional<Number> damage = StringUtil.tryParseInt(data);
 
             if (damage.isEmpty()) {
-                @Nullable final PotionEffectType potionEffect = ItemUtil.getPotionEffect(data, false);
+                @Nullable final PotionEffectType potionEffect = ItemUtil.getPotionEffect(data);
 
                 if (potionEffect != null) this.effects = Collections.singletonList(new PotionEffect(potionEffect, 1, 1));
 
-                this.potionType = ItemUtil.getPotionType(data, false);
+                this.potionType = ItemUtil.getPotionType(data);
 
                 this.color = data.contains(",") ? DyeUtil.getColor(data) : DyeUtil.getDefaultColor(data);
             } else {
@@ -1762,7 +1762,7 @@ public class ItemBuilder {
                 try {
                     textures.setSkin(URI.create(this.url).toURL(), PlayerTextures.SkinModel.CLASSIC);
                 } catch (MalformedURLException exception) {
-                    Vital.api().getLogger().log(Level.SEVERE, "Failed to set the texture url", exception);
+                    if (Vital.api().isLogging()) Vital.api().getLogger().log(Level.SEVERE, "Failed to set the texture url", exception);
                 }
 
                 profile.setTextures(textures);

@@ -63,7 +63,7 @@ public class FileManager {
                 try {
                     Files.createDirectory(resolvedFolder);
                 } catch (IOException e) {
-                    this.logger.severe("Failed to create directory: " + resolvedFolder.toFile().getName() + "...");
+                    if (this.isLogging)this.logger.severe("Failed to create directory: " + resolvedFolder.toFile().getName() + "...");
                 }
 
                 // extract files if needed.
@@ -96,7 +96,7 @@ public class FileManager {
         try {
             this.files.put(file, YamlConfiguration.loadConfiguration(key));
         } catch (Exception exception) {
-            this.logger.log(Level.SEVERE, "Failed to load: " + file + "...", exception);
+            if (this.isLogging)this.logger.log(Level.SEVERE, "Failed to load: " + file + "...", exception);
         }
 
         return this;
@@ -126,7 +126,7 @@ public class FileManager {
             // Add other file
             this.files.put(fileName, YamlConfiguration.loadConfiguration(file));
         } catch (Exception exception) {
-            this.logger.log(Level.SEVERE, "Failed to load or create " + fileName + "...", exception);
+            if (this.isLogging)this.logger.log(Level.SEVERE, "Failed to load or create " + fileName + "...", exception);
         }
 
         return this;
@@ -149,7 +149,7 @@ public class FileManager {
         try {
             configuration.save(new File(this.dataFolder, fileName));
         } catch (Exception exception) {
-            this.logger.log(Level.SEVERE, "Failed to save: " + fileName + "...", exception);
+            if (this.isLogging)this.logger.log(Level.SEVERE, "Failed to save: " + fileName + "...", exception);
         }
 
         return this;
@@ -190,7 +190,7 @@ public class FileManager {
                 configuration.save(key);
                 configuration.load(key);
             } catch (IOException | InvalidConfigurationException exception) {
-                this.logger.log(Level.SEVERE, "Failed to load: " + key + "...", exception);
+                if (this.isLogging)this.logger.log(Level.SEVERE, "Failed to load: " + key + "...", exception);
             }
         });
 

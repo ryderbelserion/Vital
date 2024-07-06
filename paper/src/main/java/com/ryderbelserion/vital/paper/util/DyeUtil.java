@@ -21,6 +21,7 @@ public class DyeUtil {
     }
 
     private static final Logger logger = Vital.api().getLogger();
+    private static final boolean isLogging = Vital.api().isLogging();
 
     /**
      * Gets the dye color from a {@link String}.
@@ -35,7 +36,7 @@ public class DyeUtil {
         Color color = getColor(value);
 
         if (color == null) {
-            logger.severe(value + " is not a valid color.");
+            if (isLogging) logger.severe(value + " is not a valid color.");
 
             return null;
         }

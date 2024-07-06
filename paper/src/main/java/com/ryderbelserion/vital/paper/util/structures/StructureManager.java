@@ -1,6 +1,7 @@
 package com.ryderbelserion.vital.paper.util.structures;
 
 import com.google.common.collect.Lists;
+import com.ryderbelserion.vital.core.Vital;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -31,6 +32,8 @@ public class StructureManager implements IStructureManager {
 
     private final Set<Location> postStructurePasteBlocks = new HashSet<>();
     private final Set<Location> preStructurePasteBlocks = new HashSet<>();
+
+    private static final boolean isLogging = Vital.api().isLogging();
 
     private final JavaPlugin plugin;
 
@@ -67,7 +70,7 @@ public class StructureManager implements IStructureManager {
             try {
                 return this.plugin.getServer().getStructureManager().loadStructure(this.file);
             } catch (IOException exception) {
-                this.plugin.getLogger().log(Level.SEVERE, "Failed to load structure: " + this.file.getName() + "!", exception);
+                if (isLogging) this.plugin.getLogger().log(Level.SEVERE, "Failed to load structure: " + this.file.getName() + "!", exception);
 
                 return null;
             }
@@ -98,7 +101,7 @@ public class StructureManager implements IStructureManager {
         try {
             getStructureManager().saveStructure(file, this.structure);
         } catch (IOException exception) {
-            this.plugin.getLogger().log(Level.SEVERE, "Failed to save structure to " + file.getName() + "!", exception);
+            if (isLogging) this.plugin.getLogger().log(Level.SEVERE, "Failed to save structure to " + file.getName() + "!", exception);
         }
     }
 
@@ -121,7 +124,7 @@ public class StructureManager implements IStructureManager {
             // Get the structure blocks.
             if (storeBlocks) getStructureBlocks(location);
         } catch (Exception exception) {
-            this.plugin.getLogger().log(Level.SEVERE, "Could not paste structure", exception);
+            if (isLogging) this.plugin.getLogger().log(Level.SEVERE, "Could not paste structure", exception);
         }
     }
 

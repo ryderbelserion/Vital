@@ -48,10 +48,12 @@ public class CustomFile {
      */
     public @Nullable final CustomFile apply(@NotNull final String fileName) {
         if (fileName.isEmpty()) {
-            List.of(
-                    "The file name cannot be empty!",
-                    "File Name: " + fileName
-            ).forEach(this.logger::severe);
+            if (this.isLogging) {
+                List.of(
+                        "The file name cannot be empty!",
+                        "File Name: " + fileName
+                ).forEach(this.logger::severe);
+            }
 
             return null;
         }
@@ -66,7 +68,7 @@ public class CustomFile {
 
             this.configuration = YamlConfiguration.loadConfiguration(this.file);
         } catch (Exception exception) {
-            this.logger.log(Level.SEVERE, "Failed to load or create " + this.strippedName + ".yml...", exception);
+            if (this.isLogging)this.logger.log(Level.SEVERE, "Failed to load or create " + this.strippedName + ".yml...", exception);
         }
 
         return this;
@@ -128,7 +130,7 @@ public class CustomFile {
         try {
             this.configuration.save(this.file);
         } catch (IOException exception) {
-            this.logger.log(Level.SEVERE, "Could not save " + this.strippedName + ".yml...", exception);
+            if (this.isLogging)this.logger.log(Level.SEVERE, "Could not save " + this.strippedName + ".yml...", exception);
         }
     }
 
@@ -143,7 +145,7 @@ public class CustomFile {
         try {
             this.configuration = YamlConfiguration.loadConfiguration(this.file);
         } catch (Exception exception) {
-            this.logger.log(Level.SEVERE, "Could not reload the " + this.strippedName + ".yml...", exception);
+            if (this.isLogging)this.logger.log(Level.SEVERE, "Could not reload the " + this.strippedName + ".yml...", exception);
         }
     }
 }
