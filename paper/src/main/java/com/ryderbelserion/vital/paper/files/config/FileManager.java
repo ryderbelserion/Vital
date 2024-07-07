@@ -94,7 +94,9 @@ public class FileManager {
         final File key = new File(this.dataFolder, file);
 
         try {
-            this.files.put(file, YamlConfiguration.loadConfiguration(key));
+            YamlConfiguration config = YamlConfiguration.loadConfiguration(key);
+
+            this.files.put(file, config);
         } catch (Exception exception) {
             if (this.isLogging) this.logger.error("Failed to load: " + file + "...", exception);
         }
