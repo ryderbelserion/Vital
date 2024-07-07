@@ -15,5 +15,9 @@ public class CommandReload extends BaseCommand {
     public void reload(CommandSender sender) {
         Files.data.getConfiguration().set("Data", UUID.randomUUID().toString());
         Files.data.save();
+
+        Files.config.reload();
+
+        //sender.sendMessage(String.valueOf(Files.config.getConfiguration().getBoolean("test-option")));
     }
 }

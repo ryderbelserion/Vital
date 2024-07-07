@@ -6,6 +6,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public enum Files {
 
+    config("config.yml"),
     locations("locations.yml"),
     data("data.yml");
 
@@ -40,5 +41,9 @@ public enum Files {
 
     public void save() {
         this.plugin.getFileManager().saveFile(this.fileName);
+    }
+
+    public void reload() {
+        this.plugin.getFileManager().reloadFile(this.fileName);
     }
 }
