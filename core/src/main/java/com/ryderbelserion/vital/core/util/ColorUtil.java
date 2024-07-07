@@ -5,7 +5,7 @@ import java.awt.Color;
 /**
  * Utilities related to colors.
  *
- * @version 1.8.3
+ * @version 1.8.4
  * @since 1.8
  */
 public class ColorUtil {
