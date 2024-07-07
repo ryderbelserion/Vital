@@ -189,7 +189,7 @@ public class FileManager {
     public @NotNull final FileManager reloadFiles() {
         this.files.forEach((key, configuration) -> {
             try {
-                configuration.save(key);
+                // Only load the configuration which takes disk changes and loads them into memory.
                 configuration.load(key);
             } catch (IOException | InvalidConfigurationException exception) {
                 if (this.isLogging) this.logger.error("Failed to load: " + key + "...", exception);
