@@ -2,14 +2,13 @@ package com.ryderbelserion.vital.paper.files;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.ryderbelserion.vital.paper.util.scheduler.FoliaRunnable;
-import org.bukkit.plugin.java.JavaPlugin;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Modifier;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * A class to create a json file used for data storage.
@@ -22,7 +21,6 @@ public class Serializer {
 
     private static final GsonBuilder builder = new GsonBuilder().disableHtmlEscaping().enableComplexMapKeySerialization();
 
-    private final JavaPlugin plugin;
     private final File file;
 
     private Gson gson = null;
@@ -32,8 +30,7 @@ public class Serializer {
      *
      * @param file the {@link File}
      */
-    public Serializer(final JavaPlugin plugin, final File file) {
-        this.plugin = plugin;
+    public Serializer(final File file) {
         this.file = file;
     }
 
@@ -96,31 +93,25 @@ public class Serializer {
      * Writes to {@link File} with the content.
      */
     public void save() {
-        new FoliaRunnable(this.plugin.getServer().getAsyncScheduler(), null) {
-            @Override
-            public void run() {
-                try (final FileWriter writer = new FileWriter(file)) {
-                    writer.write(gson.toJson(this));
-                } catch (IOException exception) {
-                    exception.printStackTrace();
-                }
+        CompletableFuture.runAsync(() -> {
+            try (final FileWriter writer = new FileWriter(file)) {
+                writer.write(gson.toJson(this));
+            } catch (IOException exception) {
+                exception.printStackTrace();
             }
-        }.run(this.plugin);
+        });
     }
 
     /**
      * Reads the file.
      */
     private void read() {
-        new FoliaRunnable(this.plugin.getServer().getAsyncScheduler(), null) {
-            @Override
-            public void run() {
-                try (final BufferedReader reader = new BufferedReader(new FileReader(file))) {
-                    gson.fromJson(reader, getClass());
-                } catch (IOException exception) {
-                    exception.printStackTrace();
-                }
+        CompletableFuture.runAsync(() -> {
+            try (final BufferedReader reader = new BufferedReader(new FileReader(file))) {
+                gson.fromJson(reader, getClass());
+            } catch (IOException exception) {
+                exception.printStackTrace();
             }
-        }.run(this.plugin);
+        });
     }
 }

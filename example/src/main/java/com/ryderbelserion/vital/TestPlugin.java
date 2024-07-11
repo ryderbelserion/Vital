@@ -11,10 +11,13 @@ public class TestPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        new VitalPaper(this);
+        new VitalPaper(this).setLogging(true);
 
-        this.fileManager = new FileManager(this);
-        this.fileManager.addFile("data.yml").addFile("locations.yml").addFile("config.yml").init();
+        this.fileManager = new FileManager();
+        this.fileManager.addFile("data.yml").addFile("locations.yml").addFile("config.yml").addFolder("codes").addFolder("vouchers").init();
+
+        getLogger().warning("Size: " + this.fileManager.getCustomFiles().size());
+        getLogger().warning("Other: " + this.fileManager.getFiles().size());
 
         CommandManager.load();
     }

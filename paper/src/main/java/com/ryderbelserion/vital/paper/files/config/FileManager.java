@@ -2,11 +2,9 @@ package com.ryderbelserion.vital.paper.files.config;
 
 import com.ryderbelserion.vital.core.Vital;
 import com.ryderbelserion.vital.core.util.FileUtil;
-import com.ryderbelserion.vital.paper.util.scheduler.FoliaRunnable;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import java.io.File;
@@ -17,6 +15,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * A file manager that handles yml configs.
@@ -28,12 +27,6 @@ import java.util.Set;
  * @since 1.0
  */
 public class FileManager {
-
-    private final JavaPlugin plugin;
-
-    public FileManager(@NotNull final JavaPlugin plugin) {
-        this.plugin = plugin;
-    }
 
     private @NotNull final Vital api = Vital.api();
     private @NotNull final File dataFolder = this.api.getDirectory();
@@ -73,26 +66,24 @@ public class FileManager {
                 if (pair.isDirectory()) {
                     String[] directory = pair.list();
 
-                    if (directory == null || directory.length == 0) continue;
+                    if (directory == null || directory.length == 0) return;
 
                     for (String fileName : directory) {
                         if (!fileName.endsWith(".yml")) return;
 
-                        final CustomFile file = new CustomFile(this.plugin, folder).apply(fileName);
+                        final CustomFile file = new CustomFile(folder).apply(fileName);
 
-                        if (file != null && file.exists()) {
+                        if (file.exists()) {
                             this.customFiles.add(file);
                         }
                     }
-
-                    continue;
                 }
 
                 if (!pair.getName().endsWith(".yml")) return;
 
-                final CustomFile file = new CustomFile(this.plugin, folder).apply(pair.getName());
+                final CustomFile file = new CustomFile(folder).apply(pair.getName());
 
-                if (file != null && file.exists()) {
+                if (file.exists()) {
                     this.customFiles.add(file);
                 }
             }
@@ -115,16 +106,11 @@ public class FileManager {
 
         final File key = new File(this.dataFolder, file);
 
-        new FoliaRunnable(this.plugin.getServer().getAsyncScheduler(), null) {
-            @Override
-            public void run() {
-                try {
-                    files.put(file, YamlConfiguration.loadConfiguration(key));
-                } catch (Exception exception) {
-                    if (isLogging) logger.error("Failed to load: {}...", file, exception);
-                }
-            }
-        }.run(this.plugin);
+        try {
+            this.files.put(file, CompletableFuture.supplyAsync(() -> YamlConfiguration.loadConfiguration(key)).join());
+        } catch (Exception exception) {
+            if (this.isLogging) this.logger.error("Failed to reload: {}...", file, exception);
+        }
 
         return this;
     }
@@ -150,12 +136,7 @@ public class FileManager {
                 if (this.isLogging) this.logger.info("Loading the file {}...", fileName);
             }
 
-            new FoliaRunnable(this.plugin.getServer().getAsyncScheduler(), null) {
-                @Override
-                public void run() {
-                    files.put(fileName, YamlConfiguration.loadConfiguration(file));
-                }
-            }.run(this.plugin);
+            this.files.put(fileName, CompletableFuture.supplyAsync(() -> YamlConfiguration.loadConfiguration(file)).join());
         } catch (Exception exception) {
             if (this.isLogging) this.logger.error("Failed to load or create {}...", fileName, exception);
         }
@@ -177,16 +158,13 @@ public class FileManager {
 
         if (configuration == null) return this;
 
-        new FoliaRunnable(this.plugin.getServer().getAsyncScheduler(), null) {
-            @Override
-            public void run() {
-                try {
-                    configuration.save(new File(dataFolder, fileName));
-                } catch (Exception exception) {
-                    if (isLogging) logger.error("Failed to save: {}...", fileName, exception);
-                }
+        CompletableFuture.runAsync(() -> {
+            try {
+                configuration.save(new File(this.dataFolder, fileName));
+            } catch (Exception exception) {
+                if (this.isLogging) this.logger.error("Failed to save: {}...", fileName, exception);
             }
-        }.run(this.plugin);
+        });
 
         return this;
     }
@@ -221,19 +199,14 @@ public class FileManager {
      * @since 1.0
      */
     public @NotNull final FileManager reloadFiles() {
-        new FoliaRunnable(this.plugin.getServer().getAsyncScheduler(), null) {
-            @Override
-            public void run() {
-                files.forEach((key, configuration) -> {
-                    try {
-                        // Only load the configuration which takes disk changes and loads them into memory.
-                        configuration.load(key);
-                    } catch (IOException | InvalidConfigurationException exception) {
-                        if (isLogging) logger.error("Failed to load: {}...", key, exception);
-                    }
-                });
+        this.files.forEach((key, configuration) -> CompletableFuture.runAsync(() -> {
+            try {
+                // Only load the configuration which takes disk changes and loads them into memory.
+                configuration.load(key);
+            } catch (IOException | InvalidConfigurationException exception) {
+                if (this.isLogging) this.logger.error("Failed to load: {}...", key, exception);
             }
-        }.run(this.plugin);
+        }));
 
         return this;
     }
