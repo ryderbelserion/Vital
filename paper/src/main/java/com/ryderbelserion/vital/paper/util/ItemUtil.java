@@ -21,7 +21,6 @@ import org.bukkit.potion.PotionType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import java.util.Base64;
-import java.util.logging.Logger;
 
 /**
  * All utilities related to items and ids.
@@ -48,7 +47,7 @@ public class ItemUtil {
      */
     public static @Nullable Material getMaterial(@NotNull final String value) {
         if (value.isEmpty()) {
-            if (isLogging) logger.error(value + " cannot be blank!");
+            if (isLogging) logger.error("{} cannot be blank!", value);
 
             return null;
         }
@@ -56,7 +55,7 @@ public class ItemUtil {
         try {
             return Registry.MATERIAL.get(getKey(value));
         } catch (Exception exception) {
-            if (isLogging) logger.error(value + " is an invalid material.");
+            if (isLogging) logger.error("{} is an invalid material.", value);
 
             return null;
         }
@@ -71,7 +70,7 @@ public class ItemUtil {
      */
     public static @Nullable Sound getSound(@NotNull final String value) {
         if (value.isEmpty()) {
-            if (isLogging) logger.error(value + " cannot be blank!");
+            if (isLogging) logger.error("{} cannot be blank!", value);
 
             return null;
         }
@@ -79,7 +78,7 @@ public class ItemUtil {
         try {
             return Registry.SOUNDS.get(getKey(value));
         } catch (Exception exception) {
-            if (isLogging) logger.error(value + " is an invalid sound.");
+            if (isLogging) logger.error("{} is an invalid sound.", value);
 
             return null;
         }
@@ -94,7 +93,7 @@ public class ItemUtil {
      */
     public static @Nullable Enchantment getEnchantment(@NotNull final String value) {
         if (value.isEmpty()) {
-            if (isLogging) logger.error(value + " cannot be blank!");
+            if (isLogging) logger.error("{} cannot be blank!", value);
 
             return null;
         }
@@ -102,7 +101,7 @@ public class ItemUtil {
         try {
             return RegistryAccess.registryAccess().getRegistry(RegistryKey.ENCHANTMENT).get(getKey(value));
         } catch (Exception exception) {
-            if (isLogging) logger.error(value + " is an invalid enchantment.");
+            if (isLogging) logger.error("{} is an invalid enchantment.", value);
 
             return null;
         }
@@ -117,7 +116,7 @@ public class ItemUtil {
      */
     public static @Nullable TrimPattern getTrimPattern(@NotNull final String value) {
         if (value.isEmpty()) {
-            if (isLogging) logger.error(value + " cannot be blank!");
+            if (isLogging) logger.error("{} cannot be blank!", value);
 
             return null;
         }
@@ -125,7 +124,7 @@ public class ItemUtil {
         try {
             return RegistryAccess.registryAccess().getRegistry(RegistryKey.TRIM_PATTERN).get(getKey(value));
         } catch (Exception exception) {
-            if (isLogging) logger.error(value + " is an invalid trim pattern.");
+            if (isLogging) logger.error("{} is an invalid trim pattern.", value);
 
             return null;
         }
@@ -140,7 +139,7 @@ public class ItemUtil {
      */
     public static @Nullable TrimMaterial getTrimMaterial(@NotNull final String value) {
         if (value.isEmpty()) {
-            if (isLogging) logger.error(value + " cannot be blank!");
+            if (isLogging) logger.error("{} cannot be blank!", value);
 
             return null;
         }
@@ -148,7 +147,7 @@ public class ItemUtil {
         try {
             return RegistryAccess.registryAccess().getRegistry(RegistryKey.TRIM_MATERIAL).get(getKey(value));
         } catch (Exception exception) {
-            if (isLogging) logger.error(value + " is an invalid trim material.");
+            if (isLogging) logger.error("{} is an invalid trim material.", value);
 
             return null;
         }
@@ -163,7 +162,7 @@ public class ItemUtil {
      */
     public static @Nullable PotionType getPotionType(@NotNull final String value) {
         if (value.isEmpty()) {
-            if (isLogging) logger.error(value + " cannot be blank!");
+            if (isLogging) logger.error("{} cannot be blank!", value);
 
             return null;
         }
@@ -171,7 +170,7 @@ public class ItemUtil {
         try {
             return Registry.POTION.get(getKey(value));
         } catch (Exception exception) {
-            if (isLogging) logger.error(value + " is an invalid potion type.");
+            if (isLogging) logger.error("{} is an invalid potion type.", value);
 
             return null;
         }
@@ -186,7 +185,7 @@ public class ItemUtil {
      */
     public static @Nullable PotionEffectType getPotionEffect(@NotNull final String value) {
         if (value.isEmpty()) {
-            if (isLogging) logger.error(value + " cannot be blank!");
+            if (isLogging) logger.error("{} cannot be blank!", value);
 
             return null;
         }
@@ -194,7 +193,7 @@ public class ItemUtil {
         try {
             return Registry.POTION_EFFECT_TYPE.get(getKey(value));
         } catch (Exception exception) {
-            if (isLogging) logger.error(value + " is an invalid potion effect type.");
+            if (isLogging) logger.error("{} is an invalid potion effect type.", value);
 
             return null;
         }
@@ -209,7 +208,7 @@ public class ItemUtil {
      */
     public static @Nullable Particle getParticleType(@NotNull final String value) {
         if (value.isEmpty()) {
-            if (isLogging) logger.error(value + " cannot be blank!");
+            if (isLogging) logger.error("{} cannot be blank!", value);
 
             return null;
         }
@@ -217,7 +216,7 @@ public class ItemUtil {
         try {
             return Registry.PARTICLE_TYPE.get(getKey(value));
         } catch (Exception exception) {
-            if (isLogging) logger.error(value + " is an invalid particle type.");
+            if (isLogging) logger.error("{} is an invalid particle type.", value);
 
             return null;
         }
@@ -232,7 +231,7 @@ public class ItemUtil {
      */
     public static @Nullable PatternType getPatternType(@NotNull final String value) {
         if (value.isEmpty()) {
-            if (isLogging) logger.error(value + " cannot be blank!");
+            if (isLogging) logger.error("{} cannot be blank!", value);
 
             return null;
         }
@@ -240,7 +239,7 @@ public class ItemUtil {
         try {
             return Registry.BANNER_PATTERN.get(getKey(value));
         } catch (Exception exception) {
-            if (isLogging) logger.error(value + " is an invalid banner type.");
+            if (isLogging) logger.error("{} is an invalid banner type.", value);
 
             return null;
         }
@@ -255,7 +254,7 @@ public class ItemUtil {
      */
     public static @Nullable EntityType getEntity(@NotNull final String value) {
         if (value.isEmpty()) {
-            if (isLogging) logger.error(value + " cannot be blank!");
+            if (isLogging) logger.error("{} cannot be blank!", value);
 
             return null;
         }
@@ -263,7 +262,7 @@ public class ItemUtil {
         try {
             return Registry.ENTITY_TYPE.get(getKey(value));
         } catch (Exception exception) {
-            if (isLogging) logger.error(value + " is an invalid entity type.");
+            if (isLogging) logger.error("{} is an invalid entity type.", value);
 
             return null;
         }
@@ -278,7 +277,7 @@ public class ItemUtil {
      */
     public static @Nullable Attribute getAttribute(@NotNull final String value) {
         if (value.isEmpty()) {
-            if (isLogging) logger.error(value + " cannot be blank!");
+            if (isLogging) logger.error("{} cannot be blank!", value);
 
             return null;
         }
@@ -286,7 +285,7 @@ public class ItemUtil {
         try {
             return Registry.ATTRIBUTE.get(getKey(value));
         } catch (Exception exception) {
-            if (isLogging) logger.error(value + " is an invalid attribute.");
+            if (isLogging) logger.error("{} is an invalid attribute.", value);
 
             return null;
         }

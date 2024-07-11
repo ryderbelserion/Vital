@@ -2,6 +2,7 @@ package com.ryderbelserion.vital.paper.util.structures;
 
 import com.google.common.collect.Lists;
 import com.ryderbelserion.vital.core.Vital;
+import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -33,9 +34,10 @@ public class StructureManager implements IStructureManager {
     private final Set<Location> postStructurePasteBlocks = new HashSet<>();
     private final Set<Location> preStructurePasteBlocks = new HashSet<>();
 
-    private static final boolean isLogging = Vital.api().isLogging();
+    private final boolean isLogging = Vital.api().isLogging();
 
     private final JavaPlugin plugin;
+    private final ComponentLogger logger;
 
     /**
      * Builds a structure manager instance.
@@ -45,6 +47,7 @@ public class StructureManager implements IStructureManager {
      */
     public StructureManager(@NotNull final JavaPlugin plugin) {
         this.plugin = plugin;
+        this.logger = this.plugin.getComponentLogger();
     }
 
     private File file = null;
@@ -70,7 +73,7 @@ public class StructureManager implements IStructureManager {
             try {
                 return this.plugin.getServer().getStructureManager().loadStructure(this.file);
             } catch (IOException exception) {
-                if (isLogging) this.plugin.getLogger().log(Level.SEVERE, "Failed to load structure: " + this.file.getName() + "!", exception);
+                if (this.isLogging) this.logger.error("Failed to load structure: {}!", this.file.getName(), exception);
 
                 return null;
             }
@@ -101,7 +104,7 @@ public class StructureManager implements IStructureManager {
         try {
             getStructureManager().saveStructure(file, this.structure);
         } catch (IOException exception) {
-            if (isLogging) this.plugin.getLogger().log(Level.SEVERE, "Failed to save structure to " + file.getName() + "!", exception);
+            if (this.isLogging) this.logger.error("Failed to save structure to: {}!", file.getName(), exception);
         }
     }
 
@@ -124,7 +127,7 @@ public class StructureManager implements IStructureManager {
             // Get the structure blocks.
             if (storeBlocks) getStructureBlocks(location);
         } catch (Exception exception) {
-            if (isLogging) this.plugin.getLogger().log(Level.SEVERE, "Could not paste structure", exception);
+            if (this.isLogging) this.logger.error("Could not paste structure", exception);
         }
     }
 

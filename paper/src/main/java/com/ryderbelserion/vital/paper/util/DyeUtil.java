@@ -36,7 +36,7 @@ public class DyeUtil {
         Color color = getColor(value);
 
         if (color == null) {
-            if (isLogging) logger.error(value + " is not a valid color.");
+            if (isLogging) logger.error("{} is not a valid color.", value);
 
             return null;
         }

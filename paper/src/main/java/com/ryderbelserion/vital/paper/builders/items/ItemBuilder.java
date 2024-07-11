@@ -65,7 +65,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
-import java.util.logging.Level;
 
 /**
  * The itembuilder to end all itembuilders.

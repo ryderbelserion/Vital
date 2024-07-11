@@ -39,12 +39,12 @@ public class PluginManager {
         if (isLogging) {
             getPlugins().forEach((name, plugin) -> {
                 if (plugin.isEnabled() && !name.isEmpty()) {
-                    logger.info(name + ": FOUND");
+                    logger.info("{}: FOUND", name);
 
                     return;
                 }
 
-                logger.info(name + ": NOT FOUND");
+                logger.info("{}: NOT FOUND", name);
             });
         }
     }
