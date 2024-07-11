@@ -15,7 +15,7 @@ import java.lang.reflect.Modifier;
  * A class to create a json file used for data storage.
  *
  * @author Ryder Belserion
- * @version 1.5.5
+ * @version 1.9
  * @since 1.5.5
  */
 public class Serializer {

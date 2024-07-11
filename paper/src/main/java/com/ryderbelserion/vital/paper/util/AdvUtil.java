@@ -16,7 +16,7 @@ import java.util.UUID;
  * A collection of random utilities.
  *
  * @author Ryder Belserion
- * @version 1.8.4
+ * @version 1.9
  * @since 1.0
  */
 public class AdvUtil {

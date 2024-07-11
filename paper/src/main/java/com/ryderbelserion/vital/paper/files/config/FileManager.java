@@ -24,7 +24,7 @@ import java.util.Set;
  * @author Ryder Belserion
  * @author BadBones69
  *
- * @version 1.8.4
+ * @version 1.9
  * @since 1.0
  */
 public class FileManager {

@@ -10,7 +10,7 @@ import java.io.File;
  * A platform specific class for Paper extending {@link Vital}.
  *
  * @author Ryder Belserion
- * @version 1.8.4
+ * @version 1.9
  * @since 1.1
  */
 public class VitalPaper extends Vital {
