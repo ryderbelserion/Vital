@@ -62,7 +62,7 @@ public class FileManager {
             if (!folder.exists()) {
                 folder.mkdir();
 
-                FileUtil.extracts(FileManager.class, "/" + folder.getName() + "/", folder.toPath(), true);
+                FileUtil.extracts(FileManager.class, String.format("/%s/", folder.getName()), folder.toPath(), true);
             }
 
             File[] files = folder.listFiles();
