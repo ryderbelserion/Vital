@@ -103,7 +103,7 @@ public abstract class FoliaRunnable implements Runnable {
     public final boolean isCancelled() throws IllegalStateException {
         checkScheduled();
 
-        return task.isCancelled();
+        return this.task.isCancelled();
     }
 
     /**
@@ -113,7 +113,7 @@ public abstract class FoliaRunnable implements Runnable {
      * @since 1.0
      */
     public void cancel() throws IllegalStateException {
-        task.cancel();
+        this.task.cancel();
     }
 
     /**
@@ -127,6 +127,7 @@ public abstract class FoliaRunnable implements Runnable {
      */
     public final boolean execute(@NotNull final JavaPlugin plugin) throws IllegalArgumentException, IllegalStateException {
         checkNotYetScheduled();
+
         if (this.globalRegionScheduler != null) {
             this.globalRegionScheduler.execute(plugin, this);
         } else if (this.entityScheduler != null) {
@@ -138,6 +139,7 @@ public abstract class FoliaRunnable implements Runnable {
         } else {
             throw new UnsupportedOperationException("The task type is not supported.");
         }
+
         return true;
     }
 
@@ -263,10 +265,7 @@ public abstract class FoliaRunnable implements Runnable {
      * @return the {@link ScheduledTask}
      * @since 1.0
      */
-    @NotNull
-    private ScheduledTask setupTask(@NotNull final ScheduledTask task) {
-        this.task = task;
-
-        return task;
+    private @NotNull ScheduledTask setupTask(@NotNull final ScheduledTask task) {
+        return this.task = task;
     }
 }
