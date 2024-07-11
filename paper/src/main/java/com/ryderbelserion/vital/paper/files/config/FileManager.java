@@ -2,21 +2,21 @@ package com.ryderbelserion.vital.paper.files.config;
 
 import com.ryderbelserion.vital.core.Vital;
 import com.ryderbelserion.vital.core.util.FileUtil;
+import com.ryderbelserion.vital.paper.util.scheduler.FoliaRunnable;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
 
 /**
  * A file manager that handles yml configs.
@@ -29,14 +29,16 @@ import java.util.logging.Level;
  */
 public class FileManager {
 
-    /**
-     * An empty constructor that does fuck all.
-     */
-    public FileManager() {}
+    private final JavaPlugin plugin;
+
+    public FileManager(@NotNull final JavaPlugin plugin) {
+        this.plugin = plugin;
+    }
 
     private @NotNull final Vital api = Vital.api();
     private @NotNull final File dataFolder = this.api.getDirectory();
-    private final @NotNull ComponentLogger logger = this.api.getLogger();
+    private @NotNull final ComponentLogger logger = this.api.getLogger();
+
     private final boolean isLogging = this.api.isLogging();
 
     private final Map<String, YamlConfiguration> files = new HashMap<>();
@@ -54,25 +56,45 @@ public class FileManager {
 
         this.customFiles.clear();
 
-        // Creates the custom folders.
-        for (String folder : this.folders) {
-            Path resolvedFolder = new File(this.dataFolder, folder).toPath();
+        for (String key : this.folders) {
+            File folder = new File(this.dataFolder, key);
 
-            if (!Files.exists(resolvedFolder)) {
-                // Create directory.
-                try {
-                    Files.createDirectory(resolvedFolder);
-                } catch (IOException e) {
-                    if (this.isLogging) this.logger.error("Failed to create directory: " + resolvedFolder.toFile().getName() + "...");
+            if (!folder.exists()) {
+                folder.mkdir();
+
+                FileUtil.extracts(FileManager.class, "/" + folder.getName() + "/", folder.toPath(), true);
+            }
+
+            File[] files = folder.listFiles();
+
+            if (files == null) return;
+
+            for (File pair : files) {
+                if (pair.isDirectory()) {
+                    String[] directory = pair.list();
+
+                    if (directory == null || directory.length == 0) continue;
+
+                    for (String fileName : directory) {
+                        if (!fileName.endsWith(".yml")) return;
+
+                        final CustomFile file = new CustomFile(this.plugin, folder).apply(fileName);
+
+                        if (file != null && file.exists()) {
+                            this.customFiles.add(file);
+                        }
+                    }
+
+                    continue;
                 }
 
-                // extract files if needed.
-                FileUtil.extracts(FileManager.class, "/" + folder + "/", resolvedFolder, true);
+                if (!pair.getName().endsWith(".yml")) return;
 
-                // get all files with recursion
-                loadFiles(resolvedFolder.toFile(), folder);
-            } else {
-                loadFiles(resolvedFolder.toFile(), "");
+                final CustomFile file = new CustomFile(this.plugin, folder).apply(pair.getName());
+
+                if (file != null && file.exists()) {
+                    this.customFiles.add(file);
+                }
             }
         }
     }
@@ -87,19 +109,22 @@ public class FileManager {
     public @NotNull final FileManager reloadFile(@NotNull final String file) {
         if (file.isEmpty()) return this;
 
-        final YamlConfiguration configuration = getFile(file);
+        @Nullable final YamlConfiguration configuration = getFile(file);
 
         if (configuration == null) return this;
 
         final File key = new File(this.dataFolder, file);
 
-        try {
-            YamlConfiguration config = YamlConfiguration.loadConfiguration(key);
-
-            this.files.put(file, config);
-        } catch (Exception exception) {
-            if (this.isLogging) this.logger.error("Failed to load: " + file + "...", exception);
-        }
+        new FoliaRunnable(this.plugin.getServer().getAsyncScheduler(), null) {
+            @Override
+            public void run() {
+                try {
+                    files.put(file, YamlConfiguration.loadConfiguration(key));
+                } catch (Exception exception) {
+                    if (isLogging) logger.error("Failed to load: {}...", file, exception);
+                }
+            }
+        }.run(this.plugin);
 
         return this;
     }
@@ -120,15 +145,19 @@ public class FileManager {
             if (!file.exists()) {
                 FileUtil.extract(FileManager.class, fileName, this.dataFolder.toPath(), false);
 
-                if (this.isLogging) this.logger.info("Copied " + fileName + " because it did not exist...");
+                if (this.isLogging) this.logger.info("Copied {} because it did not exist...", fileName);
             } else {
-                if (this.isLogging) this.logger.info("Loading the file " + fileName + "...");
+                if (this.isLogging) this.logger.info("Loading the file {}...", fileName);
             }
 
-            // Add other file
-            this.files.put(fileName, YamlConfiguration.loadConfiguration(file));
+            new FoliaRunnable(this.plugin.getServer().getAsyncScheduler(), null) {
+                @Override
+                public void run() {
+                    files.put(fileName, YamlConfiguration.loadConfiguration(file));
+                }
+            }.run(this.plugin);
         } catch (Exception exception) {
-            if (this.isLogging) this.logger.error("Failed to load or create " + fileName + "...", exception);
+            if (this.isLogging) this.logger.error("Failed to load or create {}...", fileName, exception);
         }
 
         return this;
@@ -144,15 +173,20 @@ public class FileManager {
     public @NotNull final FileManager saveFile(@NotNull final String fileName) {
         if (fileName.isEmpty()) return this;
 
-        YamlConfiguration configuration = getFile(fileName);
+        @Nullable final YamlConfiguration configuration = getFile(fileName);
 
         if (configuration == null) return this;
 
-        try {
-            configuration.save(new File(this.dataFolder, fileName));
-        } catch (Exception exception) {
-            if (this.isLogging) this.logger.error("Failed to save: " + fileName + "...", exception);
-        }
+        new FoliaRunnable(this.plugin.getServer().getAsyncScheduler(), null) {
+            @Override
+            public void run() {
+                try {
+                    configuration.save(new File(dataFolder, fileName));
+                } catch (Exception exception) {
+                    if (isLogging) logger.error("Failed to save: {}...", fileName, exception);
+                }
+            }
+        }.run(this.plugin);
 
         return this;
     }
@@ -187,60 +221,21 @@ public class FileManager {
      * @since 1.0
      */
     public @NotNull final FileManager reloadFiles() {
-        this.files.forEach((key, configuration) -> {
-            try {
-                // Only load the configuration which takes disk changes and loads them into memory.
-                configuration.load(key);
-            } catch (IOException | InvalidConfigurationException exception) {
-                if (this.isLogging) this.logger.error("Failed to load: " + key + "...", exception);
+        new FoliaRunnable(this.plugin.getServer().getAsyncScheduler(), null) {
+            @Override
+            public void run() {
+                files.forEach((key, configuration) -> {
+                    try {
+                        // Only load the configuration which takes disk changes and loads them into memory.
+                        configuration.load(key);
+                    } catch (IOException | InvalidConfigurationException exception) {
+                        if (isLogging) logger.error("Failed to load: {}...", key, exception);
+                    }
+                });
             }
-        });
+        }.run(this.plugin);
 
         return this;
-    }
-
-    /**
-     * Load files with one level of recursion.
-     *
-     * @param resolvedFolder the {@link Path} to check
-     * @since 1.0
-     */
-    private void loadFiles(final File resolvedFolder, final String folder) {
-        File[] filesList = resolvedFolder.listFiles();
-
-        if (filesList != null) {
-            for (File directory : filesList) {
-                if (directory.isDirectory()) {
-                    String[] dir = directory.list();
-
-                    if (dir != null) {
-                        for (String name : dir) {
-                            if (!name.endsWith(".yml")) continue;
-
-                            final CustomFile file = new CustomFile(directory).apply(name);
-
-                            if (file != null && file.exists()) {
-                                this.customFiles.add(file);
-
-                                if (this.isLogging) this.logger.info("Loaded new custom file: " + folder + "/" + directory.getName() + "/" + name + ".");
-                            }
-                        }
-                    }
-                } else {
-                    String name = directory.getName();
-
-                    if (!name.endsWith(".yml")) continue;
-
-                    final CustomFile file = new CustomFile(resolvedFolder).apply(name);
-
-                    if (file != null && file.exists()) {
-                        this.customFiles.add(file);
-
-                        if (this.isLogging) this.logger.info("Loaded new custom file: " + folder + "/" + name + ".");
-                    }
-                }
-            }
-        }
     }
 
     /**
@@ -272,12 +267,12 @@ public class FileManager {
      * @param file the file to remove
      */
     public void removeCustomFile(@NotNull final String file) {
+        if (file.isEmpty()) return;
+
         @Nullable final CustomFile customFile = getCustomFile(file);
 
-        // If null, return.
         if (customFile == null) return;
 
-        // Remove if not null.
         this.customFiles.remove(customFile);
     }
 
@@ -306,7 +301,7 @@ public class FileManager {
     public @NotNull final FileManager saveCustomFile(@NotNull final String key) {
         if (key.isEmpty()) return this;
 
-        final CustomFile file = getCustomFile(key);
+        @Nullable final CustomFile file = getCustomFile(key);
 
         if (file == null) return this;
 
@@ -325,7 +320,7 @@ public class FileManager {
     public @NotNull final FileManager reloadCustomFile(@NotNull final String key) {
         if (key.isEmpty()) return this;
 
-        final CustomFile file = getCustomFile(key);
+        @Nullable final CustomFile file = getCustomFile(key);
 
         if (file == null) return this;
 
@@ -342,8 +337,7 @@ public class FileManager {
      * @since 1.0
      */
     public @NotNull final FileManager addFolder(@NotNull final String folder) {
-        if (folder.isEmpty()) return this;
-        if (this.folders.contains(folder)) return this;
+        if (folder.isEmpty() || this.folders.contains(folder)) return this;
 
         this.folders.add(folder);
 
@@ -370,18 +364,18 @@ public class FileManager {
      *
      * @return the {@link Path}
      */
-    public final @NotNull File getDataFolder() {
+    public @NotNull final File getDataFolder() {
         return this.dataFolder;
     }
 
     /**
-     * Gets a set of folders.
+     * Gets a map of files.
      *
-     * @return an unmodifiable set of folders
-     * @since 1.0
+     * @return an unmodifiable map of other files
+     * @since 1.1
      */
-    public @NotNull final Set<String> getFolders() {
-        return Collections.unmodifiableSet(this.folders);
+    public @NotNull final Map<String, YamlConfiguration> getFiles() {
+        return Collections.unmodifiableMap(this.files);
     }
 
     /**
@@ -395,12 +389,12 @@ public class FileManager {
     }
 
     /**
-     * Gets a map of files.
+     * Gets a set of folders.
      *
-     * @return an unmodifiable map of other files
-     * @since 1.1
+     * @return an unmodifiable set of folders
+     * @since 1.0
      */
-    public @NotNull final Map<String, YamlConfiguration> getFiles() {
-        return Collections.unmodifiableMap(this.files);
+    public @NotNull final Set<String> getFolders() {
+        return Collections.unmodifiableSet(this.folders);
     }
 }

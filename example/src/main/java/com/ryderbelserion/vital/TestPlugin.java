@@ -13,7 +13,7 @@ public class TestPlugin extends JavaPlugin {
     public void onEnable() {
         new VitalPaper(this);
 
-        this.fileManager = new FileManager();
+        this.fileManager = new FileManager(this);
         this.fileManager.addFile("data.yml").addFile("locations.yml").addFile("config.yml").init();
 
         CommandManager.load();

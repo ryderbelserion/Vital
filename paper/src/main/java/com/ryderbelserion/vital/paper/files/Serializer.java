@@ -2,6 +2,8 @@ package com.ryderbelserion.vital.paper.files;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.ryderbelserion.vital.paper.util.scheduler.FoliaRunnable;
+import org.bukkit.plugin.java.JavaPlugin;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -20,6 +22,7 @@ public class Serializer {
 
     private static final GsonBuilder builder = new GsonBuilder().disableHtmlEscaping().enableComplexMapKeySerialization();
 
+    private final JavaPlugin plugin;
     private final File file;
 
     private Gson gson = null;
@@ -29,7 +32,8 @@ public class Serializer {
      *
      * @param file the {@link File}
      */
-    public Serializer(final File file) {
+    public Serializer(final JavaPlugin plugin, final File file) {
+        this.plugin = plugin;
         this.file = file;
     }
 
@@ -92,21 +96,31 @@ public class Serializer {
      * Writes to {@link File} with the content.
      */
     public void save() {
-        try (final FileWriter writer = new FileWriter(this.file)) {
-            writer.write(this.gson.toJson(this));
-        } catch (IOException exception) {
-            exception.printStackTrace();
-        }
+        new FoliaRunnable(this.plugin.getServer().getAsyncScheduler(), null) {
+            @Override
+            public void run() {
+                try (final FileWriter writer = new FileWriter(file)) {
+                    writer.write(gson.toJson(this));
+                } catch (IOException exception) {
+                    exception.printStackTrace();
+                }
+            }
+        }.run(this.plugin);
     }
 
     /**
      * Reads the file.
      */
     private void read() {
-        try (final BufferedReader reader = new BufferedReader(new FileReader(this.file))) {
-            this.gson.fromJson(reader, getClass());
-        } catch (IOException exception) {
-            exception.printStackTrace();
-        }
+        new FoliaRunnable(this.plugin.getServer().getAsyncScheduler(), null) {
+            @Override
+            public void run() {
+                try (final BufferedReader reader = new BufferedReader(new FileReader(file))) {
+                    gson.fromJson(reader, getClass());
+                } catch (IOException exception) {
+                    exception.printStackTrace();
+                }
+            }
+        }.run(this.plugin);
     }
 }

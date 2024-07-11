@@ -4,6 +4,7 @@ import com.ryderbelserion.vital.core.Vital;
 import com.ryderbelserion.vital.paper.util.scheduler.FoliaRunnable;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import java.io.File;
@@ -20,11 +21,12 @@ import java.util.List;
 public class CustomFile {
 
     private @NotNull final Vital api = Vital.api();
-    private final @NotNull ComponentLogger logger = this.api.getLogger();
+    private @NotNull final ComponentLogger logger = this.api.getLogger();
     private final boolean isLogging = this.api.isLogging();
 
     private YamlConfiguration configuration = null;
 
+    private final JavaPlugin plugin;
     private final File directory;
 
     private String strippedName = "";
@@ -36,8 +38,9 @@ public class CustomFile {
      *
      * @param directory the directory
      */
-    public CustomFile(@NotNull final File directory) {
+    public CustomFile(@NotNull final JavaPlugin plugin, @NotNull final File directory) {
         this.directory = directory;
+        this.plugin = plugin;
     }
 
     /**
@@ -63,13 +66,18 @@ public class CustomFile {
 
         this.file = new File(this.directory, this.fileName);
 
-        try {
-            if (this.isLogging) this.logger.info("Loading " + this.strippedName + ".yml...");
+        new FoliaRunnable(this.plugin.getServer().getAsyncScheduler(), null) {
+            @Override
+            public void run() {
+                try {
+                    if (isLogging) logger.info("Loading {}.yml...", strippedName);
 
-            this.configuration = YamlConfiguration.loadConfiguration(this.file);
-        } catch (Exception exception) {
-            if (this.isLogging) this.logger.error("Failed to load or create " + this.strippedName + ".yml...", exception);
-        }
+                    configuration = YamlConfiguration.loadConfiguration(file);
+                } catch (Exception exception) {
+                    if (isLogging) logger.error("Failed to load or create {}.yml...", strippedName, exception);
+                }
+            }
+        }.run(this.plugin);
 
         return this;
     }
@@ -123,29 +131,35 @@ public class CustomFile {
      * Saves a custom configuration.
      */
     public void save() {
-        if (this.fileName.isEmpty()) return;
+        if (this.fileName.isEmpty() || !exists()) return;
 
-        if (!exists()) return;
-
-        try {
-            this.configuration.save(this.file);
-        } catch (IOException exception) {
-            if (this.isLogging) this.logger.error("Could not save " + this.strippedName + ".yml...", exception);
-        }
+        new FoliaRunnable(this.plugin.getServer().getAsyncScheduler(), null) {
+            @Override
+            public void run() {
+                try {
+                    configuration.save(file);
+                } catch (IOException exception) {
+                    if (isLogging) logger.error("Could not save {}.yml...", strippedName, exception);
+                }
+            }
+        }.run(this.plugin);
     }
 
     /**
      * Reloads a custom configuration.
      */
     public void reload() {
-        if (this.fileName.isEmpty()) return;
+        if (this.fileName.isEmpty() || !exists()) return;
 
-        if (!exists()) return;
-
-        try {
-            this.configuration = YamlConfiguration.loadConfiguration(this.file);
-        } catch (Exception exception) {
-            if (this.isLogging) this.logger.error("Could not reload the " + this.strippedName + ".yml...", exception);
-        }
+        new FoliaRunnable(this.plugin.getServer().getAsyncScheduler(), null) {
+            @Override
+            public void run() {
+                try {
+                    configuration = YamlConfiguration.loadConfiguration(file);
+                } catch (Exception exception) {
+                    if (isLogging) logger.error("Could not reload the {}.yml...", strippedName, exception);
+                }
+            }
+        }.run(this.plugin);
     }
 }
