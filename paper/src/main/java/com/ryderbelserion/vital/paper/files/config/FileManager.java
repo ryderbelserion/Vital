@@ -64,19 +64,19 @@ public class FileManager {
                 if (pair.isDirectory()) {
                     String[] directory = pair.list();
 
-                    if (directory == null || directory.length == 0) return;
+                    if (directory != null) {
+                        for (String fileName : directory) {
+                            if (!fileName.endsWith(".yml")) continue;
 
-                    for (String fileName : directory) {
-                        if (!fileName.endsWith(".yml")) return;
+                            final CustomFile file = new CustomFile(pair).apply(fileName);
 
-                        final CustomFile file = new CustomFile(folder).apply(fileName);
-
-                        if (file.exists()) {
-                            this.customFiles.add(file);
+                            if (file.exists()) {
+                                this.customFiles.add(file);
+                            }
                         }
                     }
                 } else {
-                    if (!pair.getName().endsWith(".yml")) return;
+                    if (!pair.getName().endsWith(".yml")) continue;
 
                     final CustomFile file = new CustomFile(folder).apply(pair.getName());
 
