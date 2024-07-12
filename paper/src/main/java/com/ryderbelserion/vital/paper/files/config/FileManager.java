@@ -3,12 +3,10 @@ package com.ryderbelserion.vital.paper.files.config;
 import com.ryderbelserion.vital.core.Vital;
 import com.ryderbelserion.vital.core.util.FileUtil;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.HashMap;
@@ -199,14 +197,7 @@ public class FileManager {
      * @since 1.0
      */
     public @NotNull final FileManager reloadFiles() {
-        this.files.forEach((key, configuration) -> CompletableFuture.runAsync(() -> {
-            try {
-                // Only load the configuration which takes disk changes and loads them into memory.
-                configuration.load(key);
-            } catch (IOException | InvalidConfigurationException exception) {
-                if (this.isLogging) this.logger.error("Failed to load: {}...", key, exception);
-            }
-        }));
+        this.files.forEach((key, _) -> CompletableFuture.runAsync(() -> reloadFile(key)));
 
         return this;
     }
