@@ -75,14 +75,14 @@ public class FileManager {
                             this.customFiles.add(file);
                         }
                     }
-                }
+                } else {
+                    if (!pair.getName().endsWith(".yml")) return;
 
-                if (!pair.getName().endsWith(".yml")) return;
+                    final CustomFile file = new CustomFile(folder).apply(pair.getName());
 
-                final CustomFile file = new CustomFile(folder).apply(pair.getName());
-
-                if (file.exists()) {
-                    this.customFiles.add(file);
+                    if (file.exists()) {
+                        this.customFiles.add(file);
+                    }
                 }
             }
         }
