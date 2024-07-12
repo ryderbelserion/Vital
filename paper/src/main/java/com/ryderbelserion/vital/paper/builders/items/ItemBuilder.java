@@ -390,6 +390,11 @@ public class ItemBuilder {
     private float saturation = 0f;
 
     /**
+     * Holds the max stack size of the {@link ItemStack}.
+     */
+    private int maxStackSize = 64;
+
+    /**
      * Holds the time to eat in seconds of the edible {@link ItemStack}.
      */
     private float eatSeconds = 0;
@@ -545,6 +550,8 @@ public class ItemBuilder {
             itemMeta.setFireResistant(this.isFireResistant);
             itemMeta.setHideTooltip(this.isHidingToolTips);
             itemMeta.setUnbreakable(this.isUnbreakable);
+
+            itemMeta.setMaxStackSize(this.maxStackSize);
         });
 
         return this.itemStack;
@@ -847,6 +854,19 @@ public class ItemBuilder {
      */
     public @NotNull final ItemBuilder setAmount(final int amount) {
         this.itemStack.setAmount(amount);
+
+        return this;
+    }
+
+    /**
+     * Sets the max stack size of an item.
+     *
+     * @param maxStackSize the max stack size
+     * @return {@link ItemBuilder}
+     * @since 1.9.1
+     */
+    public ItemBuilder setMaxStackSize(final int maxStackSize) {
+        this.maxStackSize = maxStackSize;
 
         return this;
     }
