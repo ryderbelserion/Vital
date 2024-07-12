@@ -91,23 +91,18 @@ public class FileManager {
     /**
      * Reload a {@link YamlConfiguration}.
      *
-     * @param file the name of the {@link YamlConfiguration} to save
+     * @param fileName the name of the {@link YamlConfiguration} to save
      * @return {@link FileManager}
      * @since 1.0
      */
-    public @NotNull final FileManager reloadFile(@NotNull final String file) {
-        if (file.isEmpty()) return this;
-
-        @Nullable final YamlConfiguration configuration = getFile(file);
-
-        if (configuration == null) return this;
-
-        final File key = new File(this.dataFolder, file);
+    public @NotNull final FileManager reloadFile(@NotNull final String fileName) {
+        if (fileName.isEmpty()) return this;
 
         try {
-            this.files.put(file, CompletableFuture.supplyAsync(() -> YamlConfiguration.loadConfiguration(key)).join());
+            // Add it again.
+            addFile(fileName);
         } catch (Exception exception) {
-            if (this.isLogging) this.logger.error("Failed to reload: {}...", file, exception);
+            if (this.isLogging) this.logger.error("Failed to reload: {}...", fileName, exception);
         }
 
         return this;
@@ -152,13 +147,9 @@ public class FileManager {
     public @NotNull final FileManager saveFile(@NotNull final String fileName) {
         if (fileName.isEmpty()) return this;
 
-        @Nullable final YamlConfiguration configuration = getFile(fileName);
-
-        if (configuration == null) return this;
-
         CompletableFuture.runAsync(() -> {
             try {
-                configuration.save(new File(this.dataFolder, fileName));
+                this.files.get(fileName).save(new File(this.dataFolder, fileName));
             } catch (Exception exception) {
                 if (this.isLogging) this.logger.error("Failed to save: {}...", fileName, exception);
             }
