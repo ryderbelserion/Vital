@@ -197,7 +197,7 @@ public class FileManager {
      * @since 1.0
      */
     public @NotNull final FileManager reloadFiles() {
-        this.files.forEach((key, config) -> CompletableFuture.runAsync(() -> reloadFile(key)));
+        this.files.forEach((key, config) -> reloadFile(key));
 
         return this;
     }
