@@ -623,8 +623,6 @@ public class ItemBuilder {
                 setCustom(true);
 
                 this.itemStack = oraxen.build();
-
-                return this;
             }
         }
 
