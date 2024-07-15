@@ -620,8 +620,6 @@ public class ItemBuilder {
             io.th0rgal.oraxen.items.ItemBuilder oraxen = OraxenItems.getItemById(key);
 
             if (oraxen != null) {
-                setCustom(true);
-
                 this.itemStack = oraxen.build();
             }
         }
