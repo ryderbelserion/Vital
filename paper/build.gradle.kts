@@ -5,7 +5,7 @@ plugins {
 }
 
 dependencies {
-    compileOnlyApi(libs.bundles.plugins)
+    compileOnly(libs.bundles.plugins)
 
     compileOnly(libs.papermc)
 
