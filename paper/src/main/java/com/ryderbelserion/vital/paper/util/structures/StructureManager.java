@@ -121,11 +121,13 @@ public class StructureManager implements IStructureManager {
             // Get the blocks from the hashset and set them.
             if (storeBlocks) getBlocks(location);
 
+            final Location clonedLocation = location.clone().subtract(2, 0.0, 2);
+
             // Place the structure.
-            this.structure.place(location.clone().subtract(2, 0.0, 2), false, StructureRotation.NONE, Mirror.NONE, 0, 1F, ThreadLocalRandom.current());
+            this.structure.place(clonedLocation, false, StructureRotation.NONE, Mirror.NONE, 0, 1F, ThreadLocalRandom.current());
 
             // Get the structure blocks.
-            if (storeBlocks) getStructureBlocks(location);
+            if (storeBlocks) getStructureBlocks(clonedLocation);
         } catch (Exception exception) {
             if (this.isLogging) this.logger.error("Could not paste structure", exception);
         }
