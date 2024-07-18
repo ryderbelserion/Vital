@@ -122,7 +122,7 @@ public class StructureManager implements IStructureManager {
             if (storeBlocks) getBlocks(location);
 
             // Place the structure.
-            this.structure.place(location, false, StructureRotation.NONE, Mirror.NONE, 0, 1F, ThreadLocalRandom.current());
+            this.structure.place(location.clone().subtract(2, 0.0, 2), false, StructureRotation.NONE, Mirror.NONE, 0, 1F, ThreadLocalRandom.current());
 
             // Get the structure blocks.
             if (storeBlocks) getStructureBlocks(location);
