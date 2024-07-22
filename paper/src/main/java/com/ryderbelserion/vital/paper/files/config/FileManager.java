@@ -129,7 +129,7 @@ public class FileManager {
 
         try {
             if (!file.exists()) {
-                this.plugin.saveResource(fileName, false);
+                this.api.saveResource(fileName, false);
 
                 if (this.isLogging) this.logger.info("Copied {} because it did not exist...", fileName);
             } else {

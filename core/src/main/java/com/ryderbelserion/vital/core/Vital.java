@@ -56,6 +56,14 @@ public abstract class Vital {
     public @NotNull abstract ComponentLogger getLogger();
 
     /**
+     * Saves a single file to disk.
+     *
+     * @param fileName the name of the file
+     * @param replace true or false
+     */
+    public abstract void saveResource(final String fileName, final boolean replace);
+
+    /**
      * Whether we are logging or not.
      *
      * @return true or false

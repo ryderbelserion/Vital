@@ -15,6 +15,6 @@ plugins {
 }
 
 include("example")
-include("discord")
+//include("discord")
 include("paper")
 include("core")
