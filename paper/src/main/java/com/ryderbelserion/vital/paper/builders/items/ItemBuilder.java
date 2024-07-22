@@ -71,7 +71,7 @@ import java.util.UUID;
  *
  * @author SvenjaReissaus
  * @author Ryder Belserion
- * @version 2.0
+ * @version 2.0.1
  * @since 1.0
  */
 public class ItemBuilder {

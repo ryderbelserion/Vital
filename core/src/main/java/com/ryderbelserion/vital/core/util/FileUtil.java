@@ -32,7 +32,7 @@ import java.util.stream.Stream;
  * A class containing utilities to extract or obtain files from directories.
  *
  * @author Ryder Belserion
- * @version 2.0
+ * @version 2.0.1
  * @since 1.0
  */
 public class FileUtil {

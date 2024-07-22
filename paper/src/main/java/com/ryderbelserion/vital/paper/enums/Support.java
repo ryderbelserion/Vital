@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
  * An enum of plugins supported.
  *
  * @author Ryder Belserion
- * @version 2.0
+ * @version 2.0.1
  * @since 1.0
  */
 public enum Support {
