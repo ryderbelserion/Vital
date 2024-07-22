@@ -21,7 +21,7 @@ repositories {
 java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(21))
-        vendor.set(JvmVendorSpec.ADOPTIUM)
+        vendor.set(JvmVendorSpec.AMAZON)
     }
 
     withJavadocJar()

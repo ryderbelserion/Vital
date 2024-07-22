@@ -55,7 +55,7 @@ public class FileUtil {
     public static void extract(@Nullable final Class<?> object, @NotNull final String fileName, @Nullable final Path output, final boolean overwrite) {
         if (output == null || object == null || fileName.isEmpty()) return;
 
-        try (InputStream stream = object.getResourceAsStream("/" + fileName)) {
+        try (InputStream stream = object.getResourceAsStream(fileName)) {
             if (stream == null) {
                 throw new RuntimeException("Could not read file from jar! (" + fileName + ")");
             }

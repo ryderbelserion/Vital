@@ -4,6 +4,7 @@ import com.ryderbelserion.vital.core.Vital;
 import com.ryderbelserion.vital.core.util.FileUtil;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import java.io.File;
@@ -36,6 +37,12 @@ public class FileManager {
 
     private final Set<CustomFile> customFiles = new HashSet<>();
     private final Set<String> folders = new HashSet<>();
+
+    private final JavaPlugin plugin;
+
+    public FileManager(final JavaPlugin plugin) {
+        this.plugin = plugin;
+    }
 
     /**
      * Creates the data folder and anything else we need.
@@ -122,7 +129,7 @@ public class FileManager {
 
         try {
             if (!file.exists()) {
-                FileUtil.extract(FileManager.class, fileName, this.dataFolder.toPath(), false);
+                this.plugin.saveResource(fileName, false);
 
                 if (this.isLogging) this.logger.info("Copied {} because it did not exist...", fileName);
             } else {
