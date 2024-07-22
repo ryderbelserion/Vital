@@ -88,8 +88,6 @@ public class DyeUtil {
      * @since 1.0
      */
     public static @Nullable Color getColor(@NotNull final String color) {
-        Bukkit.getLogger().warning("Step 1: " + color);
-
         if (color.isEmpty()) return null;
 
         String[] rgb = color.split(",");
