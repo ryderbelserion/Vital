@@ -1,1 +1,1 @@
-rootProject.version = "2.0"
+rootProject.version = "2.0.1"

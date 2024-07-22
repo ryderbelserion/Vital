@@ -4,8 +4,11 @@ import com.ryderbelserion.vital.commands.types.BaseCommand;
 import com.ryderbelserion.vital.paper.builders.items.ItemBuilder;
 import dev.triumphteam.cmd.bukkit.annotation.Permission;
 import dev.triumphteam.cmd.core.annotations.Command;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionDefault;
+
+import java.util.List;
 
 public class CommandItem extends BaseCommand {
 
@@ -14,7 +17,10 @@ public class CommandItem extends BaseCommand {
     public void reload(Player player) {
         ItemBuilder builder = new ItemBuilder();
 
-        builder.withType("leather_chestplate#1000");
+        builder.withType(Material.SHIELD).addPatterns(List.of(
+                "half_horizontal:RED",
+                "stripe_top:BLACK"
+        ));
 
         player.getInventory().addItem(builder.getStack());
     }

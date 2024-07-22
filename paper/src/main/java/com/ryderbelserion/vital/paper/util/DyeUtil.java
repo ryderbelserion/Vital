@@ -1,7 +1,6 @@
 package com.ryderbelserion.vital.paper.util;
 
-import com.ryderbelserion.vital.core.Vital;
-import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
+import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
 import org.jetbrains.annotations.NotNull;
@@ -20,9 +19,6 @@ public class DyeUtil {
         throw new AssertionError();
     }
 
-    private static final ComponentLogger logger = Vital.api().getLogger();
-    private static final boolean isLogging = Vital.api().isLogging();
-
     /**
      * Gets the dye color from a {@link String}.
      *
@@ -30,18 +26,27 @@ public class DyeUtil {
      * @return {@link DyeColor}
      * @since 1.0
      */
-    public static @Nullable DyeColor getDyeColor(@NotNull final String value) {
-        if (value.isEmpty()) return null;
+    public static @NotNull DyeColor getDyeColor(@NotNull final String value) {
+        if (value.isEmpty()) return DyeColor.WHITE;
 
-        Color color = getColor(value);
-
-        if (color == null) {
-            if (isLogging) logger.error("{} is not a valid color.", value);
-
-            return null;
-        }
-
-        return DyeColor.getByColor(color);
+        return switch (value.toUpperCase()) {
+            case "ORANGE" -> DyeColor.ORANGE;
+            case "MAGENTA" -> DyeColor.MAGENTA;
+            case "LIGHT_BLUE" -> DyeColor.LIGHT_BLUE;
+            case "YELLOW" -> DyeColor.YELLOW;
+            case "LIME" -> DyeColor.LIME;
+            case "PINK" -> DyeColor.PINK;
+            case "GRAY" -> DyeColor.GRAY;
+            case "LIGHT_GRAY" -> DyeColor.LIGHT_GRAY;
+            case "CYAN" -> DyeColor.CYAN;
+            case "PURPLE" -> DyeColor.PURPLE;
+            case "BLUE" -> DyeColor.BLUE;
+            case "BROWN" -> DyeColor.BROWN;
+            case "GREEN" -> DyeColor.GREEN;
+            case "RED" -> DyeColor.RED;
+            case "BLACK" -> DyeColor.BLACK;
+            default -> DyeColor.WHITE;
+        };
     }
 
     /**
@@ -83,6 +88,8 @@ public class DyeUtil {
      * @since 1.0
      */
     public static @Nullable Color getColor(@NotNull final String color) {
+        Bukkit.getLogger().warning("Step 1: " + color);
+
         if (color.isEmpty()) return null;
 
         String[] rgb = color.split(",");

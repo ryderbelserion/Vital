@@ -900,10 +900,10 @@ public class ItemBuilder {
         if (!pattern.contains(":")) return this;
 
         final String[] sections = pattern.split(":");
-        final PatternType type = ItemUtil.getPatternType(sections[0]);
+        final PatternType type = ItemUtil.getPatternType(sections[0].toLowerCase());
         final DyeColor color = DyeUtil.getDyeColor(sections[1]);
 
-        if (type == null || color == null) return this;
+        if (type == null) return this;
 
         return addPattern(type, color);
     }
