@@ -26,7 +26,7 @@ import java.util.Base64;
  * All utilities related to items and ids.
  *
  * @author Ryder Belserion
- * @version 1.9
+ * @version 1.9.17
  * @since 1.0
  */
 public class ItemUtil {

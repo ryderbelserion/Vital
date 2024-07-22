@@ -11,7 +11,7 @@ import org.jetbrains.annotations.Nullable;
  * All utilities related to dye colors.
  *
  * @author Ryder Belserion
- * @version 1.9
+ * @version 1.9.17
  * @since 1.0
  */
 public class DyeUtil {

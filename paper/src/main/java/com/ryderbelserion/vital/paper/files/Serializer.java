@@ -14,7 +14,7 @@ import java.util.concurrent.CompletableFuture;
  * A class to create a json file used for data storage.
  *
  * @author Ryder Belserion
- * @version 1.9
+ * @version 1.9.17
  * @since 1.5.5
  */
 public class Serializer {
