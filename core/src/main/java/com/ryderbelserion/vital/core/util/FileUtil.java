@@ -17,7 +17,6 @@ import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -46,29 +45,12 @@ public class FileUtil {
     /**
      * Extracts a single file from a directory in the jar.
      *
-     * @param object the class object to get the {@link InputStream} from
      * @param fileName the name of the file
-     * @param output the {@link Path} to output to
      * @param overwrite whether to overwrite the folder or not
      * @since 1.0
      */
-    public static void extract(@Nullable final Class<?> object, @NotNull final String fileName, @Nullable final Path output, final boolean overwrite) {
-        if (output == null || object == null || fileName.isEmpty()) return;
-
-        try (InputStream stream = object.getResourceAsStream(fileName)) {
-            if (stream == null) {
-                throw new RuntimeException("Could not read file from jar! (" + fileName + ")");
-            }
-
-            Path path = output.resolve(fileName);
-
-            if (!Files.exists(path) || overwrite) {
-                Files.createDirectories(path.getParent());
-                Files.copy(stream, path, StandardCopyOption.REPLACE_EXISTING);
-            }
-        } catch (Exception exception) {
-            exception.printStackTrace();
-        }
+    public static void extract(@NotNull final String fileName, final boolean overwrite) {
+        api.saveResource(fileName, overwrite);
     }
 
     /**
