@@ -17,6 +17,7 @@ import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -31,7 +32,7 @@ import java.util.stream.Stream;
  * A class containing utilities to extract or obtain files from directories.
  *
  * @author Ryder Belserion
- * @version 1.9.17
+ * @version 2.0
  * @since 1.0
  */
 public class FileUtil {
@@ -43,7 +44,7 @@ public class FileUtil {
     private static @NotNull final Vital api = Vital.api();
 
     /**
-     * Extracts a single file from a directory in the jar.
+     * Extracts a single file from the src/main/resources
      *
      * @param fileName the name of the file
      * @param overwrite whether to overwrite the folder or not
@@ -92,21 +93,21 @@ public class FileUtil {
      *
      * @param input the folder to read from
      * @param output the folder to write to
-     * @param overwrite delete the existing output folder if true
+     * @param replaceExisting delete the existing output folder if true
      */
-    public static void extract(String input, String output, boolean overwrite) {
+    public static void extract(String input, String output, boolean replaceExisting) {
         try {
             visit(path -> {
                 final Path directory = api.getDirectory().toPath().resolve(output);
 
                 try {
                     // If true, we delete the directory and then instantly re-create!
-                    if (overwrite) {
-                        Files.deleteIfExists(directory);
+                    if (replaceExisting) {
+                        directory.toFile().delete();
                     }
 
                     if (!Files.exists(directory)) {
-                        Files.createDirectory(directory);
+                        directory.toFile().mkdirs();
 
                         try (final Stream<Path> files = Files.walk(path)) {
                             files.filter(Files::isRegularFile).forEach(file -> {
@@ -139,10 +140,10 @@ public class FileUtil {
      * @param object the class object to get the {@link InputStream} from
      * @param sourceDir the source directory
      * @param outDir the {@link Path} to output to
-     * @param replace whether to overwrite the folder or not
+     * @param replaceExisting whether to overwrite the folder or not
      * @since 1.0
      */
-    public static void extracts(@Nullable final Class<?> object, @NotNull String sourceDir, @Nullable final Path outDir, final boolean replace) {
+    public static void extracts(@Nullable final Class<?> object, @NotNull String sourceDir, @Nullable final Path outDir, final boolean replaceExisting) {
         if (object == null || outDir == null || sourceDir.isEmpty()) return;
 
         try (JarFile jarFile = new JarFile(Path.of(object.getProtectionDomain().getCodeSource().getLocation().toURI()).toFile())) {
@@ -159,7 +160,7 @@ public class FileUtil {
 
                 final boolean exists = Files.exists(file);
 
-                if (!replace && exists) continue;
+                if (!replaceExisting && exists) continue;
 
                 if (entry.isDirectory()) {
                     if (!exists) {
@@ -269,5 +270,16 @@ public class FileUtil {
         getFiles(folder.isEmpty() ? directory : root, extension).forEach(file -> files.add(new File(root, file)));
 
         return files;
+    }
+
+    private static void grab(final InputStream input, final File output) throws Exception {
+        try (InputStream inputStream = input; FileOutputStream outputStream = new FileOutputStream(output)) {
+            byte[] buf = new byte[1024];
+            int i;
+
+            while ((i = inputStream.read(buf)) != -1) {
+                outputStream.write(buf, 0, i);
+            }
+        }
     }
 }

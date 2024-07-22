@@ -4,7 +4,6 @@ import com.ryderbelserion.vital.core.Vital;
 import com.ryderbelserion.vital.core.util.FileUtil;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import java.io.File;
@@ -22,7 +21,7 @@ import java.util.concurrent.CompletableFuture;
  * @author Ryder Belserion
  * @author BadBones69
  *
- * @version 1.9.17
+ * @version 2.0
  * @since 1.0
  */
 public class FileManager {
@@ -37,12 +36,6 @@ public class FileManager {
 
     private final Set<CustomFile> customFiles = new HashSet<>();
     private final Set<String> folders = new HashSet<>();
-
-    private final JavaPlugin plugin;
-
-    public FileManager(final JavaPlugin plugin) {
-        this.plugin = plugin;
-    }
 
     /**
      * Creates the data folder and anything else we need.
