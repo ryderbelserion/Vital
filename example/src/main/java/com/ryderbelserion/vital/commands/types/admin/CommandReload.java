@@ -18,6 +18,8 @@ public class CommandReload extends BaseCommand {
 
         Files.config.reload();
 
-        //sender.sendMessage(String.valueOf(Files.config.getConfiguration().getBoolean("test-option")));
+        this.fileManager.init();
+
+        sender.sendMessage(String.valueOf(Files.config.getConfiguration().getBoolean("test-option")));
     }
 }
