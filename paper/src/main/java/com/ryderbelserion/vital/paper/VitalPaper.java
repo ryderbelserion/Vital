@@ -16,6 +16,7 @@ import java.io.File;
 public class VitalPaper extends Vital {
 
     private final JavaPlugin plugin;
+    private boolean isAdventure;
     private boolean isLogging;
 
     /**
@@ -24,8 +25,9 @@ public class VitalPaper extends Vital {
      * @param plugin {@link JavaPlugin}
      * @since 1.1
      */
-    public VitalPaper(@NotNull final JavaPlugin plugin) {
+    public VitalPaper(@NotNull final JavaPlugin plugin, final boolean isAdventure) {
         this.plugin = plugin;
+        this.isAdventure = isAdventure;
     }
 
     /**
@@ -53,12 +55,31 @@ public class VitalPaper extends Vital {
     }
 
     /**
+     * Whether to use MiniMessage or not.
+     *
+     * @return true or false
+     */
+    @Override
+    public boolean isAdventure() {
+        return this.isAdventure;
+    }
+
+    /**
      * Whether to log to console
      *
      * @param isLogging true or false
      */
     public void setLogging(final boolean isLogging) {
         this.isLogging = isLogging;
+    }
+
+    /**
+     * Sets whether to be adventure api or not.
+     *
+     * @param isAdventure true or false
+     */
+    public void setAdventure(final boolean isAdventure) {
+        this.isAdventure = isAdventure;
     }
 
     /**

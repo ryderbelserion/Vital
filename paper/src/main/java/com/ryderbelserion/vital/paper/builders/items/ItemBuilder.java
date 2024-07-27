@@ -26,6 +26,7 @@ import org.bukkit.block.Banner;
 import org.bukkit.block.CreatureSpawner;
 import org.bukkit.block.banner.Pattern;
 import org.bukkit.block.banner.PatternType;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
@@ -75,6 +76,8 @@ import java.util.UUID;
  * @since 1.0
  */
 public class ItemBuilder {
+
+    private @NotNull final Vital api = Vital.api();
 
     private ItemStack itemStack;
 
@@ -234,11 +237,19 @@ public class ItemBuilder {
             @NotNull final ItemMeta itemMeta = this.itemStack.getItemMeta();
 
             if (itemMeta.hasDisplayName()) {
-                this.displayComponent = itemMeta.displayName();
+                if (!this.api.isAdventure()) {
+                    this.displayName = itemMeta.getDisplayName();
+                } else {
+                    this.displayComponent = itemMeta.displayName();
+                }
             }
 
             if (itemMeta.hasLore()) {
-                this.displayComponentLore = itemMeta.lore();
+                if (!this.api.isAdventure()) {
+                    this.displayLore = itemMeta.getLore();
+                } else {
+                    this.displayComponentLore = itemMeta.lore();
+                }
             }
 
             // Populates the custom model data
@@ -493,13 +504,18 @@ public class ItemBuilder {
                     }
                 }
 
-                itemMeta.displayName(this.displayComponent = AdvUtil.parse(displayName));
+                if (this.api.isAdventure()) {
+                    itemMeta.displayName(this.displayComponent = AdvUtil.parse(displayName));
+                } else {
+                    itemMeta.setDisplayName(this.displayName = ItemUtil.color(displayName));
+                }
             }
 
             if (!this.displayLore.isEmpty()) {
-                boolean isEmpty = this.displayLorePlaceholders.isEmpty();
+                final boolean isEmpty = this.displayLorePlaceholders.isEmpty();
 
                 final List<Component> components = new ArrayList<>();
+                final List<String> strings = new ArrayList<>();
 
                 for (String line : this.displayLore) {
                     if (!isEmpty) {
@@ -511,10 +527,18 @@ public class ItemBuilder {
                         }
                     }
 
-                    components.add(AdvUtil.parse(line));
+                    if (this.api.isAdventure()) {
+                        components.add(AdvUtil.parse(line));
+                    } else {
+                        strings.add(ItemUtil.color(line));
+                    }
                 }
 
-                itemMeta.lore(this.displayComponentLore = components);
+                if (this.api.isAdventure()) {
+                    itemMeta.lore(this.displayComponentLore = components);
+                } else {
+                    itemMeta.setLore(this.displayLore = strings);
+                }
             }
 
             if (isEdible()) {
