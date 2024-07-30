@@ -58,6 +58,8 @@ public class StructureManager implements IStructureManager {
 
     /**
      {@inheritDoc}
+     *
+     * @param file {@inheritDoc}
      */
     @Override
     public void applyStructure(@Nullable final File file) {
@@ -82,6 +84,8 @@ public class StructureManager implements IStructureManager {
 
     /**
      {@inheritDoc}
+     *
+     * @return {@inheritDoc}
      */
     @Override
     public @NotNull final org.bukkit.structure.StructureManager getStructureManager() {
@@ -90,6 +94,11 @@ public class StructureManager implements IStructureManager {
 
     /**
      {@inheritDoc}
+     *
+     * @param file {@inheritDoc}
+     * @param one {@inheritDoc}
+     * @param two {@inheritDoc}
+     * @param includeEntities {@inheritDoc}
      */
     @Override
     public void saveStructure(@Nullable final File file, @Nullable final Location one, @Nullable final Location two, boolean includeEntities) {
@@ -110,6 +119,9 @@ public class StructureManager implements IStructureManager {
 
     /**
      {@inheritDoc}
+     *
+     * @param location {@inheritDoc}
+     * @param storeBlocks {@inheritDoc}
      */
     @Override
     public void pasteStructure(@Nullable final Location location, final boolean storeBlocks) {
@@ -150,7 +162,7 @@ public class StructureManager implements IStructureManager {
     }
 
     /**
-     {@inheritDoc}
+     * Gets structure blocks from location
      */
     private void getStructureBlocks(@NotNull final Location location) {
         for (int x = 0; x < getStructureX(); x++) {
@@ -172,6 +184,8 @@ public class StructureManager implements IStructureManager {
 
     /**
      {@inheritDoc}
+     *
+     * @param location {@inheritDoc}
      */
     @Override
     public @NotNull final Set<Location> getBlocks(@Nullable final Location location) {
@@ -194,6 +208,8 @@ public class StructureManager implements IStructureManager {
 
     /**
      {@inheritDoc}
+     *
+     * @return {@inheritDoc}
      */
     @Override
     public final double getStructureX() {
@@ -204,6 +220,8 @@ public class StructureManager implements IStructureManager {
 
     /**
      {@inheritDoc}
+     *
+     * @return {@inheritDoc}
      */
     @Override
     public final double getStructureY() {
@@ -214,6 +232,8 @@ public class StructureManager implements IStructureManager {
 
     /**
      {@inheritDoc}
+     *
+     * @return {@inheritDoc}
      */
     @Override
     public final double getStructureZ() {
@@ -224,6 +244,8 @@ public class StructureManager implements IStructureManager {
 
     /**
      {@inheritDoc}
+     *
+     * @return {@inheritDoc}
      */
     @Override
     public @NotNull final Set<Location> getNearbyBlocks() {
@@ -232,6 +254,8 @@ public class StructureManager implements IStructureManager {
 
     /**
      {@inheritDoc}
+     *
+     * @return {@inheritDoc}
      */
     @Override
     public @NotNull final List<Material> getBlockBlacklist() {
@@ -256,6 +280,8 @@ public class StructureManager implements IStructureManager {
 
     /**
      {@inheritDoc}
+     *
+     * @return {@inheritDoc}
      */
     @Override
     public @NotNull final File getStructureFile() {

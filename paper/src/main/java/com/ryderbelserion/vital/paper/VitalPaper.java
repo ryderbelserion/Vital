@@ -21,6 +21,8 @@ public class VitalPaper extends Vital {
 
     /**
      {@inheritDoc}
+     *
+     * @return {@inheritDoc}
      */
     @Override
     public @NotNull final File getDirectory() {
@@ -29,6 +31,9 @@ public class VitalPaper extends Vital {
 
     /**
      {@inheritDoc}
+     *
+     * @param fileName {@inheritDoc}
+     * @param replace {@inheritDoc}
      */
     @Override
     public void saveResource(final String fileName, final boolean replace) {
@@ -36,9 +41,9 @@ public class VitalPaper extends Vital {
     }
 
     /**
-     * Whether to use MiniMessage or not.
+     * {@inheritDoc}
      *
-     * @return true or false
+     * @return {@inheritDoc}
      */
     @Override
     public final boolean isAdventure() {
@@ -46,9 +51,9 @@ public class VitalPaper extends Vital {
     }
 
     /**
-     * Whether to log to console
+     * Whether to log to console.
      *
-     * @param isLogging true or false
+     * @param isLogging {@inheritDoc}
      */
     public void setLogging(final boolean isLogging) {
         this.isLogging = isLogging;
@@ -65,6 +70,8 @@ public class VitalPaper extends Vital {
 
     /**
      {@inheritDoc}
+     *
+     * @return {@inheritDoc}
      */
     @Override
     public final boolean isLogging() {
