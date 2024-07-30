@@ -276,7 +276,8 @@ public class NbtBuilder {
      * @return {@link ItemBuilder}
      * @since 1.1
      */
-    public boolean hasKey(@NotNull final NamespacedKey key, @NotNull final ItemMeta itemMeta) {
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+    public final boolean hasKey(@NotNull final NamespacedKey key, @NotNull final ItemMeta itemMeta) {
         if (this.hasItemMeta()) return false;
 
         return itemMeta.getPersistentDataContainer().has(key);
