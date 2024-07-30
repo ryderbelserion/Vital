@@ -12,7 +12,7 @@ public class TestPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        new VitalPaper(this, false).setLogging(true);
+        new VitalPaper().setLogging(true);
 
         FileUtil.extract("config.yml", "examples", true);
 

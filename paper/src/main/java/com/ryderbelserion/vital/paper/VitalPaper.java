@@ -16,6 +16,7 @@ public class VitalPaper extends Vital {
 
     private final JavaPlugin plugin = JavaPlugin.getProvidingPlugin(VitalPaper.class);
 
+    private boolean isAdventure;
     private boolean isLogging;
 
     /**
@@ -40,7 +41,7 @@ public class VitalPaper extends Vital {
      * @return true or false
      */
     @Override
-    public boolean isAdventure() {
+    public final boolean isAdventure() {
         return this.isAdventure;
     }
 

@@ -1,6 +1,7 @@
 package com.ryderbelserion.vital.paper.util;
 
 import com.ryderbelserion.vital.core.Vital;
+import com.ryderbelserion.vital.paper.enums.Support;
 import com.ryderbelserion.vital.paper.files.config.CustomFile;
 import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
