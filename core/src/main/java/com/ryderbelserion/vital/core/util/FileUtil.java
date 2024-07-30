@@ -17,7 +17,6 @@ import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -32,7 +31,7 @@ import java.util.stream.Stream;
  * A class containing utilities to extract or obtain files from directories.
  *
  * @author Ryder Belserion
- * @version 2.0.1
+ * @version 2.3
  * @since 1.0
  */
 public class FileUtil {

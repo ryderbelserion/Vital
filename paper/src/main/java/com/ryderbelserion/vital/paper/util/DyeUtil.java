@@ -1,6 +1,5 @@
 package com.ryderbelserion.vital.paper.util;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
 import org.jetbrains.annotations.NotNull;
@@ -10,7 +9,7 @@ import org.jetbrains.annotations.Nullable;
  * All utilities related to dye colors.
  *
  * @author Ryder Belserion
- * @version 2.0.1
+ * @version 2.3
  * @since 1.0
  */
 public class DyeUtil {

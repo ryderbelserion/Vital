@@ -2,6 +2,7 @@ package com.ryderbelserion.vital.paper.util.structures;
 
 import com.google.common.collect.Lists;
 import com.ryderbelserion.vital.core.Vital;
+import com.ryderbelserion.vital.paper.files.config.CustomFile;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -20,13 +21,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.logging.Level;
 
 /**
  * A structure manager extending {@link IStructureManager} which builds {@link Structure}.
  *
  * @author Ryder Belserion
- * @version 2.0.1
+ * @version 2.3
  * @since 1.0
  */
 public class StructureManager implements IStructureManager {
@@ -34,21 +34,9 @@ public class StructureManager implements IStructureManager {
     private final Set<Location> postStructurePasteBlocks = new HashSet<>();
     private final Set<Location> preStructurePasteBlocks = new HashSet<>();
 
+    private final JavaPlugin plugin = JavaPlugin.getProvidingPlugin(CustomFile.class);
+    private final ComponentLogger logger = plugin.getComponentLogger();
     private final boolean isLogging = Vital.api().isLogging();
-
-    private final JavaPlugin plugin;
-    private final ComponentLogger logger;
-
-    /**
-     * Builds a structure manager instance.
-     *
-     * @param plugin {@link JavaPlugin}
-     * @since 1.0
-     */
-    public StructureManager(@NotNull final JavaPlugin plugin) {
-        this.plugin = plugin;
-        this.logger = this.plugin.getComponentLogger();
-    }
 
     private File file = null;
 

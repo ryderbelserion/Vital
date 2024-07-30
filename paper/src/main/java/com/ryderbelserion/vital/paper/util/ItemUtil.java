@@ -6,7 +6,6 @@ import com.ryderbelserion.vital.paper.files.config.CustomFile;
 import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
 import me.clip.placeholderapi.PlaceholderAPI;
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.*;
@@ -33,7 +32,7 @@ import java.util.regex.Pattern;
  * All utilities related to items and ids.
  *
  * @author Ryder Belserion
- * @version 2.0.1
+ * @version 2.3
  * @since 1.0
  */
 public class ItemUtil {

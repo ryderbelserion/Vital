@@ -26,7 +26,6 @@ import org.bukkit.block.Banner;
 import org.bukkit.block.CreatureSpawner;
 import org.bukkit.block.banner.Pattern;
 import org.bukkit.block.banner.PatternType;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
@@ -73,9 +72,10 @@ import java.util.UUID;
  *
  * @author SvenjaReissaus
  * @author Ryder Belserion
- * @version 2.0.1
+ * @version 2.3
  * @since 1.0
  */
+@SuppressWarnings("UnusedReturnValue")
 public class ItemBuilder {
 
     private @NotNull final Vital api = Vital.api();

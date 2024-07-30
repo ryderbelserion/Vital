@@ -9,7 +9,7 @@ import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 /**
  * Utilities related to sending messages.
  *
- * @version 2.0.1
+ * @version 2.3
  * @since 1.8
  */
 public class MsgUtil {

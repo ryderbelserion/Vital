@@ -1,13 +1,13 @@
 package com.ryderbelserion.vital.paper.enums;
 
-import org.bukkit.Bukkit;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * An enum of plugins supported.
  *
  * @author Ryder Belserion
- * @version 2.0.1
+ * @version 2.3
  * @since 1.0
  */
 public enum Support {
