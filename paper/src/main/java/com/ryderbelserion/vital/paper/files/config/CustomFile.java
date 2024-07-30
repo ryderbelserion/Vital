@@ -3,6 +3,7 @@ package com.ryderbelserion.vital.paper.files.config;
 import com.ryderbelserion.vital.core.Vital;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.util.List;
@@ -17,9 +18,9 @@ import java.util.concurrent.CompletableFuture;
  */
 public class CustomFile {
 
-    private @NotNull final Vital api = Vital.api();
-    private @NotNull final ComponentLogger logger = this.api.getLogger();
-    private final boolean isLogging = this.api.isLogging();
+    private final JavaPlugin plugin = JavaPlugin.getProvidingPlugin(CustomFile.class);
+    private final ComponentLogger logger = this.plugin.getComponentLogger();
+    private final boolean isLogging = Vital.api().isLogging();
 
     private YamlConfiguration configuration = null;
 

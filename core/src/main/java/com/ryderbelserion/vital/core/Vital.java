@@ -1,6 +1,5 @@
 package com.ryderbelserion.vital.core;
 
-import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.lang.reflect.Field;
@@ -46,14 +45,6 @@ public abstract class Vital {
      * @since 1.0
      */
     public @NotNull abstract File getDirectory();
-
-    /**
-     * Gets the plugin {@link ComponentLogger}.
-     *
-     * @return {@link ComponentLogger}
-     * @since 1.0
-     */
-    public @NotNull abstract ComponentLogger getLogger();
 
     /**
      * Saves a single file to disk.

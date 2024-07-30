@@ -4,6 +4,7 @@ import com.ryderbelserion.vital.core.Vital;
 import com.ryderbelserion.vital.core.util.FileUtil;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import java.io.File;
@@ -26,11 +27,10 @@ import java.util.concurrent.CompletableFuture;
  */
 public class FileManager {
 
-    private @NotNull final Vital api = Vital.api();
-    private @NotNull final File dataFolder = this.api.getDirectory();
-    private @NotNull final ComponentLogger logger = this.api.getLogger();
-
-    private final boolean isLogging = this.api.isLogging();
+    private final JavaPlugin plugin = JavaPlugin.getProvidingPlugin(CustomFile.class);
+    private final ComponentLogger logger = this.plugin.getComponentLogger();
+    private final File dataFolder = this.plugin.getDataFolder();
+    private final boolean isLogging = Vital.api().isLogging();
 
     private final Map<String, YamlConfiguration> files = new HashMap<>();
 
@@ -122,7 +122,7 @@ public class FileManager {
 
         try {
             if (!file.exists()) {
-                this.api.saveResource(fileName, false);
+                Vital.api().saveResource(fileName, false);
 
                 if (this.isLogging) this.logger.info("Copied {} because it did not exist...", fileName);
             } else {

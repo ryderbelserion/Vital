@@ -48,6 +48,7 @@ import org.bukkit.inventory.meta.trim.ArmorTrim;
 import org.bukkit.inventory.meta.trim.TrimMaterial;
 import org.bukkit.inventory.meta.trim.TrimPattern;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
@@ -1763,7 +1764,7 @@ public class ItemBuilder {
                 try {
                     textures.setSkin(URI.create(this.url).toURL(), PlayerTextures.SkinModel.CLASSIC);
                 } catch (MalformedURLException exception) {
-                    if (Vital.api().isLogging()) Vital.api().getLogger().error("Failed to set the texture url", exception);
+                    if (Vital.api().isLogging()) JavaPlugin.getProvidingPlugin(ItemBuilder.class).getComponentLogger().error("Failed to set the texture url", exception);
                 }
 
                 profile.setTextures(textures);

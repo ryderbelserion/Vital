@@ -1,7 +1,6 @@
 package com.ryderbelserion.vital.paper;
 
 import com.ryderbelserion.vital.core.Vital;
-import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import java.io.File;
@@ -15,18 +14,9 @@ import java.io.File;
  */
 public class VitalPaper extends Vital {
 
-    private final JavaPlugin plugin;
-    private boolean isLogging;
+    private final JavaPlugin plugin = JavaPlugin.getProvidingPlugin(VitalPaper.class);
 
-    /**
-     * A constructor to supply abstract plugin with things it needs.
-     *
-     * @param plugin {@link JavaPlugin}
-     * @since 1.1
-     */
-    public VitalPaper(@NotNull final JavaPlugin plugin) {
-        this.plugin = plugin;
-    }
+    private boolean isLogging;
 
     /**
      {@inheritDoc}
@@ -34,14 +24,6 @@ public class VitalPaper extends Vital {
     @Override
     public @NotNull final File getDirectory() {
         return this.plugin.getDataFolder();
-    }
-
-    /**
-     {@inheritDoc}
-     */
-    @Override
-    public @NotNull final ComponentLogger getLogger() {
-        return this.plugin.getComponentLogger();
     }
 
     /**

@@ -1,8 +1,10 @@
 package com.ryderbelserion.vital.paper.plugins;
 
 import com.ryderbelserion.vital.core.Vital;
+import com.ryderbelserion.vital.paper.files.config.CustomFile;
 import com.ryderbelserion.vital.paper.plugins.interfaces.Plugin;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import java.util.Collections;
 import java.util.HashMap;
@@ -12,7 +14,8 @@ public class PluginManager {
 
     public static Map<String, Plugin> plugins = new HashMap<>();
 
-    private static final ComponentLogger logger = Vital.api().getLogger();
+    private static final JavaPlugin plugin = JavaPlugin.getProvidingPlugin(CustomFile.class);
+    private static final ComponentLogger logger = plugin.getComponentLogger();
     private static final boolean isLogging = Vital.api().isLogging();
 
     public static void registerPlugin(@NotNull final Plugin plugin) {

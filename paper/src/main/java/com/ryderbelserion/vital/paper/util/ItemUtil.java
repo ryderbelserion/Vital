@@ -1,6 +1,7 @@
 package com.ryderbelserion.vital.paper.util;
 
 import com.ryderbelserion.vital.core.Vital;
+import com.ryderbelserion.vital.paper.files.config.CustomFile;
 import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
@@ -16,6 +17,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.trim.TrimMaterial;
 import org.bukkit.inventory.meta.trim.TrimPattern;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 import org.jetbrains.annotations.NotNull;
@@ -35,7 +37,8 @@ public class ItemUtil {
         throw new AssertionError();
     }
 
-    private static final ComponentLogger logger = Vital.api().getLogger();
+    private static final JavaPlugin plugin = JavaPlugin.getProvidingPlugin(CustomFile.class);
+    private static final ComponentLogger logger = plugin.getComponentLogger();
     private static final boolean isLogging = Vital.api().isLogging();
 
     /**
