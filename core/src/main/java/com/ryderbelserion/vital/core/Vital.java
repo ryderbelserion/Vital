@@ -55,6 +55,13 @@ public abstract class Vital {
     public abstract void saveResource(final String fileName, final boolean replace);
 
     /**
+     * Whether to use MiniMessage or not.
+     *
+     * @return true or false
+     */
+    public abstract boolean isAdventure();
+
+    /**
      * Whether we are logging or not.
      *
      * @return true or false
