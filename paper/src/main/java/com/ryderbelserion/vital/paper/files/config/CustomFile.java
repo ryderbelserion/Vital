@@ -78,7 +78,7 @@ public class CustomFile {
      *
      * @return the name of the file without .yml
      */
-    public final String getStrippedName() {
+    public @NotNull final String getStrippedName() {
         return this.strippedName;
     }
 
@@ -87,7 +87,7 @@ public class CustomFile {
      *
      * @return the name of the file
      */
-    public final String getFileName() {
+    public @NotNull final String getFileName() {
         return this.fileName;
     }
 
@@ -96,7 +96,7 @@ public class CustomFile {
      *
      * @return the current configuration
      */
-    public final YamlConfiguration getConfiguration() {
+    public @NotNull final YamlConfiguration getConfiguration() {
         return this.configuration;
     }
 
@@ -105,7 +105,7 @@ public class CustomFile {
      *
      * @return true or false
      */
-    public boolean exists() {
+    public final boolean exists() {
         return this.configuration != null;
     }
 
@@ -114,7 +114,7 @@ public class CustomFile {
      *
      * @return the {@link File}
      */
-    public final File getFile() {
+    public @NotNull final File getFile() {
         return this.file;
     }
 

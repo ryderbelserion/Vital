@@ -52,7 +52,7 @@ public abstract class Vital {
      * @param fileName the name of the file
      * @param replace true or false
      */
-    public abstract void saveResource(final String fileName, final boolean replace);
+    public abstract void saveResource(@NotNull final String fileName, final boolean replace);
 
     /**
      * Whether to use MiniMessage or not.

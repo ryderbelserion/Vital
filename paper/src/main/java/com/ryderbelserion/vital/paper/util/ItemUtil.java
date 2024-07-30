@@ -114,7 +114,7 @@ public class ItemUtil {
      * @param message the message
      * @return the built string
      */
-    public static String color(String message) {
+    public static String color(@NotNull final String message) {
         Matcher matcher = Pattern.compile("#([A-Fa-f0-9]{6})").matcher(message);
         StringBuilder buffer = new StringBuilder();
 
@@ -373,7 +373,7 @@ public class ItemUtil {
      * @return {@link String}
      * @since 1.6
      */
-    public static String toBase64(final ItemStack itemStack) {
+    public static String toBase64(@NotNull final ItemStack itemStack) {
         return Base64.getEncoder().encodeToString(itemStack.serializeAsBytes());
     }
 
@@ -384,7 +384,7 @@ public class ItemUtil {
      * @return {@link ItemStack}
      * @since 1.6
      */
-    public static @NotNull ItemStack fromBase64(final String base64) {
+    public static @NotNull ItemStack fromBase64(@NotNull final String base64) {
         return ItemStack.deserializeBytes(Base64.getDecoder().decode(base64));
     }
 }

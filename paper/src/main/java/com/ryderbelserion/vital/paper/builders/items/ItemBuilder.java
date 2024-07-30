@@ -139,7 +139,7 @@ public class ItemBuilder {
      * @param createNewStack create a new {@link ItemStack} or reuse the passed object
      * @since 1.0
      */
-    public ItemBuilder(@NotNull final ItemBuilder itemBuilder, boolean createNewStack) {
+    public ItemBuilder(@NotNull final ItemBuilder itemBuilder, final boolean createNewStack) {
         this.itemStack = createNewStack ? new ItemStack(itemBuilder.itemStack) : itemBuilder.itemStack;
         this.isCustom = itemBuilder.isCustom;
 
@@ -581,7 +581,7 @@ public class ItemBuilder {
      * @return {@link String}
      * @since 1.6
      */
-    public String toBase64() {
+    public @NotNull final String toBase64() {
         return ItemUtil.toBase64(getStack());
     }
 
@@ -592,7 +592,7 @@ public class ItemBuilder {
      * @return {@link ItemBuilder}
      * @since 1.6
      */
-    public ItemBuilder fromBase64(final String base64) {
+    public @NotNull final ItemBuilder fromBase64(@NotNull final String base64) {
         if (base64.isEmpty()) return null;
 
         return new ItemBuilder(ItemUtil.fromBase64(base64));
@@ -1352,7 +1352,8 @@ public class ItemBuilder {
      * @return {@link ItemBuilder}
      * @since 1.0
      */
-    public boolean hasKey(@NotNull final NamespacedKey key, @NotNull final ItemMeta itemMeta) {
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+    public final boolean hasKey(@NotNull final NamespacedKey key, @NotNull final ItemMeta itemMeta) {
         if (this.hasItemMeta()) return false;
 
         return itemMeta.getPersistentDataContainer().has(key);

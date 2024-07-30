@@ -36,7 +36,7 @@ public class VitalPaper extends Vital {
      * @param replace {@inheritDoc}
      */
     @Override
-    public void saveResource(final String fileName, final boolean replace) {
+    public void saveResource(@NotNull final String fileName, final boolean replace) {
         this.plugin.saveResource(fileName, replace);
     }
 

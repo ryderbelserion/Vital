@@ -32,7 +32,7 @@ public class Serializer {
      *
      * @param file the {@link File}
      */
-    public Serializer(final File file) {
+    public Serializer(@NotNull final File file) {
         this.file = file;
     }
 
@@ -87,7 +87,7 @@ public class Serializer {
      *
      * @return true or false
      */
-    public boolean exists() {
+    public final boolean exists() {
         return this.file.exists();
     }
 
@@ -96,8 +96,8 @@ public class Serializer {
      */
     public void save() {
         CompletableFuture.runAsync(() -> {
-            try (final FileWriter writer = new FileWriter(file)) {
-                writer.write(gson.toJson(this));
+            try (final FileWriter writer = new FileWriter(this.file)) {
+                writer.write(this.gson.toJson(this));
             } catch (IOException exception) {
                 exception.printStackTrace();
             }
@@ -109,8 +109,8 @@ public class Serializer {
      */
     private void read() {
         CompletableFuture.runAsync(() -> {
-            try (final BufferedReader reader = new BufferedReader(new FileReader(file))) {
-                gson.fromJson(reader, getClass());
+            try (final BufferedReader reader = new BufferedReader(new FileReader(this.file))) {
+                this.gson.fromJson(reader, getClass());
             } catch (IOException exception) {
                 exception.printStackTrace();
             }

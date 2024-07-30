@@ -51,6 +51,8 @@ public enum Support {
         this.name = name;
     }
 
+    private final JavaPlugin plugin = JavaPlugin.getProvidingPlugin(Support.class);
+
     /**
      * Gets the enabled status of the plugin.
      * 
@@ -58,7 +60,7 @@ public enum Support {
      * @since 1.0
      */
     public final boolean isEnabled() {
-        return Bukkit.getServer().getPluginManager().isPluginEnabled(this.name);
+        return this.plugin.getServer().getPluginManager().isPluginEnabled(this.name);
     }
 
     /**
