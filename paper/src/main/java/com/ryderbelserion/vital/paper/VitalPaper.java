@@ -9,7 +9,7 @@ import java.io.File;
  * A platform specific class for Paper extending {@link Vital}.
  *
  * @author Ryder Belserion
- * @version 2.3
+ * @version 2.3.1
  * @since 1.1
  */
 public class VitalPaper extends Vital {
@@ -18,6 +18,11 @@ public class VitalPaper extends Vital {
 
     private boolean isAdventure;
     private boolean isLogging;
+
+    /**
+     * Empty constructor
+     */
+    public VitalPaper() {}
 
     /**
      {@inheritDoc}
@@ -30,7 +35,7 @@ public class VitalPaper extends Vital {
     }
 
     /**
-     {@inheritDoc}
+     * {@inheritDoc}
      *
      * @param fileName {@inheritDoc}
      * @param replace {@inheritDoc}
@@ -53,7 +58,7 @@ public class VitalPaper extends Vital {
     /**
      * Whether to log to console.
      *
-     * @param isLogging {@inheritDoc}
+     * @param isLogging true or false
      */
     public void setLogging(final boolean isLogging) {
         this.isLogging = isLogging;

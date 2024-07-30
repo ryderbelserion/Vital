@@ -22,7 +22,7 @@ import java.util.concurrent.CompletableFuture;
  * @author Ryder Belserion
  * @author BadBones69
  *
- * @version 2.3
+ * @version 2.3.1
  * @since 1.0
  */
 public class FileManager {
@@ -36,6 +36,11 @@ public class FileManager {
 
     private final Set<CustomFile> customFiles = new HashSet<>();
     private final Set<String> folders = new HashSet<>();
+
+    /**
+     * Empty constructor.
+     */
+    public FileManager() {}
 
     /**
      * Creates the data folder and anything else we need.

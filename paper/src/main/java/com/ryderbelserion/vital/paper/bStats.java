@@ -31,8 +31,9 @@ import java.util.stream.Collectors;
 import java.util.zip.GZIPOutputStream;
 
 /**
- * @author Bastian
+ * Sends metrics to <a href="https://bstats.org">bstats</a>
  *
+ * @author Bastian
  * @since 1.7
  */
 public class bStats {
@@ -44,7 +45,8 @@ public class bStats {
     /**
      * Creates a new Metrics instance.
      *
-     * @param serviceId The id of the service. It can be found at <a href="https://bstats.org/what-is-my-plugin-id">What is my plugin id?</a>
+     * @param plugin the plugin instance
+     * @param serviceId the id of the service. It can be found at <a href="https://bstats.org/what-is-my-plugin-id">What is my plugin id?</a>
      */
     public bStats(JavaPlugin plugin, int serviceId) {
         this.plugin = plugin;
@@ -148,6 +150,9 @@ public class bStats {
         return this.plugin.getServer().getOnlinePlayers().size();
     }
 
+    /**
+     * Metrics class
+     */
     public static class MetricsBase {
 
         /**
@@ -274,14 +279,25 @@ public class bStats {
             return outputStream.toByteArray();
         }
 
+        /**
+         * Adds custom chart
+         *
+         * @param chart {@link CustomChart}
+         */
         public void addCustomChart(CustomChart chart) {
             this.customCharts.add(chart);
         }
 
+        /**
+         * Shuts down scheduler
+         */
         public void shutdown() {
             this.scheduler.shutdown();
         }
 
+        /**
+         * Submit to bstats
+         */
         private void startSubmitting() {
             final Runnable submitTask =
                     () -> {
@@ -346,6 +362,12 @@ public class bStats {
                     });
         }
 
+        /**
+         * Send the data
+         *
+         * @param data the payload
+         * @throws Exception throw exception if it fails
+         */
         private void sendData(JsonObjectBuilder.JsonObject data) throws Exception {
             if (this.logSentData) {
                 this.infoLogger.accept("Sent bStats metrics data: " + data.toString());
@@ -403,6 +425,9 @@ public class bStats {
         }
     }
 
+    /**
+     * Simple pie chart
+     */
     public static class SimplePie extends CustomChart {
 
         private final Callable<String> callable;
@@ -418,6 +443,10 @@ public class bStats {
             this.callable = callable;
         }
 
+        /**
+         * @return json object
+         * @throws Exception if fetching the object fails
+         */
         @Override
         protected JsonObjectBuilder.JsonObject getChartData() throws Exception {
             String value = this.callable.call();
@@ -431,6 +460,9 @@ public class bStats {
         }
     }
 
+    /**
+     * Multiline chart
+     */
     public static class MultiLineChart extends CustomChart {
 
         private final Callable<Map<String, Integer>> callable;
@@ -446,6 +478,10 @@ public class bStats {
             this.callable = callable;
         }
 
+        /**
+         * @return json object
+         * @throws Exception if fetching the object fails
+         */
         @Override
         protected JsonObjectBuilder.JsonObject getChartData() throws Exception {
             JsonObjectBuilder valuesBuilder = new JsonObjectBuilder();
@@ -478,6 +514,9 @@ public class bStats {
         }
     }
 
+    /**
+     * Advanced pie chart
+     */
     public static class AdvancedPie extends CustomChart {
 
         private final Callable<Map<String, Integer>> callable;
@@ -493,6 +532,10 @@ public class bStats {
             this.callable = callable;
         }
 
+        /**
+         * @return json object
+         * @throws Exception if fetching the object fails
+         */
         @Override
         protected JsonObjectBuilder.JsonObject getChartData() throws Exception {
             JsonObjectBuilder valuesBuilder = new JsonObjectBuilder();
@@ -524,6 +567,9 @@ public class bStats {
         }
     }
 
+    /**
+     * Simple bar chart
+     */
     public static class SimpleBarChart extends CustomChart {
 
         private final Callable<Map<String, Integer>> callable;
@@ -539,6 +585,10 @@ public class bStats {
             this.callable = callable;
         }
 
+        /**
+         * @return json object
+         * @throws Exception if fetching the object fails
+         */
         @Override
         protected JsonObjectBuilder.JsonObject getChartData() throws Exception {
             JsonObjectBuilder valuesBuilder = new JsonObjectBuilder();
@@ -558,6 +608,9 @@ public class bStats {
         }
     }
 
+    /**
+     * Advanced bar chart
+     */
     public static class AdvancedBarChart extends CustomChart {
 
         private final Callable<Map<String, int[]>> callable;
@@ -573,6 +626,10 @@ public class bStats {
             this.callable = callable;
         }
 
+        /**
+         * @return json object
+         * @throws Exception if fetching the object fails
+         */
         @Override
         protected JsonObjectBuilder.JsonObject getChartData() throws Exception {
             JsonObjectBuilder valuesBuilder = new JsonObjectBuilder();
@@ -606,6 +663,9 @@ public class bStats {
         }
     }
 
+    /**
+     * Drilldown chart
+     */
     public static class DrilldownPie extends CustomChart {
 
         private final Callable<Map<String, Map<String, Integer>>> callable;
@@ -621,6 +681,10 @@ public class bStats {
             this.callable = callable;
         }
 
+        /**
+         * @return json object
+         * @throws Exception if fetching the object fails
+         */
         @Override
         public JsonObjectBuilder.JsonObject getChartData() throws Exception {
             JsonObjectBuilder valuesBuilder = new JsonObjectBuilder();
@@ -659,10 +723,18 @@ public class bStats {
         }
     }
 
+    /**
+     * Custom chart
+     */
     public abstract static class CustomChart {
 
         private final String chartId;
 
+        /**
+         * Build custom chart
+         *
+         * @param chartId chart id
+         */
         protected CustomChart(String chartId) {
             if (chartId == null) {
                 throw new IllegalArgumentException("chartId must not be null");
@@ -671,6 +743,13 @@ public class bStats {
             this.chartId = chartId;
         }
 
+        /**
+         * Request json object
+         *
+         * @param errorLogger the logger
+         * @param logErrors true or false
+         * @return json object
+         */
         public JsonObjectBuilder.JsonObject getRequestJsonObject(BiConsumer<String, Throwable> errorLogger, boolean logErrors) {
             JsonObjectBuilder builder = new JsonObjectBuilder();
 
@@ -696,9 +775,18 @@ public class bStats {
             return builder.build();
         }
 
+        /**
+         * Gets the chart data
+         *
+         * @return json object
+         * @throws Exception if fetching the object fails
+         */
         protected abstract JsonObjectBuilder.JsonObject getChartData() throws Exception;
     }
 
+    /**
+     * Single line chart
+     */
     public static class SingleLineChart extends CustomChart {
 
         private final Callable<Integer> callable;
@@ -715,6 +803,10 @@ public class bStats {
             this.callable = callable;
         }
 
+        /**
+         * @return json object
+         * @throws Exception if fetching the object fails
+         */
         @Override
         protected JsonObjectBuilder.JsonObject getChartData() throws Exception {
             int value = this.callable.call();
@@ -740,6 +832,9 @@ public class bStats {
 
         private boolean hasAtLeastOneField = false;
 
+        /**
+         * Creates the json object builder
+         */
         public JsonObjectBuilder() {
             this.builder.append("{");
         }

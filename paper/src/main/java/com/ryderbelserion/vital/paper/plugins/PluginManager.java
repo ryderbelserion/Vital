@@ -3,20 +3,18 @@ package com.ryderbelserion.vital.paper.plugins;
 import com.ryderbelserion.vital.core.Vital;
 import com.ryderbelserion.vital.paper.files.config.CustomFile;
 import com.ryderbelserion.vital.paper.plugins.interfaces.Plugin;
-import com.ryderbelserion.vital.paper.util.structures.IStructureManager;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.structure.Structure;
 import org.jetbrains.annotations.NotNull;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * A structure manager extending {@link IStructureManager} which builds {@link Structure}.
+ * A plugin manager handling plugin dependencies.
  *
  * @author Ryder Belserion
- * @version 2.3
+ * @version 2.3.1
  * @since 2.0
  */
 public class PluginManager {
@@ -26,6 +24,11 @@ public class PluginManager {
     private static final boolean isLogging = Vital.api().isLogging();
 
     private static final Map<String, Plugin> plugins = new HashMap<>();
+
+    /**
+     * Empty constructor
+     */
+    public PluginManager() {}
 
     /**
      * Registers a plugin on startup.
