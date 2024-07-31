@@ -1,13 +1,13 @@
 package com.ryderbelserion.vital.paper.enums;
 
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * An enum of plugins supported.
  *
  * @author Ryder Belserion
- * @version 2.4.3
+ * @version 2.4.4
  * @since 1.0
  */
 public enum Support {
@@ -51,8 +51,6 @@ public enum Support {
         this.name = name;
     }
 
-    private final JavaPlugin plugin = JavaPlugin.getProvidingPlugin(Support.class);
-
     /**
      * Gets the enabled status of the plugin.
      * 
@@ -60,7 +58,7 @@ public enum Support {
      * @since 1.0
      */
     public final boolean isEnabled() {
-        return this.plugin.getServer().getPluginManager().isPluginEnabled(this.name);
+        return Bukkit.getServer().getPluginManager().isPluginEnabled(this.name);
     }
 
     /**

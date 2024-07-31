@@ -3,7 +3,6 @@ package com.ryderbelserion.vital.paper.files.config;
 import com.ryderbelserion.vital.core.Vital;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.util.List;
@@ -13,14 +12,14 @@ import java.util.concurrent.CompletableFuture;
  * Builds a custom file to load with the File Manager.
  *
  * @author Ryder Belserion
- * @version 2.4.3
+ * @version 2.4.4
  * @since 1.0
  */
 public class CustomFile {
 
-    private final JavaPlugin plugin = JavaPlugin.getProvidingPlugin(CustomFile.class);
-    private final ComponentLogger logger = this.plugin.getComponentLogger();
-    private final boolean isLogging = Vital.api().isLogging();
+    private final Vital api = Vital.api();
+    private final ComponentLogger logger = this.api.getLogger();
+    private final boolean isLogging = this.api.isLogging();
 
     private YamlConfiguration configuration = null;
 

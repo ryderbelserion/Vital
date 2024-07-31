@@ -72,13 +72,13 @@ import java.util.UUID;
  *
  * @author SvenjaReissaus
  * @author Ryder Belserion
- * @version 2.4.3
+ * @version 2.4.4
  * @since 1.0
  */
 @SuppressWarnings("UnusedReturnValue")
 public class ItemBuilder {
 
-    private @NotNull final Vital api = Vital.api();
+    private final Vital api = Vital.api();
 
     private ItemStack itemStack;
 

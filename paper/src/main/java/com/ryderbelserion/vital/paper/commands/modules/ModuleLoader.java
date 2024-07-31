@@ -1,5 +1,7 @@
 package com.ryderbelserion.vital.paper.commands.modules;
 
+import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -8,7 +10,7 @@ import java.util.List;
  * A class handling the loading of modules.
  *
  * @author Ryder Belserion
- * @version 2.4.3
+ * @version 2.4.4
  * @since 2.4
  */
 public class ModuleLoader {
@@ -24,9 +26,11 @@ public class ModuleLoader {
 
     /**
      * Loads module listeners onto the server.
+     * 
+     * @param plugin {@link JavaPlugin}
      */
-    public void load() {
-        if (this.registry == null) this.registry = new EventRegistry();
+    public void load(@NotNull final JavaPlugin plugin) {
+        if (this.registry == null) this.registry = new EventRegistry(plugin);
 
         this.modules.forEach(module -> {
             if (module.isEnabled()) {

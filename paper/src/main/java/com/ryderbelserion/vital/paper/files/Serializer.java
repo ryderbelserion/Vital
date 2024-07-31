@@ -3,7 +3,6 @@ package com.ryderbelserion.vital.paper.files;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.jetbrains.annotations.NotNull;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -16,7 +15,7 @@ import java.util.concurrent.CompletableFuture;
  * A class to create a json file used for data storage.
  *
  * @author Ryder Belserion
- * @version 2.4.3
+ * @version 2.4.4
  * @since 1.5.5
  */
 public class Serializer {

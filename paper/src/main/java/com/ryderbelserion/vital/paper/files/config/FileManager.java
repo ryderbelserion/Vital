@@ -4,7 +4,6 @@ import com.ryderbelserion.vital.core.Vital;
 import com.ryderbelserion.vital.core.util.FileUtil;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import java.io.File;
@@ -22,15 +21,15 @@ import java.util.concurrent.CompletableFuture;
  * @author Ryder Belserion
  * @author BadBones69
  *
- * @version 2.4.3
+ * @version 2.4.4
  * @since 1.0
  */
 public class FileManager {
 
-    private final JavaPlugin plugin = JavaPlugin.getProvidingPlugin(CustomFile.class);
-    private final ComponentLogger logger = this.plugin.getComponentLogger();
-    private final File dataFolder = this.plugin.getDataFolder();
-    private final boolean isLogging = Vital.api().isLogging();
+    private final Vital api = Vital.api();
+    private final ComponentLogger logger = this.api.getLogger();
+    private final File dataFolder = this.api.getDirectory();
+    private final boolean isLogging = this.api.isLogging();
 
     private final Map<String, YamlConfiguration> files = new HashMap<>();
 
@@ -38,7 +37,7 @@ public class FileManager {
     private final Set<String> folders = new HashSet<>();
 
     /**
-     * Empty constructor.
+     * Builds the file manager.
      */
     public FileManager() {}
 

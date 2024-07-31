@@ -1,5 +1,6 @@
 package com.ryderbelserion.vital.core;
 
+import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.lang.reflect.Field;
@@ -8,7 +9,7 @@ import java.lang.reflect.Field;
  * An abstract class to extend in each platform.
  *
  * @author Ryder Belserion
- * @version 2.4.3
+ * @version 2.4.4
  * @since 1.0
  */
 public abstract class Vital {
@@ -60,6 +61,13 @@ public abstract class Vital {
      * @return true or false
      */
     public abstract boolean isAdventure();
+
+    /**
+     * Gets the {@link ComponentLogger}.
+     * 
+     * @return {@link ComponentLogger}
+     */
+    public abstract ComponentLogger getLogger();
 
     /**
      * Whether we are logging or not.
