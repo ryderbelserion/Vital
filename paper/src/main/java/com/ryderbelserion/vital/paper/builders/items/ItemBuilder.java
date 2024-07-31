@@ -588,7 +588,11 @@ public class ItemBuilder {
                 itemMeta.setCustomModelData(number.intValue());
             });
 
-            if (this.isHidingItemFlags) itemMeta.addItemFlags(ItemFlag.values()); else this.itemFlags.forEach(itemMeta::addItemFlags);
+            if (this.isHidingItemFlags) {
+                itemMeta.addItemFlags(ItemFlag.values());
+            } else {
+                this.itemFlags.forEach(itemMeta::addItemFlags);
+            }
 
             itemMeta.setEnchantmentGlintOverride(this.isGlowing);
             itemMeta.setFireResistant(this.isFireResistant);
