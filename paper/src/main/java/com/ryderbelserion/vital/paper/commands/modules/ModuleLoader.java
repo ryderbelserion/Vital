@@ -8,7 +8,7 @@ import java.util.List;
  * A class handling the loading of modules.
  *
  * @author Ryder Belserion
- * @version 2.4
+ * @version 2.4.3
  * @since 2.4
  */
 public class ModuleLoader {
@@ -31,9 +31,13 @@ public class ModuleLoader {
         this.modules.forEach(module -> {
             if (module.isEnabled()) {
                 this.registry.addListener(module);
+                
+                module.enable();
 
                 return;
             }
+
+            module.disable();
 
             this.registry.removeListener(module);
         });

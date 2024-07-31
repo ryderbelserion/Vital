@@ -72,7 +72,7 @@ import java.util.UUID;
  *
  * @author SvenjaReissaus
  * @author Ryder Belserion
- * @version 2.4
+ * @version 2.4.3
  * @since 1.0
  */
 @SuppressWarnings("UnusedReturnValue")

@@ -6,7 +6,7 @@ import org.bukkit.event.Listener;
  * An abstract class to define what a module can do.
  *
  * @author Ryder Belserion
- * @version 2.4
+ * @version 2.4.3
  * @since 2.4
  */
 public abstract class ModuleHandler implements Listener {
