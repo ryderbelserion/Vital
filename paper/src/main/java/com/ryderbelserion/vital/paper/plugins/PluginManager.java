@@ -14,7 +14,7 @@ import java.util.Map;
  * A plugin manager handling plugin dependencies.
  *
  * @author Ryder Belserion
- * @version 2.3.1
+ * @version 2.4
  * @since 2.0
  */
 public class PluginManager {

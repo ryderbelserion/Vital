@@ -7,7 +7,7 @@ import java.util.UUID;
  * A plugin class used in {@link com.ryderbelserion.vital.paper.plugins.PluginManager}
  *
  * @author Ryder Belserion
- * @version 2.3.1
+ * @version 2.4
  * @since 2.0
  */
 public interface Plugin {

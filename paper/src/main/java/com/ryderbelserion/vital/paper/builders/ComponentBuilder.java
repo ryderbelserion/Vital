@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
  * Builds a component to send to a player.
  *
  * @author Ryder Belserion
- * @version 2.3.1
+ * @version 2.4
  * @since 1.0
  */
 public class ComponentBuilder {
