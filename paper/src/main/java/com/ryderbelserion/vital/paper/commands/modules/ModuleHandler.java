@@ -12,6 +12,11 @@ import org.bukkit.event.Listener;
 public abstract class ModuleHandler implements Listener {
 
     /**
+     * Empty constructor
+     */
+    public ModuleHandler() {}
+
+    /**
      * Get the name of the module.
      *
      * @return the name of the module

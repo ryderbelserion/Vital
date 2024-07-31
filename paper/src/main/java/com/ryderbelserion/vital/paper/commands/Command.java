@@ -18,6 +18,11 @@ import java.util.concurrent.CompletableFuture;
 public abstract class Command {
 
     /**
+     * Empty constructor
+     */
+    public Command() {}
+
+    /**
      * Executes the command while passing through {@link CommandData}
      *
      * @param data {@link CommandData}
