@@ -66,6 +66,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 /**
  * The itembuilder to end all itembuilders.
@@ -184,6 +185,29 @@ public class ItemBuilder {
 
         this.trimMaterial = itemBuilder.trimMaterial;
         this.trimPattern = itemBuilder.trimPattern;
+    }
+
+    private JavaPlugin plugin;
+
+    /**
+     * A consumer for itembuilder
+     *
+     * @param builder {@link ItemBuilder}
+     * @return {@link ItemBuilder}
+     */
+    public final ItemBuilder apply(Consumer<ItemBuilder> builder) {
+        builder.accept(this);
+
+        return this;
+    }
+
+    /**
+     * Sets the {@link JavaPlugin} instance
+     *
+     * @param plugin {@link JavaPlugin}
+     */
+    public void setPlugin(@NotNull final JavaPlugin plugin) {
+        this.plugin = plugin;
     }
 
     private static final EnumSet<Material> LEATHER_ARMOR = EnumSet.of(
