@@ -35,4 +35,9 @@ public abstract class ModuleHandler implements Listener {
      */
     public abstract void reload();
 
+    /**
+     * Disables the module.
+     */
+    public abstract void disable();
+
 }

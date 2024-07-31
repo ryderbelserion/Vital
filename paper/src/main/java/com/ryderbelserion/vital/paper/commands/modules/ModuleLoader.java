@@ -57,6 +57,8 @@ public class ModuleLoader {
         this.modules.forEach(module -> {
             if (module.isEnabled()) {
                 this.registry.removeListener(module);
+
+                module.disable();
             }
         });
     }
