@@ -11,7 +11,7 @@ import java.util.List;
  * A modular listener class to register/unregister events at runtime
  *
  * @author Ryder Belserion
- * @version 2.4.4
+ * @version 2.4.5
  * @since 2.4
  */
 public class EventRegistry {

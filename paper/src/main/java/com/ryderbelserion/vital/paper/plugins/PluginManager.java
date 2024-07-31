@@ -4,6 +4,7 @@ import com.ryderbelserion.vital.core.Vital;
 import com.ryderbelserion.vital.paper.plugins.interfaces.Plugin;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +13,7 @@ import java.util.Map;
  * A plugin manager handling plugin dependencies.
  *
  * @author Ryder Belserion
- * @version 2.4.4
+ * @version 2.4.5
  * @since 2.0
  */
 public class PluginManager {
@@ -45,7 +46,7 @@ public class PluginManager {
      * @param name the name of the plugin
      * @return {@link Plugin}
      */
-    public static @NotNull Plugin getPlugin(@NotNull final String name) {
+    public static @Nullable Plugin getPlugin(@NotNull final String name) {
         return plugins.get(name);
     }
 
@@ -56,7 +57,11 @@ public class PluginManager {
      * @return true or false
      */
     public static boolean isEnabled(@NotNull final String name) {
-        return getPlugin(name).isEnabled();
+        final Plugin plugin = getPlugin(name);
+
+        if (plugin == null) return false;
+
+        return plugin.isEnabled();
     }
 
     /**

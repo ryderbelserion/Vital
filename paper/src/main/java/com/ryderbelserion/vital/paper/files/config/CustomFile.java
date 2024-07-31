@@ -12,7 +12,7 @@ import java.util.concurrent.CompletableFuture;
  * Builds a custom file to load with the File Manager.
  *
  * @author Ryder Belserion
- * @version 2.4.4
+ * @version 2.4.5
  * @since 1.0
  */
 public class CustomFile {

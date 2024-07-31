@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Utilities related to roles.
  *
- * @version 2.4.4
+ * @version 2.4.5
  * @since 1.8
  */
 public class RoleUtil {
