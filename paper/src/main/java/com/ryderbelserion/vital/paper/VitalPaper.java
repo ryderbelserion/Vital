@@ -21,7 +21,9 @@ public class VitalPaper extends Vital {
     private boolean isLogging;
     
     /**
-     * Empty constructor
+     * Builds the vital paper constructor
+     *
+     * @param plugin {@link JavaPlugin}
      */
     public VitalPaper(final JavaPlugin plugin) {
         this.plugin = plugin;
