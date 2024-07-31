@@ -31,6 +31,11 @@ public abstract class ModuleHandler implements Listener {
     public abstract boolean isEnabled();
 
     /**
+     * Enables the module.
+     */
+    public abstract void enable();
+
+    /**
      * Reload the module.
      */
     public abstract void reload();
