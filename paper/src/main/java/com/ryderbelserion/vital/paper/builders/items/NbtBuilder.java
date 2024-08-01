@@ -14,7 +14,7 @@ import java.util.List;
  * Handles pdc on item stacks.
  *
  * @author Ryder Belserion
- * @version 2.4.5
+ * @version 2.4.6
  * @since 1.1
  */
 public class NbtBuilder {

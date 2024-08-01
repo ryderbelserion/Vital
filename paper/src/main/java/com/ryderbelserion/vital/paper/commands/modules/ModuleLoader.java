@@ -10,7 +10,7 @@ import java.util.List;
  * A class handling the loading of modules.
  *
  * @author Ryder Belserion
- * @version 2.4.5
+ * @version 2.4.6
  * @since 2.4
  */
 public class ModuleLoader {
@@ -41,9 +41,9 @@ public class ModuleLoader {
                 return;
             }
 
-            module.disable();
-
             this.registry.removeListener(module);
+
+            module.disable();
         });
     }
 
@@ -53,13 +53,19 @@ public class ModuleLoader {
     public void reload() {
         this.modules.forEach(module -> {
             if (module.isEnabled()) {
+                this.registry.addListener(module);
+
                 module.reload();
+            } else {
+                this.registry.removeListener(module);
+
+                module.disable();
             }
         });
     }
 
     /**
-     * Unregister a module if enabled.
+     * Unregister modules if enabled.
      */
     public void unload() {
         this.modules.forEach(module -> {
@@ -76,7 +82,7 @@ public class ModuleLoader {
      *
      * @param module the {@link ModuleHandler}
      */
-    public void addModule(final ModuleHandler module) {
+    public void addModule(@NotNull final ModuleHandler module) {
         if (containsModule(module)) return;
 
         this.modules.add(module);
@@ -87,7 +93,7 @@ public class ModuleLoader {
      *
      * @param module {@link ModuleHandler}
      */
-    public void removeModule(final ModuleHandler module) {
+    public void removeModule(@NotNull final ModuleHandler module) {
         if (!containsModule(module)) return;
 
         this.modules.remove(module);
@@ -98,7 +104,7 @@ public class ModuleLoader {
      *
      * @return the list of active modules.
      */
-    public final List<ModuleHandler> getModules() {
+    public @NotNull final List<ModuleHandler> getModules() {
         return Collections.unmodifiableList(this.modules);
     }
 
@@ -107,7 +113,7 @@ public class ModuleLoader {
      *
      * @return {@link EventRegistry}
      */
-    public final EventRegistry getRegistry() {
+    public @NotNull final EventRegistry getRegistry() {
         return this.registry;
     }
 
@@ -117,7 +123,7 @@ public class ModuleLoader {
      * @param module {@link ModuleHandler}
      * @return true or false
      */
-    private boolean containsModule(final ModuleHandler module) {
+    private boolean containsModule(@NotNull final ModuleHandler module) {
         return this.modules.contains(module);
     }
 }
