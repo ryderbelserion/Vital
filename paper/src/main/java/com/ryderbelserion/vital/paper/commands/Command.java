@@ -12,7 +12,7 @@ import java.util.concurrent.CompletableFuture;
  * A command object class to provide useful utilities and enforcement on methods.
  *
  * @author Ryder Belserion
- * @version 2.4.6
+ * @version 2.4.7
  * @since 2.4
  */
 public abstract class Command {

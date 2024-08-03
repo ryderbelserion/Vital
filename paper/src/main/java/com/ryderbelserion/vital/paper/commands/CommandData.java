@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
  * A command data class to provide some abstraction to brigadier commands
  *
  * @author Ryder Belserion
- * @version 2.4.6
+ * @version 2.4.7
  * @since 2.4
  */
 public class CommandData {

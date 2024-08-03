@@ -73,7 +73,7 @@ import java.util.function.Consumer;
  *
  * @author SvenjaReissaus
  * @author Ryder Belserion
- * @version 2.4.6
+ * @version 2.4.7
  * @since 1.0
  */
 @SuppressWarnings("UnusedReturnValue")
