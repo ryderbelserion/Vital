@@ -54,10 +54,38 @@ public abstract class Command {
      * Return a list of uuids for the suggestion provider.
      *
      * @param builder {@link SuggestionsBuilder}
+     * @param min min amount
+     * @param max max amount
+     * @return a list of suggestions
+     */
+    public @NotNull final CompletableFuture<Suggestions> suggestNames(final SuggestionsBuilder builder, final int min, final int max) {
+        for (int count = min; count <= max; count++) builder.suggest(UUID.randomUUID().toString().replace("-", "").substring(0, 8));
+
+        return builder.buildFuture();
+    }
+
+    /**
+     * Return a list of Integers for the suggestion provider.
+     *
+     * @param builder {@link SuggestionsBuilder}
+     * @param min min amount
+     * @param max max amount
+     * @return a list of suggestions
+     */
+    public @NotNull final CompletableFuture<Suggestions> suggestIntegers(final SuggestionsBuilder builder, final int min, final int max) {
+        for (int count = min; count <= max; count++) builder.suggest(count);
+
+        return builder.buildFuture();
+    }
+
+    /**
+     * Return a list of uuids for the suggestion provider.
+     *
+     * @param builder {@link SuggestionsBuilder}
      * @return a list of suggestions
      */
     public @NotNull final CompletableFuture<Suggestions> suggestNames(final SuggestionsBuilder builder) {
-        for (int count = 1; count <= 7; count++) builder.suggest(UUID.randomUUID().toString().replace("-", "").substring(0, 8));
+        for (int count = 1; count <= 8; count++) builder.suggest(UUID.randomUUID().toString().replace("-", "").substring(0, 8));
 
         return builder.buildFuture();
     }
@@ -69,7 +97,29 @@ public abstract class Command {
      * @return a list of suggestions
      */
     public @NotNull final CompletableFuture<Suggestions> suggestIntegers(final SuggestionsBuilder builder) {
-        for (int count = 1; count <= 100; count++) builder.suggest(count);
+        for (int count = 1; count <= 60; count++) builder.suggest(count);
+
+        return builder.buildFuture();
+    }
+
+    /**
+     * Return a list of Doubles for the suggestion provider.
+     *
+     * @param builder {@link SuggestionsBuilder}
+     * @param min min amount
+     * @param max max amount
+     * @return a list of suggestions
+     */
+    public @NotNull final CompletableFuture<Suggestions> suggestDoubles(final SuggestionsBuilder builder, final int min, final int max) {
+        int count = min;
+
+        while (count <= max) {
+            double x = count / 10.0;
+
+            builder.suggest(String.valueOf(x));
+
+            count++;
+        }
 
         return builder.buildFuture();
     }
