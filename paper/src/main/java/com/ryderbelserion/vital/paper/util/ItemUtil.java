@@ -30,7 +30,7 @@ import java.util.regex.Pattern;
  * All utilities related to items and ids.
  *
  * @author Ryder Belserion
- * @version 2.4.7
+ * @version 2.4.8
  * @since 1.0
  */
 public class ItemUtil {

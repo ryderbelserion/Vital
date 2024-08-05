@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
  * A runnable class with both Paper and Folia Support.
  *
  * @author Euphyllia
- * @version 2.4.7
+ * @version 2.4.8
  * @since 1.0
  */
 public abstract class FoliaRunnable implements Runnable {

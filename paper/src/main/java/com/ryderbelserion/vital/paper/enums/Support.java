@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
  * An enum of plugins supported.
  *
  * @author Ryder Belserion
- * @version 2.4.7
+ * @version 2.4.8
  * @since 1.0
  */
 public enum Support {
@@ -36,6 +36,10 @@ public enum Support {
      * DecentHolograms Plugin.
      */
     decent_holograms("DecentHolograms"),
+    /**
+     * Yardwatch Plugin.
+     */
+    yard_watch("YardWatch"),
     /**
      * PlaceholderAPI Plugin.
      */
