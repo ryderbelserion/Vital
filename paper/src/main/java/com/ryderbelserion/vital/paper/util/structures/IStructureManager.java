@@ -13,7 +13,7 @@ import java.util.Set;
  * A structure manager extending {@link IStructureManager} which builds {@link Structure}.
  *
  * @author Ryder Belserion
- * @version 2.4.7
+ * @version 2.4.8
  * @since 1.0
  */
 public interface IStructureManager {
