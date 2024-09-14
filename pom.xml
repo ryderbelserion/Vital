@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.ryderbelserion.vital</groupId>
+    <artifactId>vital-parent</artifactId>
+    <version>0.0.1</version>
+
+    <description>A library carefully crafted, as not to be all over the place.</description>
+    <url>https://github.com/ryderbelserion/Vital</url>
+    <inceptionYear>2023</inceptionYear>
+    <packaging>pom</packaging>
+    <name>Vital</name>
+
+    <modules>
+        <module>velocity</module>
+        <module>example</module>
+        <module>common</module>
+        <module>paper</module>
+    </modules>
+
+    <repositories>
+        <repository>
+            <id>jitpack</id>
+            <url>https://jitpack.io/</url>
+        </repository>
+    </repositories>
+
+    <developers>
+        <developer>
+            <name>Ryder Belserion</name>
+            <id>ryderbelserion</id>
+            <email>no-reply@ryderbelserion.com</email>
+            <timezone>EST</timezone>
+        </developer>
+    </developers>
+
+    <distributionManagement>
+        <repository>
+            <id>crazycrew-libraries</id>
+            <url>https://repo.crazycrew.us/libraries</url>
+        </repository>
+    </distributionManagement>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>21</java.version>
+    </properties>
+
+    <build>
+        <defaultGoal>clean package install</defaultGoal>
+        <finalName>${project.name}</finalName>
+        <sourceDirectory>src/main/java</sourceDirectory>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
