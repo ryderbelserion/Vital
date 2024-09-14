@@ -11,8 +11,15 @@ import com.ryderbelserion.vital.paper.api.builders.gui.listeners.GuiListener;
 import com.ryderbelserion.vital.paper.util.AdvUtil;
 import com.ryderbelserion.vital.paper.util.scheduler.FoliaRunnable;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.json.JSONComponentSerializer;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import net.minecraft.network.protocol.game.ClientboundOpenScreenPacket;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.inventory.MenuType;
 import org.bukkit.Bukkit;
+import org.bukkit.craftbukkit.entity.CraftHumanEntity;
+import org.bukkit.craftbukkit.inventory.CraftContainer;
+import org.bukkit.craftbukkit.util.CraftChatMessage;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -518,7 +525,7 @@ public abstract class BaseGui implements InventoryHolder, Listener, IBaseGui {
      */
     @Override
     public void updateTitle(final Player player) {
-        this.isUpdating = true;
+        /*this.isUpdating = true;
 
         final int size = this.inventory.getSize();
 
@@ -526,7 +533,14 @@ public abstract class BaseGui implements InventoryHolder, Listener, IBaseGui {
 
         open(player);
 
-        this.isUpdating = false;
+        this.isUpdating = false;*/
+
+        ServerPlayer entityPlayer = (ServerPlayer) ((CraftHumanEntity) player).getHandle();
+        int containerId = entityPlayer.containerMenu.containerId;
+        MenuType<?> windowType = CraftContainer.getNotchInventoryType(player.getOpenInventory().getTopInventory());
+        entityPlayer.connection.send(new ClientboundOpenScreenPacket(containerId, windowType, CraftChatMessage.fromJSON(JSONComponentSerializer.json().serialize(AdvUtil.parse(this.title)))));
+
+        player.updateInventory();
     }
 
     /**
