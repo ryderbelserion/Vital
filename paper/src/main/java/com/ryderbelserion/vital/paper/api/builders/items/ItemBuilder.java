@@ -127,7 +127,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
      * @since 0.0.1
      */
     public ItemBuilder(@NotNull final ItemStack itemStack, final boolean createNewStack) {
-        this.itemStack = createNewStack ? new ItemStack(itemStack) : itemStack;
+        this.itemStack = createNewStack ? itemStack.clone() : itemStack;
     }
 
     /**
@@ -148,7 +148,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
      * @since 0.0.1
      */
     public ItemBuilder(@NotNull final ItemBuilder<T> itemBuilder, final boolean createNewStack) {
-        this.itemStack = createNewStack ? new ItemStack(itemBuilder.itemStack) : itemBuilder.itemStack;
+        this.itemStack = createNewStack ? itemBuilder.itemStack.clone() : itemBuilder.itemStack;
         this.isCustom = itemBuilder.isCustom;
 
         this.customModelData = itemBuilder.customModelData;
