@@ -315,17 +315,6 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
                 if (itemMeta instanceof final MapMeta map) this.color = map.getColor();
             }
 
-            if (isEdible()) {
-                if (itemMeta instanceof final FoodComponent food) {
-                    if (!food.getEffects().isEmpty()) this.foodEffects.addAll(food.getEffects());
-
-                    this.eatSeconds = food.getEatSeconds();
-                    this.nutritionalValue = food.getNutrition();
-                    this.saturation = food.getSaturation();
-                    this.canAlwaysEat = food.canAlwaysEat();
-                }
-            }
-
             setHidingToolTips(itemMeta.isHideTooltip()).setFireResistant(itemMeta.isFireResistant())
                     .setHidingItemFlags(itemMeta.getItemFlags().contains(ItemFlag.HIDE_ATTRIBUTES))
                     .setUnbreakable(itemMeta.isUnbreakable());
@@ -572,22 +561,6 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
                 }
 
                 itemMeta.lore(this.displayComponentLore = components);
-            }
-
-            if (isEdible()) {
-                if (itemMeta instanceof final FoodComponent food) {
-                    if (!this.foodEffects.isEmpty()) food.setEffects(this.foodEffects);
-
-                    if (this.eatSeconds > 0) food.setEatSeconds(this.eatSeconds);
-
-                    if (this.nutritionalValue > 0) food.setNutrition(this.nutritionalValue);
-
-                    if (this.saturation > 0f) food.setSaturation(this.saturation);
-
-                    // this actually prevents people from eating the vouchers and crate keys,
-                    // fuck yeah. I can remove some shitty checks for people eating fucking keys.
-                    food.setCanAlwaysEat(this.canAlwaysEat);
-                }
             }
 
             this.customModelData.ifPresent(number -> {
@@ -1119,81 +1092,6 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
      */
     public @NotNull T setEntityType(@NotNull final EntityType entityType) {
         this.entityType = entityType;
-
-        return (T) this;
-    }
-
-    /**
-     * Add a {@link FoodComponent.FoodEffect} to the {@link List<FoodComponent.FoodEffect>}.
-     *
-     * @param effect the {@link FoodComponent.FoodEffect} to add
-     * @return {@link ItemBuilder}
-     * @since 0.0.1
-     */
-    public @NotNull T addFoodEffect(@NotNull final FoodComponent.FoodEffect effect) {
-        if (!isEdible()) return (T) this;
-
-        this.foodEffects.add(effect);
-
-        return (T) this;
-    }
-
-    /**
-     * Sets whether a player can eat the food.
-     *
-     * @param canAlwaysEat true or false
-     * @return {@link ItemBuilder}
-     * @since 0.0.1
-     */
-    public @NotNull T setCanAlwaysEat(final boolean canAlwaysEat) {
-        if (!isEdible()) return (T) this;
-
-        this.canAlwaysEat = canAlwaysEat;
-
-        return (T) this;
-    }
-
-    /**
-     * Sets the nutritional value of a piece of food.
-     *
-     * @param nutritionalValue the nutritional value
-     * @return {@link ItemBuilder}
-     * @since 0.0.1
-     */
-    public @NotNull T setNutritionalValue(final int nutritionalValue) {
-        if (!isEdible()) return (T) this;
-
-        this.nutritionalValue = nutritionalValue;
-
-        return (T) this;
-    }
-
-    /**
-     * Sets the saturation value for a piece of food.
-     *
-     * @param saturation the saturation value
-     * @return {@link ItemBuilder}
-     * @since 0.0.1
-     */
-    public @NotNull T setSaturation(final float saturation) {
-        if (!isEdible()) return (T) this;
-
-        this.saturation = saturation;
-
-        return (T) this;
-    }
-
-    /**
-     * Sets how long it takes to eat a piece of food.
-     *
-     * @param seconds how long it should take
-     * @return {@link ItemBuilder}
-     * @since 0.0.1
-     */
-    public @NotNull T setEatSeconds(final float seconds) {
-        if (!isEdible()) return (T) this;
-
-        this.eatSeconds = seconds;
 
         return (T) this;
     }
@@ -2049,15 +1947,6 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
      */
     public final boolean isMap() {
         return getType() == Material.MAP;
-    }
-
-    /**
-     * Checks if the {@link Material} is edible.
-     *
-     * @return true or false
-     */
-    public final boolean isEdible() {
-        return getType().isEdible();
     }
 
     /**
