@@ -26,7 +26,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * A structure manager extending {@link IStructureManager} which builds {@link Structure}.
  *
  * @author ryderbelserion
- * @version 0.0.1
+ * @version 0.0.2
  * @since 0.0.1
  */
 public class StructureManager implements IStructureManager {

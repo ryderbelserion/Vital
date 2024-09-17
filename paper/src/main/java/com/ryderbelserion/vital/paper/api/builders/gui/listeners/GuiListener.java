@@ -26,7 +26,7 @@ import java.util.Set;
  * Handles all gui interactions.
  *
  * @author Matt
- * @version 0.0.1
+ * @version 0.0.2
  * @since 0.0.1
  */
 public class GuiListener implements Listener {

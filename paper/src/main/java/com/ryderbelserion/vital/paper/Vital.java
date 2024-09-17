@@ -14,7 +14,7 @@ import java.io.File;
  * A platform specific class for Paper extending {@link VitalAPI}.
  *
  * @author ryderbelserion
- * @version 0.0.1
+ * @version 0.0.2
  * @since 0.0.1
  */
 public abstract class Vital extends JavaPlugin implements VitalAPI {
