@@ -61,7 +61,7 @@ public class GuiItem {
      * @param material the {@link Material} to be used when invoking class
      */
     public GuiItem(@NotNull final Material material) {
-        this(new ItemStack(material), null);
+        this(ItemStack.of(material), null);
     }
 
     /**
@@ -71,7 +71,7 @@ public class GuiItem {
      * @param action the {@link GuiAction} should be passed on {@link InventoryClickEvent}
      */
     public GuiItem(@NotNull final Material material, @Nullable final GuiAction<@NotNull InventoryClickEvent> action) {
-        this(new ItemStack(material), action);
+        this(ItemStack.of(material), action);
     }
 
     /**

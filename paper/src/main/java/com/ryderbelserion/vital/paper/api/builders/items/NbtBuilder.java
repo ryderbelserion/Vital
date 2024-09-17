@@ -17,6 +17,7 @@ import java.util.List;
  * @version 0.0.1
  * @since 0.0.1
  */
+@SuppressWarnings("UnusedReturnValue")
 public class NbtBuilder {
 
     private ItemStack itemStack;
@@ -48,7 +49,7 @@ public class NbtBuilder {
      * @since 0.0.1
      */
     public NbtBuilder(@NotNull final Material material, final int amount) {
-        this(new ItemStack(material, amount), true);
+        this(ItemStack.of(material, amount), true);
     }
 
     /**
@@ -59,7 +60,7 @@ public class NbtBuilder {
      * @since 0.0.1
      */
     public NbtBuilder(@NotNull final ItemStack itemStack, final boolean createNewStack) {
-        this.itemStack = createNewStack ? new ItemStack(itemStack) : itemStack;
+        this.itemStack = createNewStack ? itemStack.clone() : itemStack;
     }
 
     /**
