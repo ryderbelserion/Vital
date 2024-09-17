@@ -116,7 +116,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
      * @since 0.0.1
      */
     public ItemBuilder(@NotNull final Material material, final int amount) {
-        this(new ItemStack(material, amount), true);
+        this(ItemStack.of(material, amount), true);
     }
 
     /**
