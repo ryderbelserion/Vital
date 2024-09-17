@@ -1,6 +1,6 @@
 package com.ryderbelserion.vital.paper.api.builders.gui.interfaces;
 
-import com.ryderbelserion.vital.paper.api.builders.gui.exception.GuiException;
+import com.ryderbelserion.vital.paper.api.catches.GenericException;
 import com.ryderbelserion.vital.paper.api.builders.gui.types.BaseGui;
 import com.ryderbelserion.vital.paper.api.builders.gui.types.PaginatedGui;
 import org.jetbrains.annotations.NotNull;
@@ -173,7 +173,7 @@ public final class GuiFiller {
      */
     public void fill(@NotNull final List<GuiItem> guiItems) {
         if (this.gui instanceof PaginatedGui) {
-            throw new GuiException("Full filling a GUI is not supported in a Paginated GUI!");
+            throw new GenericException("Full filling a GUI is not supported in a Paginated GUI!");
         }
 
         final GuiType type = this.gui.getGuiType();

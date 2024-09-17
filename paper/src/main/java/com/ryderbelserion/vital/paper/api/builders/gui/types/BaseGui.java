@@ -1,6 +1,6 @@
 package com.ryderbelserion.vital.paper.api.builders.gui.types;
 
-import com.ryderbelserion.vital.paper.api.builders.gui.exception.GuiException;
+import com.ryderbelserion.vital.paper.api.catches.GenericException;
 import com.ryderbelserion.vital.paper.api.builders.gui.objects.components.InteractionComponent;
 import com.ryderbelserion.vital.paper.api.builders.gui.interfaces.GuiAction;
 import com.ryderbelserion.vital.paper.api.builders.gui.interfaces.GuiFiller;
@@ -16,7 +16,6 @@ import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import net.minecraft.network.protocol.game.ClientboundOpenScreenPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.inventory.MenuType;
-import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.entity.CraftHumanEntity;
 import org.bukkit.craftbukkit.inventory.CraftContainer;
 import org.bukkit.craftbukkit.util.CraftChatMessage;
@@ -856,9 +855,9 @@ public abstract class BaseGui implements InventoryHolder, Listener, IBaseGui {
      */
     private void throwInvalidSlot(final int slot) {
         if (this.guiType == GuiType.CHEST) {
-            throw new GuiException("Slot " + slot + " is not valid for the gui type - " + this.guiType.name() + " and rows - " + this.rows + "!");
+            throw new GenericException("Slot " + slot + " is not valid for the gui type - " + this.guiType.name() + " and rows - " + this.rows + "!");
         }
 
-        throw new GuiException("Slot " + slot + " is not valid for the gui type - " + this.guiType.name() + "!");
+        throw new GenericException("Slot " + slot + " is not valid for the gui type - " + this.guiType.name() + "!");
     }
 }

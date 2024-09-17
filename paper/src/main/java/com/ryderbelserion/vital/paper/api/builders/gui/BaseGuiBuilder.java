@@ -1,10 +1,9 @@
 package com.ryderbelserion.vital.paper.api.builders.gui;
 
-import com.ryderbelserion.vital.paper.api.builders.gui.exception.GuiException;
+import com.ryderbelserion.vital.paper.api.catches.GenericException;
 import com.ryderbelserion.vital.paper.api.builders.gui.objects.components.InteractionComponent;
 import com.ryderbelserion.vital.paper.api.builders.gui.types.BaseGui;
 import com.ryderbelserion.vital.paper.api.builders.gui.interfaces.GuiType;
-import com.ryderbelserion.vital.paper.api.builders.gui.types.PaginatedGui;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -239,7 +238,7 @@ public abstract class BaseGuiBuilder<G extends BaseGui, B extends BaseGuiBuilder
      */
     protected @NotNull final String getTitle() {
         if (this.title == null) {
-            throw new GuiException("The gui title is missing!");
+            throw new GenericException("The gui title is missing!");
         }
 
         return this.title;

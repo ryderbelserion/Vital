@@ -1,15 +1,15 @@
-package com.ryderbelserion.vital.paper.api.builders.gui.exception;
+package com.ryderbelserion.vital.paper.api.catches;
 
 import org.jetbrains.annotations.NotNull;
 
 /**
  * Throws an exception.
  *
- * @author Matt
+ * @author ryderbelserion
  * @version 0.0.1
  * @since 0.0.1
  */
-public final class GuiException extends RuntimeException {
+public final class GenericException extends RuntimeException {
 
     /**
      * Throws an exception with a specific cause.
@@ -18,7 +18,7 @@ public final class GuiException extends RuntimeException {
      * @param cause the cause
      * @since 0.0.1
      */
-    public GuiException(@NotNull final String message, @NotNull final Exception cause) {
+    public GenericException(@NotNull final String message, @NotNull final Exception cause) {
         super(message, cause);
     }
 
@@ -28,7 +28,7 @@ public final class GuiException extends RuntimeException {
      * @param message the message to send
      * @since 0.0.1
      */
-    public GuiException(@NotNull final String message) {
+    public GenericException(@NotNull final String message) {
         super(message);
     }
 }
