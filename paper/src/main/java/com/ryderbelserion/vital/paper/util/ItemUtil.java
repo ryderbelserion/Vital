@@ -439,6 +439,28 @@ public class ItemUtil {
     }
 
     /**
+     * Encodes and serializes an {@link ItemStack} into bytes
+     *
+     * @param itemStack {@link ItemStack}
+     * @return bytes
+     * @since 0.0.2
+     */
+    public static byte[] toBytes(@NotNull final ItemStack itemStack) {
+        return itemStack.serializeAsBytes();
+    }
+
+    /**
+     * Deserialize bytes back into an {@link ItemStack}.
+     *
+     * @param bytes the bytes
+     * @return {@link ItemStack}
+     * @since 0.0.2
+     */
+    public static @NotNull ItemStack fromBytes(final byte @NotNull [] bytes) {
+        return ItemStack.deserializeBytes(bytes);
+    }
+
+    /**
      * Encodes and serializes an {@link ItemStack} into a {@link String}.
      *
      * @param itemStack {@link ItemStack}
