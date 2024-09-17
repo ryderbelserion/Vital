@@ -21,6 +21,7 @@ import java.util.function.Consumer;
  * @version 0.0.1
  * @since 0.0.1
  */
+@SuppressWarnings("unchecked")
 public abstract class BaseGuiBuilder<G extends BaseGui, B extends BaseGuiBuilder<G, B>> {
 
     private final EnumSet<InteractionComponent> components = EnumSet.noneOf(InteractionComponent.class);
