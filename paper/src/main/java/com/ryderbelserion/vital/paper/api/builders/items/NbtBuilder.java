@@ -14,7 +14,7 @@ import java.util.List;
  * Handles pdc on item stacks.
  *
  * @author ryderbelserion
- * @version 0.0.6
+ * @version 0.0.7
  * @since 0.0.1
  */
 @SuppressWarnings("UnusedReturnValue")
