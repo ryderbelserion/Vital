@@ -1,4 +1,4 @@
-package com.ryderbelserion.vital.common.managers.config.beans;
+package com.ryderbelserion.vital.common.config.beans;
 
 import ch.jalu.configme.Comment;
 

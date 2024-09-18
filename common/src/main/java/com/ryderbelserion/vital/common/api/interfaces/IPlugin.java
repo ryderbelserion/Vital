@@ -1,6 +1,6 @@
 package com.ryderbelserion.vital.common.api.interfaces;
 
-import com.ryderbelserion.vital.common.managers.PluginManager;
+import com.ryderbelserion.vital.common.api.managers.PluginManager;
 import org.jetbrains.annotations.NotNull;
 import java.util.UUID;
 

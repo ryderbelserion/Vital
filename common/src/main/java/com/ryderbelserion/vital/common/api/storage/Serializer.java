@@ -1,4 +1,4 @@
-package com.ryderbelserion.vital.common.managers;
+package com.ryderbelserion.vital.common.api.storage;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -28,7 +28,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * @version 0.0.1
  * @since 0.0.1
  */
-public class JsonManager<T> {
+public class Serializer<T> {
 
     private static final Map<String, Lock> locks = new HashMap<>();
 
@@ -46,7 +46,7 @@ public class JsonManager<T> {
      * @param clazz {@link T}
      * @since 0.0.1
      */
-    public JsonManager(@NotNull final File file, T clazz) {
+    public Serializer(@NotNull final File file, T clazz) {
         this.file = file;
         this.clazz = clazz;
     }
@@ -54,10 +54,10 @@ public class JsonManager<T> {
     /**
      * Excludes variables with the {@link Expose} annotation from being parsed.
      *
-     * @return {@link JsonManager}
+     * @return {@link Serializer}
      * @since 0.0.1
      */
-    public final JsonManager<T> withoutExposeAnnotation() {
+    public final Serializer<T> withoutExposeAnnotation() {
         this.builder.excludeFieldsWithoutExposeAnnotation();
 
         return this;
@@ -66,10 +66,10 @@ public class JsonManager<T> {
     /**
      * Set pretty printing
      *
-     * @return {@link JsonManager}
+     * @return {@link Serializer}
      * @since 0.0.1
      */
-    public final JsonManager<T> setPrettyPrinting() {
+    public final Serializer<T> setPrettyPrinting() {
         this.builder.setPrettyPrinting();
 
         return this;
@@ -79,10 +79,10 @@ public class JsonManager<T> {
      * Excludes variables with specific modifier annotations from being parsed.
      *
      * @param modifiers the {@link Modifier}
-     * @return {@link JsonManager}
+     * @return {@link Serializer}
      * @since 0.0.1
      */
-    public final JsonManager<T> withoutModifiers(final int... modifiers) {
+    public final Serializer<T> withoutModifiers(final int... modifiers) {
         this.builder.excludeFieldsWithModifiers(modifiers);
 
         return this;
@@ -93,10 +93,10 @@ public class JsonManager<T> {
      *
      * @param type the type adapter
      * @param object the object
-     * @return {@link JsonManager}
+     * @return {@link Serializer}
      * @since 0.0.1
      */
-    public final JsonManager<T> registerAdapters(final Type type, final Object object) {
+    public final Serializer<T> registerAdapters(final Type type, final Object object) {
         this.builder.registerTypeAdapter(type, object);
 
         return this;
@@ -105,10 +105,10 @@ public class JsonManager<T> {
     /**
      * Builds everything we need
      *
-     * @return {@link JsonManager}
+     * @return {@link Serializer}
      * @since 0.0.1
      */
-    public final JsonManager<T> load() {
+    public final Serializer<T> load() {
         if (this.gson == null) {
             this.gson = this.builder.create();
         }

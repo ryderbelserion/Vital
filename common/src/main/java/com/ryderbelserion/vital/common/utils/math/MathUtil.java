@@ -1,8 +1,8 @@
 package com.ryderbelserion.vital.common.utils.math;
 
 import ch.jalu.configme.SettingsManager;
-import com.ryderbelserion.vital.common.managers.config.ConfigManager;
-import com.ryderbelserion.vital.common.managers.config.keys.ConfigKeys;
+import com.ryderbelserion.vital.common.config.ConfigManager;
+import com.ryderbelserion.vital.common.config.keys.ConfigKeys;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 

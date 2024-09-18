@@ -1,4 +1,4 @@
-package com.ryderbelserion.vital.common.managers.config;
+package com.ryderbelserion.vital.common.config;
 
 
 import ch.jalu.configme.SettingsManager;
@@ -6,7 +6,7 @@ import ch.jalu.configme.SettingsManagerBuilder;
 import ch.jalu.configme.resource.YamlFileResourceOptions;
 import com.ryderbelserion.vital.common.VitalAPI;
 import com.ryderbelserion.vital.common.api.Provider;
-import com.ryderbelserion.vital.common.managers.config.keys.ConfigKeys;
+import com.ryderbelserion.vital.common.config.keys.ConfigKeys;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import java.io.File;
