@@ -77,7 +77,7 @@ import java.util.function.Consumer;
  *
  * @author SvenjaReissaus
  * @author ryderbelserion
- * @version 0.0.5
+ * @version 0.0.6
  * @since 0.0.1
  */
 @SuppressWarnings({"UnusedReturnValue", "unchecked"})
@@ -1947,6 +1947,26 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
      */
     public final boolean isMap() {
         return getType() == Material.MAP;
+    }
+
+    /**
+     * Checks if an item is hiding item flags.
+     *
+     * @return true or false
+     * @since 0.0.6
+     */
+    public final boolean isHidingItemFlags() {
+        return this.isHidingItemFlags;
+    }
+
+    /**
+     * Checks if an item is hiding tool tips.
+     *
+     * @return true or false
+     * @since 0.0.6
+     */
+    public final boolean isHidingToolTips() {
+        return this.isHidingToolTips;
     }
 
     /**
