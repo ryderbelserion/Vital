@@ -6,6 +6,8 @@ import com.ryderbelserion.vital.paper.api.builders.gui.interfaces.types.IPaginat
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -14,12 +16,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Consumer;
 
 /**
  * Creates a paginated gui
  *
  * @author Matt
- * @version 0.0.4
+ * @version 0.0.5
  * @since 0.0.1
  */
 public class PaginatedGui extends BaseGui implements IPaginatedGui {
@@ -43,7 +46,11 @@ public class PaginatedGui extends BaseGui implements IPaginatedGui {
     public PaginatedGui(@NotNull final String title, final int pageSize, final int rows, @NotNull final Set<InteractionComponent> components) {
         super(title, rows, components);
 
-        this.pageSize = pageSize;
+        if (pageSize == 0) {
+            calculatePageSize();
+        } else {
+            this.pageSize = pageSize;
+        }
 
         int size = rows * 9;
 
@@ -181,7 +188,7 @@ public class PaginatedGui extends BaseGui implements IPaginatedGui {
      */
     @Override
     public void open(@NotNull final Player player, final boolean purge) {
-        open(player, 1);
+        open(player, 1, null);
     }
 
     /**
@@ -191,7 +198,18 @@ public class PaginatedGui extends BaseGui implements IPaginatedGui {
      */
     @Override
     public void open(@NotNull final Player player) {
-        open(player, 1);
+        open(player, 1, null);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param player {@inheritDoc}
+     * @param consumer {@inheritDoc}
+     */
+    @Override
+    public void open(@NotNull final Player player, @NotNull final Consumer<PaginatedGui> consumer) {
+        open(player, 1, consumer);
     }
 
     /**
@@ -201,7 +219,7 @@ public class PaginatedGui extends BaseGui implements IPaginatedGui {
      * @param openPage {@inheritDoc}
      */
     @Override
-    public void open(@NotNull final Player player, final int openPage) {
+    public void open(@NotNull final Player player, final int openPage, @Nullable final Consumer<PaginatedGui> consumer) {
         if (player.isSleeping()) return;
 
         if (openPage <= getMaxPages() || openPage > 0) this.pageNumber = openPage;
@@ -212,9 +230,13 @@ public class PaginatedGui extends BaseGui implements IPaginatedGui {
         populate();
 
         // calculate anyway, just in case.
-        if (this.pageSize == 0 || this.pageSize == getSize()) this.pageSize = calculatePageSize();
+        if (this.pageSize == 0 || this.pageSize == getSize()) calculatePageSize();
 
         populatePage();
+
+        if (consumer != null) {
+            consumer.accept(this);
+        }
 
         player.openInventory(getInventory());
     }
@@ -425,14 +447,14 @@ public class PaginatedGui extends BaseGui implements IPaginatedGui {
      * @return {@inheritDoc}
      */
     @Override
-    public final int calculatePageSize() {
+    public final void calculatePageSize() {
         int counter = 0;
 
-        for (int slot = 0; slot < getRows() * 9; slot++) {
+        for (int slot = 0; slot < getSize(); slot++) {
             if (getInventory().getItem(slot) == null) counter++;
         }
 
-        return counter;
+        this.pageSize = counter;
     }
 
     // Overridden methods from the BaseGui class

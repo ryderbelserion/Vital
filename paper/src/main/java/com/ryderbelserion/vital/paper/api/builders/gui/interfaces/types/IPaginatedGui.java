@@ -6,8 +6,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 /**
  * Constraints for the gui classes.
@@ -94,10 +97,21 @@ public interface IPaginatedGui {
      * Uses {@link #populatePage()}.
      *
      * @param player the {@link Player} to open it to
-     * @param openPage the specific page to open at
+     * @param consumer the consumer to run extra stuff
      * @since 0.0.1
      */
-    void open(@NotNull final Player player, final int openPage);
+    void open(@NotNull final Player player, @NotNull final Consumer<PaginatedGui> consumer);
+
+    /**
+     * Specific open method for the Paginated GUI.
+     * Uses {@link #populatePage()}.
+     *
+     * @param player the {@link Player} to open it to
+     * @param openPage the specific page to open at
+     * @param consumer the consumer to run extra stuff
+     * @since 0.0.1
+     */
+    void open(@NotNull final Player player, final int openPage, @Nullable final Consumer<PaginatedGui> consumer);
 
     /**
      * Gets the next page number.
@@ -220,9 +234,8 @@ public interface IPaginatedGui {
     /**
      * Calculates the size of the give page.
      *
-     * @return the page size
      * @since 0.0.1
      */
-    int calculatePageSize();
+    void calculatePageSize();
 
 }
