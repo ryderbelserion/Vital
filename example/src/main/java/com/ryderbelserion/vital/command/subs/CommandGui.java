@@ -16,109 +16,85 @@ import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
-import java.util.List;
 
 public class CommandGui extends PaperCommand {
 
     private final TestPlugin plugin = JavaPlugin.getPlugin(TestPlugin.class);
 
-    private final PaginatedGui gui;
+    private PaginatedGui gui;
 
-    public CommandGui() {
-        this.gui = Gui.paginated().setTitle("Beans").setRows(6).disableInteractions().create();
-    }
+    public CommandGui() {}
 
     @Override
     public void execute(PaperCommandInfo info) {
+        this.gui = Gui.paginated().setTitle("Beans").setRows(6).disableInteractions().create();
+
         if (!info.isPlayer()) return;
 
         final GuiFiller guiFiller = this.gui.getFiller();
 
         final Material glass = Material.BLACK_STAINED_GLASS_PANE;
 
-        List.of(
-                Material.APPLE,
-                Material.APPLE,
-                Material.APPLE,
-                Material.APPLE,
-                Material.APPLE,
-                Material.APPLE,
-                Material.APPLE,
-                Material.APPLE,
-                Material.APPLE,
-                Material.APPLE,
-                Material.APPLE,
-                Material.APPLE,
-                Material.APPLE,
-                Material.APPLE,
-                Material.APPLE,
-                Material.APPLE,
-                Material.APPLE,
-                Material.APPLE,
-                Material.APPLE,
-                Material.APPLE,
-                Material.APPLE,
-                Material.APPLE,
-                Material.APPLE,
-                Material.APPLE
-        ).forEach(itemStack -> this.gui.addItem(new GuiItem(itemStack)));
-
         guiFiller.fillTop(new GuiItem(glass));
         guiFiller.fillBottom(new GuiItem(glass));
 
+        for (int i = 0; i < 38; i++) {
+            this.gui.addItem(new GuiItem(Material.APPLE));
+        }
+
         final Material arrow = Material.ARROW;
 
-        final int page = this.gui.getCurrentPageNumber();
+        this.gui.open(info.getPlayer(), gui -> {
+            final int page = gui.getCurrentPageNumber();
 
-        if (page > 1) {
-            setPreviousButton(this.gui, arrow);
-        }
+            if (page > 1) {
+                setPreviousButton(arrow, gui);
+            }
 
-        if (page < this.gui.getMaxPages()) {
-            setNextButton(this.gui, arrow);
-        }
-
-        this.gui.open(info.getPlayer());
+            if (page < gui.getMaxPages()) {
+                setNextButton(arrow, gui);
+            }
+        });
     }
 
-    private void setNextButton(final PaginatedGui gui, final Material material) {
-        gui.setItem(6, 6, new ItemBuilder<>().withType(material).setDisplayName("<red>Next Page #{page}").addNamePlaceholder("{page}", String.valueOf(gui.getNextPageNumber())).asGuiItem(event -> {
+    private void setNextButton(final Material material, final PaginatedGui gui) {
+        gui.setItem(gui.getRows(), 6, new ItemBuilder<>().withType(material).setDisplayName("<red>Next Page #{page}").addNamePlaceholder("{page}", String.valueOf(gui.getNextPageNumber())).asGuiItem(event -> {
             event.setCancelled(true);
 
-            this.gui.next();
+            gui.next();
 
-            final int page = this.gui.getCurrentPageNumber();
+            final int page = gui.getCurrentPageNumber();
 
-            if (page < this.gui.getMaxPages()) {
-                setNextButton(this.gui, material);
+            if (page < gui.getMaxPages()) {
+                setNextButton(material, gui);
             } else {
-                this.gui.setItem(6, 6, new GuiItem(Material.BLACK_STAINED_GLASS_PANE));
+                gui.setItem(gui.getRows(), 6, new GuiItem(Material.BLACK_STAINED_GLASS_PANE));
             }
 
             if (page > 1) {
-                setPreviousButton(this.gui, material);
+                setPreviousButton(material, gui);
             } else {
-                this.gui.setItem(6, 4, new GuiItem(Material.BLACK_STAINED_GLASS_PANE));
+                gui.setItem(gui.getRows(), 4, new GuiItem(Material.BLACK_STAINED_GLASS_PANE));
             }
         }));
     }
 
-    private void setPreviousButton(final PaginatedGui gui, final Material material) {
-        gui.setItem(6, 4, new ItemBuilder<>().withType(material).setDisplayName("<red>Previous Page #{page}").addNamePlaceholder("{page}", String.valueOf(gui.getPreviousPageNumber())).asGuiItem(event -> {
+    private void setPreviousButton(final Material material, final PaginatedGui gui) {
+        gui.setItem(gui.getRows(), 4, new ItemBuilder<>().withType(material).setDisplayName("<red>Previous Page #{page}").addNamePlaceholder("{page}", String.valueOf(gui.getPreviousPageNumber())).asGuiItem(event -> {
             event.setCancelled(true);
 
-            this.gui.previous();
+            gui.previous();
 
-            final int page = this.gui.getCurrentPageNumber();
+            final int page = gui.getCurrentPageNumber();
 
             if (page > 1) {
-                setPreviousButton(this.gui, material);
+                setPreviousButton(material, gui);
             } else {
-                this.gui.setItem(6, 4, new GuiItem(Material.BLACK_STAINED_GLASS_PANE));
+                gui.setItem(gui.getRows(), 4, new GuiItem(Material.BLACK_STAINED_GLASS_PANE));
             }
 
-            if (page < this.gui.getMaxPages()) {
-                setNextButton(this.gui, material);
+            if (page < gui.getMaxPages()) {
+                setNextButton(material, gui);
             }
         }));
     }
