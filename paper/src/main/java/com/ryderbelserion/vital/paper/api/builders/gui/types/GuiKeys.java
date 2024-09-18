@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
  * Handles the item meta
  *
  * @author ryderbelserion
- * @version 0.0.5
+ * @version 0.0.6
  * @since 0.0.1
  */
 public class GuiKeys {

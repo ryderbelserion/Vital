@@ -12,7 +12,7 @@ import java.util.Set;
  * Creates a gui.
  *
  * @author Matt
- * @version 0.0.5
+ * @version 0.0.6
  * @since 0.0.1
  */
 public class Gui extends BaseGui {

@@ -22,7 +22,7 @@ import java.util.function.Consumer;
  * Creates a paginated gui
  *
  * @author Matt
- * @version 0.0.5
+ * @version 0.0.6
  * @since 0.0.1
  */
 public class PaginatedGui extends BaseGui implements IPaginatedGui {

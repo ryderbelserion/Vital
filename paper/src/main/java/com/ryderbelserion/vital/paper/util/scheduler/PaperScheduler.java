@@ -9,7 +9,7 @@ import java.util.function.Consumer;
  * A class to handle scheduling tasks for Paper servers
  *
  * @author ryderbelserion
- * @version 0.0.5
+ * @version 0.0.6
  * @since 0.0.1
  */
 public class PaperScheduler implements IScheduler {

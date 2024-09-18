@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
  * Represents gui types
  *
  * @author Matt
- * @version 0.0.5
+ * @version 0.0.6
  * @since 0.0.1
  */
 public enum GuiType {

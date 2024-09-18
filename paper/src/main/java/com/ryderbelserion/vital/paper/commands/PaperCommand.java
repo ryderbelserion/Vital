@@ -8,7 +8,7 @@ import io.papermc.paper.command.brigadier.CommandSourceStack;
  * Paper extension of Command.
  *
  * @author ryderbelserion
- * @version 0.0.5
+ * @version 0.0.6
  * @since 0.0.1
  */
 public abstract class PaperCommand extends Command<CommandSourceStack, PaperCommandInfo> {
