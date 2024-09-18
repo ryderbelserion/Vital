@@ -113,7 +113,7 @@ public class AdvUtil {
     /**
      * Converts a lore to minimessage strings
      *
-     * @param lore {@link List <Component>}
+     * @param lore {@link List<Component>}
      * @return {@link List<Component>}
      * @since 0.0.3
      */
