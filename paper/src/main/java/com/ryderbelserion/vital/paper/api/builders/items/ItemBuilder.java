@@ -77,7 +77,7 @@ import java.util.function.Consumer;
  *
  * @author SvenjaReissaus
  * @author ryderbelserion
- * @version 0.0.6
+ * @version 0.0.7
  * @since 0.0.1
  */
 @SuppressWarnings({"UnusedReturnValue", "unchecked"})
@@ -1778,8 +1778,9 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
      * Strips a {@link Component} of all colors and returns it blank.
      *
      * @return a {@link Component} stripped and serialized to a {@link String}
+     * @since 0.0.1
      */
-    public @NotNull String getStrippedName() {
+    public @NotNull final String getStrippedName() {
         return PlainTextComponentSerializer.plainText().serialize(this.itemStack.displayName());
     }
 
@@ -1787,8 +1788,9 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
      * Strips a list of {@link Component} of all colors and returns it blank.
      *
      * @return a list of {@link Component} stripped and serialized to a list of {@link String}
+     * @since 0.0.1
      */
-    public @NotNull List<String> getStrippedLore() {
+    public @NotNull final List<String> getStrippedLore() {
         final List<String> lore = new ArrayList<>();
 
         this.displayComponentLore.forEach(line -> lore.add(PlainTextComponentSerializer.plainText().serialize(line)));
@@ -1797,11 +1799,22 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     }
 
     /**
+     * A list of {@link ItemFlag}.
+     * 
+     * @return a list of {@link ItemFlag}
+     * @since 0.0.7
+     */
+    public @NotNull final List<ItemFlag> getItemFlags() {
+        return this.itemFlags;
+    }
+
+    /**
      * Gets the display lore of the {@link ItemStack}.
      *
      * @return the display lore without being turned into a {@link Component}
+     * @since 0.0.1
      */
-    public final List<String> getDisplayLore() {
+    public @NotNull final List<String> getDisplayLore() {
         return this.displayLore;
     }
 
@@ -1809,6 +1822,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
      * Gets the display name of the {@link ItemStack}.
      *
      * @return the display name without being turned into a {@link Component}
+     * @since 0.0.1
      */
     public @NotNull final String getDisplayName() {
         return this.displayName;
@@ -1818,6 +1832,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
      * Checks if the {@link ItemStack} has {@link ItemMeta}.
      *
      * @return true or false
+     * @since 0.0.1
      */
     public final boolean hasItemMeta() {
         return !this.itemStack.hasItemMeta();
@@ -1827,6 +1842,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
      * Gets the {@link Material} type.
      *
      * @return the {@link Material} type
+     * @since 0.0.1
      */
     public @NotNull final Material getType() {
         return this.itemStack.getType();
@@ -1836,6 +1852,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
      * Reactively checks if the {@link ItemStack} {@link Material} is a {@link Banner}.
      *
      * @return true or false
+     * @since 0.0.1
      */
     public final boolean isBanner() {
         return BANNERS.contains(getType());
@@ -1845,6 +1862,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
      * Reactively checks if the {@link ItemStack} {@link Material} is an armor piece.
      *
      * @return true or false
+     * @since 0.0.1
      */
     public final boolean isArmor() {
         return ARMOR.contains(getType());
@@ -1854,6 +1872,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
      * Reactively checks if the {@link ItemStack} {@link Material} is a shulker box.
      *
      * @return true or false
+     * @since 0.0.1
      */
     public final boolean isShulker() {
         return SHULKERS.contains(getType());
@@ -1863,6 +1882,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
      * Reactively checks if the {@link ItemStack} {@link Material} is a leather variant.
      *
      * @return true or false
+     * @since 0.0.1
      */
     public final boolean isLeather() {
         return LEATHER_ARMOR.contains(getType());
@@ -1872,6 +1892,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
      * Reactively checks if the {@link ItemStack} {@link Material} is a potion.
      *
      * @return true or false
+     * @since 0.0.1
      */
     public final boolean isPotion() {
         return POTIONS.contains(getType());
@@ -1881,6 +1902,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
      * Reactively checks if the {@link ItemStack} {@link Material} is an enchanted book.
      *
      * @return true or false
+     * @since 0.0.1
      */
     public final boolean isEnchantedBook() {
         return getType() == Material.ENCHANTED_BOOK;
@@ -1890,6 +1912,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
      * Reactively checks if the {@link ItemStack} {@link Material} is a player head.
      *
      * @return true or false
+     * @since 0.0.1
      */
     public final boolean isPlayerHead() {
         return getType() == Material.PLAYER_HEAD;
@@ -1899,6 +1922,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
      * Reactively checks if the {@link ItemStack} {@link Material} is a firework star.
      *
      * @return true or false
+     * @since 0.0.1
      */
     public final boolean isFireworkStar() {
         return getType() == Material.FIREWORK_STAR;
@@ -1908,6 +1932,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
      * Reactively checks if the {@link ItemStack} {@link Material} is a {@link org.bukkit.entity.Firework}.
      *
      * @return true or false
+     * @since 0.0.1
      */
     public final boolean isFirework() {
         return getType() == Material.FIREWORK_ROCKET;
@@ -1917,6 +1942,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
      * Reactively checks if the {@link ItemStack} {@link Material} is a {@link CreatureSpawner}.
      *
      * @return true or false
+     * @since 0.0.1
      */
     public final boolean isSpawner() {
         return getType() == Material.SPAWNER;
@@ -1926,6 +1952,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
      * Reactively checks if the {@link ItemStack} {@link Material} is a shield.
      *
      * @return true or false
+     * @since 0.0.1
      */
     public final boolean isShield() {
         return getType() == Material.SHIELD;
@@ -1935,6 +1962,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
      * Reactively checks if the {@link ItemStack} {@link Material} is an {@link org.bukkit.entity.Arrow}.
      *
      * @return true or false
+     * @since 0.0.1
      */
     public final boolean isArrow() {
         return getType() == Material.ARROW;
@@ -1944,6 +1972,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
      * Reactively checks if the {@link ItemStack} {@link Material} is a map.
      *
      * @return true or false
+     * @since 0.0.1
      */
     public final boolean isMap() {
         return getType() == Material.MAP;
@@ -1995,6 +2024,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
      *
      * @param uuid the {@link UUID} of the {@link OfflinePlayer}
      * @return the {@link OfflinePlayer}
+     * @since 0.0.1
      */
     private @NotNull OfflinePlayer getOfflinePlayer(@NotNull final UUID uuid) {
         return Bukkit.getServer().getOfflinePlayer(uuid);
@@ -2005,6 +2035,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
      *
      * @param uuid the uuid of the {@link Player}
      * @return the {@link Player}
+     * @since 0.0.1
      */
     private @Nullable Player getPlayer(@NotNull final UUID uuid) {
         return Bukkit.getServer().getPlayer(uuid);
