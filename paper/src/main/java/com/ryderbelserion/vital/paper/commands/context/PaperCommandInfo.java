@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
  * A command data class to provide some abstraction to brigadier commands
  *
  * @author ryderbelserion
- * @version 0.0.2
+ * @version 0.0.3
  * @since 0.0.1
  */
 public class PaperCommandInfo extends CommandInfo<CommandSourceStack> {

@@ -7,7 +7,7 @@ import org.bukkit.event.Listener;
  * An abstract class to define what a module can do.
  *
  * @author ryderbelserion
- * @version 0.0.2
+ * @version 0.0.3
  * @since 0.0.1
  */
 public interface IPaperModule extends IModule, Listener {}

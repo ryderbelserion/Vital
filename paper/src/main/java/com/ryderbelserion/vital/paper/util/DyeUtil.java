@@ -9,7 +9,7 @@ import org.jetbrains.annotations.Nullable;
  * All utilities related to dye colors.
  *
  * @author ryderbelserion
- * @version 0.0.2
+ * @version 0.0.3
  * @since 0.0.1
  */
 public class DyeUtil {
