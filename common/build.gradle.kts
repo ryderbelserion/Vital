@@ -15,6 +15,8 @@ dependencies {
 
     compileOnly(libs.gson)
 
+    api(libs.bundles.configurate)
+
     api(libs.jalu)
 }
 

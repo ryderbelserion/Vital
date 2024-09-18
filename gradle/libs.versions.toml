@@ -17,6 +17,7 @@ runPaper = "2.3.0"
 shadow = "8.3.0"
 
 # Libraries
+configurate = "4.1.2"
 jetbrains = "24.1.0"
 adventure = "4.17.0"
 gson = "2.10.1"
@@ -31,6 +32,9 @@ oraxen = "1.171.0"
 velocity = { module = "com.velocitypowered:velocity-api", version.ref = "velocity" }
 brigadier = { module = "com.mojang:brigadier", version.ref = "brigadier" }
 paper = { module = "io.papermc.paper:paper-api", version.ref = "paper" }
+
+# Configurate
+configurate-yaml = { module = "org.spongepowered:configurate-yaml", version.ref = "configurate" }
 
 # Kyori
 kyori-logger = { module = "net.kyori:adventure-text-logger-slf4j", version.ref = "adventure" }
@@ -49,4 +53,5 @@ jalu = { module = "ch.jalu:configme", version.ref = "jalu" }
 
 [bundles]
 configurate = ["configurate-yaml"]
-adventure = [ "kyori-api", "kyori-text", "kyori-logger" ]
+plugins = ["headdatabaseapi", "placeholderapi", "oraxen"]
+adventure = ["kyori-api", "kyori-text", "kyori-logger"]
