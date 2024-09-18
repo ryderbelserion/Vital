@@ -394,14 +394,14 @@ public class FileManager {
      * Gets a file from the cache.
      *
      * @param fileName the name of the file
-     * @param isDynamic true or false
+     * @param isCustom true or false
      * @return {@link CustomFile}
      * @since 0.0.1
      */
-    public final CustomFile getFile(final boolean isDynamic, final String fileName) {
+    public final CustomFile getFile(final String fileName, final boolean isCustom) {
         final String cleanName = strip(fileName, "yml");
 
-        return isDynamic ? this.customFiles.get(cleanName) : this.files.get(cleanName);
+        return isCustom ? this.customFiles.get(cleanName) : this.files.get(cleanName);
     }
 
     /**
@@ -412,7 +412,7 @@ public class FileManager {
      * @since 0.0.1
      */
     public final CustomFile getFile(final String fileName) {
-        return getFile(false, fileName);
+        return getFile(fileName, false);
     }
 
     /**
