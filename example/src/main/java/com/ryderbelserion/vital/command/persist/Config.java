@@ -1,7 +1,7 @@
 package com.ryderbelserion.vital.command.persist;
 
 import com.google.gson.annotations.Expose;
-import com.ryderbelserion.vital.common.files.json.Serializer;
+import com.ryderbelserion.vital.common.managers.JsonManager;
 import java.io.File;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -92,19 +92,19 @@ public class Config {
         add("world");
     }};
 
-    private final Serializer<Config> serializer;
+    private final JsonManager<Config> jsonManager;
 
     public Config(final File dataFolder) {
-        this.serializer = new Serializer<>(new File(dataFolder, "config.json"), this)
+        this.jsonManager = new JsonManager<>(new File(dataFolder, "config.json"), this)
                 .withoutExposeAnnotation()
                 .setPrettyPrinting();
     }
 
     public void save() {
-        this.serializer.write();
+        this.jsonManager.write();
     }
 
     public void load() {
-        this.serializer.load();
+        this.jsonManager.load();
     }
 }
