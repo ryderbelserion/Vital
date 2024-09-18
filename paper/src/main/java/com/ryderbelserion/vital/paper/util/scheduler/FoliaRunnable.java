@@ -17,7 +17,7 @@ import java.util.function.Consumer;
  * A runnable class with both Paper and Folia Support.
  *
  * @author Euphyllia
- * @version 0.0.4
+ * @version 0.0.5
  * @since 0.0.1
  */
 public abstract class FoliaRunnable implements Runnable {

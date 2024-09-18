@@ -77,7 +77,7 @@ import java.util.function.Consumer;
  *
  * @author SvenjaReissaus
  * @author ryderbelserion
- * @version 0.0.4
+ * @version 0.0.5
  * @since 0.0.1
  */
 @SuppressWarnings({"UnusedReturnValue", "unchecked"})

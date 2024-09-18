@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
  * Throws an exception.
  *
  * @author ryderbelserion
- * @version 0.0.4
+ * @version 0.0.5
  * @since 0.0.1
  */
 public final class GenericException extends RuntimeException {
