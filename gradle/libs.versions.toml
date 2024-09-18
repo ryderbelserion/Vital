@@ -41,7 +41,7 @@ kyori-api = { module = "net.kyori:adventure-api", version.ref = "adventure" }
 # Bukkit Plugins
 headdatabaseapi = { module = "com.arcaniax:HeadDatabase-API", version.ref = "headdatabaseapi" }
 itemsadder = { module = "com.github.LoneDev6:api-itemsadder", version.ref = "itemsadder" }
-placeholderapi = { module = "com.github.PlaceholderAPI:PlaceholderAPI", version.ref = "placeholderapi" }
+placeholderapi = { module = "me.clip:placeholderapi", version.ref = "placeholderapi" }
 oraxen = { module = "io.th0rgal:oraxen", version.ref = "oraxen" }
 
 # Common
