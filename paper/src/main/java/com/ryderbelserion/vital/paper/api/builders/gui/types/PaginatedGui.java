@@ -443,8 +443,6 @@ public class PaginatedGui extends BaseGui implements IPaginatedGui {
 
     /**
      * {@inheritDoc}
-     *
-     * @return {@inheritDoc}
      */
     @Override
     public final void calculatePageSize() {
