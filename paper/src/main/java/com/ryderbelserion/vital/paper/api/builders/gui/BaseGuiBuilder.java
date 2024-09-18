@@ -18,7 +18,7 @@ import java.util.function.Consumer;
  * @param <G> gui type
  *
  * @author Matt
- * @version 0.0.3
+ * @version 0.0.4
  * @since 0.0.1
  */
 @SuppressWarnings("unchecked")

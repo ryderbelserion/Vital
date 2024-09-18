@@ -19,7 +19,7 @@ import java.util.Set;
  * Creates a paginated gui
  *
  * @author Matt
- * @version 0.0.3
+ * @version 0.0.4
  * @since 0.0.1
  */
 public class PaginatedGui extends BaseGui implements IPaginatedGui {
@@ -43,7 +43,7 @@ public class PaginatedGui extends BaseGui implements IPaginatedGui {
     public PaginatedGui(@NotNull final String title, final int pageSize, final int rows, @NotNull final Set<InteractionComponent> components) {
         super(title, rows, components);
 
-        this.pageSize = pageSize > 0 ? pageSize : calculatePageSize();
+        this.pageSize = pageSize;
 
         int size = rows * 9;
 

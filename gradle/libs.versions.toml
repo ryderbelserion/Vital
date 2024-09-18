@@ -17,7 +17,7 @@ runPaper = "2.3.0"
 shadow = "8.3.0"
 
 # Libraries
-configurate = "4.1.2"
+configurate = "4.2.0-SNAPSHOT"
 jetbrains = "24.1.0"
 adventure = "4.17.0"
 gson = "2.10.1"

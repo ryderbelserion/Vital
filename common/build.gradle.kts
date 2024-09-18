@@ -2,7 +2,7 @@ plugins {
     `java-plugin`
 }
 
-project.version = "0.0.1"
+project.version = "0.0.2"
 
 repositories {
     maven("https://libraries.minecraft.net")
@@ -15,7 +15,7 @@ dependencies {
 
     compileOnly(libs.gson)
 
-    api(libs.bundles.configurate)
+    //api(libs.bundles.configurate)
 
     api(libs.jalu)
 }

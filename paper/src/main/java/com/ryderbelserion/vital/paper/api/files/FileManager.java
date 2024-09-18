@@ -17,7 +17,7 @@ import java.util.function.Consumer;
  *
  * @author Ryder Belserion
  *
- * @version 0.0.3
+ * @version 0.0.4
  * @since 0.0.1
  */
 @SuppressWarnings("LoggingSimilarMessage")

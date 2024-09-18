@@ -23,7 +23,7 @@ import java.util.Base64;
  * All utilities related to items and ids.
  *
  * @author ryderbelserion
- * @version 0.0.3
+ * @version 0.0.4
  * @since 0.0.1
  */
 @SuppressWarnings("deprecation")
