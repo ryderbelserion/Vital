@@ -8,7 +8,7 @@ import com.velocitypowered.api.command.CommandSource;
  * Velocity extension of Command
  *
  * @author ryderbelserion
- * @version 0.0.1
+ * @version 0.0.3
  * @since 0.0.1
  */
 public abstract class VelocityCommand extends Command<CommandSource, VelocityCommandInfo> {

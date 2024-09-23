@@ -9,7 +9,7 @@ import java.util.function.Consumer;
  * Base simple builder.
  *
  * @author Matt
- * @version 0.0.7
+ * @version 0.0.8
  * @since 0.0.1
  */
 public final class SimpleBuilder extends BaseGuiBuilder<Gui, SimpleBuilder> {

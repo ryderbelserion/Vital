@@ -12,7 +12,7 @@ import java.util.List;
  * Represent gui filler items.
  *
  * @author Matt
- * @version 0.0.7
+ * @version 0.0.8
  * @since 0.0.1
  */
 public final class GuiFiller {

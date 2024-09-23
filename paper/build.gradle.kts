@@ -5,7 +5,7 @@ plugins {
     `paper-plugin`
 }
 
-project.version = "0.0.7"
+project.version = "0.0.8"
 
 dependencies {
     paperweight.paperDevBundle(libs.versions.paper)

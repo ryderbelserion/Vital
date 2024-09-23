@@ -8,7 +8,7 @@ import org.bukkit.event.Event;
  * @param <T> the generic action
  *
  * @author Matt
- * @version 0.0.7
+ * @version 0.0.8
  * @since 0.0.1
  */
 @FunctionalInterface
