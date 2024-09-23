@@ -10,7 +10,7 @@ import java.text.DecimalFormat;
  * Utilities related to MATH!
  *
  * @author ryderbelserion
- * @version 0.0.1
+ * @version 0.0.3
  * @since 0.0.1
  */
 public class MathUtil {

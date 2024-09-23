@@ -2,7 +2,7 @@ plugins {
     `java-plugin`
 }
 
-project.version = "0.0.2"
+project.version = "0.0.3"
 
 repositories {
     maven("https://libraries.minecraft.net")

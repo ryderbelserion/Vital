@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * @author ryderbelserion
  * @param <S> the command source stack
- * @version 0.0.1
+ * @version 0.0.3
  * @since 0.0.1
  */
 public abstract class CommandInfo<S> {

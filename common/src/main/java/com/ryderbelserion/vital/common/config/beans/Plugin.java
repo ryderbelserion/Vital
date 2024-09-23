@@ -6,7 +6,7 @@ import ch.jalu.configme.Comment;
  * Holds data related to the library config
  *
  * @author ryderbelserion
- * @version 0.0.1
+ * @version 0.0.3
  * @since 0.0.1
  */
 public class Plugin {
@@ -49,5 +49,29 @@ public class Plugin {
         this.rounding = "half_even";
 
         return this;
+    }
+
+    public void setIsVerbose(final boolean is_verbose) {
+        this.is_verbose = is_verbose;
+    }
+
+    public void setNumberFormat(final String numberFormat) {
+        this.numberFormat = numberFormat;
+    }
+
+    public void setRounding(final String rounding) {
+        this.rounding = rounding;
+    }
+
+    public boolean getVerbose() {
+        return this.is_verbose;
+    }
+
+    public String getNumberFormat() {
+        return this.numberFormat;
+    }
+
+    public String getRounding() {
+        return this.rounding;
     }
 }

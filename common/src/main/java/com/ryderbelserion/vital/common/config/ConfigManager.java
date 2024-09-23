@@ -15,7 +15,7 @@ import java.io.File;
  * Handles the per plugin vital.yml config
  *
  * @author ryderbelserion
- * @version 0.0.1
+ * @version 0.0.3
  * @since 0.0.1
  */
 @ApiStatus.Internal

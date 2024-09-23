@@ -44,7 +44,7 @@ import java.util.zip.ZipOutputStream;
  * A class containing utilities to extract or obtain files from directories.
  *
  * @author ryderbelserion
- * @version 0.0.1
+ * @version 0.0.3
  * @since 0.0.1
  */
 public class FileUtil {

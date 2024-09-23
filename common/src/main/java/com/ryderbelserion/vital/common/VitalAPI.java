@@ -15,7 +15,7 @@ import java.lang.reflect.Field;
  * An interface to extend in each platform.
  *
  * @author ryderbelserion
- * @version 0.0.1
+ * @version 0.0.3
  * @since 0.0.1
  */
 public interface VitalAPI {

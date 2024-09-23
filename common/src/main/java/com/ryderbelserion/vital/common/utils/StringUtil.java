@@ -10,7 +10,7 @@ import java.util.Optional;
  * A class containing utilities to convert or chomp strings
  *
  * @author ryderbelserion
- * @version 0.0.1
+ * @version 0.0.3
  * @since 0.0.1
  */
 public class StringUtil {
