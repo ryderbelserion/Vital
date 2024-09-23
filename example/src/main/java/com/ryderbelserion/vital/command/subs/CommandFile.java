@@ -54,7 +54,7 @@ public class CommandFile extends PaperCommand {
 
         final SettingsManager config = ConfigManager.getConfig();
 
-        final boolean isVerbose = config.getProperty(ConfigKeys.settings).is_verbose;
+        final boolean isVerbose = config.getProperty(ConfigKeys.settings).verbose;
 
         player.sendRichMessage("<yellow>Verbose: " + isVerbose);
     }

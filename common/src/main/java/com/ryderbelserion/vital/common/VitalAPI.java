@@ -62,7 +62,7 @@ public interface VitalAPI {
      * @since 0.0.1
      */
     default boolean isVerbose() {
-        return getPluginData().is_verbose;
+        return getPluginData().verbose;
     }
 
     /**

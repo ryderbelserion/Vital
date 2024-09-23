@@ -1,6 +1,7 @@
 package com.ryderbelserion.vital.common.config.beans;
 
 import ch.jalu.configme.Comment;
+import ch.jalu.configme.beanmapper.ExportName;
 
 /**
  * Holds data related to the library config
@@ -26,9 +27,11 @@ public class Plugin {
             "This option defines if the plugin/library logs everything,",
             "Very useful if you have an issue with the plugin!"
     })
-    public boolean is_verbose;
+    @ExportName("is_verbose")
+    public boolean verbose;
 
     @Comment("Controls the format, of the numerical data.")
+    @ExportName("number_format")
     public String numberFormat;
 
     @Comment({
@@ -44,15 +47,15 @@ public class Plugin {
      * @return {@link Plugin}
      */
     public final Plugin populate() {
-        this.is_verbose = false;
+        this.verbose = false;
         this.numberFormat = "#,###.##";
         this.rounding = "half_even";
 
         return this;
     }
 
-    public void setIsVerbose(final boolean is_verbose) {
-        this.is_verbose = is_verbose;
+    public void setVerbose(final boolean verbose) {
+        this.verbose = verbose;
     }
 
     public void setNumberFormat(final String numberFormat) {
@@ -63,8 +66,8 @@ public class Plugin {
         this.rounding = rounding;
     }
 
-    public boolean getVerbose() {
-        return this.is_verbose;
+    public boolean isVerbose() {
+        return this.verbose;
     }
 
     public String getNumberFormat() {
