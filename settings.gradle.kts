@@ -11,4 +11,4 @@ pluginManagement {
     }
 }
 
-include("velocity", "common", "example", "paper", "api")
+include("velocity", "discord", "common", "example", "paper", "api")

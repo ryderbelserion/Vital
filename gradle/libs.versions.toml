@@ -28,6 +28,10 @@ headdatabaseapi = "1.3.1"
 placeholderapi = "2.11.6"
 oraxen = "1.171.0"
 
+# JDA
+logback = "1.5.6"
+jda = "5.0.2"
+
 [libraries]
 velocity = { module = "com.velocitypowered:velocity-api", version.ref = "velocity" }
 brigadier = { module = "com.mojang:brigadier", version.ref = "brigadier" }
@@ -45,6 +49,10 @@ kyori-api = { module = "net.kyori:adventure-api", version.ref = "adventure" }
 headdatabaseapi = { module = "com.arcaniax:HeadDatabase-API", version.ref = "headdatabaseapi" }
 placeholderapi = { module = "me.clip:placeholderapi", version.ref = "placeholderapi" }
 oraxen = { module = "io.th0rgal:oraxen", version.ref = "oraxen" }
+
+# JDA
+logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+jda = { module = "net.dv8tion:JDA", version.ref = "jda" }
 
 # Common
 jetbrains = { module = "org.jetbrains:annotations", version.ref = "jetbrains" }
