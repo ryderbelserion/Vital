@@ -44,7 +44,7 @@ import java.util.zip.ZipOutputStream;
  * A class containing utilities to extract or obtain files from directories.
  *
  * @author ryderbelserion
- * @version 0.0.3
+ * @version 0.0.4
  * @since 0.0.1
  */
 public class FileUtil {
@@ -113,25 +113,25 @@ public class FileUtil {
      * @param purge true or false
      */
     public static void zip(final File file, final boolean purge) {
-        zip(file, null, "", purge);
+        zip(List.of(file), null, "", purge);
     }
 
     /**
      * Zip multiple files into a .gz file.
      *
-     * @param key the {@link File}
+     * @param file the directory to zip
      * @param extension the file extension
      * @param purge true or false
      */
-    public static void zip(final File key, final String extension, final boolean purge) {
-        final List<File> logFiles = FileUtil.getFileObjects(dataFolder, key.getName(), extension);
+    public static void zip(final File file, final String extension, final boolean purge) {
+        final List<File> files = FileUtil.getFileObjects(dataFolder, file.getName(), extension);
 
-        if (logFiles.isEmpty()) return;
+        if (files.isEmpty()) return;
 
         boolean hasNonEmptyFile = false;
 
-        for (final File file : logFiles) {
-            if (file.exists() && file.length() > 0) {
+        for (final File zip : files) {
+            if (zip.exists() && zip.length() > 0) {
                 hasNonEmptyFile = true;
 
                 break;
@@ -146,27 +146,23 @@ public class FileUtil {
             return;
         }
 
-        final List<String> files = FileUtil.getFiles(key, ".gz", true);
-
-        int count = files.size();
+        int count = FileUtil.getFiles(file, ".gz", true).size();
 
         count++;
 
-        for (final File file : logFiles) {
-            zip(file, null, "-" + count, purge);
-        }
+        zip(files, file, "-" + count, purge);
     }
 
     /**
-     * Zip a file into a .gz file.
+     * Zip files into a .gz file.
      *
-     * @param file the {@link File}
+     * @param files the list of files
      * @param directory the directory
      * @param extra anything extra to add to the file
      * @param purge true or false
      */
-    public static void zip(final File file, @Nullable final File directory, final String extra, final boolean purge) {
-        if (!file.exists()) return;
+    public static void zip(final List<File> files, @Nullable final File directory, final String extra, final boolean purge) {
+        if (files.isEmpty()) return;
 
         final StringBuilder builder = new StringBuilder();
 
@@ -185,24 +181,26 @@ public class FileUtil {
         final File zipFile = new File(directory == null ? dataFolder : directory, builder.toString());
 
         try (final FileOutputStream fileOutputStream = new FileOutputStream(zipFile); ZipOutputStream zipOut = new ZipOutputStream(fileOutputStream)) {
-            if (file.length() > 0) {
-                try (final FileInputStream fileInputStream = new FileInputStream(file)) {
-                    final ZipEntry zipEntry = new ZipEntry(file.getName());
+            for (File file : files) {
+                if (file.length() > 0) {
+                    try (final FileInputStream fileInputStream = new FileInputStream(file)) {
+                        final ZipEntry zipEntry = new ZipEntry(file.getName());
 
-                    zipOut.putNextEntry(zipEntry);
+                        zipOut.putNextEntry(zipEntry);
 
-                    byte[] bytes = new byte[1024];
-                    int length;
+                        byte[] bytes = new byte[1024];
+                        int length;
 
-                    while ((length = fileInputStream.read(bytes)) >= 0) {
-                        zipOut.write(bytes, 0, length);
+                        while ((length = fileInputStream.read(bytes)) >= 0) {
+                            zipOut.write(bytes, 0, length);
+                        }
                     }
-                }
 
-                if (purge) file.delete();
-            } else {
-                if (api.isVerbose()) {
-                    logger.warn("The file named {}'s size is 0, We are not adding to zip.", file.getName());
+                    if (purge) file.delete();
+                } else {
+                    if (api.isVerbose()) {
+                        logger.warn("The file named {}'s size is 0, We are not adding to zip.", file.getName());
+                    }
                 }
             }
         } catch (IOException exception) {

@@ -8,7 +8,7 @@ import java.util.UUID;
  * A plugin class used in {@link PluginManager}
  *
  * @author ryderbelserion
- * @version 0.0.3
+ * @version 0.0.4
  * @since 0.0.1
  */
 public interface IPlugin {

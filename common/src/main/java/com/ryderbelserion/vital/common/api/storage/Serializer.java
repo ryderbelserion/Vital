@@ -25,7 +25,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  *
  * @author Ryder Belserion
  * @param <T> the class
- * @version 0.0.3
+ * @version 0.0.4
  * @since 0.0.1
  */
 public class Serializer<T> {

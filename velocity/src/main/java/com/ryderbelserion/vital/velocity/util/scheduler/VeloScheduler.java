@@ -11,7 +11,7 @@ import java.util.function.Consumer;
  * A class to handle scheduling tasks for Velocity servers
  *
  * @author ryderbelserion
- * @version 0.0.3
+ * @version 0.0.4
  * @since 0.0.1
  */
 public class VeloScheduler implements IScheduler {

@@ -16,7 +16,7 @@ import java.util.Optional;
  * A platform specific class for Velocity extending {@link VitalAPI}.
  *
  * @author ryderbelserion
- * @version 0.0.3
+ * @version 0.0.4
  * @since 0.0.1
  */
 public abstract class Vital implements VitalAPI {

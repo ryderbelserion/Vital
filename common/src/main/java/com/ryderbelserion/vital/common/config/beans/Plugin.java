@@ -7,7 +7,7 @@ import ch.jalu.configme.beanmapper.ExportName;
  * Holds data related to the library config
  *
  * @author ryderbelserion
- * @version 0.0.3
+ * @version 0.0.4
  * @since 0.0.1
  */
 public class Plugin {
