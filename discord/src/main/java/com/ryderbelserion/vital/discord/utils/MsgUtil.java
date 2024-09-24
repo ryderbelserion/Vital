@@ -16,6 +16,15 @@ import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 public class MsgUtil {
 
     /**
+     * Utilities related to messages.
+     *
+     * @since 0.0.1
+     */
+    public MsgUtil() {
+        throw new AssertionError();
+    }
+
+    /**
      * Checks if a command is a valid command.
      *
      * @param prefix the prefix

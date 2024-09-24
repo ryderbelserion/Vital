@@ -25,6 +25,9 @@ public abstract class Vital implements VitalAPI {
     private final File extensions;
     private final Logger logger;
 
+    /**
+     * The jda instance
+     */
     protected final JDA jda;
 
     /**

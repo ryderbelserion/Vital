@@ -13,6 +13,15 @@ import org.jetbrains.annotations.NotNull;
 public class RoleUtil {
 
     /**
+     * Utilities related to roles.
+     *
+     * @since 0.0.1
+     */
+    public RoleUtil() {
+        throw new AssertionError();
+    }
+
+    /**
      * Get the highest {@link Role} with a {@link java.awt.Color}.
      *
      * @param member the {@link Member}

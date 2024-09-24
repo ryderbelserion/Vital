@@ -167,7 +167,7 @@ public class CommandHandler implements CommandFlow {
      * {@inheritDoc}
      *
      * @param engine {@inheritDoc}
-     * @param optionData
+     * @param optionData {@inheritDoc}
      */
     @Override
     public void addGuildCommand(final CommandEngine engine, final OptionData optionData) {
@@ -184,7 +184,7 @@ public class CommandHandler implements CommandFlow {
      * {@inheritDoc}
      *
      * @param engine {@inheritDoc}
-     * @param optionData
+     * @param optionData {@inheritDoc}
      */
     @Override
     public void addGuildCommand(final CommandEngine engine, final List<OptionData> optionData) {
