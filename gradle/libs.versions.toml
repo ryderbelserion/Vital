@@ -29,8 +29,8 @@ placeholderapi = "2.11.6"
 oraxen = "1.171.0"
 
 # JDA
-logback = "1.5.6"
-jda = "5.0.2"
+logback = "1.5.8"
+jda = "5.1.1"
 
 [libraries]
 velocity = { module = "com.velocitypowered:velocity-api", version.ref = "velocity" }
