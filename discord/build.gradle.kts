@@ -7,6 +7,8 @@ plugins {
 project.version = "0.0.1"
 
 dependencies {
+    api(project(":common"))
+
     api(libs.logback)
 
     api(libs.gson)
