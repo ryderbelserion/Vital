@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * The command handler
  *
  * @author ryderbelserion
- * @version 0.0.1
+ * @version 0.0.2
  * @since 0.0.1
  */
 public class CommandHandler implements CommandFlow {

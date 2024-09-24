@@ -14,7 +14,7 @@ import java.util.List;
  * The command engine
  *
  * @author ryderbelserion
- * @version 0.0.1
+ * @version 0.0.2
  * @since 0.0.1
  */
 public abstract class CommandEngine extends ListenerAdapter {

@@ -16,7 +16,7 @@ import java.util.List;
  * A platform specific class for Discord extending {@link VitalAPI}.
  *
  * @author ryderbelserion
- * @version 0.0.1
+ * @version 0.0.2
  * @since 0.0.1
  */
 public abstract class Vital implements VitalAPI {
@@ -48,6 +48,8 @@ public abstract class Vital implements VitalAPI {
         this.logger = (Logger) LoggerFactory.getLogger(name);
 
         this.jda = JDABuilder.createDefault(token, intents).enableCache(flags).addEventListeners(new GenericListener(this)).build();
+
+        start();
     }
 
     /**
