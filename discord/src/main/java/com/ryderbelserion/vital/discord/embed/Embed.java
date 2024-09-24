@@ -1,6 +1,6 @@
 package com.ryderbelserion.vital.discord.embed;
 
-import com.ryderbelserion.vital.discord.util.ColorUtil;
+import com.ryderbelserion.vital.common.utils.ColorUtil;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -9,6 +9,13 @@ import net.dv8tion.jda.api.entities.User;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
+/**
+ * Builds an embed.
+ *
+ * @author ryderbelserion
+ * @version 0.0.1
+ * @since 0.0.1
+ */
 public class Embed {
 
     private final EmbedBuilder builder = new EmbedBuilder();

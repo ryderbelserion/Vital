@@ -1,4 +1,4 @@
-package com.ryderbelserion.vital.discord.util;
+package com.ryderbelserion.vital.discord.utils;
 
 import com.ryderbelserion.vital.discord.embed.Embed;
 import net.dv8tion.jda.api.entities.Guild;
@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 /**
  * Utilities related to sending messages.
  *
+ * @author ryderbelserion
  * @version 0.0.1
  * @since 0.0.1
  */
@@ -30,6 +31,7 @@ public class MsgUtil {
      *
      * @param command the command
      * @return the arguments
+     * @since 0.0.1
      */
     public static String[] getArguments(final String command) {
         return command.substring(1).split(" ");
