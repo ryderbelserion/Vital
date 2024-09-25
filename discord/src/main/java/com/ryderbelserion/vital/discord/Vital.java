@@ -51,7 +51,9 @@ public abstract class Vital implements VitalAPI {
 
         final JDABuilder builder = JDABuilder.createDefault(token, intents).enableCache(flags).addEventListeners(new GenericListener(this));
 
-        consumer.accept(builder);
+        if (consumer != null) {
+            consumer.accept(builder);
+        }
 
         this.jda = builder.build();
 
