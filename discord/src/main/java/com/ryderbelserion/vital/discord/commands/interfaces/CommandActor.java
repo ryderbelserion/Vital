@@ -12,7 +12,7 @@ import net.dv8tion.jda.api.interactions.commands.OptionMapping;
  * The command actor
  *
  * @author ryderbelserion
- * @version 0.0.2
+ * @version 0.0.3
  * @since 0.0.1
  */
 public interface CommandActor {

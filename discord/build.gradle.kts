@@ -4,7 +4,7 @@ plugins {
     `java-plugin`
 }
 
-project.version = "0.0.2"
+project.version = "0.0.3"
 
 dependencies {
     api(project(":common"))

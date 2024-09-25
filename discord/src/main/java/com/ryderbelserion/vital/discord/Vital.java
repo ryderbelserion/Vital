@@ -11,12 +11,13 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * A platform specific class for Discord extending {@link VitalAPI}.
  *
  * @author ryderbelserion
- * @version 0.0.2
+ * @version 0.0.3
  * @since 0.0.1
  */
 public abstract class Vital implements VitalAPI {
@@ -39,15 +40,20 @@ public abstract class Vital implements VitalAPI {
      * @param extensions the extensions folder
      * @param intents the gateways
      * @param flags the flags
+     * @param consumer the consumer
      * @since 0.0.1
      */
-    public Vital(final String token, final String name, final String directory, final String extensions, final List<GatewayIntent> intents, final List<CacheFlag> flags) {
+    public Vital(final String token, final String name, final String directory, final String extensions, final List<GatewayIntent> intents, final List<CacheFlag> flags, final Consumer<JDABuilder> consumer) {
         this.directory = new File(directory);
         this.extensions = new File(this.directory, extensions);
 
         this.logger = (Logger) LoggerFactory.getLogger(name);
 
-        this.jda = JDABuilder.createDefault(token, intents).enableCache(flags).addEventListeners(new GenericListener(this)).build();
+        final JDABuilder builder = JDABuilder.createDefault(token, intents).enableCache(flags).addEventListeners(new GenericListener(this));
+
+        consumer.accept(builder);
+
+        this.jda = builder.build();
 
         start();
     }
