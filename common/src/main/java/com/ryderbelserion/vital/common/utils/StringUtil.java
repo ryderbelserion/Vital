@@ -143,7 +143,7 @@ public class StringUtil {
      * @return the mojang mapped id
      * @since 0.0.1
      */
-    public static String getEnchant(String enchant) {
+    public static String getEnchant(@NotNull final String enchant) {
         if (enchant.isEmpty()) return "";
 
         return switch (enchant.toLowerCase()) {

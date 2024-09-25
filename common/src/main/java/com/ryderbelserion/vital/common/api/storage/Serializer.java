@@ -46,7 +46,7 @@ public class Serializer<T> {
      * @param clazz {@link T}
      * @since 0.0.1
      */
-    public Serializer(@NotNull final File file, T clazz) {
+    public Serializer(@NotNull final File file, @NotNull final T clazz) {
         this.file = file;
         this.clazz = clazz;
     }
@@ -96,7 +96,7 @@ public class Serializer<T> {
      * @return {@link Serializer}
      * @since 0.0.1
      */
-    public final Serializer<T> registerAdapters(final Type type, final Object object) {
+    public final Serializer<T> registerAdapters(@NotNull final Type type, @NotNull final Object object) {
         this.builder.registerTypeAdapter(type, object);
 
         return this;

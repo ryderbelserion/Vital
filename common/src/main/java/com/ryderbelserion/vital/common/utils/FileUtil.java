@@ -70,7 +70,7 @@ public class FileUtil {
      * @param directory {@link File}
      * @since 0.0.1
      */
-    public static void download(final String link, final File directory) {
+    public static void download(@NotNull final String link, @NotNull final File directory) {
         CompletableFuture.runAsync(() -> {
             URL url = null;
 
@@ -93,38 +93,38 @@ public class FileUtil {
     /**
      * Writes to a file.
      *
-     * @param file the {@link File}
+     * @param input the {@link File}
      * @param format the format to write
      */
-    public static void write(final File file, final String format) {
-        try (final FileWriter writer = new FileWriter(file, true); final BufferedWriter bufferedWriter = new BufferedWriter(writer)) {
+    public static void write(@NotNull final File input, @NotNull final String format) {
+        try (final FileWriter writer = new FileWriter(input, true); final BufferedWriter bufferedWriter = new BufferedWriter(writer)) {
             bufferedWriter.write(format);
             bufferedWriter.newLine();
             writer.flush();
         } catch (Exception exception) {
-            logger.warn("Failed to write to: {}", file.getName(), exception);
+            logger.warn("Failed to write to: {}", input.getName(), exception);
         }
     }
 
     /**
      * Zip a file into a .gz file.
      *
-     * @param file the {@link File}
+     * @param input the {@link File}
      * @param purge true or false
      */
-    public static void zip(final File file, final boolean purge) {
-        zip(List.of(file), null, "", purge);
+    public static void zip(@NotNull final File input, final boolean purge) {
+        zip(List.of(input), null, "", purge);
     }
 
     /**
      * Zip multiple files into a .gz file.
      *
-     * @param file the directory to zip
+     * @param input the directory to zip
      * @param extension the file extension
      * @param purge true or false
      */
-    public static void zip(final File file, final String extension, final boolean purge) {
-        final List<File> files = FileUtil.getFileObjects(dataFolder, file.getName(), extension);
+    public static void zip(@NotNull final File input, @NotNull final String extension, final boolean purge) {
+        final List<File> files = FileUtil.getFileObjects(dataFolder, input.getName(), extension);
 
         if (files.isEmpty()) return;
 
@@ -146,11 +146,11 @@ public class FileUtil {
             return;
         }
 
-        int count = FileUtil.getFiles(file, ".gz", true).size();
+        int count = FileUtil.getFiles(input, ".gz", true).size();
 
         count++;
 
-        zip(files, file, "-" + count, purge);
+        zip(files, input, "-" + count, purge);
     }
 
     /**
@@ -161,7 +161,7 @@ public class FileUtil {
      * @param extra anything extra to add to the file
      * @param purge true or false
      */
-    public static void zip(final List<File> files, @Nullable final File directory, final String extra, final boolean purge) {
+    public static void zip(@NotNull final List<File> files, @Nullable final File directory, final String extra, final boolean purge) {
         if (files.isEmpty()) return;
 
         final StringBuilder builder = new StringBuilder();
@@ -211,12 +211,12 @@ public class FileUtil {
     /**
      * Extracts a single file from the src/main/resources.
      *
-     * @param fileName the name of the file
+     * @param input the name of the file
      * @param overwrite whether to overwrite the folder or not
      * @since 0.0.1
      */
-    public static void extract(@NotNull final String fileName, final boolean overwrite) {
-        api.saveResource(fileName, overwrite);
+    public static void extract(@NotNull final String input, final boolean overwrite) {
+        api.saveResource(input, overwrite);
     }
 
     /**
@@ -227,7 +227,7 @@ public class FileUtil {
      * @throws IOException throws an exception if failed
      * @since 0.0.1
      */
-    public static void visit(final Consumer<Path> consumer, final String input) throws IOException {
+    public static void visit(@NotNull final Consumer<Path> consumer, @NotNull final String input) throws IOException {
         final URL resource = FileUtil.class.getClassLoader().getResource("config.yml");
 
         if (resource == null) {
@@ -251,7 +251,7 @@ public class FileUtil {
      * @param input the folder to write to
      * @since 0.0.1
      */
-    public static void extract(String input) {
+    public static void extract(@NotNull final String input) {
         extract(input, input, false);
     }
 
@@ -263,7 +263,7 @@ public class FileUtil {
      * @param replaceExisting delete the existing output folder if true
      * @since 0.0.1
      */
-    public static void extract(String input, String output, boolean replaceExisting) {
+    public static void extract(@NotNull final String input, @NotNull final String output, final boolean replaceExisting) {
         try {
             visit(path -> {
                 final Path directory = api.getDirectory().toPath().resolve(output);
@@ -306,16 +306,16 @@ public class FileUtil {
      * Extracts multiple files from a directory in the jar.
      *
      * @param object the class object to get the {@link InputStream} from
-     * @param sourceDir the source directory
-     * @param outDir the {@link Path} to output to
+     * @param input the source directory
+     * @param output the {@link Path} to output to
      * @param replaceExisting whether to overwrite the folder or not
      * @since 0.0.1
      */
-    public static void extracts(@Nullable final Class<?> object, @NotNull String sourceDir, @Nullable final Path outDir, final boolean replaceExisting) {
-        if (object == null || outDir == null || sourceDir.isEmpty()) return;
+    public static void extracts(@Nullable final Class<?> object, @NotNull String input, @Nullable final Path output, final boolean replaceExisting) {
+        if (object == null || output == null || input.isEmpty()) return;
 
         try (JarFile jarFile = new JarFile(Path.of(object.getProtectionDomain().getCodeSource().getLocation().toURI()).toFile())) {
-            final String path = sourceDir.substring(1);
+            final String path = input.substring(1);
             final Enumeration<JarEntry> entries = jarFile.entries();
 
             while (entries.hasMoreElements()) {
@@ -324,7 +324,7 @@ public class FileUtil {
 
                 if (!name.startsWith(path)) continue;
 
-                final Path file = outDir.resolve(name.substring(path.length()));
+                final Path file = output.resolve(name.substring(path.length()));
 
                 final boolean exists = Files.exists(file);
 
@@ -368,27 +368,27 @@ public class FileUtil {
     /**
      * Returns a {@link List<String>} of files in a directory if they end in a specific extension.
      *
-     * @param dir the folder to check
+     * @param directory the folder to check
      * @param extension the file extension
      * @param keepExtension true or false
      * @return a {@link List<String>} of files that meet the criteria
      * @since 0.0.1
      */
-    public static List<String> getFiles(@NotNull final File dir, @NotNull final String extension, final boolean keepExtension) {
+    public static List<String> getFiles(@NotNull final File directory, @NotNull final String extension, final boolean keepExtension) {
         List<String> files = new ArrayList<>();
 
-        String[] file = dir.list();
+        String[] file = directory.list();
 
         if (file != null) {
-            File[] filesList = dir.listFiles();
+            File[] filesList = directory.listFiles();
 
             if (filesList != null) {
-                for (File directory : filesList) {
-                    if (directory.isDirectory()) {
-                        String[] folder = directory.list();
+                for (final File key : filesList) {
+                    if (key.isDirectory()) {
+                        final String[] folder = directory.list();
 
                         if (folder != null) {
-                            for (String name : folder) {
+                            for (final String name : folder) {
                                 if (!name.endsWith(extension)) continue;
 
                                 files.add(keepExtension ? name : name.replaceAll(extension, ""));
@@ -417,7 +417,7 @@ public class FileUtil {
      * @return a {@link List<String>} of files that meet the criteria
      * @since 0.0.1
      */
-    public static List<String> getFiles(@NotNull final File directory, @NotNull final String folder, @NotNull String extension) {
+    public static List<String> getFiles(@NotNull final File directory, @NotNull final String folder, @NotNull final String extension) {
         return getFiles(folder.isEmpty() ? directory : new File(directory, folder), extension, false);
     }
 
@@ -431,7 +431,7 @@ public class FileUtil {
      * @return a {@link List<String>} of files that meet the criteria
      * @since 0.0.1
      */
-    public static List<File> getFileObjects(@NotNull final File directory, @NotNull final String folder, @NotNull String extension) {
+    public static List<File> getFileObjects(@NotNull final File directory, @NotNull final String folder, @NotNull final String extension) {
         final List<File> files = new ArrayList<>();
 
         final File root = new File(directory, folder);

@@ -1,5 +1,6 @@
 package com.ryderbelserion.vital.common.utils;
 
+import org.jetbrains.annotations.NotNull;
 import java.awt.Color;
 
 /**
@@ -25,7 +26,7 @@ public class ColorUtil {
      * @return {@link Color}
      * @since 0.0.1
      */
-    public static Color toColor(final String value) {
+    public static Color toColor(@NotNull final String value) {
         return new Color(
                 Integer.valueOf(value.substring(1, 3), 16),
                 Integer.valueOf(value.substring(3, 5), 16),
@@ -40,7 +41,7 @@ public class ColorUtil {
      * @return the completed color
      * @since 0.0.1
      */
-    public static String toHex(final Color color) {
+    public static String toHex(@NotNull final Color color) {
         return String.format("%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue());
     }
 }
