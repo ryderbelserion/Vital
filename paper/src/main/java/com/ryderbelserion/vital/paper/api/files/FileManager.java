@@ -17,7 +17,7 @@ import java.util.function.Consumer;
  *
  * @author Ryder Belserion
  *
- * @version 1.0.1
+ * @version 1.0.2
  * @since 0.0.1
  */
 @SuppressWarnings("LoggingSimilarMessage")
@@ -144,7 +144,7 @@ public class FileManager {
             return this;
         }
 
-        final File file = filePath.isEmpty() ? new File(this.dataFolder, fileName) : new File(new File(this.dataFolder, filePath), fileName);
+        final File file = filePath.isEmpty() ? new File(this.dataFolder, fileName) : new File(isDynamic ? new File(filePath.replace(fileName, "")) : new File(this.dataFolder, filePath.replace(fileName, "")), fileName);
         final String resourcePath = filePath.isEmpty() ? fileName : filePath + File.separator + fileName;
 
         if (!fileName.endsWith(".yml")) {
@@ -164,7 +164,7 @@ public class FileManager {
         if (isDynamic) {
             if (this.customFiles.containsKey(cleanName)) {
                 if (this.isVerbose) {
-                    this.logger.warn("Cannot add {}, because it already exists. We are reloading the config!", fileName);
+                    this.logger.warn("Cannot add custom file {}, because it already exists. We are reloading the config!", fileName);
                 }
 
                 this.customFiles.get(cleanName).load();
@@ -173,7 +173,7 @@ public class FileManager {
             }
 
             if (this.isVerbose) {
-                this.logger.warn("Successfully loaded file {} in {}", fileName, filePath.isEmpty() ? this.dataFolder.getPath() : filePath);
+                this.logger.warn("Successfully loaded custom file {} in {}", fileName, file.getPath());
             }
 
             this.customFiles.put(cleanName, new CustomFile(fileName, file).load());
@@ -183,7 +183,7 @@ public class FileManager {
 
         if (!file.exists()) {
             if (this.isVerbose) {
-                this.logger.warn("Successfully extracted file {} to {}", fileName, file.getPath());
+                this.logger.warn("Successfully extracted static file {} to {}", fileName, file.getPath());
             }
 
             this.api.saveResource(resourcePath, false);
@@ -191,7 +191,7 @@ public class FileManager {
 
         if (this.files.containsKey(cleanName)) {
             if (this.isVerbose) {
-                this.logger.warn("Cannot add {}, because it already exists. We are reloading the config!", fileName);
+                this.logger.warn("Cannot add static file {}, because it already exists. We are reloading the config!", fileName);
             }
 
             this.files.get(cleanName).load();
@@ -202,7 +202,7 @@ public class FileManager {
         this.files.put(cleanName, new CustomFile(fileName, file).load());
 
         if (this.isVerbose) {
-            this.logger.warn("Successfully loaded file {} in {}", fileName, file.getPath());
+            this.logger.warn("Successfully loaded static file {} in {}", fileName, file.getPath());
         }
 
         return this;
