@@ -176,7 +176,9 @@ public class FileManager {
             return this;
         }
 
-        this.api.saveResource(fileName, false);
+        if (!file.exists()) {
+            this.api.saveResource(fileName, false);
+        }
 
         if (this.files.containsKey(cleanName)) {
             if (this.isVerbose) {
