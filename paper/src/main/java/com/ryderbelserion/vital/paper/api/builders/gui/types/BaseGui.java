@@ -9,6 +9,7 @@ import com.ryderbelserion.vital.paper.api.builders.gui.interfaces.GuiType;
 import com.ryderbelserion.vital.paper.api.builders.gui.interfaces.types.IBaseGui;
 import com.ryderbelserion.vital.paper.api.builders.gui.listeners.GuiListener;
 import com.ryderbelserion.vital.paper.util.AdvUtil;
+import com.ryderbelserion.vital.paper.util.MiscUtil;
 import com.ryderbelserion.vital.paper.util.scheduler.FoliaRunnable;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.json.JSONComponentSerializer;
@@ -524,22 +525,7 @@ public abstract class BaseGui implements InventoryHolder, Listener, IBaseGui {
      */
     @Override
     public void updateTitle(final Player player) {
-        /*this.isUpdating = true;
-
-        final int size = this.inventory.getSize();
-
-        this.inventory = Bukkit.createInventory(this, size, AdvUtil.parse(this.title));
-
-        open(player);
-
-        this.isUpdating = false;*/
-
-        ServerPlayer entityPlayer = (ServerPlayer) ((CraftHumanEntity) player).getHandle();
-        int containerId = entityPlayer.containerMenu.containerId;
-        MenuType<?> windowType = CraftContainer.getNotchInventoryType(player.getOpenInventory().getTopInventory());
-        entityPlayer.connection.send(new ClientboundOpenScreenPacket(containerId, windowType, CraftChatMessage.fromJSON(JSONComponentSerializer.json().serialize(AdvUtil.parse(this.title)))));
-
-        player.updateInventory();
+        MiscUtil.updateTitle(player, this.title);
     }
 
     /**
