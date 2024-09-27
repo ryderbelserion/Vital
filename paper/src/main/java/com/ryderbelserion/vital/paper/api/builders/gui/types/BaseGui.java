@@ -45,7 +45,7 @@ import java.util.Set;
  * Creates a simple gui.
  *
  * @author Matt
- * @version 0.0.8
+ * @version 0.0.9
  * @since 0.0.1
  */
 public abstract class BaseGui implements InventoryHolder, Listener, IBaseGui {

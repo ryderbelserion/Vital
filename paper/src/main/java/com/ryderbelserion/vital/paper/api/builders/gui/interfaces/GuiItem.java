@@ -16,7 +16,7 @@ import java.util.UUID;
  * GuiItem represents the {@link ItemStack} on the {@link Inventory}.
  *
  * @author Matt
- * @version 0.0.8
+ * @version 0.0.9
  * @since 0.0.1
  */
 @SuppressWarnings("unused")
