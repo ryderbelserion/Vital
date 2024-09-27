@@ -130,18 +130,6 @@ public class FileManager {
      * Adds a file to the cache.
      *
      * @param isDynamic true or false
-     * @param file {@link File}
-     * @return {@link FileManager}
-     * @since 0.0.1
-     */
-    public final FileManager addFile(final boolean isDynamic, final File file) {
-        return addFile(isDynamic, file.getName(), file.getPath());
-    }
-
-    /**
-     * Adds a file to the cache.
-     *
-     * @param isDynamic true or false
      * @param fileName name of the file
      * @param filePath path of the file
      * @return {@link FileManager}
@@ -180,7 +168,7 @@ public class FileManager {
             }
 
             if (this.isVerbose) {
-                this.logger.warn("Successfully loaded file {} in {}", fileName, filePath);
+                this.logger.warn("Successfully loaded file {} in {}", fileName, filePath.isEmpty() ? this.dataFolder.getPath() : filePath);
             }
 
             this.customFiles.put(cleanName, new CustomFile(fileName, file).load());
@@ -203,7 +191,7 @@ public class FileManager {
         this.files.put(cleanName, new CustomFile(fileName, file).load());
 
         if (this.isVerbose) {
-            this.logger.warn("Successfully loaded file {} in {}", fileName, file.getPath());
+            this.logger.warn("Successfully loaded file {} in {}", fileName, filePath.isEmpty() ? this.dataFolder.getPath() : filePath);
         }
 
         return this;
@@ -232,12 +220,47 @@ public class FileManager {
     /**
      * Adds a file to the cache.
      *
+     * @param fileName name of the file
+     * @param filePath path of the file
+     * @return {@link FileManager}
+     * @since 1.0
+     */
+    public final FileManager addFile(final String fileName, final String filePath) {
+        return addFile(false, fileName, filePath);
+    }
+
+    /**
+     * Adds a file to the cache.
+     *
+     * @param isDynamic true or false
+     * @param file {@link File}
+     * @return {@link FileManager}
+     * @since 0.0.1
+     */
+    public final FileManager addFile(final boolean isDynamic, final File file) {
+        return addFile(isDynamic, file.getName(), file.getPath());
+    }
+
+    /**
+     * Adds a file to the cache.
+     *
      * @param file {@link CustomFile}
      * @return {@link FileManager}
      * @since 0.0.1
      */
     public final FileManager addFile(final CustomFile file) {
         return addFile(false, file);
+    }
+
+    /**
+     * Adds a file to the cache.
+     *
+     * @param fileName name of the file
+     * @return {@link FileManager}
+     * @since 1.0
+     */
+    public final FileManager addFile(final String fileName) {
+        return addFile(false, fileName, "");
     }
 
     /**

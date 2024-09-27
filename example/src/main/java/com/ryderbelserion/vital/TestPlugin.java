@@ -26,7 +26,7 @@ public class TestPlugin extends Vital {
 
     @Override
     public void onEnable() {
-        getFileManager().addFile(new File(getDataFolder(), "config.yml")).addFolder("crates").init();
+        getFileManager().addFile("config.yml").addFolder("crates").init();
 
         Config config = new Config(getDataFolder());
         config.load();
