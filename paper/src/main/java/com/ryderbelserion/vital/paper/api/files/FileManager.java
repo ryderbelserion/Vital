@@ -144,17 +144,22 @@ public class FileManager {
             return this;
         }
 
+        final File file = filePath.isEmpty() ? new File(this.dataFolder, fileName) : new File(new File(this.dataFolder, filePath), fileName);
+        final String resourcePath = filePath.isEmpty() ? fileName : filePath + File.separator + fileName;
+
         if (!fileName.endsWith(".yml")) {
-            if (this.isVerbose) {
-                this.logger.warn("Cannot add {}, because it does not end in .yml", fileName);
+            if (!file.exists()) {
+                if (this.isVerbose) {
+                    this.logger.warn("Successfully extracted file {} to {}", fileName, file.getPath());
+                }
+
+                this.api.saveResource(resourcePath, false);
             }
 
             return this;
         }
 
         final String cleanName = strip(fileName, "yml");
-
-        final File file = filePath.isEmpty() ? new File(this.dataFolder, fileName) : new File(new File(this.dataFolder, filePath), fileName);
 
         if (isDynamic) {
             if (this.customFiles.containsKey(cleanName)) {
@@ -177,7 +182,11 @@ public class FileManager {
         }
 
         if (!file.exists()) {
-            this.api.saveResource(fileName, false);
+            if (this.isVerbose) {
+                this.logger.warn("Successfully extracted file {} to {}", fileName, file.getPath());
+            }
+
+            this.api.saveResource(resourcePath, false);
         }
 
         if (this.files.containsKey(cleanName)) {
@@ -193,7 +202,7 @@ public class FileManager {
         this.files.put(cleanName, new CustomFile(fileName, file).load());
 
         if (this.isVerbose) {
-            this.logger.warn("Successfully loaded file {} in {}", fileName, filePath.isEmpty() ? this.dataFolder.getPath() : filePath);
+            this.logger.warn("Successfully loaded file {} in {}", fileName, file.getPath());
         }
 
         return this;
