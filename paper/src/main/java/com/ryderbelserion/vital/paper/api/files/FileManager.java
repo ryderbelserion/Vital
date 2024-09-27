@@ -135,41 +135,23 @@ public class FileManager {
      * @since 0.0.1
      */
     public final FileManager addFile(final boolean isDynamic, final File file) {
-        if (file == null) {
+        return addFile(isDynamic, file.getName(), file.getPath());
+    }
+
+    /**
+     * Adds a file to the cache.
+     *
+     * @param isDynamic true or false
+     * @param fileName name of the file
+     * @param filePath path of the file
+     * @return {@link FileManager}
+     * @since 1.0
+     */
+    public final FileManager addFile(final boolean isDynamic, final String fileName, final String filePath) {
+        if (fileName == null || fileName.isEmpty()) {
             if (this.isVerbose) {
-                this.logger.warn("Cannot add the file as the file is null.");
+                this.logger.warn("Cannot add the file as the file is null or empty.");
             }
-
-            return this;
-        }
-
-        final String fileName = file.getName();
-        final String cleanName = strip(fileName, "yml");
-
-        if (isDynamic) {
-            if (!fileName.endsWith(".yml")) {
-                if (this.isVerbose) {
-                    this.logger.warn("Cannot add {}, because it does not end in .yml", fileName);
-                }
-
-                return this;
-            }
-            
-            if (this.customFiles.containsKey(cleanName)) {
-                if (this.isVerbose) {
-                    this.logger.warn("Cannot add {}, because it already exists. We are reloading the config!", fileName);
-                }
-
-                this.customFiles.get(cleanName).load();
-
-                return this;
-            }
-
-            if (this.isVerbose) {
-                this.logger.warn("Successfully loaded file {} in {}", fileName, file.getPath());
-            }
-
-            this.customFiles.put(cleanName, new CustomFile(fileName, file).load());
 
             return this;
         }
@@ -182,9 +164,31 @@ public class FileManager {
             return this;
         }
 
-        if (!file.exists()) {
-            this.api.saveResource(fileName, false);
+        final String cleanName = strip(fileName, "yml");
+
+        final File file = filePath.isEmpty() ? new File(this.dataFolder, fileName) : new File(new File(this.dataFolder, filePath), fileName);
+
+        if (isDynamic) {
+            if (this.customFiles.containsKey(cleanName)) {
+                if (this.isVerbose) {
+                    this.logger.warn("Cannot add {}, because it already exists. We are reloading the config!", fileName);
+                }
+
+                this.customFiles.get(cleanName).load();
+
+                return this;
+            }
+
+            if (this.isVerbose) {
+                this.logger.warn("Successfully loaded file {} in {}", fileName, filePath);
+            }
+
+            this.customFiles.put(cleanName, new CustomFile(fileName, file).load());
+
+            return this;
         }
+
+        this.api.saveResource(fileName, false);
 
         if (this.files.containsKey(cleanName)) {
             if (this.isVerbose) {
