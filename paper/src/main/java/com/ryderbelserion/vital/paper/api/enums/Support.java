@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
  * An enum of plugins supported.
  *
  * @author ryderbelserion
- * @version 0.0.9
+ * @version 1.0.3
  * @since 0.0.1
  */
 public enum Support {
@@ -59,7 +59,12 @@ public enum Support {
     /**
      * PlaceholderAPI Plugin.
      */
-    placeholder_api("PlaceholderAPI");
+    placeholder_api("PlaceholderAPI"),
+
+    /**
+     * LuckPerms Plugin.
+     */
+    luckperms("LuckPerms");
 
     private final String name;
 
