@@ -1,8 +1,4 @@
-plugins {
-    `java-plugin`
-}
-
-project.version = "0.0.4"
+project.version = "0.0.6"
 
 repositories {
     maven("https://libraries.minecraft.net")
@@ -15,8 +11,6 @@ dependencies {
 
     compileOnly(libs.gson)
 
-    //api(libs.bundles.configurate)
-
     api(libs.jalu)
 }
 
@@ -28,7 +22,7 @@ tasks {
             create<MavenPublication>("maven") {
                 from(javaComponent)
 
-                group = rootProject.group
+                group = project.group
                 artifactId = project.name.lowercase()
                 version = "${project.version}"
             }

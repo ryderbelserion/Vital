@@ -1,7 +1,5 @@
 plugins {
     alias(libs.plugins.shadow)
-
-    `java-plugin`
 }
 
 project.version = "0.0.3"
@@ -24,7 +22,7 @@ tasks {
             create<MavenPublication>("maven") {
                 from(javaComponent)
 
-                group = rootProject.group
+                group = project.group
                 artifactId = project.name.lowercase()
                 version = "${project.version}"
             }

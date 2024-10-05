@@ -1,8 +1,10 @@
 plugins {
     alias(libs.plugins.runPaper)
     alias(libs.plugins.shadow)
+}
 
-    `paper-plugin`
+repositories {
+    maven("https://repo.papermc.io/repository/maven-public")
 }
 
 dependencies {

@@ -15,6 +15,7 @@ velocity/.gradle
 
 .gradle
 .idea
+build
 
 example/.gradle
 example/build

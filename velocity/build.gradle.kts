@@ -1,8 +1,8 @@
-plugins {
-    `velocity-plugin`
-}
-
 project.version = "0.0.1"
+
+repositories {
+    maven("https://repo.papermc.io/repository/maven-public")
+}
 
 dependencies {
     annotationProcessor(libs.velocity)
@@ -19,7 +19,7 @@ tasks {
             create<MavenPublication>("maven") {
                 from(javaComponent)
 
-                group = rootProject.group
+                group = project.group
                 artifactId = project.name.lowercase()
                 version = "${project.version}"
             }
