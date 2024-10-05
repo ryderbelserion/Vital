@@ -6,6 +6,7 @@ import com.ryderbelserion.vital.command.persist.Config;
 import com.ryderbelserion.vital.command.subs.CommandFile;
 import com.ryderbelserion.vital.command.subs.CommandGui;
 import com.ryderbelserion.vital.command.subs.CommandItem;
+import com.ryderbelserion.vital.common.util.FileUtil;
 import com.ryderbelserion.vital.paper.Vital;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
@@ -27,6 +28,8 @@ public class TestPlugin extends Vital {
     @Override
     public void onEnable() {
         getFileManager().addFile("config.yml").addFile("data.yml").addFile("locations.yml").addFile("example.log", "logs").addFolder("crates").init();
+
+        FileUtil.getFiles(new File(getDataFolder(), "crates"), ".yml", false);
 
         Config config = new Config(getDataFolder());
         config.load();
