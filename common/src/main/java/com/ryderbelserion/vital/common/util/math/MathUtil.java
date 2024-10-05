@@ -1,4 +1,4 @@
-package com.ryderbelserion.vital.common.utils.math;
+package com.ryderbelserion.vital.common.util.math;
 
 import ch.jalu.configme.SettingsManager;
 import com.ryderbelserion.vital.common.config.ConfigManager;

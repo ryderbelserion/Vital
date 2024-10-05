@@ -1,5 +1,6 @@
 package com.ryderbelserion.vital.paper.api.builders.gui.types;
 
+import com.ryderbelserion.vital.common.util.AdvUtil;
 import com.ryderbelserion.vital.paper.api.catches.GenericException;
 import com.ryderbelserion.vital.paper.api.builders.gui.objects.components.InteractionComponent;
 import com.ryderbelserion.vital.paper.api.builders.gui.interfaces.GuiAction;
@@ -8,18 +9,11 @@ import com.ryderbelserion.vital.paper.api.builders.gui.interfaces.GuiItem;
 import com.ryderbelserion.vital.paper.api.builders.gui.interfaces.GuiType;
 import com.ryderbelserion.vital.paper.api.builders.gui.interfaces.types.IBaseGui;
 import com.ryderbelserion.vital.paper.api.builders.gui.listeners.GuiListener;
-import com.ryderbelserion.vital.paper.util.AdvUtil;
+import com.ryderbelserion.vital.paper.util.MsgUtil;
 import com.ryderbelserion.vital.paper.util.MiscUtil;
 import com.ryderbelserion.vital.paper.util.scheduler.FoliaRunnable;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.serializer.json.JSONComponentSerializer;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
-import net.minecraft.network.protocol.game.ClientboundOpenScreenPacket;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.inventory.MenuType;
-import org.bukkit.craftbukkit.entity.CraftHumanEntity;
-import org.bukkit.craftbukkit.inventory.CraftContainer;
-import org.bukkit.craftbukkit.util.CraftChatMessage;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;

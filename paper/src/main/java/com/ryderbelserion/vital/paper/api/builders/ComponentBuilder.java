@@ -1,6 +1,7 @@
 package com.ryderbelserion.vital.paper.api.builders;
 
-import com.ryderbelserion.vital.paper.util.AdvUtil;
+import com.ryderbelserion.vital.common.util.AdvUtil;
+import com.ryderbelserion.vital.paper.util.MsgUtil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;

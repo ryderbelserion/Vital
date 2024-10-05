@@ -2,7 +2,7 @@ package com.ryderbelserion.vital.paper.api.files;
 
 import com.ryderbelserion.vital.common.VitalAPI;
 import com.ryderbelserion.vital.common.api.Provider;
-import com.ryderbelserion.vital.common.utils.FileUtil;
+import com.ryderbelserion.vital.common.util.FileUtil;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import java.io.File;
 import java.util.Collections;

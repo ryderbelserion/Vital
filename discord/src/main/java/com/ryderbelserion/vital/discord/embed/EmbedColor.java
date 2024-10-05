@@ -1,6 +1,6 @@
 package com.ryderbelserion.vital.discord.embed;
 
-import com.ryderbelserion.vital.common.utils.ColorUtil;
+import com.ryderbelserion.vital.common.util.ColorUtil;
 import java.awt.Color;
 
 /**

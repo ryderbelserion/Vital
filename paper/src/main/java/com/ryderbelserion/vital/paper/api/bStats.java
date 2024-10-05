@@ -1,6 +1,7 @@
 package com.ryderbelserion.vital.paper.api;
 
-import org.bukkit.Bukkit;
+import com.ryderbelserion.vital.paper.util.MiscUtil;
+import org.bukkit.Server;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import javax.net.ssl.HttpsURLConnection;
@@ -10,7 +11,7 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.URL;
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -136,10 +137,12 @@ public class bStats {
     }
 
     private void appendPlatformData(JsonObjectBuilder builder) {
+        final Server server = this.plugin.getServer();
+
         builder.appendField("playerAmount", getPlayerAmount());
-        builder.appendField("onlineMode", Bukkit.getOnlineMode() ? 1 : 0);
-        builder.appendField("bukkitVersion", Bukkit.getVersion());
-        builder.appendField("bukkitName", Bukkit.getName());
+        builder.appendField("onlineMode", server.getOnlineMode() ? 1 : 0);
+        builder.appendField("bukkitVersion", server.getVersion());
+        builder.appendField("bukkitName", server.getName());
         builder.appendField("javaVersion", System.getProperty("java.version"));
         builder.appendField("osName", System.getProperty("os.name"));
         builder.appendField("osArch", System.getProperty("os.arch"));
@@ -148,7 +151,7 @@ public class bStats {
     }
 
     private void appendServiceData(JsonObjectBuilder builder) {
-        builder.appendField("pluginVersion", this.plugin.getDescription().getVersion());
+        builder.appendField("pluginVersion", this.plugin.getPluginMeta().getVersion());
     }
 
     private int getPlayerAmount() {
@@ -390,7 +393,8 @@ public class bStats {
             }
 
             String url = String.format(REPORT_URL, this.platform);
-            HttpsURLConnection connection = (HttpsURLConnection) new URL(url).openConnection();
+
+            HttpsURLConnection connection = (HttpsURLConnection) URI.create(url).toURL().openConnection();
 
             // Compress the data to save bandwidth
             byte[] compressedData = compress(data.toString());
@@ -516,33 +520,7 @@ public class bStats {
          */
         @Override
         protected JsonObjectBuilder.JsonObject getChartData() throws Exception {
-            JsonObjectBuilder valuesBuilder = new JsonObjectBuilder();
-
-            Map<String, Integer> map = this.callable.call();
-
-            if (map == null || map.isEmpty()) {
-                // Null = skip the chart
-                return null;
-            }
-
-            boolean allSkipped = true;
-
-            for (Map.Entry<String, Integer> entry : map.entrySet()) {
-                if (entry.getValue() == 0) {
-                    // Skip this invalid
-                    continue;
-                }
-
-                allSkipped = false;
-                valuesBuilder.appendField(entry.getKey(), entry.getValue());
-            }
-
-            if (allSkipped) {
-                // Null = skip the chart
-                return null;
-            }
-
-            return new JsonObjectBuilder().appendField("values", valuesBuilder.build()).build();
+            return MiscUtil.getChartData(this.callable);
         }
     }
 
@@ -577,32 +555,7 @@ public class bStats {
          */
         @Override
         protected JsonObjectBuilder.JsonObject getChartData() throws Exception {
-            JsonObjectBuilder valuesBuilder = new JsonObjectBuilder();
-
-            Map<String, Integer> map = this.callable.call();
-            if (map == null || map.isEmpty()) {
-                // Null = skip the chart
-                return null;
-            }
-
-            boolean allSkipped = true;
-
-            for (Map.Entry<String, Integer> entry : map.entrySet()) {
-                if (entry.getValue() == 0) {
-                    // Skip this invalid
-                    continue;
-                }
-
-                allSkipped = false;
-                valuesBuilder.appendField(entry.getKey(), entry.getValue());
-            }
-
-            if (allSkipped) {
-                // Null = skip the chart
-                return null;
-            }
-
-            return new JsonObjectBuilder().appendField("values", valuesBuilder.build()).build();
+            return MiscUtil.getChartData(this.callable);
         }
     }
 

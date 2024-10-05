@@ -1,4 +1,4 @@
-package com.ryderbelserion.vital.common.utils;
+package com.ryderbelserion.vital.common.util;
 
 import org.jetbrains.annotations.NotNull;
 import java.text.NumberFormat;
