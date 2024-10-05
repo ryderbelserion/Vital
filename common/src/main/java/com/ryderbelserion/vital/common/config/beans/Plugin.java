@@ -30,10 +30,16 @@ public class Plugin {
     @ExportName("is_verbose")
     public boolean verbose;
 
+    /**
+     * Number format
+     */
     @Comment("Controls the format, of the numerical data.")
     @ExportName("number_format")
     public String numberFormat;
 
+    /**
+     * Rounding format
+     */
     @Comment({
             "This controls the type of rounding for how the numerical data is rounded.",
             "",
@@ -54,26 +60,56 @@ public class Plugin {
         return this;
     }
 
+    /**
+     * Sets true or false
+     *
+     * @param verbose true or false
+     */
     public void setVerbose(final boolean verbose) {
         this.verbose = verbose;
     }
 
+    /**
+     * Sets number format
+     *
+     * @param numberFormat the format
+     */
     public void setNumberFormat(final String numberFormat) {
         this.numberFormat = numberFormat;
     }
 
+    /**
+     * Sets rounding
+     *
+     * @param rounding the rounding format
+     */
     public void setRounding(final String rounding) {
         this.rounding = rounding;
     }
 
+    /**
+     * True or false
+     *
+     * @return true or false
+     */
     public boolean isVerbose() {
         return this.verbose;
     }
 
+    /**
+     * Gets the number format
+     *
+     * @return number format
+     */
     public String getNumberFormat() {
         return this.numberFormat;
     }
 
+    /**
+     * Gets the rounding format
+     *
+     * @return rounding format
+     */
     public String getRounding() {
         return this.rounding;
     }
