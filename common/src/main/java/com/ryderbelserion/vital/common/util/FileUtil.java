@@ -1,4 +1,4 @@
-package com.ryderbelserion.vital.common.utils;
+package com.ryderbelserion.vital.common.util;
 
 import com.ryderbelserion.vital.common.VitalAPI;
 import com.ryderbelserion.vital.common.api.Provider;
@@ -44,7 +44,7 @@ import java.util.zip.ZipOutputStream;
  * A class containing utilities to extract or obtain files from directories.
  *
  * @author ryderbelserion
- * @version 0.0.4
+ * @version 0.0.6
  * @since 0.0.1
  */
 public class FileUtil {
@@ -377,28 +377,28 @@ public class FileUtil {
     public static List<String> getFiles(@NotNull final File directory, @NotNull final String extension, final boolean keepExtension) {
         List<String> files = new ArrayList<>();
 
-        String[] file = directory.list();
+        String[] list = directory.list();
 
-        if (file != null) {
-            File[] filesList = directory.listFiles();
+        if (list == null) return files;
 
-            if (filesList != null) {
-                for (final File key : filesList) {
-                    if (key.isDirectory()) {
-                        final String[] folder = directory.list();
+        File[] array = directory.listFiles();
 
-                        if (folder != null) {
-                            for (final String name : folder) {
-                                if (!name.endsWith(extension)) continue;
+        if (array == null) return files;
 
-                                files.add(keepExtension ? name : name.replaceAll(extension, ""));
-                            }
-                        }
+        for (final File file : array) {
+            if (file.isDirectory()) {
+                final String[] folder = file.list();
+
+                if (folder != null) {
+                    for (final String name : folder) {
+                        if (!name.endsWith(extension)) continue;
+
+                        files.add(keepExtension ? name : name.replaceAll(extension, ""));
                     }
                 }
-            }
+            } else {
+                final String name = file.getName();
 
-            for (String name : file) {
                 if (!name.endsWith(extension)) continue;
 
                 files.add(keepExtension ? name : name.replaceAll(extension, ""));
