@@ -9,6 +9,7 @@ dependencies {
     compileOnly(libs.jetbrains)
     compileOnly(libs.brigadier)
 
+    compileOnly(libs.configurate.yaml)
     compileOnly(libs.gson)
 
     api(libs.jalu)

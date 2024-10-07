@@ -1,18 +1,12 @@
 package com.ryderbelserion.vital;
 
-import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import com.ryderbelserion.vital.command.BaseCommand;
-import com.ryderbelserion.vital.command.persist.Config;
-import com.ryderbelserion.vital.command.subs.CommandFile;
-import com.ryderbelserion.vital.command.subs.CommandGui;
-import com.ryderbelserion.vital.command.subs.CommandItem;
-import com.ryderbelserion.vital.common.util.FileUtil;
+import com.ryderbelserion.vital.common.api.managers.FileManager;
+import com.ryderbelserion.vital.common.api.managers.files.CustomFile;
+import com.ryderbelserion.vital.common.api.managers.files.enums.FileType;
+import com.ryderbelserion.vital.common.api.managers.files.types.YamlCustomFile;
 import com.ryderbelserion.vital.paper.Vital;
-import io.papermc.paper.command.brigadier.CommandSourceStack;
-import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
-import java.util.List;
 
 public class TestPlugin extends Vital {
 
@@ -27,7 +21,11 @@ public class TestPlugin extends Vital {
 
     @Override
     public void onEnable() {
-        getFileManager().addFile("config.yml").addFile("data.yml").addFile("locations.yml").addFile("example.log", "logs").addFolder("crates").init();
+        final FileManager fileManager = new FileManager();
+
+        fileManager.addFile("config.yml", FileType.YAML);
+
+        /*getFileManager().addFile("config.yml").addFile("data.yml").addFile("locations.yml").addFile("example.log", "logs").addFolder("crates").init();
 
         FileUtil.getFiles(new File(getDataFolder(), "crates"), ".yml", false);
 
@@ -46,6 +44,6 @@ public class TestPlugin extends Vital {
             ).forEach(command -> root.then(command.registerPermission().literal()));
 
             event.registrar().register(root.build(), "the base command for Vital");
-        });
+        });*/
     }
 }
