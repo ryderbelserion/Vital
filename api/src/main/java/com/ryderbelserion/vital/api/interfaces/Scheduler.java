@@ -1,4 +1,4 @@
-package com.ryderbelserion.vital.common.api.interfaces;
+package com.ryderbelserion.vital.api.interfaces;
 
 import java.util.function.Consumer;
 
@@ -9,7 +9,7 @@ import java.util.function.Consumer;
  * @version 0.0.4
  * @since 0.0.1
  */
-public interface IScheduler {
+public interface Scheduler {
 
     /**
      * Runs a task later.
@@ -18,7 +18,7 @@ public interface IScheduler {
      * @param delay the delay until the task runs
      * @since 0.0.1
      */
-    void runDelayedTask(final Consumer<IScheduler> task, final long delay);
+    void runDelayedTask(final Consumer<Scheduler> task, final long delay);
 
     /**
      * Runs a repeating task.
@@ -28,7 +28,7 @@ public interface IScheduler {
      * @param interval the interval the task runs
      * @since 0.0.1
      */
-    void runRepeatingTask(final Consumer<IScheduler> task, final long delay, final long interval);
+    void runRepeatingTask(final Consumer<Scheduler> task, final long delay, final long interval);
 
     /**
      * Runs a repeating task.
@@ -37,7 +37,7 @@ public interface IScheduler {
      * @param interval the interval the task runs
      * @since 0.0.1
      */
-    void runRepeatingTask(final Consumer<IScheduler> task, final long interval);
+    void runRepeatingTask(final Consumer<Scheduler> task, final long interval);
 
     /**
      * Runs an async task.
@@ -47,7 +47,7 @@ public interface IScheduler {
      * @param interval the interval the task runs
      * @since 0.0.1
      */
-    void runRepeatingAsyncTask(final Consumer<IScheduler> task, final long delay, final long interval);
+    void runRepeatingAsyncTask(final Consumer<Scheduler> task, final long delay, final long interval);
 
     /**
      * Runs an async task.
@@ -56,6 +56,6 @@ public interface IScheduler {
      * @param delay the delay until the task runs
      * @since 0.0.1
      */
-    void runDelayedAsyncTask(final Consumer<IScheduler> task, final long delay);
+    void runDelayedAsyncTask(final Consumer<Scheduler> task, final long delay);
 
 }
