@@ -1,10 +1,8 @@
 package com.ryderbelserion.vital.utils;
 
-import org.jetbrains.annotations.NotNull;
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
 
 public class Methods {
 
@@ -16,7 +14,7 @@ public class Methods {
         return NumberFormat.getNumberInstance(Locale.US).format(number);
     }
 
-    public static String convertList(@NotNull final List<String> list) {
+    public static String convertList(final List<String> list) {
         if (list.isEmpty()) return "";
 
         StringBuilder message = new StringBuilder();
@@ -28,7 +26,7 @@ public class Methods {
         return chomp(message.toString());
     }
 
-    public static @NotNull String chomp(@NotNull final String key) {
+    public static String chomp(final String key) {
         if (key.isEmpty()) {
             return key;
         }
@@ -58,49 +56,5 @@ public class Methods {
         }
 
         return key.substring(0, lastIdx);
-    }
-
-    public static Optional<Number> tryParseInt(@NotNull final String value) {
-        try {
-            return Optional.of(Integer.parseInt(value));
-        } catch (NumberFormatException exception) {
-            return Optional.empty();
-        }
-    }
-
-    public static Optional<Boolean> tryParseBoolean(@NotNull final String value) {
-        try {
-            return Optional.of(Boolean.parseBoolean(value));
-        } catch (NumberFormatException exception) {
-            return Optional.empty();
-        }
-    }
-
-    public static String getEnchant(@NotNull final String enchant) {
-        if (enchant.isEmpty()) return "";
-
-        return switch (enchant.toLowerCase()) {
-            case "protection_environmental" -> "protection";
-            case "protection_fire" -> "fire_protection";
-            case "protection_fall" -> "feather_falling";
-            case "protection_explosions" -> "blast_protection";
-            case "protection_projectile" -> "projectile_protection";
-            case "oxygen" -> "respiration";
-            case "water_worker" -> "aqua_affinity";
-            case "damage_all" -> "sharpness";
-            case "damage_undead" -> "smite";
-            case "damage_arthropods" -> "bane_of_arthropods";
-            case "loot_bonus_mobs" -> "looting";
-            case "dig_speed" -> "efficiency";
-            case "durability" -> "unbreaking";
-            case "loot_bonus_blocks" -> "fortune";
-            case "arrow_damage" -> "power";
-            case "arrow_knockback" -> "punch";
-            case "arrow_fire" -> "flame";
-            case "arrow_infinite" -> "infinity";
-            case "luck" -> "luck_of_the_sea";
-
-            default -> enchant.toLowerCase();
-        };
     }
 }
