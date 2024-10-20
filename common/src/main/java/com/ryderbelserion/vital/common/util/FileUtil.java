@@ -124,7 +124,7 @@ public class FileUtil {
      * @param purge true or false
      */
     public static void zip(@NotNull final File input, @NotNull final String extension, final boolean purge) {
-        final List<File> files = FileUtil.getFileObjects(dataFolder, input.getName(), extension);
+        final List<File> files = FileUtil.getFiles(dataFolder, input.getName(), extension, false);
 
         if (files.isEmpty()) return;
 
@@ -342,10 +342,7 @@ public class FileUtil {
                     continue;
                 }
 
-                try (
-                        final InputStream inputStream = new BufferedInputStream(jarFile.getInputStream(entry));
-                        final OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(file.toFile()))
-                ) {
+                try (final InputStream inputStream = new BufferedInputStream(jarFile.getInputStream(entry)); final OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(file.toFile()))) {
                     final byte[] buffer = new byte[4096];
                     int readCount;
 
@@ -368,14 +365,29 @@ public class FileUtil {
     /**
      * Returns a {@link List<String>} of files in a directory if they end in a specific extension.
      *
+     * @param directory the directory to check
+     * @param folder the fallback folder
+     * @param extension the file extension
+     * @param keepExtension keeps the file extension
+     *
+     * @return a {@link List<String>} of files that meet the criteria
+     * @since 0.0.1
+     */
+    public static List<File> getFiles(@NotNull final File directory, @NotNull final String folder, @NotNull final String extension, final boolean keepExtension) {
+        return getFiles(folder.isEmpty() ? directory : new File(directory, folder), extension, keepExtension);
+    }
+
+    /**
+     * Returns a {@link List<String>} of files in a directory if they end in a specific extension.
+     *
      * @param directory the folder to check
      * @param extension the file extension
      * @param keepExtension true or false
      * @return a {@link List<String>} of files that meet the criteria
      * @since 0.0.1
      */
-    public static List<String> getFiles(@NotNull final File directory, @NotNull final String extension, final boolean keepExtension) {
-        List<String> files = new ArrayList<>();
+    public static List<File> getFiles(@NotNull final File directory, @NotNull final String extension, final boolean keepExtension) {
+        List<File> files = new ArrayList<>();
 
         String[] list = directory.list();
 
@@ -393,7 +405,7 @@ public class FileUtil {
                     for (final String name : folder) {
                         if (!name.endsWith(extension)) continue;
 
-                        files.add(keepExtension ? name : name.replaceAll(extension, ""));
+                        files.add(new File(keepExtension ? name : name.replaceAll(extension, "")));
                     }
                 }
             } else {
@@ -401,43 +413,10 @@ public class FileUtil {
 
                 if (!name.endsWith(extension)) continue;
 
-                files.add(keepExtension ? name : name.replaceAll(extension, ""));
+                files.add(new File(keepExtension ? name : name.replaceAll(extension, "")));
             }
         }
 
         return Collections.unmodifiableList(files);
-    }
-
-    /**
-     * Returns a {@link List<String>} of files in a directory if they end in a specific extension.
-     *
-     * @param directory the directory to check
-     * @param folder the fallback folder
-     * @param extension the file extension
-     * @return a {@link List<String>} of files that meet the criteria
-     * @since 0.0.1
-     */
-    public static List<String> getFiles(@NotNull final File directory, @NotNull final String folder, @NotNull final String extension) {
-        return getFiles(folder.isEmpty() ? directory : new File(directory, folder), extension, false);
-    }
-
-    /**
-     * Returns a {@link List<String>} of files in a directory if they end in a specific extension.
-     *
-     * @param directory the directory to check
-     * @param folder the fallback folder
-     * @param extension the file extension
-     *
-     * @return a {@link List<String>} of files that meet the criteria
-     * @since 0.0.1
-     */
-    public static List<File> getFileObjects(@NotNull final File directory, @NotNull final String folder, @NotNull final String extension) {
-        final List<File> files = new ArrayList<>();
-
-        final File root = new File(directory, folder);
-
-        getFiles(folder.isEmpty() ? directory : root, extension, true).forEach(file -> files.add(new File(root, file)));
-
-        return files;
     }
 }
