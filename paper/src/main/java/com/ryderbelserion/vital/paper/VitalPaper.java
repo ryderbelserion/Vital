@@ -3,6 +3,7 @@ package com.ryderbelserion.vital.paper;
 import com.ryderbelserion.vital.api.Vital;
 import com.ryderbelserion.vital.paper.api.enums.Support;
 import com.ryderbelserion.vital.utils.Methods;
+import io.papermc.paper.plugin.bootstrap.BootstrapContext;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
@@ -27,11 +28,32 @@ public abstract class VitalPaper implements Vital {
     private final String pluginName;
     private final File dataFolder;
 
+    /**
+     * Builds an instance of VitalPaper at JavaPlugin creation.
+     *
+     * @param plugin {@link JavaPlugin} context
+     * @since 2.0.0
+     */
     public VitalPaper(final JavaPlugin plugin) {
         this.pluginsFolder = plugin.getServer().getPluginsFolder();
         this.logger = plugin.getComponentLogger();
         this.dataFolder = plugin.getDataFolder();
         this.pluginName = plugin.getName();
+
+        start();
+    }
+
+    /**
+     * Builds an instance of VitalPaper at bootstrap
+     *
+     * @param context {@link BootstrapContext} context
+     * @since 2.0.0
+     */
+    public VitalPaper(final BootstrapContext context) {
+        this.pluginsFolder = context.getDataDirectory().getParent().toFile();
+        this.logger = context.getLogger();
+        this.dataFolder = context.getDataDirectory().toFile();
+        this.pluginName = context.getPluginMeta().getName();
 
         start();
     }
