@@ -1,15 +1,30 @@
 package com.ryderbelserion.vital.paper.util;
 
-import com.ryderbelserion.vital.common.VitalAPI;
-import com.ryderbelserion.vital.common.api.Provider;
+import com.ryderbelserion.vital.VitalProvider;
+import com.ryderbelserion.vital.api.Vital;
+import com.ryderbelserion.vital.utils.Methods;
 import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
-import org.bukkit.*;
+import net.kyori.adventure.text.serializer.json.JSONComponentSerializer;
+import net.minecraft.network.protocol.game.ClientboundOpenScreenPacket;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.inventory.MenuType;
+import org.bukkit.Color;
+import org.bukkit.DyeColor;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Particle;
+import org.bukkit.Registry;
+import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.banner.PatternType;
+import org.bukkit.craftbukkit.entity.CraftHumanEntity;
+import org.bukkit.craftbukkit.inventory.CraftContainer;
+import org.bukkit.craftbukkit.util.CraftChatMessage;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.trim.TrimMaterial;
 import org.bukkit.inventory.meta.trim.TrimPattern;
@@ -20,27 +35,33 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Base64;
 
 /**
- * All utilities related to items and ids.
+ * A class containing paper specific methods!
  *
  * @author ryderbelserion
- * @version 0.0.9
- * @since 0.0.1
+ * @version 1.0
+ * @since 1.0
  */
-@SuppressWarnings("deprecation")
-public class ItemUtil {
+public class PaperMethods {
+
+    private static final Vital api = VitalProvider.get();
+    private static final ComponentLogger logger = api.getLogger();
+    private static final boolean isVerbose = api.isVerbose();
 
     /**
-     * Empty constructor
+     * Updates the inventory title, without re-building the inventory.
      *
-     * @since 0.0.1
+     * @param player {@link Player}
+     * @param title {@link String}
+     * @since 1.0
      */
-    private ItemUtil() {
-        throw new AssertionError();
-    }
+    public static void updateTitle(@NotNull final Player player, @NotNull final String title) {
+        final ServerPlayer entityPlayer = (ServerPlayer) ((CraftHumanEntity) player).getHandle();
+        final int containerId = entityPlayer.containerMenu.containerId;
+        final MenuType<?> windowType = CraftContainer.getNotchInventoryType(player.getOpenInventory().getTopInventory());
+        entityPlayer.connection.send(new ClientboundOpenScreenPacket(containerId, windowType, CraftChatMessage.fromJSON(JSONComponentSerializer.json().serialize(Methods.parse(title)))));
 
-    private static final VitalAPI api = Provider.getApi();
-    private static final ComponentLogger logger = api.getComponentLogger();
-    private static final boolean isVerbose = api.isVerbose();
+        player.updateInventory();
+    }
 
     /**
      * Get a {@link Material} from the {@link Registry}.
@@ -480,5 +501,89 @@ public class ItemUtil {
      */
     public static @NotNull ItemStack fromBase64(@NotNull final String base64) {
         return ItemStack.deserializeBytes(Base64.getDecoder().decode(base64));
+    }
+
+    /**
+     * Gets the dye color from a {@link String}.
+     *
+     * @param value the value to check
+     * @return {@link DyeColor}
+     * @since 0.0.1
+     */
+    public static @NotNull DyeColor getDyeColor(@NotNull final String value) {
+        if (value.isEmpty()) return DyeColor.WHITE;
+
+        return switch (value.toUpperCase()) {
+            case "ORANGE" -> DyeColor.ORANGE;
+            case "MAGENTA" -> DyeColor.MAGENTA;
+            case "LIGHT_BLUE" -> DyeColor.LIGHT_BLUE;
+            case "YELLOW" -> DyeColor.YELLOW;
+            case "LIME" -> DyeColor.LIME;
+            case "PINK" -> DyeColor.PINK;
+            case "GRAY" -> DyeColor.GRAY;
+            case "LIGHT_GRAY" -> DyeColor.LIGHT_GRAY;
+            case "CYAN" -> DyeColor.CYAN;
+            case "PURPLE" -> DyeColor.PURPLE;
+            case "BLUE" -> DyeColor.BLUE;
+            case "BROWN" -> DyeColor.BROWN;
+            case "GREEN" -> DyeColor.GREEN;
+            case "RED" -> DyeColor.RED;
+            case "BLACK" -> DyeColor.BLACK;
+            default -> DyeColor.WHITE;
+        };
+    }
+
+    /**
+     * Get the {@link Color} from a {@link String}.
+     *
+     * @param color the {@link String} to check
+     * @return {@link Color}
+     * @since 0.0.1
+     */
+    public static @NotNull Color getDefaultColor(@NotNull final String color) {
+        if (color.isEmpty()) return Color.WHITE;
+
+        return switch (color.toUpperCase()) {
+            case "AQUA" -> Color.AQUA;
+            case "BLACK" -> Color.BLACK;
+            case "BLUE" -> Color.BLUE;
+            case "FUCHSIA" -> Color.FUCHSIA;
+            case "GRAY" -> Color.GRAY;
+            case "GREEN" -> Color.GREEN;
+            case "LIME" -> Color.LIME;
+            case "MAROON" -> Color.MAROON;
+            case "NAVY" -> Color.NAVY;
+            case "OLIVE" -> Color.OLIVE;
+            case "ORANGE" -> Color.ORANGE;
+            case "PURPLE" -> Color.PURPLE;
+            case "RED" -> Color.RED;
+            case "SILVER" -> Color.SILVER;
+            case "TEAL" -> Color.TEAL;
+            case "YELLOW" -> Color.YELLOW;
+            default -> Color.WHITE;
+        };
+    }
+
+    /**
+     * Get the {@link Color} from a {@link String} by splitting it and converting it to rgb.
+     *
+     * @param color the {@link String} to check
+     * @return {@link Color}
+     * @since 0.0.1
+     */
+    public static @Nullable Color getColor(@NotNull final String color) {
+        if (color.isEmpty()) return null;
+
+        String[] rgb = color.split(",");
+
+        if (rgb.length != 3) {
+            return null;
+        }
+
+        int red = Integer.parseInt(rgb[0]);
+        int green = Integer.parseInt(rgb[1]);
+        int blue = Integer.parseInt(rgb[2]);
+
+        return Color.fromRGB(red, green, blue);
     }
 }
