@@ -2,6 +2,8 @@ package com.ryderbelserion.vital.api;
 
 import com.ryderbelserion.vital.VitalProvider;
 import com.ryderbelserion.vital.config.ConfigManager;
+import com.ryderbelserion.vital.config.beans.Plugin;
+import com.ryderbelserion.vital.config.keys.ConfigKeys;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
@@ -54,13 +56,22 @@ public interface Vital {
     }
 
     /**
+     * Gets the library's plugin settings
+     *
+     * @return {@link Plugin}
+     */
+    default Plugin getPlugin() {
+        return ConfigManager.getConfig().getProperty(ConfigKeys.settings);
+    }
+
+    /**
      * Logs messages to console.
      *
      * @return true or false
      * @since 0.0.1
      */
     default boolean isVerbose() {
-        return false;
+        return getPlugin().isVerbose();
     }
 
     /**
@@ -70,7 +81,7 @@ public interface Vital {
      * @since 0.0.1
      */
     default String getNumberFormat() {
-        return "#,###.##";
+        return getPlugin().getNumberFormat();
     }
 
     /**
@@ -80,7 +91,7 @@ public interface Vital {
      * @since 0.0.1
      */
     default String getRounding() {
-        return "half_even";
+        return getPlugin().getRounding();
     }
 
     /**
