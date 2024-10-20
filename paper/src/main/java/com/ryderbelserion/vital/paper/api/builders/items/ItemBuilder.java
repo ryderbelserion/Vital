@@ -2,21 +2,18 @@ package com.ryderbelserion.vital.paper.api.builders.items;
 
 import com.destroystokyo.paper.profile.PlayerProfile;
 import com.destroystokyo.paper.profile.ProfileProperty;
-import com.ryderbelserion.vital.common.VitalAPI;
-import com.ryderbelserion.vital.common.api.Provider;
-import com.ryderbelserion.vital.common.util.AdvUtil;
-import com.ryderbelserion.vital.common.util.StringUtil;
+import com.ryderbelserion.vital.VitalProvider;
+import com.ryderbelserion.vital.api.Vital;
 import com.ryderbelserion.vital.paper.api.builders.PlayerBuilder;
 import com.ryderbelserion.vital.paper.api.builders.gui.interfaces.GuiAction;
 import com.ryderbelserion.vital.paper.api.builders.gui.interfaces.GuiItem;
 import com.ryderbelserion.vital.paper.api.enums.Support;
-import com.ryderbelserion.vital.paper.util.DyeUtil;
-import com.ryderbelserion.vital.paper.util.ItemUtil;
-import com.ryderbelserion.vital.paper.util.MsgUtil;
-//import dev.lone.itemsadder.api.CustomStack;
+import com.ryderbelserion.vital.paper.util.PaperMethods;
+import com.ryderbelserion.vital.utils.Methods;
 import io.th0rgal.oraxen.api.OraxenItems;
 import me.arcaniax.hdb.api.HeadDatabaseAPI;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
@@ -51,7 +48,6 @@ import org.bukkit.inventory.meta.components.FoodComponent;
 import org.bukkit.inventory.meta.trim.ArmorTrim;
 import org.bukkit.inventory.meta.trim.TrimMaterial;
 import org.bukkit.inventory.meta.trim.TrimPattern;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
@@ -81,10 +77,11 @@ import java.util.function.Consumer;
  * @version 0.0.9
  * @since 0.0.1
  */
-@SuppressWarnings({"UnusedReturnValue", "unchecked"})
 public class ItemBuilder<T extends ItemBuilder<T>> {
 
-    private final VitalAPI api = Provider.getApi();
+    private final Vital api = VitalProvider.get();
+    private final ComponentLogger logger = this.api.getLogger();
+    private final boolean isVerbose = this.api.isVerbose();
 
     private final NbtBuilder nbt = new NbtBuilder();
 
@@ -540,7 +537,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
                     }
                 }
 
-                itemMeta.displayName(this.displayComponent = AdvUtil.parse(displayName));
+                itemMeta.displayName(this.displayComponent = Methods.parse(displayName));
             }
 
             if (!this.displayLore.isEmpty()) {
@@ -558,7 +555,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
                         }
                     }
 
-                    components.add(AdvUtil.parse(line));
+                    components.add(Methods.parse(line));
                 }
 
                 itemMeta.lore(this.displayComponentLore = components);
@@ -592,7 +589,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
      * @since 0.0.1
      */
     public @NotNull final String toBase64() {
-        return ItemUtil.toBase64(asItemStack());
+        return PaperMethods.toBase64(asItemStack());
     }
 
     /**
@@ -605,7 +602,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     public @NotNull T fromBase64(@NotNull final String base64) {
         if (base64.isEmpty()) return (T) new ItemBuilder<T>();
 
-        return (T) new ItemBuilder<T>(ItemUtil.fromBase64(base64));
+        return (T) new ItemBuilder<T>(PaperMethods.fromBase64(base64));
     }
 
     /**
@@ -681,21 +678,21 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
             if (data.contains("#")) {
                 final String model = data.split("#")[1];
 
-                this.customModelData = StringUtil.tryParseInt(model);
+                this.customModelData = Methods.tryParseInt(model);
 
                 if (this.customModelData.isPresent()) data = data.replace("#" + this.customModelData.get(), "");
             }
 
-            final Optional<Number> damage = StringUtil.tryParseInt(data);
+            final Optional<Number> damage = Methods.tryParseInt(data);
 
             if (damage.isEmpty()) {
-                @Nullable final PotionEffectType potionEffect = ItemUtil.getPotionEffect(data);
+                @Nullable final PotionEffectType potionEffect = PaperMethods.getPotionEffect(data);
 
                 if (potionEffect != null) this.effects = Collections.singletonList(new PotionEffect(potionEffect, 1, 1));
 
-                this.potionType = ItemUtil.getPotionType(data);
+                this.potionType = PaperMethods.getPotionType(data);
 
-                this.color = data.contains(",") ? DyeUtil.getColor(data) : DyeUtil.getDefaultColor(data);
+                this.color = data.contains(",") ? PaperMethods.getColor(data) : PaperMethods.getDefaultColor(data);
             } else {
                 this.damage = damage.get().intValue();
             }
@@ -704,10 +701,10 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
             type = sections[0];
             final String model = sections[1];
 
-            this.customModelData = StringUtil.tryParseInt(model);
+            this.customModelData = Methods.tryParseInt(model);
         }
 
-        @Nullable final Material material = ItemUtil.getMaterial(type);
+        @Nullable final Material material = PaperMethods.getMaterial(type);
 
         if (material == null) return (T) this;
 
@@ -962,8 +959,8 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
         if (!pattern.contains(":")) return (T) this;
 
         final String[] sections = pattern.split(":");
-        final PatternType type = ItemUtil.getPatternType(sections[0].toLowerCase());
-        final DyeColor color = DyeUtil.getDyeColor(sections[1]);
+        final PatternType type = PaperMethods.getPatternType(sections[0].toLowerCase());
+        final DyeColor color = PaperMethods.getDyeColor(sections[1]);
 
         if (type == null) return (T) this;
 
@@ -1362,7 +1359,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
         if (enchant.isEmpty()) return (T) this;
         if (level < 0) return (T) this;
 
-        @Nullable final Enchantment enchantment = ItemUtil.getEnchantment(enchant);
+        @Nullable final Enchantment enchantment = PaperMethods.getEnchantment(enchant);
         if (enchantment == null) return (T) this;
 
         this.itemStack.editMeta(itemMeta -> {
@@ -1391,7 +1388,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
         if (this.isCustom) return (T) this;
         if (enchant.isEmpty()) return (T) this;
 
-        @Nullable final Enchantment enchantment = ItemUtil.getEnchantment(enchant);
+        @Nullable final Enchantment enchantment = PaperMethods.getEnchantment(enchant);
         if (enchantment == null) return (T) this;
 
         if (this.hasItemMeta()) return (T) this;
@@ -1529,8 +1526,10 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
         if (this.isCustom) return (T) this;
         if (pattern.isEmpty() || material.isEmpty()) return (T) this;
 
-        TrimMaterial trimMaterial = ItemUtil.getTrimMaterial(material);
-        TrimPattern trimPattern = ItemUtil.getTrimPattern(pattern);
+        final TrimMaterial trimMaterial = PaperMethods.getTrimMaterial(material);
+
+        final TrimPattern trimPattern = PaperMethods.getTrimPattern(pattern);
+
         if (trimPattern == null || trimMaterial == null) return (T) this;
 
         return applyTrim(trimPattern, trimMaterial);
@@ -1547,7 +1546,8 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
         if (this.isCustom) return (T) this;
         if (pattern.isEmpty()) return (T) this;
 
-        TrimPattern trimPattern = ItemUtil.getTrimPattern(pattern);
+        final TrimPattern trimPattern = PaperMethods.getTrimPattern(pattern);
+
         if (trimPattern == null) return (T) this;
 
         this.trimPattern = trimPattern;
@@ -1566,7 +1566,8 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
         if (this.isCustom) return (T) this;
         if (material.isEmpty()) return (T) this;
 
-        TrimMaterial trimMaterial = ItemUtil.getTrimMaterial(material);
+        final TrimMaterial trimMaterial = PaperMethods.getTrimMaterial(material);
+
         if (trimMaterial == null) return (T) this;
 
         this.trimMaterial = trimMaterial;
@@ -1689,7 +1690,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
                 try {
                     textures.setSkin(URI.create(this.url).toURL(), PlayerTextures.SkinModel.CLASSIC);
                 } catch (MalformedURLException exception) {
-                    if (this.api.isVerbose()) this.api.getComponentLogger().error("Failed to set the texture url", exception);
+                    if (this.api.isVerbose()) this.api.getLogger().error("Failed to set the texture url", exception);
                 }
 
                 profile.setTextures(textures);
