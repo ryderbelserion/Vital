@@ -20,7 +20,9 @@ dependencies {
         exclude("org.bukkit", "*")
     }
 
-    api(project(":api"))
+    api(project(":api")) {
+        exclude("org.yaml", "snakeyaml")
+    }
 }
 
 paperweight {

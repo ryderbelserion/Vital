@@ -91,7 +91,7 @@ public class CustomFile {
             try {
                 this.configuration.save(this.file);
             } catch (Exception exception) {
-                if (this.isVerbose) this.logger.error("Failed to save: {}...", this.file.getName(), exception);
+                if (this.isVerbose) this.logger.error("Failed to save: {}", this.file.getName(), exception);
             }
         });
 

@@ -1,12 +1,12 @@
-package com.ryderbelserion.vital.common.config;
+package com.ryderbelserion.vital.config;
 
 
 import ch.jalu.configme.SettingsManager;
 import ch.jalu.configme.SettingsManagerBuilder;
 import ch.jalu.configme.resource.YamlFileResourceOptions;
-import com.ryderbelserion.vital.common.VitalAPI;
-import com.ryderbelserion.vital.common.api.Provider;
-import com.ryderbelserion.vital.common.config.keys.ConfigKeys;
+import com.ryderbelserion.vital.VitalProvider;
+import com.ryderbelserion.vital.api.Vital;
+import com.ryderbelserion.vital.config.keys.ConfigKeys;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import java.io.File;
@@ -21,8 +21,8 @@ import java.io.File;
 @ApiStatus.Internal
 public class ConfigManager {
 
-    private static final VitalAPI api = Provider.getApi();
-    private static final File directory = api.getDirectory();
+    private static final Vital api = VitalProvider.get();
+    private static final File directory = api.getDataFolder();
 
     private static final YamlFileResourceOptions options = YamlFileResourceOptions.builder().indentationSize(2).build();
 

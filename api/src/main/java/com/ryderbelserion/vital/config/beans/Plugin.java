@@ -1,4 +1,4 @@
-package com.ryderbelserion.vital.common.config.beans;
+package com.ryderbelserion.vital.config.beans;
 
 import ch.jalu.configme.Comment;
 import ch.jalu.configme.beanmapper.ExportName;

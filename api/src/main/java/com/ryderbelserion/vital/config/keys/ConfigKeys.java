@@ -1,9 +1,9 @@
-package com.ryderbelserion.vital.common.config.keys;
+package com.ryderbelserion.vital.config.keys;
 
 import ch.jalu.configme.Comment;
 import ch.jalu.configme.SettingsHolder;
 import ch.jalu.configme.properties.Property;
-import com.ryderbelserion.vital.common.config.beans.Plugin;
+import com.ryderbelserion.vital.config.beans.Plugin;
 import static ch.jalu.configme.properties.PropertyInitializer.newBeanProperty;
 
 /**

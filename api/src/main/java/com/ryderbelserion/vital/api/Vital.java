@@ -1,6 +1,7 @@
 package com.ryderbelserion.vital.api;
 
 import com.ryderbelserion.vital.VitalProvider;
+import com.ryderbelserion.vital.config.ConfigManager;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
@@ -30,6 +31,8 @@ public interface Vital {
      */
     default void start() {
         VitalProvider.register(this);
+
+        ConfigManager.load();
     }
 
     /**
@@ -39,6 +42,15 @@ public interface Vital {
      */
     default void stop() {
         VitalProvider.unregister();
+    }
+
+    /**
+     * Reloads the api.
+     *
+     * @since 0.0.1
+     */
+    default void reload() {
+        ConfigManager.reload();
     }
 
     /**
