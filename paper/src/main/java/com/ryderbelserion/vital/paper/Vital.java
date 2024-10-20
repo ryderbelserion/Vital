@@ -14,7 +14,7 @@ import java.io.File;
  * A platform specific class for Paper extending {@link VitalAPI}.
  *
  * @author ryderbelserion
- * @version 1.0.4
+ * @version 1.0.7
  * @since 0.0.1
  */
 public abstract class Vital extends JavaPlugin implements VitalAPI {
@@ -55,7 +55,7 @@ public abstract class Vital extends JavaPlugin implements VitalAPI {
      * @return {@inheritDoc}
      */
     @Override
-    public final File getDirectory() {
+    public File getDirectory() {
         return getDataFolder();
     }
 
@@ -65,7 +65,7 @@ public abstract class Vital extends JavaPlugin implements VitalAPI {
      * @return {@inheritDoc}
      */
     @Override
-    public final FileManager getFileManager() {
+    public FileManager getFileManager() {
         return this.fileManager;
     }
 
@@ -75,7 +75,7 @@ public abstract class Vital extends JavaPlugin implements VitalAPI {
      * @return {@inheritDoc}
      */
     @Override
-    public final File getModsDirectory() {
+    public File getModsDirectory() {
         return getServer().getPluginsFolder();
     }
 
@@ -97,7 +97,7 @@ public abstract class Vital extends JavaPlugin implements VitalAPI {
      * @since 0.0.1
      */
     @Override
-    public final @NotNull ComponentLogger getComponentLogger() {
+    public @NotNull ComponentLogger getComponentLogger() {
         return super.getComponentLogger();
     }
     
@@ -108,7 +108,7 @@ public abstract class Vital extends JavaPlugin implements VitalAPI {
      * @since 0.0.1
      */
     @Override
-    public final PaperScheduler getScheduler() {
+    public PaperScheduler getScheduler() {
         return this.scheduler;
     }
 
@@ -119,7 +119,7 @@ public abstract class Vital extends JavaPlugin implements VitalAPI {
      * @since 0.0.1
      */
     @Override
-    public final String getPluginName() {
+    public String getPluginName() {
         return getName();
     }
 
@@ -129,7 +129,7 @@ public abstract class Vital extends JavaPlugin implements VitalAPI {
      * @return {@link ModuleLoader}
      * @since 0.0.1
      */
-    public final ModuleLoader getLoader() {
+    public ModuleLoader getLoader() {
         return this.loader;
     }
 }
