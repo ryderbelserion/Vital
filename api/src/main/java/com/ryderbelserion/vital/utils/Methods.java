@@ -39,6 +39,7 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 import java.util.jar.JarEntry;
@@ -579,6 +580,36 @@ public class Methods {
         }
 
         return Collections.unmodifiableList(files);
+    }
+
+    /**
+     * Tries to parse a {@link String} into an {@link Integer}.
+     *
+     * @param value the {@link String} to parse
+     * @return an optional value of the parsed {@link Optional <Integer>} or empty if the {@link String} is not an {@link Integer}
+     * @since 0.0.1
+     */
+    public static Optional<Number> tryParseInt(@NotNull final String value) {
+        try {
+            return Optional.of(Integer.parseInt(value));
+        } catch (NumberFormatException exception) {
+            return Optional.empty();
+        }
+    }
+
+    /**
+     * Tries to parse a {@link String} into a {@link Boolean}.
+     *
+     * @param value the {@link String} to parse
+     * @return an optional value of the parsed {@link Optional<Boolean>} or empty if the {@link String} is not a {@link Boolean}
+     * @since 0.0.1
+     */
+    public static Optional<Boolean> tryParseBoolean(@NotNull final String value) {
+        try {
+            return Optional.of(Boolean.parseBoolean(value));
+        } catch (NumberFormatException exception) {
+            return Optional.empty();
+        }
     }
 
     /**
