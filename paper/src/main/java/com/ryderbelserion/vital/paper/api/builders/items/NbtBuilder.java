@@ -17,7 +17,6 @@ import java.util.List;
  * @version 0.0.9
  * @since 0.0.1
  */
-@SuppressWarnings("UnusedReturnValue")
 public class NbtBuilder {
 
     private ItemStack itemStack;

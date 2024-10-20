@@ -1,6 +1,6 @@
 package com.ryderbelserion.vital.paper.api.builders.gui;
 
-import com.ryderbelserion.vital.paper.api.catches.GenericException;
+import com.ryderbelserion.vital.api.exceptions.GenericException;
 import com.ryderbelserion.vital.paper.api.builders.gui.objects.components.InteractionComponent;
 import com.ryderbelserion.vital.paper.api.builders.gui.types.BaseGui;
 import com.ryderbelserion.vital.paper.api.builders.gui.interfaces.GuiType;
@@ -21,7 +21,6 @@ import java.util.function.Consumer;
  * @version 0.0.9
  * @since 0.0.1
  */
-@SuppressWarnings("unchecked")
 public abstract class BaseGuiBuilder<G extends BaseGui, B extends BaseGuiBuilder<G, B>> {
 
     private final EnumSet<InteractionComponent> components = EnumSet.noneOf(InteractionComponent.class);
