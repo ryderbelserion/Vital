@@ -1,14 +1,16 @@
-package com.ryderbelserion.vital.paper.api.builders;
+package com.ryderbelserion.vital.api.builders;
 
-import com.ryderbelserion.vital.common.util.AdvUtil;
-import com.ryderbelserion.vital.paper.util.MsgUtil;
+import com.ryderbelserion.vital.VitalProvider;
+import com.ryderbelserion.vital.api.Vital;
+import com.ryderbelserion.vital.utils.Methods;
+import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import java.util.HashMap;
 
 /**
  * Builds a component to send to a player.
@@ -19,19 +21,21 @@ import org.jetbrains.annotations.Nullable;
  */
 public class ComponentBuilder {
 
+    private final Vital vital = VitalProvider.get();
+
     private final TextComponent.@NotNull Builder builder = Component.text();
 
-    private final Player target;
+    private final Audience target;
 
     private String value;
 
     /**
      * A constructor to build a {@link Component}.
      *
-     * @param target the {@link Player} to send to
+     * @param target the {@link Audience} to send to
      * @since 0.0.1
      */
-    public ComponentBuilder(@NotNull final Player target) {
+    public ComponentBuilder(@NotNull final Audience target) {
         this.target = target;
     }
 
@@ -58,7 +62,7 @@ public class ComponentBuilder {
     public @NotNull final ComponentBuilder applyHover(@NotNull final String text) {
         if (text.isEmpty()) return this;
 
-        this.builder.hoverEvent(HoverEvent.showText(AdvUtil.parse(text)));
+        this.builder.hoverEvent(HoverEvent.showText(Methods.parse(text)));
 
         return this;
     }
@@ -88,9 +92,7 @@ public class ComponentBuilder {
     public @NotNull final TextComponent getComponent() {
         if (this.value.isEmpty()) return Component.empty();
 
-        Component message = AdvUtil.parse(this.value);
-
-        return this.builder.append(message).build();
+        return this.builder.append(this.vital.color(this.target, this.value, new HashMap<>())).build();
     }
 
     /**
@@ -99,18 +101,20 @@ public class ComponentBuilder {
      * @since 0.0.1
      */
     public void send() {
-        if (getComponent().equals(Component.empty())) return;
+        final Component component = getComponent();
 
-        this.target.sendMessage(getComponent());
+        if (component.equals(Component.empty())) return;
+
+        this.target.sendMessage(component);
     }
 
     /**
      * Gets the target recipient of the {@link Component}.
      *
-     * @return the {@link Player}
+     * @return the {@link Audience}
      * @since 0.0.1
      */
-    public @NotNull final Player getTarget() {
+    public @NotNull final Audience getTarget() {
         return this.target;
     }
 
