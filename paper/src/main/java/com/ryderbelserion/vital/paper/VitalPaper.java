@@ -2,6 +2,7 @@ package com.ryderbelserion.vital.paper;
 
 import com.ryderbelserion.vital.api.Vital;
 import com.ryderbelserion.vital.paper.api.enums.Support;
+import com.ryderbelserion.vital.paper.api.files.FileManager;
 import com.ryderbelserion.vital.utils.Methods;
 import io.papermc.paper.plugin.bootstrap.BootstrapContext;
 import me.clip.placeholderapi.PlaceholderAPI;
@@ -28,6 +29,8 @@ public abstract class VitalPaper implements Vital {
     private final String pluginName;
     private final File dataFolder;
 
+    private final FileManager fileManager;
+
     /**
      * Builds an instance of VitalPaper at JavaPlugin creation.
      *
@@ -41,6 +44,8 @@ public abstract class VitalPaper implements Vital {
         this.pluginName = plugin.getName();
 
         start();
+
+        this.fileManager = new FileManager();
     }
 
     /**
@@ -56,6 +61,8 @@ public abstract class VitalPaper implements Vital {
         this.pluginName = context.getPluginMeta().getName();
 
         start();
+
+        this.fileManager = new FileManager();
     }
 
     @Override
@@ -86,6 +93,11 @@ public abstract class VitalPaper implements Vital {
     @Override
     public @NotNull Component color(@NotNull final Audience audience, @NotNull final String value, @NotNull final Map<String, String> placeholders) {
         return Methods.parse(placeholders(audience, value, placeholders));
+    }
+
+    @Override
+    public FileManager getFileManager() {
+        return this.fileManager;
     }
 
     @Override
