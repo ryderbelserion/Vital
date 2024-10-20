@@ -1,4 +1,4 @@
-package com.ryderbelserion.vital.common.api.commands.context;
+package com.ryderbelserion.vital.api.commands.context;
 
 import com.mojang.brigadier.context.CommandContext;
 import org.jetbrains.annotations.NotNull;

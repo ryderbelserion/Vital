@@ -1,7 +1,7 @@
 package com.ryderbelserion.vital.paper.commands.context;
 
 import com.mojang.brigadier.context.CommandContext;
-import com.ryderbelserion.vital.common.api.commands.context.CommandInfo;
+import com.ryderbelserion.vital.api.commands.context.CommandInfo;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

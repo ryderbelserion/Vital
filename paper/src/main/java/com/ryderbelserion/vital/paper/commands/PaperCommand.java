@@ -1,6 +1,6 @@
 package com.ryderbelserion.vital.paper.commands;
 
-import com.ryderbelserion.vital.common.api.commands.Command;
+import com.ryderbelserion.vital.api.commands.Command;
 import com.ryderbelserion.vital.paper.commands.context.PaperCommandInfo;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 

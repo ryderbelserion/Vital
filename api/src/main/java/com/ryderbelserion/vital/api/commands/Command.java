@@ -1,9 +1,9 @@
-package com.ryderbelserion.vital.common.api.commands;
+package com.ryderbelserion.vital.api.commands;
 
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import com.mojang.brigadier.tree.LiteralCommandNode;
-import com.ryderbelserion.vital.common.api.commands.context.CommandInfo;
+import com.ryderbelserion.vital.api.commands.context.CommandInfo;
 import org.jetbrains.annotations.NotNull;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
