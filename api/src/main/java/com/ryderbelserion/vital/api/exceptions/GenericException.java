@@ -1,4 +1,4 @@
-package com.ryderbelserion.vital.paper.api.catches;
+package com.ryderbelserion.vital.api.exceptions;
 
 import org.jetbrains.annotations.NotNull;
 
