@@ -1689,7 +1689,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
                 try {
                     textures.setSkin(URI.create(this.url).toURL(), PlayerTextures.SkinModel.CLASSIC);
                 } catch (MalformedURLException exception) {
-                    if (this.api.isVerbose()) JavaPlugin.getProvidingPlugin(ItemBuilder.class).getComponentLogger().error("Failed to set the texture url", exception);
+                    if (this.api.isVerbose()) this.api.getComponentLogger().error("Failed to set the texture url", exception);
                 }
 
                 profile.setTextures(textures);
