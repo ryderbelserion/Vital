@@ -72,6 +72,26 @@ public interface Vital {
     }
 
     /**
+     * Parses a value with platform specific placeholder handling!
+     *
+     * @param audience sender
+     * @param value the value to parse
+     * @param placeholders map of placeholders
+     * @return the parsed string
+     */
+    @NotNull String placeholders(@NotNull final Audience audience, @NotNull final String value, @NotNull final Map<String, String> placeholders);
+
+    /**
+     * Colors a bit of text, with placeholder parsing!
+     *
+     * @param audience sender
+     * @param value the value to parse
+     * @param placeholders map of placeholders
+     * @return the parsed string
+     */
+    @NotNull Component color(@NotNull final Audience audience, @NotNull final String value, @NotNull final Map<String, String> placeholders);
+
+    /**
      * Gets the generic plugin folder.
      *
      * @return the file
