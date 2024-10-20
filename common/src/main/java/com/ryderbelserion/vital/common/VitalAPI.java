@@ -21,51 +21,6 @@ import java.lang.reflect.Field;
 public interface VitalAPI {
 
     /**
-     * Initializes the plugin.
-     *
-     * @since 0.0.1
-     */
-    default void start() {
-        try {
-            Field api = Provider.class.getDeclaredField("api");
-            api.setAccessible(true);
-            api.set(null, this);
-        } catch (NoSuchFieldException | IllegalAccessException exception) {
-            throw new RuntimeException(exception);
-        }
-
-        ConfigManager.load();
-    }
-
-    /**
-     * Reloads the api.
-     *
-     * @since 0.0.1
-     */
-    default void reload() {
-        ConfigManager.reload();
-    }
-
-    /**
-     * Stops the plugin.
-     *
-     * @since 0.0.1
-     */
-    default void stop() {
-        ConfigManager.reload();
-    }
-
-    /**
-     * Whether to use MiniMessage or not.
-     *
-     * @return true or false
-     * @since 0.0.1
-     */
-    default boolean isVerbose() {
-        return getPluginData().verbose;
-    }
-
-    /**
      * Gets the {@link F}
      *
      * @return {@link F}
@@ -73,26 +28,6 @@ public interface VitalAPI {
      * @since 0.0.1
      */
     default <F> F getFileManager() {
-        return null;
-    }
-
-    /**
-     * Gets the mods directory.
-     *
-     * @return {@link File}
-     * @since 0.0.1
-     */
-    default File getModsDirectory() {
-        return null;
-    }
-
-    /**
-     * Gets the root directory.
-     *
-     * @return {@link File}
-     * @since 0.0.1
-     */
-    default File getDirectory() {
         return null;
     }
 
@@ -108,26 +43,6 @@ public interface VitalAPI {
     }
 
     /**
-     * Gets the {@link ComponentLogger}.
-     *
-     * @return {@link ComponentLogger}
-     * @since 0.0.1
-     */
-    default ComponentLogger getComponentLogger() {
-        return null;
-    }
-
-    /**
-     * Gets the scheduler for the server
-     *
-     * @return {@link IScheduler}
-     * @since 0.0.1
-     */
-    default IScheduler getScheduler() {
-        return null;
-    }
-
-    /**
      * Gets the name of the plugin
      *
      * @return plugin name
@@ -135,25 +50,5 @@ public interface VitalAPI {
      */
     default String getPluginName() {
         return null;
-    }
-
-    /**
-     * Gets the {@link GsonBuilder}
-     *
-     * @return {@link GsonBuilder}
-     * @since 0.0.1
-     */
-    default GsonBuilder getBuilder() {
-        return new GsonBuilder().disableHtmlEscaping().enableComplexMapKeySerialization();
-    }
-
-    /**
-     * Gets the {@link Plugin}
-     *
-     * @return {@link Plugin}
-     * @since 0.0.1
-     */
-    default Plugin getPluginData() {
-        return ConfigManager.getConfig().getProperty(ConfigKeys.settings);
     }
 }
