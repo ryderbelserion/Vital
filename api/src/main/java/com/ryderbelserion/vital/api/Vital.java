@@ -1,8 +1,17 @@
 package com.ryderbelserion.vital.api;
 
+import com.ryderbelserion.vital.VitalProvider;
 import java.io.File;
 
 public interface Vital {
+
+    default void start() {
+        VitalProvider.register(this);
+    }
+
+    default void stop() {
+        VitalProvider.unregister();
+    }
 
     default String getNumberFormat() {
         return "#,###.##";
