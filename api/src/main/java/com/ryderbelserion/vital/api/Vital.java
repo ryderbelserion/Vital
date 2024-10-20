@@ -1,8 +1,18 @@
 package com.ryderbelserion.vital.api;
 
 import com.ryderbelserion.vital.VitalProvider;
+import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
+import org.jetbrains.annotations.NotNull;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.Map;
 
 /**
  * Vital's API
@@ -97,7 +107,7 @@ public interface Vital {
      * @return the file
      * @since 0.0.1
      */
-    default File getDirectory() {
+    default File getPluginsFolder() {
         return null;
     }
 
@@ -115,12 +125,75 @@ public interface Vital {
     /**
      * Saves a single file to disk.
      *
-     * @param fileName the name of the file
-     * @param replace  true or false
+     * @param resourcePath the name of the file
+     * @param replace true or false
      * @since 0.0.1
      */
-    default void saveResource(final String fileName, final boolean replace) {
+    default void saveResource(String resourcePath, final boolean replace) {
+        if (resourcePath == null || resourcePath.isEmpty()) {
+            throw new IllegalArgumentException("ResourcePath cannot be null or empty");
+        }
 
+        resourcePath = resourcePath.replace('\\', '/');
+
+        final InputStream inputStream = getResource(resourcePath);
+
+        if (inputStream == null) {
+            throw new IllegalArgumentException("The embedded resource '" + resourcePath + "' cannot be found.");
+        }
+
+        File outFile = new File(getDataFolder(), resourcePath);
+        int lastIndex = resourcePath.lastIndexOf('/');
+        File outDir = new File(getDataFolder(), resourcePath.substring(0, Math.max(lastIndex, 0)));
+
+        if (!outDir.exists()) {
+            outDir.mkdirs();
+        }
+
+        try {
+            if (!outFile.exists() || replace) {
+                final OutputStream outputStream = new FileOutputStream(outFile);
+
+                byte[] buf = new byte[1024];
+                int len;
+
+                while ((len = inputStream.read(buf)) > 0) {
+                    outputStream.write(buf, 0, len);
+                }
+
+                outputStream.close();
+                inputStream.close();
+            } else {
+                getLogger().warn("Could not save {} to {} because {} already exists", outFile.getName(), outFile, outFile.getName());
+            }
+        } catch (IOException exception) {
+            getLogger().error("Could not save {} to {}", outFile.getName(), outDir, exception);
+        }
+    }
+
+    /**
+     * Gets a resource from src/main/resources
+     *
+     * @param filename the file name
+     * @return input stream
+     * @since 2.0.0
+     */
+    default InputStream getResource(@NotNull String filename) {
+        try {
+            URL url = getClass().getClassLoader().getResource(filename);
+
+            if (url == null) {
+                return null;
+            }
+
+            URLConnection connection = url.openConnection();
+
+            connection.setUseCaches(false);
+
+            return connection.getInputStream();
+        } catch (IOException exception) {
+            return null;
+        }
     }
 
     /**
