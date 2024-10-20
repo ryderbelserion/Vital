@@ -1,6 +1,6 @@
-package com.ryderbelserion.vital.common.api.interfaces;
+package com.ryderbelserion.vital.api.interfaces;
 
-import com.ryderbelserion.vital.common.api.managers.PluginManager;
+import com.ryderbelserion.vital.PluginManager;
 import org.jetbrains.annotations.NotNull;
 import java.util.UUID;
 
@@ -11,7 +11,7 @@ import java.util.UUID;
  * @version 0.0.4
  * @since 0.0.1
  */
-public interface IPlugin {
+public interface Plugin {
 
     /**
      * Checks if the plugin is enabled.

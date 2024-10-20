@@ -1,8 +1,7 @@
-package com.ryderbelserion.vital.common.api.managers;
+package com.ryderbelserion.vital;
 
-import com.ryderbelserion.vital.common.VitalAPI;
-import com.ryderbelserion.vital.common.api.Provider;
-import com.ryderbelserion.vital.common.api.interfaces.IPlugin;
+import com.ryderbelserion.vital.api.Vital;
+import com.ryderbelserion.vital.api.interfaces.Plugin;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -19,11 +18,11 @@ import java.util.Map;
  */
 public class PluginManager {
 
-    private static final VitalAPI api = Provider.getApi();
-    private static final ComponentLogger logger = api.getComponentLogger();
-    private static final boolean isVerbose = api.isVerbose();
+    private static final Vital instance = VitalProvider.get();
+    private static final ComponentLogger logger = instance.getLogger();
+    private static final boolean isVerbose = instance.isVerbose();
 
-    private static final Map<String, IPlugin> plugins = new HashMap<>();
+    private static final Map<String, Plugin> plugins = new HashMap<>();
 
     /**
      * A plugin manager handling plugin dependencies.
@@ -34,9 +33,9 @@ public class PluginManager {
     /**
      * Registers a plugin on startup.
      *
-     * @param plugin {@link IPlugin}
+     * @param plugin {@link Plugin}
      */
-    public static void registerPlugin(@NotNull final IPlugin plugin) {
+    public static void registerPlugin(@NotNull final Plugin plugin) {
         plugins.put(plugin.getName(), plugin);
 
         plugin.init();
@@ -46,9 +45,9 @@ public class PluginManager {
      * Gets a plugin object.
      *
      * @param name the name of the plugin
-     * @return {@link IPlugin}
+     * @return {@link Plugin}
      */
-    public static @Nullable IPlugin getPlugin(@NotNull final String name) {
+    public static @Nullable Plugin getPlugin(@NotNull final String name) {
         return plugins.get(name);
     }
 
@@ -59,7 +58,7 @@ public class PluginManager {
      * @return true or false
      */
     public static boolean isEnabled(@NotNull final String name) {
-        final IPlugin plugin = getPlugin(name);
+        final Plugin plugin = getPlugin(name);
 
         if (plugin == null) return false;
 
@@ -69,9 +68,9 @@ public class PluginManager {
     /**
      * Unregisters a plugin
      *
-     * @param plugin {@link IPlugin}
+     * @param plugin {@link Plugin}
      */
-    public static void unregisterPlugin(@NotNull final IPlugin plugin) {
+    public static void unregisterPlugin(@NotNull final Plugin plugin) {
         plugins.remove(plugin.getName());
 
         plugin.stop();
@@ -99,7 +98,7 @@ public class PluginManager {
      *
      * @return map of available plugins
      */
-    public static @NotNull Map<String, IPlugin> getPlugins() {
+    public static @NotNull Map<String, Plugin> getPlugins() {
         return Collections.unmodifiableMap(plugins);
     }
 }
