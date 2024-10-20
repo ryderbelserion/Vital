@@ -15,6 +15,6 @@ public final class UnavailableException extends IllegalStateException {
     );
 
     public UnavailableException() {
-        super(Methods.convertList(message));
+        super(Methods.toString(message));
     }
 }
