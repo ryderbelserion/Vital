@@ -1,7 +1,7 @@
 package com.ryderbelserion.vital.paper.api.files;
 
-import com.ryderbelserion.vital.common.VitalAPI;
-import com.ryderbelserion.vital.common.api.Provider;
+import com.ryderbelserion.vital.VitalProvider;
+import com.ryderbelserion.vital.api.Vital;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.Nullable;
@@ -17,8 +17,8 @@ import java.util.concurrent.CompletableFuture;
  */
 public class CustomFile {
 
-    private final VitalAPI api = Provider.getApi();
-    private final ComponentLogger logger = this.api.getComponentLogger();
+    private final Vital api = VitalProvider.get();
+    private final ComponentLogger logger = this.api.getLogger();
     private final boolean isVerbose = this.api.isVerbose();
 
     private final String cleanName;

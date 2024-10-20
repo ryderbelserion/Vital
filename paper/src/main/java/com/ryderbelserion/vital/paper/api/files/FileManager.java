@@ -1,8 +1,8 @@
 package com.ryderbelserion.vital.paper.api.files;
 
-import com.ryderbelserion.vital.common.VitalAPI;
-import com.ryderbelserion.vital.common.api.Provider;
-import com.ryderbelserion.vital.common.util.FileUtil;
+import com.ryderbelserion.vital.VitalProvider;
+import com.ryderbelserion.vital.api.Vital;
+import com.ryderbelserion.vital.utils.Methods;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import java.io.File;
 import java.util.Collections;
@@ -20,7 +20,6 @@ import java.util.function.Consumer;
  * @version 1.0.2
  * @since 0.0.1
  */
-@SuppressWarnings("LoggingSimilarMessage")
 public class FileManager {
 
     /**
@@ -30,9 +29,9 @@ public class FileManager {
      */
     public FileManager() {}
 
-    private final VitalAPI api = Provider.getApi();
-    private final ComponentLogger logger = this.api.getComponentLogger();
-    private final File dataFolder = this.api.getDirectory();
+    private final Vital api = VitalProvider.get();
+    private final ComponentLogger logger = this.api.getLogger();
+    private final File dataFolder = this.api.getDataFolder();
     private final boolean isVerbose = this.api.isVerbose();
 
     private final Map<String, CustomFile> files = new HashMap<>();
@@ -55,7 +54,7 @@ public class FileManager {
             if (!folder.exists()) {
                 folder.mkdir();
 
-                FileUtil.extracts(FileManager.class, String.format("/%s/", folder.getName()), folder.toPath(), true);
+                Methods.extracts(FileManager.class, String.format("/%s/", folder.getName()), folder.toPath(), true);
             }
 
             File[] contents = folder.listFiles();
