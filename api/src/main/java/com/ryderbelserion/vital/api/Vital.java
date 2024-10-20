@@ -15,4 +15,8 @@ public interface Vital {
     default File getDataFolder() {
         return null;
     }
+
+    default File getDirectory() {
+        return null;
+    }
 }
