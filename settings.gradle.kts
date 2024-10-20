@@ -1,3 +1,3 @@
 rootProject.name = "Vital"
 
-include("api")
+include("paper", "api")
