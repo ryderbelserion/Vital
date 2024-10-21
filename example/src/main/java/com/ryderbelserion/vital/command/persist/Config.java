@@ -2,7 +2,6 @@ package com.ryderbelserion.vital.command.persist;
 
 import com.google.gson.annotations.Expose;
 import com.ryderbelserion.vital.api.storage.Serializer;
-
 import java.io.File;
 import java.util.LinkedHashSet;
 import java.util.Set;

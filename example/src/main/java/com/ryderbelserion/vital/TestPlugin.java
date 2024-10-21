@@ -34,9 +34,7 @@ public class TestPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        final VitalPaper paper = new VitalPaper(this);
-
-        paper.getFileManager().addFile("config.yml").addFile("data.yml").addFile("locations.yml").addFile("example.log", "logs").addFolder("crates").init();
+        this.paper.getFileManager().addFile("config.yml").addFile("data.yml").addFile("locations.yml").addFile("example.log", "logs").addFolder("crates").init();
 
         Methods.getFiles(new File(getDataFolder(), "crates"), ".yml", false);
 
