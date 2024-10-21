@@ -6,15 +6,16 @@ import com.ryderbelserion.vital.command.persist.Config;
 import com.ryderbelserion.vital.command.subs.CommandFile;
 import com.ryderbelserion.vital.command.subs.CommandGui;
 import com.ryderbelserion.vital.command.subs.CommandItem;
-import com.ryderbelserion.vital.common.util.FileUtil;
-import com.ryderbelserion.vital.paper.Vital;
+import com.ryderbelserion.vital.paper.VitalPaper;
+import com.ryderbelserion.vital.paper.api.files.FileManager;
+import com.ryderbelserion.vital.utils.Methods;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.util.List;
 
-public class TestPlugin extends Vital {
+public class TestPlugin extends JavaPlugin {
 
     /**
      * Gets the plugin
@@ -25,11 +26,19 @@ public class TestPlugin extends Vital {
         return JavaPlugin.getPlugin(TestPlugin.class);
     }
 
+    private final VitalPaper paper;
+
+    public TestPlugin() {
+        this.paper = new VitalPaper(this);
+    }
+
     @Override
     public void onEnable() {
-        getFileManager().addFile("config.yml").addFile("data.yml").addFile("locations.yml").addFile("example.log", "logs").addFolder("crates").init();
+        final VitalPaper paper = new VitalPaper(this);
 
-        FileUtil.getFiles(new File(getDataFolder(), "crates"), ".yml", false);
+        paper.getFileManager().addFile("config.yml").addFile("data.yml").addFile("locations.yml").addFile("example.log", "logs").addFolder("crates").init();
+
+        Methods.getFiles(new File(getDataFolder(), "crates"), ".yml", false);
 
         Config config = new Config(getDataFolder());
         config.load();
@@ -47,5 +56,13 @@ public class TestPlugin extends Vital {
 
             event.registrar().register(root.build(), "the base command for Vital");
         });
+    }
+
+    public final VitalPaper getPaper() {
+        return this.paper;
+    }
+
+    public final FileManager getFileManager() {
+        return getPaper().getFileManager();
     }
 }
