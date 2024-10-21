@@ -22,7 +22,7 @@ import java.util.Map;
  * @version 1.0.7
  * @since 0.0.1
  */
-public abstract class VitalPaper implements Vital {
+public class VitalPaper implements Vital {
 
     private final ComponentLogger logger;
     private final File pluginsFolder;
