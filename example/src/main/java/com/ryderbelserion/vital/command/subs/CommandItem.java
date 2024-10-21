@@ -11,6 +11,7 @@ import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionType;
 import org.jetbrains.annotations.NotNull;
@@ -48,10 +49,12 @@ public class CommandItem extends PaperCommand {
 
     @Override
     public @NotNull final PaperCommand registerPermission() {
-        final Permission permission = this.plugin.getServer().getPluginManager().getPermission(getPermission());
+        final PluginManager server = this.plugin.getServer().getPluginManager();
+
+        final Permission permission = server.getPermission(getPermission());
 
         if (permission == null) {
-            this.plugin.getServer().getPluginManager().addPermission(new Permission(getPermission(), PermissionDefault.OP));
+            server.addPermission(new Permission(getPermission(), PermissionDefault.OP));
         }
 
         return this;
