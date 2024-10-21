@@ -48,6 +48,16 @@ public class PaperMethods {
     private static final boolean isVerbose = api.isVerbose();
 
     /**
+     * A paper methods class
+     *
+     * @author ryderbelserion
+     * @since 2.0.0
+     */
+    public PaperMethods() {
+        throw new AssertionError();
+    }
+
+    /**
      * Updates the inventory title, without re-building the inventory.
      *
      * @param player {@link Player}

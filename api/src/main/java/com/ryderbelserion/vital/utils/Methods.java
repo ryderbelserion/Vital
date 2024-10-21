@@ -48,9 +48,26 @@ import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+/**
+ * A methods class
+ *
+ * @author ryderbelserion
+ * @version 2.0.0
+ * @since 2.0.0
+ */
 public class Methods {
 
     private static final Vital instance = VitalProvider.get();
+
+    /**
+     * A methods class
+     *
+     * @author ryderbelserion
+     * @since 2.0.0
+     */
+    public Methods() {
+        throw new AssertionError();
+    }
 
     /**
      * Turns an integer into a string.
@@ -586,7 +603,7 @@ public class Methods {
      * Tries to parse a {@link String} into an {@link Integer}.
      *
      * @param value the {@link String} to parse
-     * @return an optional value of the parsed {@link Optional <Integer>} or empty if the {@link String} is not an {@link Integer}
+     * @return an optional value of the parsed {@link Optional<Integer>} or empty if the {@link String} is not an {@link Integer}
      * @since 0.0.1
      */
     public static Optional<Number> tryParseInt(@NotNull final String value) {

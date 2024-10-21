@@ -4,10 +4,24 @@ import com.ryderbelserion.vital.api.Vital;
 import com.ryderbelserion.vital.api.exceptions.UnavailableException;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Vital api's provider
+ *
+ * @author ryderbelserion
+ * @version 2.0.0
+ * @since 2.0.0
+ */
 public class VitalProvider {
 
     private static Vital vital = null;
 
+    /**
+     * Gets the vital api
+     *
+     * @author ryderbelserion
+     * @return {@link Vital}
+     * @since 2.0.0
+     */
     public static @NotNull Vital get() {
         Vital instance = VitalProvider.vital;
 
@@ -18,10 +32,20 @@ public class VitalProvider {
         return instance;
     }
 
+    /**
+     * Registers vital api
+     *
+     * @since 2.0.0
+     */
     public static void register(final Vital vital) {
         VitalProvider.vital = vital;
     }
 
+    /**
+     * Unregisters vital api
+     *
+     * @since 2.0.0
+     */
     public static void unregister() {
         VitalProvider.vital = null;
     }
