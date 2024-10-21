@@ -1,5 +1,6 @@
 package com.ryderbelserion.vital.api;
 
+import com.google.gson.GsonBuilder;
 import com.ryderbelserion.vital.VitalProvider;
 import com.ryderbelserion.vital.config.ConfigManager;
 import com.ryderbelserion.vital.config.beans.Plugin;
@@ -236,6 +237,16 @@ public interface Vital {
      * @since 0.0.1
      */
     default ComponentLogger getLogger() {
+        return null;
+    }
+
+    /**
+     * Gets the gson builder.
+     *
+     * @return {@link GsonBuilder}
+     * @since 0.0.1
+     */
+    default GsonBuilder getGson() {
         return null;
     }
 }
