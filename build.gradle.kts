@@ -9,7 +9,7 @@ subprojects {
     apply(plugin = "java-library")
 
     group = "com.ryderbelserion.vital"
-    description = "Create unlimited crates with multiple crate types to choose from!"
+    description = "A library carefully crafted, as not to be all over the place."
 
     repositories {
         maven("https://repo.codemc.io/repository/maven-public")
