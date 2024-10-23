@@ -26,6 +26,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ItemType;
 import org.bukkit.inventory.meta.trim.TrimMaterial;
 import org.bukkit.inventory.meta.trim.TrimPattern;
 import org.bukkit.potion.PotionEffectType;
@@ -103,6 +104,41 @@ public class PaperMethods {
             return Registry.MATERIAL.get(getKey(value));
         } catch (Exception exception) {
             if (isVerbose) logger.error("{} is an invalid material.", value);
+
+            return null;
+        }
+    }
+
+    /**
+     * Get a {@link ItemType} from the {@link Registry}.
+     *
+     * @param value the {@link String} to check
+     * @return the {@link ItemType} or null if not found
+     * @since 2.0.0
+     */
+    public static @Nullable ItemType getItemType(@NotNull final String value) {
+        return getItemType(value, isVerbose);
+    }
+
+    /**
+     * Get a {@link ItemType} from the {@link Registry}.
+     *
+     * @param value the {@link String} to check
+     * @param isVerbose true or false
+     * @return the {@link ItemType} or null if not found
+     * @since 2.0.0
+     */
+    public static @Nullable ItemType getItemType(@NotNull final String value, final boolean isVerbose) {
+        if (value.isEmpty()) {
+            if (isVerbose) logger.error("{} cannot be blank!", value);
+
+            return null;
+        }
+
+        try {
+            return Registry.ITEM.get(getKey(value));
+        } catch (Exception exception) {
+            if (isVerbose) logger.error("{} is an invalid item type.", value);
 
             return null;
         }
