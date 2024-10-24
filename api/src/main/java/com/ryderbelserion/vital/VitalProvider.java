@@ -16,6 +16,15 @@ public class VitalProvider {
     private static Vital vital = null;
 
     /**
+     * Vital api's provider
+     *
+     * @since 2.0.1
+     */
+    public VitalProvider() {
+        throw new AssertionError();
+    }
+
+    /**
      * Gets the vital api
      *
      * @author ryderbelserion
@@ -33,8 +42,9 @@ public class VitalProvider {
     }
 
     /**
-     * Registers vital api
+     * Registers vital api.
      *
+     * @param vital api instance
      * @since 2.0.0
      */
     public static void register(final Vital vital) {
@@ -42,7 +52,7 @@ public class VitalProvider {
     }
 
     /**
-     * Unregisters vital api
+     * Unregisters vital api.
      *
      * @since 2.0.0
      */
