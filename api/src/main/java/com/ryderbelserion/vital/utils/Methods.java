@@ -4,6 +4,7 @@ import com.ryderbelserion.vital.VitalProvider;
 import com.ryderbelserion.vital.api.Vital;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.jetbrains.annotations.NotNull;
@@ -58,6 +59,8 @@ import java.util.zip.ZipOutputStream;
 public class Methods {
 
     private static final Vital instance = VitalProvider.get();
+
+    private static final ComponentLogger logger = instance.getLogger();
 
     /**
      * A methods class
@@ -289,7 +292,7 @@ public class Methods {
 
             writer.flush();
         } catch (Exception exception) {
-            //logger.warn("Failed to write to: {}", input.getName(), exception);
+            logger.warn("Failed to write to: {}", input.getName(), exception);
         }
     }
 
@@ -395,7 +398,7 @@ public class Methods {
      * @since 0.0.1
      */
     public static void extract(@NotNull final String input, final boolean overwrite) {
-        //api.saveResource(input, overwrite);
+       instance.saveResource(input, overwrite);
     }
 
     /**
