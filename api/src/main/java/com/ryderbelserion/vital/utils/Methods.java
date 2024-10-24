@@ -45,6 +45,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -553,6 +554,35 @@ public class Methods {
      * @param keepExtension keeps the file extension
      *
      * @return a {@link List<String>} of files that meet the criteria
+     * @since 0.0.3
+     */
+    public static List<String> getNames(@NotNull final File directory, @NotNull final String folder, @NotNull final String extension, final boolean keepExtension) {
+        return getFiles(directory, folder, extension, keepExtension).stream().map(File::getName).collect(Collectors.toList());
+    }
+
+    /**
+     * Returns a {@link List<String>} of files in a directory if they end in a specific extension.
+     *
+     * @param directory the directory to check
+     * @param extension the file extension
+     * @param keepExtension keeps the file extension
+     *
+     * @return a {@link List<String>} of files that meet the criteria
+     * @since 0.0.3
+     */
+    public static List<String> getNames(@NotNull final File directory, @NotNull final String extension, final boolean keepExtension) {
+        return getFiles(directory, extension, keepExtension).stream().map(File::getName).collect(Collectors.toList());
+    }
+
+    /**
+     * Returns a {@link List<File>} of files in a directory if they end in a specific extension.
+     *
+     * @param directory the directory to check
+     * @param folder the fallback folder
+     * @param extension the file extension
+     * @param keepExtension keeps the file extension
+     *
+     * @return a {@link List<File>} of files that meet the criteria
      * @since 0.0.1
      */
     public static List<File> getFiles(@NotNull final File directory, @NotNull final String folder, @NotNull final String extension, final boolean keepExtension) {
@@ -560,12 +590,12 @@ public class Methods {
     }
 
     /**
-     * Returns a {@link List<String>} of files in a directory if they end in a specific extension.
+     * Returns a {@link List<File>} of files in a directory if they end in a specific extension.
      *
      * @param directory the folder to check
      * @param extension the file extension
      * @param keepExtension true or false
-     * @return a {@link List<String>} of files that meet the criteria
+     * @return a {@link List<File>} of files that meet the criteria
      * @since 0.0.1
      */
     public static List<File> getFiles(@NotNull final File directory, @NotNull final String extension, final boolean keepExtension) {
