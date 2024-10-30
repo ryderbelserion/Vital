@@ -12,7 +12,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.inventory.MenuType;
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.Registry;
@@ -75,38 +74,12 @@ public class PaperMethods {
     }
 
     /**
-     * Get a {@link Material} from the {@link Registry}.
+     * Fetches the registry access
      *
-     * @param value the {@link String} to check
-     * @return the {@link Material} or null if not found
-     * @since 0.0.1
+     * @return {@link RegistryAccess}
      */
-    public static @Nullable Material getMaterial(@NotNull final String value) {
-        return getMaterial(value, isVerbose);
-    }
-
-    /**
-     * Get a {@link Material} from the {@link Registry}.
-     *
-     * @param value the {@link String} to check
-     * @param isVerbose true or false
-     * @return the {@link Material} or null if not found
-     * @since 0.0.1
-     */
-    public static @Nullable Material getMaterial(@NotNull final String value, final boolean isVerbose) {
-        if (value.isEmpty()) {
-            if (isVerbose) logger.error("{} cannot be blank!", value);
-
-            return null;
-        }
-
-        try {
-            return Registry.MATERIAL.get(getKey(value));
-        } catch (Exception exception) {
-            if (isVerbose) logger.error("{} is an invalid material.", value);
-
-            return null;
-        }
+    public static @NotNull RegistryAccess getRegistryAccess() {
+        return RegistryAccess.registryAccess();
     }
 
     /**
@@ -136,7 +109,7 @@ public class PaperMethods {
         }
 
         try {
-            return Registry.ITEM.get(getKey(value));
+            return getRegistryAccess().getRegistry(RegistryKey.ITEM).get(getKey(value));
         } catch (Exception exception) {
             if (isVerbose) logger.error("{} is an invalid item type.", value);
 
@@ -171,7 +144,7 @@ public class PaperMethods {
         }
 
         try {
-            return Registry.SOUNDS.get(getKey(value));
+            return getRegistryAccess().getRegistry(RegistryKey.SOUND_EVENT).get(getKey(value));
         } catch (Exception exception) {
             if (isVerbose) logger.error("{} is an invalid sound.", value);
 
@@ -206,7 +179,7 @@ public class PaperMethods {
         }
 
         try {
-            return RegistryAccess.registryAccess().getRegistry(RegistryKey.ENCHANTMENT).get(getKey(value));
+            return getRegistryAccess().getRegistry(RegistryKey.ENCHANTMENT).get(getKey(value));
         } catch (Exception exception) {
             if (isVerbose) logger.error("{} is an invalid enchantment.", value);
 
@@ -241,7 +214,7 @@ public class PaperMethods {
         }
 
         try {
-            return RegistryAccess.registryAccess().getRegistry(RegistryKey.TRIM_PATTERN).get(getKey(value));
+            return getRegistryAccess().getRegistry(RegistryKey.TRIM_PATTERN).get(getKey(value));
         } catch (Exception exception) {
             if (isVerbose) logger.error("{} is an invalid trim pattern.", value);
 
@@ -276,7 +249,7 @@ public class PaperMethods {
         }
 
         try {
-            return RegistryAccess.registryAccess().getRegistry(RegistryKey.TRIM_MATERIAL).get(getKey(value));
+            return getRegistryAccess().getRegistry(RegistryKey.TRIM_MATERIAL).get(getKey(value));
         } catch (Exception exception) {
             if (isVerbose) logger.error("{} is an invalid trim material.", value);
 
@@ -311,7 +284,7 @@ public class PaperMethods {
         }
 
         try {
-            return Registry.POTION.get(getKey(value));
+            return getRegistryAccess().getRegistry(RegistryKey.POTION).get(getKey(value));
         } catch (Exception exception) {
             if (isVerbose) logger.error("{} is an invalid potion type.", value);
 
@@ -346,7 +319,7 @@ public class PaperMethods {
         }
 
         try {
-            return Registry.POTION_EFFECT_TYPE.get(getKey(value));
+            return getRegistryAccess().getRegistry(RegistryKey.MOB_EFFECT).get(getKey(value));
         } catch (Exception exception) {
             if (isVerbose) logger.error("{} is an invalid potion effect type.", value);
 
@@ -381,7 +354,7 @@ public class PaperMethods {
         }
 
         try {
-            return Registry.PARTICLE_TYPE.get(getKey(value));
+            return getRegistryAccess().getRegistry(RegistryKey.PARTICLE_TYPE).get(getKey(value));
         } catch (Exception exception) {
             if (isVerbose) logger.error("{} is an invalid particle type.", value);
 
@@ -416,7 +389,7 @@ public class PaperMethods {
         }
 
         try {
-            return Registry.BANNER_PATTERN.get(getKey(value));
+            return getRegistryAccess().getRegistry(RegistryKey.BANNER_PATTERN).get(getKey(value));
         } catch (Exception exception) {
             if (isVerbose) logger.error("{} is an invalid banner type.", value);
 
@@ -451,7 +424,7 @@ public class PaperMethods {
         }
 
         try {
-            return Registry.ENTITY_TYPE.get(getKey(value));
+            return getRegistryAccess().getRegistry(RegistryKey.ENTITY_TYPE).get(getKey(value));
         } catch (Exception exception) {
             if (isVerbose) logger.error("{} is an invalid entity type.", value);
 
@@ -486,7 +459,7 @@ public class PaperMethods {
         }
 
         try {
-            return Registry.ATTRIBUTE.get(getKey(value));
+            return getRegistryAccess().getRegistry(RegistryKey.ATTRIBUTE).get(getKey(value));
         } catch (Exception exception) {
             if (isVerbose) logger.error("{} is an invalid attribute.", value);
 

@@ -33,6 +33,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ItemType;
 import org.bukkit.inventory.meta.ArmorMeta;
 import org.bukkit.inventory.meta.BannerMeta;
 import org.bukkit.inventory.meta.BlockStateMeta;
@@ -88,37 +89,37 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     private ItemStack itemStack;
 
     /**
-     * Constructs a new {@link ItemStack} with a dummy {@link Material}.
+     * Constructs a new {@link ItemStack} with a dummy {@link ItemType}.
      *
      * @since 0.0.1
      */
     public ItemBuilder() {
-        this(Material.STONE, 1);
+        this(ItemType.STONE, 1);
     }
 
     /**
-     * Constructs a new {@link ItemStack} with the specified {@link Material}.
+     * Constructs a new {@link ItemStack} with the specified {@link ItemType}.
      *
-     * @param material the {@link Material} to use
+     * @param itemType the {@link ItemType} to use
      * @since 0.0.1
      */
-    public ItemBuilder(@NotNull final Material material) {
-        this(material, 1);
+    public ItemBuilder(@NotNull final ItemType itemType) {
+        this(itemType, 1);
     }
 
     /**
-     * Constructs a new {@link ItemStack} with the specified {@link Material} and amount.
+     * Constructs a new {@link ItemStack} with the specified {@link ItemType} and amount.
      *
-     * @param material the {@link Material} to use
+     * @param itemType the {@link ItemType} to use
      * @param amount the amount to set
      * @since 0.0.1
      */
-    public ItemBuilder(@NotNull final Material material, final int amount) {
-        this(ItemStack.of(material, amount), true);
+    public ItemBuilder(@NotNull final ItemType itemType, final int amount) {
+        this(itemType.createItemStack(amount), true);
     }
 
     /**
-     * Constructs a new {@link ItemStack} with the specified {@link Material} and amount.
+     * Constructs a new {@link ItemStack} with the specified {@link ItemType} and amount.
      *
      * @param itemStack the {@link ItemStack}
      * @param createNewStack create a new {@link ItemStack} or reuse the passed object
@@ -606,41 +607,40 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     }
 
     /**
-     * Sets the {@link Material} type.
+     * Sets the {@link ItemType} type.
      *
-     * @param material the {@link Material} to set
+     * @param itemType the {@link ItemType} to set
      * @return {@link ItemBuilder}
      * @since 0.0.1
      */
-    public @NotNull T withType(@Nullable final Material material) {
-        if (material == null) return (T) this;
+    public @NotNull T withType(@Nullable final ItemType itemType) {
+        if (itemType == null) return (T) this;
 
-        this.itemStack = this.itemStack.withType(material);
+        this.itemStack = itemType.createItemStack();
 
         return (T) this;
     }
 
     /**
-     * Sets the {@link Material} type.
+     * Sets the {@link ItemType} type.
      *
-     * @param material the {@link Material} to set
-     * @param amount the amount of {@link Material}
+     * @param itemType the {@link ItemType} to set
+     * @param amount the amount of {@link ItemType}
      * @return {@link ItemBuilder}
      * @since 0.0.1
      */
-    public @NotNull T withType(@Nullable final Material material, final int amount) {
-        if (material == null) return (T) this;
+    public @NotNull T withType(@Nullable final ItemType itemType, final int amount) {
+        if (itemType == null) return (T) this;
 
-        this.itemStack = this.itemStack.withType(material);
-        this.itemStack.setAmount(amount);
+        this.itemStack = itemType.createItemStack(amount);
 
         return (T) this;
     }
 
     /**
-     * Sets the {@link Material} type.
+     * Sets the {@link ItemType} type.
      *
-     * @param key the {@link Material} to set
+     * @param key the {@link ItemType} to set
      * @return {@link ItemBuilder}
      * @since 0.0.1
      */
@@ -704,11 +704,11 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
             this.customModelData = Methods.tryParseInt(model);
         }
 
-        @Nullable final Material material = PaperMethods.getMaterial(type);
+        final @Nullable ItemType itemType = PaperMethods.getItemType(type);
 
-        if (material == null) return (T) this;
+        if (itemType == null) return (T) this;
 
-        return withType(material);
+        return withType(itemType);
     }
 
     /**
@@ -811,7 +811,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     }
 
     /**
-     * Adds a new Firework Effect to the {@link ItemStack} if the {@link Material} allows it.
+     * Adds a new Firework Effect to the {@link ItemStack} if the {@link ItemType} allows it.
      *
      * @param effect the {@link FireworkEffect.Builder}
      * @return {@link ItemBuilder}
@@ -983,7 +983,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     }
 
     /**
-     * Adds a {@link PotionEffect} to the {@link ItemStack} if the {@link Material} allows it.
+     * Adds a {@link PotionEffect} to the {@link ItemStack} if the {@link ItemType} allows it.
      *
      * @param type the type of {@link PotionEffectType}
      * @param duration the duration of the {@link PotionType}
@@ -1015,7 +1015,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     }
 
     /**
-     * Changes the color of the {@link ItemStack} if it is a {@link Material} that supports it.
+     * Changes the color of the {@link ItemStack} if it is a {@link ItemType} that supports it.
      *
      * @param color the {@link Color}
      * @return {@link ItemBuilder}
@@ -1576,7 +1576,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     }
 
     /**
-     * Changes the {@link List<Pattern>} of the {@link ItemStack} if it is a {@link Material} that supports it.
+     * Changes the {@link List<Pattern>} of the {@link ItemStack} if it is a {@link ItemType} that supports it.
      *
      * @return {@link ItemBuilder}
      * @since 0.0.1
@@ -1629,7 +1629,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     }
 
     /**
-     * Changes the {@link ItemStack} {@link PotionType} if the {@link Material} supports it, applying changes.
+     * Changes the {@link ItemStack} {@link PotionType} if the {@link ItemType} supports it, applying changes.
      *
      * @return {@link ItemBuilder}
      * @since 0.0.1
@@ -1841,9 +1841,9 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     }
 
     /**
-     * Gets the {@link Material} type.
+     * Gets the {@link ItemType} type.
      *
-     * @return the {@link Material} type
+     * @return the {@link ItemType} type
      * @since 0.0.1
      */
     public @NotNull final Material getType() {
@@ -1851,7 +1851,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     }
 
     /**
-     * Reactively checks if the {@link ItemStack} {@link Material} is a {@link Banner}.
+     * Reactively checks if the {@link ItemStack} {@link ItemType} is a {@link Banner}.
      *
      * @return true or false
      * @since 0.0.1
@@ -1861,7 +1861,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     }
 
     /**
-     * Reactively checks if the {@link ItemStack} {@link Material} is an armor piece.
+     * Reactively checks if the {@link ItemStack} {@link ItemType} is an armor piece.
      *
      * @return true or false
      * @since 0.0.1
@@ -1871,7 +1871,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     }
 
     /**
-     * Reactively checks if the {@link ItemStack} {@link Material} is a shulker box.
+     * Reactively checks if the {@link ItemStack} {@link ItemType} is a shulker box.
      *
      * @return true or false
      * @since 0.0.1
@@ -1881,7 +1881,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     }
 
     /**
-     * Reactively checks if the {@link ItemStack} {@link Material} is a leather variant.
+     * Reactively checks if the {@link ItemStack} {@link ItemType} is a leather variant.
      *
      * @return true or false
      * @since 0.0.1
@@ -1891,7 +1891,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     }
 
     /**
-     * Reactively checks if the {@link ItemStack} {@link Material} is a potion.
+     * Reactively checks if the {@link ItemStack} {@link ItemType} is a potion.
      *
      * @return true or false
      * @since 0.0.1
@@ -1901,7 +1901,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     }
 
     /**
-     * Reactively checks if the {@link ItemStack} {@link Material} is an enchanted book.
+     * Reactively checks if the {@link ItemStack} {@link ItemType} is an enchanted book.
      *
      * @return true or false
      * @since 0.0.1
@@ -1911,7 +1911,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     }
 
     /**
-     * Reactively checks if the {@link ItemStack} {@link Material} is a player head.
+     * Reactively checks if the {@link ItemStack} {@link ItemType} is a player head.
      *
      * @return true or false
      * @since 0.0.1
@@ -1921,7 +1921,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     }
 
     /**
-     * Reactively checks if the {@link ItemStack} {@link Material} is a firework star.
+     * Reactively checks if the {@link ItemStack} {@link ItemType} is a firework star.
      *
      * @return true or false
      * @since 0.0.1
@@ -1931,7 +1931,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     }
 
     /**
-     * Reactively checks if the {@link ItemStack} {@link Material} is a {@link org.bukkit.entity.Firework}.
+     * Reactively checks if the {@link ItemStack} {@link ItemType} is a {@link org.bukkit.entity.Firework}.
      *
      * @return true or false
      * @since 0.0.1
@@ -1941,7 +1941,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     }
 
     /**
-     * Reactively checks if the {@link ItemStack} {@link Material} is a {@link CreatureSpawner}.
+     * Reactively checks if the {@link ItemStack} {@link ItemType} is a {@link CreatureSpawner}.
      *
      * @return true or false
      * @since 0.0.1
@@ -1951,7 +1951,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     }
 
     /**
-     * Reactively checks if the {@link ItemStack} {@link Material} is a shield.
+     * Reactively checks if the {@link ItemStack} {@link ItemType} is a shield.
      *
      * @return true or false
      * @since 0.0.1
@@ -1961,7 +1961,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     }
 
     /**
-     * Reactively checks if the {@link ItemStack} {@link Material} is an {@link org.bukkit.entity.Arrow}.
+     * Reactively checks if the {@link ItemStack} {@link ItemType} is an {@link org.bukkit.entity.Arrow}.
      *
      * @return true or false
      * @since 0.0.1
@@ -1971,7 +1971,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     }
 
     /**
-     * Reactively checks if the {@link ItemStack} {@link Material} is a map.
+     * Reactively checks if the {@link ItemStack} {@link ItemType} is a map.
      *
      * @return true or false
      * @since 0.0.1

@@ -9,6 +9,7 @@ import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemType;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.PluginManager;
@@ -26,7 +27,7 @@ public class CommandItem extends PaperCommand {
 
         final ItemBuilder builder = new ItemBuilder();
 
-        builder.withType(Material.POTION).setPotionType(PotionType.HARMING).setColor(Color.GREEN);
+        builder.withType(ItemType.POTION).setPotionType(PotionType.HARMING).setColor(Color.GREEN);
 
         info.getPlayer().getInventory().addItem(builder.asItemStack());
     }
