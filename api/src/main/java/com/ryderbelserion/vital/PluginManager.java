@@ -26,6 +26,7 @@ public class PluginManager {
 
     /**
      * A plugin manager handling plugin dependencies.
+     *
      * @since 0.0.1
      */
     public PluginManager() {}
@@ -34,6 +35,7 @@ public class PluginManager {
      * Registers a plugin on startup.
      *
      * @param plugin {@link Plugin}
+     * @since 0.0.1
      */
     public static void registerPlugin(@NotNull final Plugin plugin) {
         plugins.put(plugin.getName(), plugin);
@@ -46,6 +48,7 @@ public class PluginManager {
      *
      * @param name the name of the plugin
      * @return {@link Plugin}
+     * @since 0.0.1
      */
     public static @Nullable Plugin getPlugin(@NotNull final String name) {
         return plugins.get(name);
@@ -56,6 +59,7 @@ public class PluginManager {
      *
      * @param name name of the plugin
      * @return true or false
+     * @since 0.0.1
      */
     public static boolean isEnabled(@NotNull final String name) {
         final Plugin plugin = getPlugin(name);
@@ -66,9 +70,10 @@ public class PluginManager {
     }
 
     /**
-     * Unregisters a plugin
+     * Unregisters a plugin.
      *
      * @param plugin {@link Plugin}
+     * @since 0.0.1
      */
     public static void unregisterPlugin(@NotNull final Plugin plugin) {
         plugins.remove(plugin.getName());
@@ -77,7 +82,9 @@ public class PluginManager {
     }
 
     /**
-     * Print all plugins and status to console
+     * Print all plugins and status to console.
+     *
+     * @since 0.0.1
      */
     public static void printPlugins() {
         if (isVerbose) {
@@ -94,9 +101,10 @@ public class PluginManager {
     }
 
     /**
-     * Gets a map of available plugins
+     * Gets a map of available plugins.
      *
      * @return map of available plugins
+     * @since 0.0.1
      */
     public static @NotNull Map<String, Plugin> getPlugins() {
         return Collections.unmodifiableMap(plugins);

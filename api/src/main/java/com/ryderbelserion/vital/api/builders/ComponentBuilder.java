@@ -16,7 +16,7 @@ import java.util.HashMap;
  * Builds a component to send to a player.
  *
  * @author ryderbelserion
- * @version 0.0.9
+ * @version 0.0.3
  * @since 0.0.1
  */
 public class ComponentBuilder {

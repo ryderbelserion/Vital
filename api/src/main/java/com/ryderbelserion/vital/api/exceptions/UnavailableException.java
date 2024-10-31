@@ -7,8 +7,8 @@ import java.util.List;
  * Throws a descriptive exception
  *
  * @author ryderbelserion
- * @version 2.0.0
- * @since 2.0.0
+ * @version 0.0.3
+ * @since 0.0.1
  */
 public final class UnavailableException extends IllegalStateException {
 
@@ -25,7 +25,7 @@ public final class UnavailableException extends IllegalStateException {
      * Throws a descriptive exception
      *
      * @author ryderbelserion
-     * @since 2.0.0
+     * @since 0.0.1
      */
     public UnavailableException() {
         super(Methods.toString(message));

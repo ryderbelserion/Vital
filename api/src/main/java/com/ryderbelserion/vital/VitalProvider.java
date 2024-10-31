@@ -8,8 +8,8 @@ import org.jetbrains.annotations.NotNull;
  * Vital api's provider
  *
  * @author ryderbelserion
- * @version 2.0.0
- * @since 2.0.0
+ * @version 0.0.4
+ * @since 0.0.1
  */
 public class VitalProvider {
 
@@ -18,7 +18,7 @@ public class VitalProvider {
     /**
      * Vital api's provider
      *
-     * @since 2.0.1
+     * @since 0.0.1
      */
     public VitalProvider() {
         throw new AssertionError();
@@ -29,7 +29,7 @@ public class VitalProvider {
      *
      * @author ryderbelserion
      * @return {@link Vital}
-     * @since 2.0.0
+     * @since 0.0.1
      */
     public static @NotNull Vital get() {
         Vital instance = VitalProvider.vital;
@@ -45,7 +45,7 @@ public class VitalProvider {
      * Registers vital api.
      *
      * @param vital api instance
-     * @since 2.0.0
+     * @since 0.0.1
      */
     public static void register(final Vital vital) {
         VitalProvider.vital = vital;
@@ -54,7 +54,7 @@ public class VitalProvider {
     /**
      * Unregisters vital api.
      *
-     * @since 2.0.0
+     * @since 0.0.1
      */
     public static void unregister() {
         VitalProvider.vital = null;

@@ -54,7 +54,7 @@ import java.util.zip.ZipOutputStream;
  * A methods class
  *
  * @author ryderbelserion
- * @version 2.0.0
+ * @version 0.0.4
  * @since 2.0.0
  */
 public class Methods {
@@ -67,7 +67,7 @@ public class Methods {
      * A methods class
      *
      * @author ryderbelserion
-     * @since 2.0.0
+     * @since 0.0.4
      */
     public Methods() {
         throw new AssertionError();
@@ -78,7 +78,7 @@ public class Methods {
      *
      * @param number the number
      * @return the string
-     * @since 1.0.6
+     * @since 0.0.4
      */
     public static String fromInteger(final int number) {
         return NumberFormat.getIntegerInstance(Locale.US).format(number);
@@ -89,7 +89,7 @@ public class Methods {
      *
      * @param number the number
      * @return the string
-     * @since 1.0.6
+     * @since 0.0.4
      */
     public static String fromDouble(final double number) {
         return NumberFormat.getNumberInstance(Locale.US).format(number);
@@ -302,6 +302,7 @@ public class Methods {
      *
      * @param input the {@link File}
      * @param purge true or false
+     * @since 0.0.1
      */
     public static void zip(@NotNull final File input, final boolean purge) {
         zip(List.of(input), null, "", purge);
@@ -313,6 +314,7 @@ public class Methods {
      * @param input the directory to zip
      * @param extension the file extension
      * @param purge true or false
+     * @since 0.0.1
      */
     public static void zip(@NotNull final File input, @NotNull final String extension, final boolean purge) {
         final List<File> files = getFiles(instance.getDataFolder(), input.getName(), extension, false);
@@ -347,6 +349,7 @@ public class Methods {
      * @param directory the directory
      * @param extra anything extra to add to the file
      * @param purge true or false
+     * @since 0.0.1
      */
     public static void zip(@NotNull final List<File> files, @Nullable final File directory, final String extra, final boolean purge) {
         if (files.isEmpty()) return;
