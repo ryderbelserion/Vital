@@ -38,7 +38,7 @@ import java.util.Base64;
  * A class containing paper specific methods!
  *
  * @author ryderbelserion
- * @version 1.0
+ * @version 2.0.3
  * @since 1.0
  */
 public class PaperMethods {
@@ -77,6 +77,7 @@ public class PaperMethods {
      * Fetches the registry access
      *
      * @return {@link RegistryAccess}
+     * @since 2.0.3
      */
     public static @NotNull RegistryAccess getRegistryAccess() {
         return RegistryAccess.registryAccess();
