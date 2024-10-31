@@ -22,7 +22,7 @@ import java.util.Map;
  * Vital's API
  *
  * @author ryderbelserion
- * @version 2.0.0
+ * @version 2.2.3
  * @since 2.0.0
  */
 public interface Vital {
@@ -112,6 +112,7 @@ public interface Vital {
      * @param value the value to parse
      * @param placeholders map of placeholders
      * @return the parsed string
+     * @since 2.2.3
      */
     @NotNull String placeholders(@NotNull final Audience audience, @NotNull final String value, @NotNull final Map<String, String> placeholders);
 
@@ -122,8 +123,19 @@ public interface Vital {
      * @param value the value to parse
      * @param placeholders map of placeholders
      * @return the parsed string
+     * @since 2.2.3
      */
     @NotNull Component color(@NotNull final Audience audience, @NotNull final String value, @NotNull final Map<String, String> placeholders);
+
+    /**
+     * Sends a message to a player.
+     *
+     * @param audience the player
+     * @param value the value to parse
+     * @param placeholders the placeholders
+     * @since 2.2.3
+     */
+    void sendMessage(@NotNull final Audience audience, @NotNull final String value, @NotNull final Map<String, String> placeholders);
 
     /**
      * Gets the generic plugin folder.

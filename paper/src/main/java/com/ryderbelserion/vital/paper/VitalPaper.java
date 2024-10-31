@@ -19,7 +19,7 @@ import java.util.Map;
  * A platform specific class for Paper extending {@link VitalPaper}.
  *
  * @author ryderbelserion
- * @version 1.0.7
+ * @version 2.2.3
  * @since 0.0.1
  */
 public class VitalPaper implements Vital {
@@ -93,6 +93,11 @@ public class VitalPaper implements Vital {
     @Override
     public @NotNull Component color(@NotNull final Audience audience, @NotNull final String value, @NotNull final Map<String, String> placeholders) {
         return Methods.parse(placeholders(audience, value, placeholders));
+    }
+
+    @Override
+    public void sendMessage(@NotNull final Audience audience, @NotNull final String value, @NotNull final Map<String, String> placeholders) {
+        audience.sendMessage(color(audience, value, placeholders));
     }
 
     @Override
