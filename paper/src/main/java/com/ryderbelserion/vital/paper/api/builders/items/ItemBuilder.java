@@ -22,11 +22,13 @@ import org.bukkit.FireworkEffect;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.Tag;
 import org.bukkit.block.Banner;
 import org.bukkit.block.CreatureSpawner;
 import org.bukkit.block.banner.Pattern;
 import org.bukkit.block.banner.PatternType;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
+import org.bukkit.damage.DamageType;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -52,6 +54,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 import org.bukkit.profile.PlayerTextures;
+import org.bukkit.tag.DamageTypeTags;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import java.net.MalformedURLException;
@@ -183,7 +186,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
 
         this.isHidingItemFlags = itemBuilder.isHidingItemFlags;
         this.isHidingToolTips = itemBuilder.isHidingToolTips;
-        this.isFireResistant = itemBuilder.isFireResistant;
+
         this.isUnbreakable = itemBuilder.isUnbreakable;
         this.isGlowing = itemBuilder.isGlowing;
 
@@ -312,9 +315,19 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
                 if (itemMeta instanceof final MapMeta map) this.color = map.getColor();
             }
 
-            setHidingToolTips(itemMeta.isHideTooltip()).setFireResistant(itemMeta.isFireResistant())
-                    .setHidingItemFlags(itemMeta.getItemFlags().contains(ItemFlag.HIDE_ATTRIBUTES))
+            setHidingToolTips(itemMeta.isHideTooltip())
+                    .setHidingItemFlags(itemMeta.getItemFlags().contains(ItemFlag.HIDE_ATTRIBUTES)) //todo() itemflags are dead
                     .setUnbreakable(itemMeta.isUnbreakable());
+
+            if (itemMeta.hasDamageResistant()) {
+                final Tag<DamageType> tag = itemMeta.getDamageResistant();
+
+                if (tag != null) {
+                    this.damageTags = new ArrayList<>() {{
+                        add(tag);
+                    }};
+                }
+            }
 
             if (itemMeta.hasEnchantmentGlintOverride()) setGlowing(itemMeta.getEnchantmentGlintOverride());
         }
@@ -446,9 +459,9 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     private boolean isHidingToolTips = false;
 
     /**
-     * Declares if the {@link ItemStack} should be fire-resistant or not.
+     * List of {@link Tag<DamageType>} to apply to the {@link ItemStack}.
      */
-    private boolean isFireResistant = false;
+    private List<Tag<DamageType>> damageTags = new ArrayList<>();
 
     /**
      * Declares if this {@link ItemStack} is unbreakable.
@@ -561,14 +574,16 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
                 itemMeta.setCustomModelData(number.intValue());
             });
 
-            if (this.isHidingItemFlags) {
+            if (this.isHidingItemFlags) { //todo() itemflags are dead
                 itemMeta.addItemFlags(ItemFlag.values());
             } else {
                 this.itemFlags.forEach(itemMeta::addItemFlags);
             }
 
             itemMeta.setEnchantmentGlintOverride(this.isGlowing);
-            itemMeta.setFireResistant(this.isFireResistant);
+
+            this.damageTags.forEach(itemMeta::setDamageResistant);
+
             itemMeta.setHideTooltip(this.isHidingToolTips);
             itemMeta.setUnbreakable(this.isUnbreakable);
         });
@@ -793,12 +808,38 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     /**
      * Makes the item fire-resistant.
      *
-     * @param isFireResistant true or false
      * @return {@link ItemBuilder}
      * @since 0.0.1
+     *
+     * @deprecated
      */
-    public @NotNull T setFireResistant(final boolean isFireResistant) {
-        this.isFireResistant = isFireResistant;
+    @Deprecated(forRemoval = true)
+    public @NotNull T setFireResistant() {
+        return addDamageTag(DamageTypeTags.IS_FIRE);
+    }
+
+    /**
+     * Adds a damage type tag to the list.
+     *
+     * @param tag {@link Tag<DamageType>}
+     * @return {@link ItemBuilder}
+     * @since 2.1.3
+     */
+    public @NotNull T addDamageTag(final Tag<DamageType> tag) {
+        this.damageTags.add(tag);
+
+        return (T) this;
+    }
+
+    /**
+     * Removes a damage type tag from the list.
+     *
+     * @param tag {@link Tag<DamageType>}
+     * @return {@link ItemBuilder}
+     * @since 2.1.3
+     */
+    public @NotNull T removeDamageTag(final Tag<DamageType> tag) {
+        this.damageTags.remove(tag);
 
         return (T) this;
     }

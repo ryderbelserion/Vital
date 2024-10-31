@@ -7,15 +7,19 @@ import com.ryderbelserion.vital.paper.commands.PaperCommand;
 import com.ryderbelserion.vital.paper.commands.context.PaperCommandInfo;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
-import org.bukkit.Color;
-import org.bukkit.Material;
+import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
+import org.bukkit.Tag;
+import org.bukkit.damage.DamageType;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ItemType;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.potion.PotionType;
+import org.bukkit.tag.DamageTypeTags;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class CommandItem extends PaperCommand {
 
@@ -27,7 +31,23 @@ public class CommandItem extends PaperCommand {
 
         final ItemBuilder builder = new ItemBuilder();
 
-        builder.withType(ItemType.POTION).setPotionType(PotionType.HARMING).setColor(Color.GREEN);
+        builder.withType(ItemType.DIAMOND_SWORD).setFireResistant().addDamageTag(DamageTypeTags.IS_FALL);
+
+        final ItemStack itemStack = builder.asItemStack();
+
+        final ItemMeta itemMeta = itemStack.getItemMeta();
+
+        final ComponentLogger logger = this.plugin.getComponentLogger();
+
+        if (itemMeta.hasDamageResistant()) {
+            final @Nullable Tag<DamageType> tag = itemMeta.getDamageResistant();
+
+            if (tag != null) {
+                logger.warn("Tag: {}", tag);
+
+                tag.getValues().forEach(value -> logger.warn("Value: {}", value));
+            }
+        }
 
         info.getPlayer().getInventory().addItem(builder.asItemStack());
     }
