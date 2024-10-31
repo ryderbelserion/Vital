@@ -77,7 +77,7 @@ import java.util.function.Consumer;
  *
  * @author SvenjaReissaus
  * @author ryderbelserion
- * @version 2.0.3
+ * @version 2.1.3
  * @since 0.0.1
  */
 public class ItemBuilder<T extends ItemBuilder<T>> {
