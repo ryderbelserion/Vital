@@ -408,7 +408,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     /**
      * Holds the {@link List<ItemFlag>} of {@link ItemFlag} of the {@link ItemStack}.
      */
-    private @NotNull List<ItemFlag> itemFlags = new ArrayList<>();
+    private @NotNull List<ItemFlag> itemFlags = new ArrayList<>(); //todo() itemflags are dead
 
     /**
      * Holds the {@link List<Pattern>} used by the {@link ItemStack}.
@@ -438,7 +438,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     /**
      * Declares if this {@link ItemStack} is hiding item flags.
      */
-    private boolean isHidingItemFlags = false;
+    private boolean isHidingItemFlags = false; //todo() itemflags are dead
 
     /**
      * Declares if the {@link ItemStack} hides all tooltips.
@@ -771,7 +771,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
      * @return {@link ItemBuilder}
      * @since 0.0.1
      */
-    public @NotNull T setHidingItemFlags(final boolean isHidingItemFlags) {
+    public @NotNull T setHidingItemFlags(final boolean isHidingItemFlags) { //todo() itemflags are dead
         this.isHidingItemFlags = isHidingItemFlags;
 
         return (T) this;
@@ -1053,7 +1053,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
      * @return {@link ItemBuilder}
      * @since 0.0.1
      */
-    public @NotNull T setItemFlags(@NotNull final List<String> itemFlags) {
+    public @NotNull T setItemFlags(@NotNull final List<String> itemFlags) { //todo() itemflags are dead
         if (itemFlags.isEmpty()) return (T) this;
 
         itemFlags.forEach(flag -> addItemFlag(ItemFlag.valueOf(flag)));
@@ -1068,7 +1068,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
      * @return {@link ItemBuilder}
      * @since 0.0.1
      */
-    public @NotNull T removeItemFlag(@NotNull final ItemFlag itemFlag) {
+    public @NotNull T removeItemFlag(@NotNull final ItemFlag itemFlag) { //todo() itemflags are dead
         this.itemFlags.remove(itemFlag);
 
         return (T) this;
@@ -1446,7 +1446,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
      * @return {@link ItemBuilder}
      * @since 0.0.1
      */
-    public @NotNull T applyHiddenItemFlags() {
+    public @NotNull T applyHiddenItemFlags() { //todo() itemflags are dead
         if (this.isCustom) return (T) this;
 
         this.itemStack.editMeta(itemMeta -> {
@@ -1799,7 +1799,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
      * @return a list of {@link ItemFlag}
      * @since 0.0.7
      */
-    public @NotNull final List<ItemFlag> getItemFlags() {
+    public @NotNull final List<ItemFlag> getItemFlags() { //todo() itemflags are dead
         return this.itemFlags;
     }
 
@@ -1979,7 +1979,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
      * @return true or false
      * @since 0.0.6
      */
-    public final boolean isHidingItemFlags() {
+    public final boolean isHidingItemFlags() { //todo() itemflags are dead
         return this.isHidingItemFlags;
     }
 
