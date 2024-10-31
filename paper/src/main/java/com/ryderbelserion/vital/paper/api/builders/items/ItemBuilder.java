@@ -45,7 +45,6 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.MapMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.SkullMeta;
-import org.bukkit.inventory.meta.components.FoodComponent;
 import org.bukkit.inventory.meta.trim.ArmorTrim;
 import org.bukkit.inventory.meta.trim.TrimMaterial;
 import org.bukkit.inventory.meta.trim.TrimPattern;
@@ -168,7 +167,6 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
 
         this.nutritionalValue = itemBuilder.nutritionalValue;
         this.canAlwaysEat = itemBuilder.canAlwaysEat;
-        this.foodEffects = itemBuilder.foodEffects;
         this.saturation = itemBuilder.saturation;
         this.eatSeconds = itemBuilder.eatSeconds;
 
@@ -381,11 +379,6 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
      * Holds the {@link EntityType} of the {@link ItemStack}.
      */
     private @NotNull EntityType entityType = EntityType.PIG;
-
-    /**
-     * Holds the list of {@link List<FoodComponent.FoodEffect>} of the {@link ItemStack}.
-     */
-    private List<FoodComponent.FoodEffect> foodEffects = new ArrayList<>();
 
     /**
      * Declares whether the {@link ItemStack} can be eaten.
