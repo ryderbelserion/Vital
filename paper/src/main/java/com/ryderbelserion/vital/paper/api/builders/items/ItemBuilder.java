@@ -255,8 +255,8 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     public ItemBuilder(@NotNull final ItemStack itemStack) {
         this.itemStack = itemStack;
 
-        if (this.hasItemMeta()) {
-            @NotNull final ItemMeta itemMeta = this.itemStack.getItemMeta();
+        if (hasItemMeta()) {
+            final ItemMeta itemMeta = this.itemStack.getItemMeta();
 
             if (itemMeta.hasDisplayName()) {
                 this.displayComponent = itemMeta.displayName();
@@ -1389,18 +1389,15 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
      * @since 0.0.1
      */
     public @NotNull T addEnchantment(@NotNull final String enchant, final int level, final boolean ignoreLevelCap) {
-        if (this.isCustom) return (T) this;
-        if (enchant.isEmpty()) return (T) this;
-        if (level < 0) return (T) this;
+        if (this.isCustom || enchant.isEmpty() || level < 0) return (T) this;
 
-        @Nullable final Enchantment enchantment = PaperMethods.getEnchantment(enchant);
+        final Enchantment enchantment = PaperMethods.getEnchantment(enchant);
+
         if (enchantment == null) return (T) this;
 
         this.itemStack.editMeta(itemMeta -> {
-            if (isEnchantedBook()) {
-                if (itemMeta instanceof EnchantmentStorageMeta meta) {
-                    meta.addStoredEnchant(enchantment, level, ignoreLevelCap);
-                }
+            if (isEnchantedBook() && itemMeta instanceof EnchantmentStorageMeta storageMeta) {
+                storageMeta.addStoredEnchant(enchantment, level, ignoreLevelCap);
 
                 return;
             }
@@ -1425,25 +1422,19 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
         @Nullable final Enchantment enchantment = PaperMethods.getEnchantment(enchant);
         if (enchantment == null) return (T) this;
 
-        if (this.hasItemMeta()) return (T) this;
-
-        if (isEnchantedBook()) {
+        if (hasItemMeta()) {
             this.itemStack.editMeta(itemMeta -> {
-                if (itemMeta instanceof EnchantmentStorageMeta meta) {
-                    if (meta.hasEnchant(enchantment)) {
-                        meta.removeEnchant(enchantment);
-                    }
+                if (isEnchantedBook() && itemMeta instanceof EnchantmentStorageMeta storageMeta && storageMeta.hasStoredEnchant(enchantment)) {
+                    storageMeta.removeStoredEnchant(enchantment);
+
+                    return;
+                }
+
+                if (itemMeta.hasEnchant(enchantment)) {
+                    itemMeta.removeEnchant(enchantment);
                 }
             });
-
-            return (T) this;
         }
-
-        this.itemStack.editMeta(itemMeta -> {
-            if (itemMeta.hasEnchant(enchantment)) {
-                itemMeta.removeEnchant(enchantment);
-            }
-        });
 
         return (T) this;
     }
@@ -1538,7 +1529,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
 
         this.itemStack.editMeta(itemMeta -> {
             if (itemMeta instanceof final BlockStateMeta blockState) {
-                @NotNull final CreatureSpawner creatureSpawner = (CreatureSpawner) blockState.getBlockState();
+                final CreatureSpawner creatureSpawner = (CreatureSpawner) blockState.getBlockState();
 
                 creatureSpawner.setSpawnedType(this.entityType);
                 blockState.setBlockState(creatureSpawner);
