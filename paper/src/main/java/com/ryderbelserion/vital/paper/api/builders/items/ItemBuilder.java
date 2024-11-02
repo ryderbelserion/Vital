@@ -194,19 +194,6 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
         this.trimPattern = itemBuilder.trimPattern;
     }
 
-    /**
-     * A consumer for itembuilder
-     *
-     * @param builder {@link ItemBuilder}
-     * @return {@link ItemBuilder}
-     * @since 0.0.1
-     */
-    public final T apply(Consumer<ItemBuilder<T>> builder) {
-        builder.accept(this);
-
-        return (T) this;
-    }
-
     private static final EnumSet<Material> LEATHER_ARMOR = EnumSet.of(
             Material.LEATHER_HELMET,
             Material.LEATHER_CHESTPLATE,
@@ -615,6 +602,21 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     }
 
     /**
+     * A consumer for itembuilder
+     *
+     * @param builder {@link ItemBuilder}
+     * @return {@link ItemBuilder}
+     * @since 0.0.1
+     */
+    public @NotNull T apply(final Consumer<ItemBuilder<T>> builder) {
+        if (builder != null) {
+            builder.accept(this);
+        }
+
+        return (T) this;
+    }
+
+    /**
      * Sets the {@link ItemType} type.
      *
      * @param itemType the {@link ItemType} to set
@@ -652,7 +654,6 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
      * @return {@link ItemBuilder}
      * @since 0.0.1
      */
-    //@SuppressWarnings("UnreachableCode")
     public @NotNull T withType(@NotNull final String key) {
         if (key.isEmpty()) return (T) this;
 
