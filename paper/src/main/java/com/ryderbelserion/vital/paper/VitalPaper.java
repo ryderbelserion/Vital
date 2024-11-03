@@ -9,10 +9,14 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.io.File;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -66,10 +70,10 @@ public class VitalPaper implements Vital {
     }
 
     @Override
-    public @NotNull String placeholders(@NotNull final Audience audience, @NotNull String value, @NotNull final Map<String, String> placeholders) {
-        if (Support.placeholder_api.isEnabled()) {
+    public @NotNull String placeholders(@Nullable final Audience audience, @NotNull String line, @NotNull final Map<String, String> placeholders) {
+        if (audience != null && Support.placeholder_api.isEnabled()) {
             if (audience instanceof Player player) {
-                value = PlaceholderAPI.setPlaceholders(player, value);
+                line = PlaceholderAPI.setPlaceholders(player, line);
             }
         }
 
@@ -78,26 +82,31 @@ public class VitalPaper implements Vital {
 
                 if (placeholder != null) {
                     final String key = placeholder.getKey();
-                    final String line = placeholder.getValue();
+                    final String value = placeholder.getValue();
 
-                    if (key != null && line != null) {
-                        value = value.replace(key, value).replace(key.toLowerCase(), value);
+                    if (key != null && value != null) {
+                        line = line.replace(key, value).replace(key.toLowerCase(), value);
                     }
                 }
             }
         }
 
-        return value;
+        return line;
     }
 
     @Override
-    public @NotNull Component color(@NotNull final Audience audience, @NotNull final String value, @NotNull final Map<String, String> placeholders) {
-        return Methods.parse(placeholders(audience, value, placeholders));
+    public @NotNull Component color(@NotNull final Audience audience, @NotNull final String line, @NotNull final Map<String, String> placeholders) {
+        return Methods.parse(placeholders(audience, line, placeholders));
     }
 
     @Override
-    public void sendMessage(@NotNull final Audience audience, @NotNull final String value, @NotNull final Map<String, String> placeholders) {
-        audience.sendMessage(color(audience, value, placeholders));
+    public void sendMessage(@NotNull final Audience audience, @NotNull final String line, @NotNull final Map<String, String> placeholders) {
+        audience.sendMessage(color(audience, line, placeholders));
+    }
+
+    @Override
+    public void sendMessage(@NotNull final Audience audience, @NotNull final List<String> lines, @NotNull final Map<String, String> placeholders) {
+        sendMessage(audience, StringUtils.chomp(Methods.toString(lines)), placeholders);
     }
 
     @Override

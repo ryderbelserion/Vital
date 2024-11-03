@@ -9,6 +9,8 @@ import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -16,6 +18,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -109,33 +112,43 @@ public interface Vital {
      * Parses a value with platform specific placeholder handling!
      *
      * @param audience sender
-     * @param value the value to parse
+     * @param line the value to parse
      * @param placeholders map of placeholders
      * @return the parsed string
      * @since 0.0.4
      */
-    @NotNull String placeholders(@NotNull final Audience audience, @NotNull final String value, @NotNull final Map<String, String> placeholders);
+    @NotNull String placeholders(@Nullable final Audience audience, @NotNull final String line, @NotNull final Map<String, String> placeholders);
 
     /**
      * Colors a bit of text, with placeholder parsing!
      *
      * @param audience sender
-     * @param value the value to parse
+     * @param line the value to parse
      * @param placeholders map of placeholders
      * @return the parsed string
      * @since 0.0.4
      */
-    @NotNull Component color(@NotNull final Audience audience, @NotNull final String value, @NotNull final Map<String, String> placeholders);
+    @NotNull Component color(@NotNull final Audience audience, @NotNull final String line, @NotNull final Map<String, String> placeholders);
 
     /**
      * Sends a message to a player.
      *
      * @param audience the player
-     * @param value the value to parse
+     * @param line the value to parse
      * @param placeholders the placeholders
      * @since 0.0.4
      */
-    void sendMessage(@NotNull final Audience audience, @NotNull final String value, @NotNull final Map<String, String> placeholders);
+    void sendMessage(@NotNull final Audience audience, @NotNull final String line, @NotNull final Map<String, String> placeholders);
+
+    /**
+     * Sends a message to a player.
+     *
+     * @param audience the player
+     * @param lines the values to parse
+     * @param placeholders the placeholders
+     * @since 0.0.5
+     */
+    void sendMessage(@NotNull final Audience audience, @NotNull final List<String> lines, @NotNull final Map<String, String> placeholders);
 
     /**
      * Gets the generic plugin folder.
