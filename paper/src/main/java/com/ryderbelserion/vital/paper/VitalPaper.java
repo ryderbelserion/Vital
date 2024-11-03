@@ -23,7 +23,7 @@ import java.util.Map;
  * A platform specific class for Paper extending {@link VitalPaper}.
  *
  * @author ryderbelserion
- * @version 2.2.3
+ * @version 2.2.4
  * @since 0.0.1
  */
 public class VitalPaper implements Vital {

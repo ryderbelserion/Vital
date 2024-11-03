@@ -25,7 +25,7 @@ import java.util.Map;
  * Vital's API
  *
  * @author ryderbelserion
- * @version 0.0.4
+ * @version 0.0.5
  * @since 0.0.1
  */
 public interface Vital {

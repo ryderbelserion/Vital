@@ -3,7 +3,7 @@ plugins {
     alias(libs.plugins.shadow)
 }
 
-project.version = "2.2.3"
+project.version = "2.2.4"
 
 repositories {
     maven("https://repo.papermc.io/repository/maven-public")
