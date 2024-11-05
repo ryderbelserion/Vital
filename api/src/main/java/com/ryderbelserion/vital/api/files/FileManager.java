@@ -88,6 +88,19 @@ public class FileManager {
     }
 
     /**
+     * Adds a custom file with a default file type.
+     *
+     * <p>This method adds a file to the manager's map using the default file type of {@link FileType#NONE}.
+     *
+     * @param fileName the name of the file to add
+     * @return the current instance of {@link FileManager}
+     * @since 0.0.5
+     */
+    public final FileManager addFile(final String fileName) {
+        return addFile(fileName, FileType.NONE);
+    }
+
+    /**
      * Adds a custom file to the manager's map.
      *
      * <p>This method supports adding YAML files and will throw an exception for unsupported file types.
@@ -118,6 +131,8 @@ public class FileManager {
             case YAML -> this.files.put(strippedName, new YamlCustomFile(file).loadConfiguration());
 
             case JSON -> throw new GenericException("The file type with extension " + extension + " is not currently supported.");
+
+            case NONE -> {} // do nothing
         }
 
         return this;

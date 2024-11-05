@@ -13,7 +13,8 @@ package com.ryderbelserion.vital.api.files.enums;
 public enum FileType {
 
     YAML("yml"),
-    JSON("json");
+    JSON("json"),
+    NONE("none");
 
     private final String extension;
 
