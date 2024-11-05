@@ -12,28 +12,28 @@ package com.ryderbelserion.vital.api.files.enums;
  */
 public enum FileType {
 
-    YAML("yaml"),
+    YAML("yml"),
     JSON("json");
 
-    private final String prettyName;
+    private final String extension;
 
     /**
-     * Constructs a {@link FileType} with a user-friendly name.
+     * Constructs a {@link FileType} with an extension.
      *
-     * @param prettyName the user-friendly name of the file type
+     * @param extension the extension of the file type
      * @since 1.0.0
      */
-    FileType(final String prettyName) {
-        this.prettyName = prettyName;
+    FileType(final String extension) {
+        this.extension = extension;
     }
 
     /**
-     * Retrieves the user-friendly name of the file type.
+     * Retrieves the extension of the file type.
      *
-     * @return the user-friendly name of the file type
+     * @return the extension of the file type
      * @since 1.0.0
      */
-    public String getPrettyName() {
-        return this.prettyName;
+    public String getExtension() {
+        return this.extension;
     }
 }

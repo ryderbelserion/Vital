@@ -5,6 +5,7 @@ import com.ryderbelserion.vital.api.Vital;
 import com.ryderbelserion.vital.api.exceptions.UnavailableException;
 import com.ryderbelserion.vital.api.files.enums.FileType;
 import com.ryderbelserion.vital.api.files.types.YamlCustomFile;
+import com.ryderbelserion.vital.utils.Methods;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import java.io.File;
 import java.util.HashMap;
@@ -19,6 +20,7 @@ import java.util.Map;
  *
  * @version 0.0.5
  * @since 0.0.5
+ * @author ryderbelserion
  */
 public class FileManager {
 
@@ -31,11 +33,59 @@ public class FileManager {
 
     /**
      * Default constructor.
-     * 
+     *
      * @since 0.0.5
      */
     public FileManager() {}
-    
+
+    /**
+     * Adds a folder to the manager and loads its contents.
+     *
+     * @param folder the folder name
+     * @param fileType the type of files in the folder
+     * @return the current instance of {@link FileManager}
+     * @since 0.0.5
+     */
+    public final FileManager addFolder(final String folder, final FileType fileType) {
+        final File directory = new File(this.dataFolder, folder);
+
+        if (!directory.exists()) {
+            directory.mkdirs();
+
+            Methods.extracts(FileManager.class, String.format("/%s", directory.getName()), directory.toPath(), false);
+        }
+
+        final File[] contents = directory.listFiles();
+
+        if (contents == null) return this;
+
+        final String extension = fileType.getExtension();
+
+        for (final File file : contents) {
+            if (file.isDirectory()) {
+                final String[] files = file.list();
+
+                if (files == null) continue;
+
+                for (final String fileName : files) {
+                    if (!fileName.endsWith("." + extension)) continue; // just in case people are weird
+
+                    addFile(fileName, fileType);
+                }
+
+                continue;
+            }
+
+            final String fileName = file.getName();
+
+            if (!fileName.endsWith("." + extension)) continue; // just in case people are weird
+
+            addFile(fileName, fileType);
+        }
+
+        return this;
+    }
+
     /**
      * Adds a custom file to the manager's map.
      *
@@ -43,14 +93,33 @@ public class FileManager {
      *
      * @param fileName the name of the file to add
      * @param fileType the type of the file
+     * @return the current instance of {@link FileManager}
      * @since 0.0.5
      */
-    public void addFile(final String fileName, final FileType fileType) {
-        switch (fileType) {
-            case YAML -> this.files.put(fileName, new YamlCustomFile(new File(this.dataFolder, fileName)).loadConfiguration());
+    public final FileManager addFile(final String fileName, final FileType fileType) {
+        if (fileName == null || fileName.isEmpty()) {
+            if (this.isVerbose) {
+                this.logger.warn("Cannot add the file as the file is null or empty.");
+            }
 
-            case JSON -> throw new UnavailableException("The file type " + fileType.getPrettyName() + " is not currently supported.");
+            return this;
         }
+
+        final String extension = fileType.getExtension();
+
+        final String strippedName = strip(fileName, extension);
+
+        final File file = new File(this.dataFolder, fileName);
+
+        this.api.saveResource(file.getPath(), false);
+
+        switch (fileType) {
+            case YAML -> this.files.put(strippedName, new YamlCustomFile(file).loadConfiguration());
+
+            case JSON -> throw new UnavailableException("The file type with extension " + extension + " is not currently supported.");
+        }
+
+        return this;
     }
 
     /**
@@ -59,14 +128,12 @@ public class FileManager {
      * <p>This method removes the file if it exists in the map.
      *
      * @param customFile the custom file instance to remove
+     * @param purge whether to delete the physical file
+     * @return the current instance of {@link FileManager}
      * @since 0.0.5
      */
-    public void removeFile(final CustomFile<? extends CustomFile<?>> customFile) {
-        final String fileName = customFile.getFileName();
-
-        if (!this.files.containsKey(fileName)) return;
-
-        removeFile(fileName);
+    public final FileManager removeFile(final CustomFile<? extends CustomFile<?>> customFile, final boolean purge) {
+        return removeFile(customFile.getFileName(), customFile.getFileType(), purge);
     }
 
     /**
@@ -75,10 +142,35 @@ public class FileManager {
      * <p>This method removes the file if it exists in the map.
      *
      * @param fileName the name of the file to remove
+     * @param fileType the type of the file
+     * @param purge whether to delete the physical file
+     * @return the current instance of {@link FileManager}
      * @since 0.0.5
      */
-    public void removeFile(final String fileName) {
-        this.files.remove(fileName);
+    public final FileManager removeFile(final String fileName, final FileType fileType, final boolean purge) {
+        final String strippedName = strip(fileName, fileType.getExtension());
+
+        if (!this.files.containsKey(strippedName)) return this;
+
+        final CustomFile<? extends CustomFile<?>> customFile = this.files.remove(fileName);
+
+        if (purge) {
+            final File file = customFile.getFile();
+
+            if (file == null) return this;
+
+            if (file.delete()) {
+                if (this.isVerbose) {
+                    this.logger.warn("Successfully deleted {}", fileName);
+                }
+            }
+
+            return this;
+        }
+
+        customFile.saveConfiguration();
+
+        return this;
     }
 
     /**
@@ -92,5 +184,17 @@ public class FileManager {
      */
     public CustomFile<? extends CustomFile<?>> getFile(final String fileName) {
         return this.files.get(fileName);
+    }
+
+    /**
+     * Removes the extension from the file name.
+     *
+     * @param fileName the file name to strip the extension from
+     * @param extension the extension to remove
+     * @return the file name without the extension
+     * @since 0.0.5
+     */
+    public final String strip(final String fileName, final String extension) {
+        return fileName.replace("." + extension, "");
     }
 }

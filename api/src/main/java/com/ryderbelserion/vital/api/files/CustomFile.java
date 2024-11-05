@@ -2,6 +2,7 @@ package com.ryderbelserion.vital.api.files;
 
 import com.ryderbelserion.vital.VitalProvider;
 import com.ryderbelserion.vital.api.Vital;
+import com.ryderbelserion.vital.api.files.enums.FileType;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import java.io.File;
 
@@ -42,6 +43,30 @@ public abstract class CustomFile<T extends CustomFile<T>> {
     }
 
     /**
+     * Loads the configuration for the custom file.
+     *
+     * @return the current instance of the custom file
+     * @since 0.0.5
+     */
+    public abstract CustomFile<T> loadConfiguration();
+
+    /**
+     * Saves the configuration for the custom file.
+     *
+     * @return the current instance of the custom file
+     * @since 0.0.5
+     */
+    public abstract CustomFile<T> saveConfiguration();
+
+    /**
+     * Retrieves the file type of this custom file.
+     *
+     * @return the file type
+     * @since 0.0.5
+     */
+    public abstract FileType getFileType();
+
+    /**
      * Returns the current instance of {@link CustomFile}.
      *
      * @return the current custom file instance
@@ -68,7 +93,7 @@ public abstract class CustomFile<T extends CustomFile<T>> {
      * @since 0.0.5
      */
     public String getFileName() {
-        return file.getName();
+        return this.file.getName();
     }
 
     /**
@@ -78,7 +103,7 @@ public abstract class CustomFile<T extends CustomFile<T>> {
      * @since 0.0.5
      */
     public boolean isConfigurationLoaded() {
-        return file.exists();
+        return this.file.exists();
     }
 
     /**
@@ -88,6 +113,6 @@ public abstract class CustomFile<T extends CustomFile<T>> {
      * @since 0.0.5
      */
     public File getFile() {
-        return file;
+        return this.file;
     }
 }

@@ -1,10 +1,12 @@
 package com.ryderbelserion.vital.api.files.types;
 
 import com.ryderbelserion.vital.api.files.CustomFile;
+import com.ryderbelserion.vital.api.files.enums.FileType;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
 import java.io.File;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * Represents a custom YAML file for configuration.
@@ -37,6 +39,17 @@ public class YamlCustomFile extends CustomFile<YamlCustomFile> {
     }
 
     /**
+     * Retrieves the file type of this custom file.
+     *
+     * @return the file type, which is {@link FileType#YAML}
+     * @since 0.0.5
+     */
+    @Override
+    public final FileType getFileType() {
+        return FileType.YAML;
+    }
+
+    /**
      * Loads the YAML configuration from the file.
      *
      * <p>If the file is a directory or loading fails, appropriate warnings are logged.
@@ -44,6 +57,7 @@ public class YamlCustomFile extends CustomFile<YamlCustomFile> {
      * @return the current instance of {@link YamlCustomFile}
      * @since 0.0.5
      */
+    @Override
     public final YamlCustomFile loadConfiguration() {
         if (getFile().isDirectory()) {
             if (this.isVerbose) {
@@ -53,11 +67,15 @@ public class YamlCustomFile extends CustomFile<YamlCustomFile> {
             return this;
         }
 
-        try {
-            this.configurationNode = this.loader.load();
-        } catch (ConfigurateException exception) {
-            this.logger.warn("Cannot load configuration file: {}", getFileName(), exception);
-        }
+        this.configurationNode = CompletableFuture.supplyAsync(() -> {
+            try {
+                return this.loader.load();
+            } catch (ConfigurateException exception) {
+                this.logger.warn("Cannot load configuration file: {}", getFileName(), exception);
+            }
+
+            return null;
+        }).join();
 
         return this;
     }
@@ -70,6 +88,7 @@ public class YamlCustomFile extends CustomFile<YamlCustomFile> {
      * @return the current instance of {@link YamlCustomFile}
      * @since 0.0.5
      */
+    @Override
     public final YamlCustomFile saveConfiguration() {
         if (getFile().isDirectory()) {
             if (this.isVerbose) {
@@ -87,11 +106,13 @@ public class YamlCustomFile extends CustomFile<YamlCustomFile> {
             return this;
         }
 
-        try {
-            this.loader.save(this.configurationNode);
-        } catch (ConfigurateException exception) {
-            this.logger.warn("Cannot save configuration file: {}", getFileName(), exception);
-        }
+        CompletableFuture.runAsync(() -> {
+            try {
+                this.loader.save(this.configurationNode);
+            } catch (ConfigurateException exception) {
+                this.logger.warn("Cannot save configuration file: {}", getFileName(), exception);
+            }
+        });
 
         return this;
     }
