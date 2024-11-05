@@ -8,6 +8,7 @@ import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -129,7 +130,7 @@ public class YamlCustomFile extends CustomFile<YamlCustomFile> {
      * @since 0.0.5
      */
     @Override
-    public final String getStringValue(final String path, final String defaultValue) {
+    public final String getStringValueWithDefault(final String defaultValue, final Object... path) {
         return this.configurationNode.node(path).getString(defaultValue);
     }
 
@@ -141,8 +142,8 @@ public class YamlCustomFile extends CustomFile<YamlCustomFile> {
      * @since 0.0.5
      */
     @Override
-    public final String getStringValue(final String path) {
-        return getStringValue(path, "");
+    public final String getStringValue(final Object... path) {
+        return getStringValueWithDefault("", path);
     }
 
     /**
@@ -154,7 +155,7 @@ public class YamlCustomFile extends CustomFile<YamlCustomFile> {
      * @since 0.0.5
      */
     @Override
-    public final boolean getBooleanValue(final String path, final boolean defaultValue) {
+    public final boolean getBooleanValueWithDefault(final boolean defaultValue, final Object... path) {
         return this.configurationNode.node(path).getBoolean(defaultValue);
     }
 
@@ -166,8 +167,8 @@ public class YamlCustomFile extends CustomFile<YamlCustomFile> {
      * @since 0.0.5
      */
     @Override
-    public final boolean getBooleanValue(final String path) {
-        return getBooleanValue(path, Boolean.FALSE);
+    public final boolean getBooleanValue(final Object... path) {
+        return getBooleanValueWithDefault(Boolean.FALSE, path);
     }
 
     /**
@@ -179,7 +180,7 @@ public class YamlCustomFile extends CustomFile<YamlCustomFile> {
      * @since 0.0.5
      */
     @Override
-    public final double getDoubleValue(final String path, final double defaultValue) {
+    public final double getDoubleValueWithDefault(final double defaultValue, final Object... path) {
         return this.configurationNode.node(path).getDouble(defaultValue);
     }
 
@@ -191,8 +192,8 @@ public class YamlCustomFile extends CustomFile<YamlCustomFile> {
      * @since 0.0.5
      */
     @Override
-    public final double getDoubleValue(final String path) {
-        return getDoubleValue(path, Double.NaN);
+    public final double getDoubleValue(final Object... path) {
+        return getDoubleValueWithDefault(Double.NaN, path);
     }
 
     /**
@@ -204,7 +205,7 @@ public class YamlCustomFile extends CustomFile<YamlCustomFile> {
      * @since 0.0.5
      */
     @Override
-    public final long getLongValue(final String path, final long defaultValue) {
+    public final long getLongValueWithDefault(final long defaultValue, final Object... path) {
         return this.configurationNode.node(path).getLong(defaultValue);
     }
 
@@ -216,8 +217,8 @@ public class YamlCustomFile extends CustomFile<YamlCustomFile> {
      * @since 0.0.5
      */
     @Override
-    public final long getLongValue(final String path) {
-        return getLongValue(path, Long.MIN_VALUE);
+    public final long getLongValue(final Object... path) {
+        return getLongValueWithDefault(Long.MIN_VALUE, path);
     }
 
     /**
@@ -229,7 +230,7 @@ public class YamlCustomFile extends CustomFile<YamlCustomFile> {
      * @since 0.0.5
      */
     @Override
-    public final int getIntValue(final String path, final int defaultValue) {
+    public final int getIntValueWithDefault(final int defaultValue, final Object... path) {
         return this.configurationNode.node(path).getInt(defaultValue);
     }
 
@@ -241,8 +242,8 @@ public class YamlCustomFile extends CustomFile<YamlCustomFile> {
      * @since 0.0.5
      */
     @Override
-    public final int getIntValue(final String path) {
-        return getIntValue(path, Integer.MIN_VALUE);
+    public final int getIntValue(final Object... path) {
+        return getIntValueWithDefault(Integer.MIN_VALUE, path);
     }
 
     /**
@@ -253,11 +254,11 @@ public class YamlCustomFile extends CustomFile<YamlCustomFile> {
      * @since 0.0.5
      */
     @Override
-    public final List<String> getStringList(final String path) {
+    public final List<String> getStringList(final Object... path) {
         try {
             return this.configurationNode.node(path).getList(String.class);
         } catch (SerializationException exception) {
-            throw new GenericException("Failed to serialize " + path, exception);
+            throw new GenericException("Failed to serialize " + Arrays.toString(path), exception);
         }
     }
 

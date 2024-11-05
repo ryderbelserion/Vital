@@ -51,7 +51,7 @@ public abstract class CustomFile<T extends CustomFile<T>> {
      * @return the string value at the specified path, or an empty string if not found
      * @since 0.0.5
      */
-    public abstract String getStringValue(final String path, final String defaultValue);
+    public abstract String getStringValueWithDefault(final String defaultValue, final Object... path);
 
     /**
      * Retrieves a string value from the configuration at the specified path, or an empty string if not found.
@@ -60,7 +60,7 @@ public abstract class CustomFile<T extends CustomFile<T>> {
      * @return the string value at the specified path, or an empty string if not found
      * @since 0.0.5
      */
-    public abstract String getStringValue(final String path);
+    public abstract String getStringValue(final Object... path);
 
     /**
      * Retrieves a boolean value from the configuration at the specified path.
@@ -70,7 +70,7 @@ public abstract class CustomFile<T extends CustomFile<T>> {
      * @return the boolean value at the specified path, or the default value if not found
      * @since 0.0.5
      */
-    public abstract boolean getBooleanValue(final String path, final boolean defaultValue);
+    public abstract boolean getBooleanValueWithDefault(final boolean defaultValue, final Object... path);
 
     /**
      * Retrieves a boolean value from the configuration at the specified path, or {@code false} if not found.
@@ -79,7 +79,7 @@ public abstract class CustomFile<T extends CustomFile<T>> {
      * @return the boolean value at the specified path, or {@code false} if not found
      * @since 0.0.5
      */
-    public abstract boolean getBooleanValue(final String path);
+    public abstract boolean getBooleanValue(final Object... path);
 
     /**
      * Retrieves a double value from the configuration at the specified path.
@@ -89,7 +89,7 @@ public abstract class CustomFile<T extends CustomFile<T>> {
      * @return the double value at the specified path, or the default value if not found
      * @since 0.0.5
      */
-    public abstract double getDoubleValue(final String path, final double defaultValue);
+    public abstract double getDoubleValueWithDefault(final double defaultValue, final Object... path);
 
     /**
      * Retrieves a double value from the configuration at the specified path, or {@code Double.NaN} if not found.
@@ -98,7 +98,7 @@ public abstract class CustomFile<T extends CustomFile<T>> {
      * @return the double value at the specified path, or {@code Double.NaN} if not found
      * @since 0.0.5
      */
-    public abstract double getDoubleValue(final String path);
+    public abstract double getDoubleValue(final Object... path);
 
     /**
      * Retrieves a long value from the configuration at the specified path.
@@ -108,7 +108,7 @@ public abstract class CustomFile<T extends CustomFile<T>> {
      * @return the long value at the specified path, or the default value if not found
      * @since 0.0.5
      */
-    public abstract long getLongValue(final String path, final long defaultValue);
+    public abstract long getLongValueWithDefault(final long defaultValue, final Object... path);
 
     /**
      * Retrieves a long value from the configuration at the specified path, or {@code Long.MIN_VALUE} if not found.
@@ -117,7 +117,7 @@ public abstract class CustomFile<T extends CustomFile<T>> {
      * @return the long value at the specified path, or {@code Long.MIN_VALUE} if not found
      * @since 0.0.5
      */
-    public abstract long getLongValue(final String path);
+    public abstract long getLongValue(final Object... path);
 
     /**
      * Retrieves an integer value from the configuration at the specified path.
@@ -127,7 +127,7 @@ public abstract class CustomFile<T extends CustomFile<T>> {
      * @return the integer value at the specified path, or the default value if not found
      * @since 0.0.5
      */
-    public abstract int getIntValue(final String path, final int defaultValue);
+    public abstract int getIntValueWithDefault(final int defaultValue, final Object... path);
 
     /**
      * Retrieves an integer value from the configuration at the specified path, or {@code Integer.MIN_VALUE} if not found.
@@ -136,7 +136,7 @@ public abstract class CustomFile<T extends CustomFile<T>> {
      * @return the integer value at the specified path, or {@code Integer.MIN_VALUE} if not found
      * @since 0.0.5
      */
-    public abstract int getIntValue(final String path);
+    public abstract int getIntValue(final Object... path);
 
     /**
      * Retrieves a list of strings from the configuration at the specified path.
@@ -145,7 +145,7 @@ public abstract class CustomFile<T extends CustomFile<T>> {
      * @return a list of strings at the specified path
      * @since 0.0.5
      */
-    public abstract List<String> getStringList(final String path);
+    public abstract List<String> getStringList(final Object... path);
 
     /**
      * Loads the configuration for the custom file.
