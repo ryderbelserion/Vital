@@ -36,8 +36,8 @@ public class YamlCustomFile extends CustomFile<YamlCustomFile> {
      * @param file the file object to be wrapped by this custom YAML file
      * @since 0.0.5
      */
-    public YamlCustomFile(final File file) {
-        super(file);
+    public YamlCustomFile(final File file, final boolean isDynamic) {
+        super(file, isDynamic);
 
         this.loader = YamlConfigurationLoader.builder().indent(2).file(file).build();
     }

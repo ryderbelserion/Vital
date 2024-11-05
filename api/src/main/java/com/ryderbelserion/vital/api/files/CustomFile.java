@@ -27,6 +27,7 @@ public abstract class CustomFile<T extends CustomFile<T>> {
     protected final boolean isVerbose = this.api.isVerbose();
 
     private final String effectiveName;
+    private final boolean isDynamic;
     private final File file;
 
     /**
@@ -38,8 +39,9 @@ public abstract class CustomFile<T extends CustomFile<T>> {
      * @param file the file object to be wrapped by this custom file
      * @since 0.0.5
      */
-    public CustomFile(final File file) {
+    public CustomFile(final File file, final boolean isDynamic) {
         this.effectiveName = file.getName().replace(".yml", "");
+        this.isDynamic = isDynamic;
         this.file = file;
     }
 
@@ -170,6 +172,16 @@ public abstract class CustomFile<T extends CustomFile<T>> {
      * @since 0.0.5
      */
     public abstract FileType getFileType();
+
+    /**
+     * Checks if the custom file is dynamic.
+     *
+     * @return {@code true} if the custom file is dynamic, {@code false} otherwise
+     * @since 0.0.5
+     */
+    public boolean isDynamic() {
+        return this.isDynamic;
+    }
 
     /**
      * Returns the current instance of {@link CustomFile}.

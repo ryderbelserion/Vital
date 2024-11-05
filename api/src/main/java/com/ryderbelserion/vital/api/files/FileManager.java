@@ -71,7 +71,7 @@ public class FileManager {
                 for (final String fileName : files) {
                     if (!fileName.endsWith("." + extension)) continue; // just in case people are weird
 
-                    addFile(fileName, fileType);
+                    addFile(fileName, true, fileType);
                 }
 
                 continue;
@@ -81,7 +81,7 @@ public class FileManager {
 
             if (!fileName.endsWith("." + extension)) continue; // just in case people are weird
 
-            addFile(fileName, fileType);
+            addFile(fileName, true, fileType);
         }
 
         return this;
@@ -97,13 +97,14 @@ public class FileManager {
      * @since 0.0.5
      */
     public final FileManager addFile(final String fileName) {
-        return addFile(fileName, FileType.NONE);
+        return addFile(fileName, false, FileType.NONE);
     }
 
     /**
      * Adds a custom file to the manager's map.
      *
      * <p>This method supports adding YAML files and will throw an exception for unsupported file types.
+     * The {@code isDynamic} parameter specifies whether the custom file is dynamic.
      *
      * @param fileName the name of the file to add
      * @param fileType the type of the file
@@ -111,6 +112,22 @@ public class FileManager {
      * @since 0.0.5
      */
     public final FileManager addFile(final String fileName, final FileType fileType) {
+        return addFile(fileName, false, fileType);
+    }
+
+    /**
+     * Adds a custom file to the manager's map.
+     *
+     * <p>This method supports adding YAML files and will throw an exception for unsupported file types.
+     * The {@code isDynamic} parameter specifies whether the custom file is dynamic.
+     *
+     * @param fileName the name of the file to add
+     * @param isDynamic whether the custom file is dynamic
+     * @param fileType the type of the file
+     * @return the current instance of {@link FileManager}
+     * @since 0.0.5
+     */
+    public final FileManager addFile(final String fileName, final boolean isDynamic, final FileType fileType) {
         if (fileName == null || fileName.isEmpty()) {
             if (this.isVerbose) {
                 this.logger.warn("Cannot add the file as the file is null or empty.");
@@ -128,7 +145,7 @@ public class FileManager {
         this.api.saveResource(fileName, false);
 
         switch (fileType) {
-            case YAML -> this.files.put(strippedName, new YamlCustomFile(file).loadConfiguration());
+            case YAML -> this.files.put(strippedName, new YamlCustomFile(file, isDynamic).loadConfiguration());
 
             case JSON -> throw new GenericException("The file type with extension " + extension + " is not currently supported.");
 

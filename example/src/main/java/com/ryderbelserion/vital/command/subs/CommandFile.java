@@ -45,16 +45,16 @@ public class CommandFile extends PaperCommand {
             }
         }
 
-        /*this.plugin.getFileManager().getFiles().forEach((fileName, customFile) -> {
+        this.plugin.getFileManager().getFiles().forEach((fileName, customFile) -> {
             final CustomFile<? extends CustomFile<?>> file = this.plugin.getFileManager().getFile(name, FileType.YAML);
 
-            if (file == null) return;
+            if (file == null || !file.isDynamic()) return;
 
             final YamlCustomFile root = (YamlCustomFile) file.getInstance();
 
             player.sendRichMessage("Crate Type: " + root.getStringValueWithDefault("CSGO", "Crate", "CrateType"));
             player.sendRichMessage("Starting Keys: " + root.getIntValueWithDefault(0, "Crate", "StartingKeys"));
-        });*/
+        });
 
         final SettingsManager config = ConfigManager.getConfig();
 
