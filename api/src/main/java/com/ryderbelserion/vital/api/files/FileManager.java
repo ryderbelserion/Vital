@@ -125,7 +125,7 @@ public class FileManager {
 
         final File file = new File(this.dataFolder, fileName);
 
-        this.api.saveResource(file.getPath(), false);
+        this.api.saveResource(fileName, false);
 
         switch (fileType) {
             case YAML -> this.files.put(strippedName, new YamlCustomFile(file).loadConfiguration());
