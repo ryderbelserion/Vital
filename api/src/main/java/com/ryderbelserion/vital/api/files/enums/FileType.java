@@ -1,4 +1,4 @@
-package com.ryderbelserion.vital.common.api.managers.files.enums;
+package com.ryderbelserion.vital.api.files.enums;
 
 public enum FileType {
 

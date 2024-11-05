@@ -1,4 +1,4 @@
-package com.ryderbelserion.vital.common.api.managers.files;
+package com.ryderbelserion.vital.api.files;
 
 import com.ryderbelserion.vital.common.VitalAPI;
 import com.ryderbelserion.vital.common.api.Provider;

@@ -1,6 +1,6 @@
-package com.ryderbelserion.vital.common.api.managers.files.types;
+package com.ryderbelserion.vital.api.files.types;
 
-import com.ryderbelserion.vital.common.api.managers.files.CustomFile;
+import com.ryderbelserion.vital.api.files.CustomFile;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
