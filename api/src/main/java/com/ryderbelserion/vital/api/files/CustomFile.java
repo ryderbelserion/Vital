@@ -1,7 +1,7 @@
 package com.ryderbelserion.vital.api.files;
 
-import com.ryderbelserion.vital.common.VitalAPI;
-import com.ryderbelserion.vital.common.api.Provider;
+import com.ryderbelserion.vital.VitalProvider;
+import com.ryderbelserion.vital.api.Vital;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import java.io.File;
 
@@ -14,9 +14,10 @@ import java.io.File;
  */
 public class CustomFile<T extends CustomFile<T>> {
 
-    protected final VitalAPI api = Provider.getApi();
-    protected final ComponentLogger logger = this.api.getComponentLogger();
-    protected final boolean isVerbose = this.api.isVerbose();
+    private final Vital api = VitalProvider.get();
+    private final ComponentLogger logger = this.api.getLogger();
+    private final File dataFolder = this.api.getDataFolder();
+    private final boolean isVerbose = this.api.isVerbose();
 
     private final String effectiveName;
     private final File file;
