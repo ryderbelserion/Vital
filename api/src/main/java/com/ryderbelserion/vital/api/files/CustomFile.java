@@ -70,7 +70,7 @@ public class CustomFile<T extends CustomFile<T>> {
      * @since 1.0.0
      */
     public boolean exists() {
-        return file.exists();
+        return this.file.exists();
     }
 
     /**
