@@ -25,20 +25,9 @@ public final class UnavailableException extends IllegalStateException {
      * Throws a descriptive exception
      *
      * @author ryderbelserion
-     * @param message the message to throw
-     * @since 0.0.1
-     */
-    public UnavailableException(final String message) {
-        super(message);
-    }
-
-    /**
-     * Throws a descriptive exception
-     *
-     * @author ryderbelserion
      * @since 0.0.1
      */
     public UnavailableException() {
-        this(Methods.toString(message));
+        super(Methods.toString(message));
     }
 }

@@ -2,6 +2,7 @@ package com.ryderbelserion.vital.api.files;
 
 import com.ryderbelserion.vital.VitalProvider;
 import com.ryderbelserion.vital.api.Vital;
+import com.ryderbelserion.vital.api.exceptions.GenericException;
 import com.ryderbelserion.vital.api.exceptions.UnavailableException;
 import com.ryderbelserion.vital.api.files.enums.FileType;
 import com.ryderbelserion.vital.api.files.types.YamlCustomFile;
@@ -116,7 +117,7 @@ public class FileManager {
         switch (fileType) {
             case YAML -> this.files.put(strippedName, new YamlCustomFile(file).loadConfiguration());
 
-            case JSON -> throw new UnavailableException("The file type with extension " + extension + " is not currently supported.");
+            case JSON -> throw new GenericException("The file type with extension " + extension + " is not currently supported.");
         }
 
         return this;

@@ -5,6 +5,7 @@ import com.ryderbelserion.vital.api.Vital;
 import com.ryderbelserion.vital.api.files.enums.FileType;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import java.io.File;
+import java.util.List;
 
 /**
  * Abstract base class for creating a custom file.
@@ -41,6 +42,110 @@ public abstract class CustomFile<T extends CustomFile<T>> {
         this.effectiveName = file.getName().replace(".yml", "");
         this.file = file;
     }
+
+    /**
+     * Retrieves a string value from the configuration at the specified path, or an empty string if not found.
+     *
+     * @param path the configuration path to retrieve the value from
+     * @param defaultValue the default value to return if the path does not exist
+     * @return the string value at the specified path, or an empty string if not found
+     * @since 0.0.5
+     */
+    public abstract String getStringValue(final String path, final String defaultValue);
+
+    /**
+     * Retrieves a string value from the configuration at the specified path, or an empty string if not found.
+     *
+     * @param path the configuration path to retrieve the value from
+     * @return the string value at the specified path, or an empty string if not found
+     * @since 0.0.5
+     */
+    public abstract String getStringValue(final String path);
+
+    /**
+     * Retrieves a boolean value from the configuration at the specified path.
+     *
+     * @param path the configuration path to retrieve the value from
+     * @param defaultValue the default value to return if the path does not exist
+     * @return the boolean value at the specified path, or the default value if not found
+     * @since 0.0.5
+     */
+    public abstract boolean getBooleanValue(final String path, final boolean defaultValue);
+
+    /**
+     * Retrieves a boolean value from the configuration at the specified path, or {@code false} if not found.
+     *
+     * @param path the configuration path to retrieve the value from
+     * @return the boolean value at the specified path, or {@code false} if not found
+     * @since 0.0.5
+     */
+    public abstract boolean getBooleanValue(final String path);
+
+    /**
+     * Retrieves a double value from the configuration at the specified path.
+     *
+     * @param path the configuration path to retrieve the value from
+     * @param defaultValue the default value to return if the path does not exist
+     * @return the double value at the specified path, or the default value if not found
+     * @since 0.0.5
+     */
+    public abstract double getDoubleValue(final String path, final double defaultValue);
+
+    /**
+     * Retrieves a double value from the configuration at the specified path, or {@code Double.NaN} if not found.
+     *
+     * @param path the configuration path to retrieve the value from
+     * @return the double value at the specified path, or {@code Double.NaN} if not found
+     * @since 0.0.5
+     */
+    public abstract double getDoubleValue(final String path);
+
+    /**
+     * Retrieves a long value from the configuration at the specified path.
+     *
+     * @param path the configuration path to retrieve the value from
+     * @param defaultValue the default value to return if the path does not exist
+     * @return the long value at the specified path, or the default value if not found
+     * @since 0.0.5
+     */
+    public abstract long getLongValue(final String path, final long defaultValue);
+
+    /**
+     * Retrieves a long value from the configuration at the specified path, or {@code Long.MIN_VALUE} if not found.
+     *
+     * @param path the configuration path to retrieve the value from
+     * @return the long value at the specified path, or {@code Long.MIN_VALUE} if not found
+     * @since 0.0.5
+     */
+    public abstract long getLongValue(final String path);
+
+    /**
+     * Retrieves an integer value from the configuration at the specified path.
+     *
+     * @param path the configuration path to retrieve the value from
+     * @param defaultValue the default value to return if the path does not exist
+     * @return the integer value at the specified path, or the default value if not found
+     * @since 0.0.5
+     */
+    public abstract int getIntValue(final String path, final int defaultValue);
+
+    /**
+     * Retrieves an integer value from the configuration at the specified path, or {@code Integer.MIN_VALUE} if not found.
+     *
+     * @param path the configuration path to retrieve the value from
+     * @return the integer value at the specified path, or {@code Integer.MIN_VALUE} if not found
+     * @since 0.0.5
+     */
+    public abstract int getIntValue(final String path);
+
+    /**
+     * Retrieves a list of strings from the configuration at the specified path.
+     *
+     * @param path the configuration path to retrieve the list from
+     * @return a list of strings at the specified path
+     * @since 0.0.5
+     */
+    public abstract List<String> getStringList(final String path);
 
     /**
      * Loads the configuration for the custom file.

@@ -1,11 +1,14 @@
 package com.ryderbelserion.vital.api.files.types;
 
+import com.ryderbelserion.vital.api.exceptions.GenericException;
 import com.ryderbelserion.vital.api.files.CustomFile;
 import com.ryderbelserion.vital.api.files.enums.FileType;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.ConfigurateException;
+import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
 import java.io.File;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -118,15 +121,144 @@ public class YamlCustomFile extends CustomFile<YamlCustomFile> {
     }
 
     /**
-     * Retrieves a string value from the configuration at the specified path.
+     * {@inheritDoc}
      *
-     * @param path the configuration path to retrieve the value from
-     * @param defaultValue the default value to return if the path does not exist
-     * @return the string value at the specified path, or the default value if not found
+     * @param path {@inheritDoc}
+     * @param defaultValue {@inheritDoc}
+     * @return {@inheritDoc}
      * @since 0.0.5
      */
+    @Override
     public final String getStringValue(final String path, final String defaultValue) {
         return this.configurationNode.node(path).getString(defaultValue);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param path {@inheritDoc}
+     * @return {@inheritDoc}
+     * @since 0.0.5
+     */
+    @Override
+    public final String getStringValue(final String path) {
+        return getStringValue(path, "");
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param path {@inheritDoc}
+     * @param defaultValue {@inheritDoc}
+     * @return {@inheritDoc}
+     * @since 0.0.5
+     */
+    @Override
+    public final boolean getBooleanValue(final String path, final boolean defaultValue) {
+        return this.configurationNode.node(path).getBoolean(defaultValue);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param path {@inheritDoc}
+     * @return {@inheritDoc}
+     * @since 0.0.5
+     */
+    @Override
+    public final boolean getBooleanValue(final String path) {
+        return getBooleanValue(path, Boolean.FALSE);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param path {@inheritDoc}
+     * @param defaultValue {@inheritDoc}
+     * @return {@inheritDoc}
+     * @since 0.0.5
+     */
+    @Override
+    public final double getDoubleValue(final String path, final double defaultValue) {
+        return this.configurationNode.node(path).getDouble(defaultValue);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param path {@inheritDoc}
+     * @return {@inheritDoc}
+     * @since 0.0.5
+     */
+    @Override
+    public final double getDoubleValue(final String path) {
+        return getDoubleValue(path, Double.NaN);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param path {@inheritDoc}
+     * @param defaultValue {@inheritDoc}
+     * @return {@inheritDoc}
+     * @since 0.0.5
+     */
+    @Override
+    public final long getLongValue(final String path, final long defaultValue) {
+        return this.configurationNode.node(path).getLong(defaultValue);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param path {@inheritDoc}
+     * @return {@inheritDoc}
+     * @since 0.0.5
+     */
+    @Override
+    public final long getLongValue(final String path) {
+        return getLongValue(path, Long.MIN_VALUE);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param path {@inheritDoc}
+     * @param defaultValue {@inheritDoc}
+     * @return {@inheritDoc}
+     * @since 0.0.5
+     */
+    @Override
+    public final int getIntValue(final String path, final int defaultValue) {
+        return this.configurationNode.node(path).getInt(defaultValue);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param path {@inheritDoc}
+     * @return {@inheritDoc}
+     * @since 0.0.5
+     */
+    @Override
+    public final int getIntValue(final String path) {
+        return getIntValue(path, Integer.MIN_VALUE);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param path {@inheritDoc}
+     * @return {@inheritDoc}
+     * @since 0.0.5
+     */
+    @Override
+    public final List<String> getStringList(final String path) {
+        try {
+            return this.configurationNode.node(path).getList(String.class);
+        } catch (SerializationException exception) {
+            throw new GenericException("Failed to serialize " + path, exception);
+        }
     }
 
     /**
