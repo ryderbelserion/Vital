@@ -1,8 +1,8 @@
 package com.ryderbelserion.vital.paper.util.structures;
 
 import com.google.common.collect.Lists;
-import com.ryderbelserion.vital.common.VitalAPI;
-import com.ryderbelserion.vital.common.api.Provider;
+import com.ryderbelserion.vital.VitalProvider;
+import com.ryderbelserion.vital.api.Vital;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -34,8 +34,8 @@ public class StructureManager implements IStructureManager {
     private final Set<Location> postStructurePasteBlocks = new HashSet<>();
     private final Set<Location> preStructurePasteBlocks = new HashSet<>();
 
-    private final VitalAPI api = Provider.getApi();
-    private final ComponentLogger logger = this.api.getComponentLogger();
+    private final Vital api = VitalProvider.get();
+    private final ComponentLogger logger = this.api.getLogger();
     private final boolean isVerbose = this.api.isVerbose();
 
     private File file = null;

@@ -3,6 +3,7 @@ package com.ryderbelserion.vital.paper.api.builders.items;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ItemType;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
@@ -17,43 +18,42 @@ import java.util.List;
  * @version 0.0.9
  * @since 0.0.1
  */
-@SuppressWarnings("UnusedReturnValue")
 public class NbtBuilder {
 
     private ItemStack itemStack;
 
     /**
-     * Constructs a new {@link ItemStack} with a dummy {@link Material}.
+     * Constructs a new {@link ItemStack} with a dummy {@link ItemType}.
      *
      * @since 0.0.1
      */
     public NbtBuilder() {
-        this(Material.STONE, 1);
+        this(ItemType.STONE, 1);
     }
 
     /**
-     * Constructs a new {@link ItemStack} with the specified {@link Material}.
+     * Constructs a new {@link ItemStack} with the specified {@link ItemType}.
      *
-     * @param material the {@link Material} to use
+     * @param itemType the {@link ItemType} to use
      * @since 0.0.1
      */
-    public NbtBuilder(@NotNull final Material material) {
-        this(material, 1);
+    public NbtBuilder(@NotNull final ItemType itemType) {
+        this(itemType, 1);
     }
 
     /**
-     * Constructs a new {@link ItemStack} with the specified {@link Material} and amount.
+     * Constructs a new {@link ItemStack} with the specified {@link ItemType} and amount.
      *
-     * @param material the {@link Material} to use
+     * @param itemType the {@link ItemType} to use
      * @param amount the amount to set
      * @since 0.0.1
      */
-    public NbtBuilder(@NotNull final Material material, final int amount) {
-        this(ItemStack.of(material, amount), true);
+    public NbtBuilder(@NotNull final ItemType itemType, final int amount) {
+        this(itemType.createItemStack(amount), true);
     }
 
     /**
-     * Constructs a new {@link ItemStack} with the specified {@link Material} and amount.
+     * Constructs a new {@link ItemStack} with the specified {@link ItemType} and amount.
      *
      * @param itemStack the {@link ItemStack}
      * @param createNewStack create a new item stack or reuse the passed object.

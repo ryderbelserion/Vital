@@ -1,6 +1,6 @@
 package com.ryderbelserion.vital.paper.api.builders.gui.interfaces;
 
-import com.ryderbelserion.vital.paper.api.catches.GenericException;
+import com.ryderbelserion.vital.api.exceptions.GenericException;
 import com.ryderbelserion.vital.paper.api.builders.gui.types.BaseGui;
 import com.ryderbelserion.vital.paper.api.builders.gui.types.PaginatedGui;
 import org.jetbrains.annotations.NotNull;

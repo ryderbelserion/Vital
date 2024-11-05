@@ -2,21 +2,18 @@ package com.ryderbelserion.vital.paper.api.builders.items;
 
 import com.destroystokyo.paper.profile.PlayerProfile;
 import com.destroystokyo.paper.profile.ProfileProperty;
-import com.ryderbelserion.vital.common.VitalAPI;
-import com.ryderbelserion.vital.common.api.Provider;
-import com.ryderbelserion.vital.common.util.AdvUtil;
-import com.ryderbelserion.vital.common.util.StringUtil;
+import com.ryderbelserion.vital.VitalProvider;
+import com.ryderbelserion.vital.api.Vital;
 import com.ryderbelserion.vital.paper.api.builders.PlayerBuilder;
 import com.ryderbelserion.vital.paper.api.builders.gui.interfaces.GuiAction;
 import com.ryderbelserion.vital.paper.api.builders.gui.interfaces.GuiItem;
 import com.ryderbelserion.vital.paper.api.enums.Support;
-import com.ryderbelserion.vital.paper.util.DyeUtil;
-import com.ryderbelserion.vital.paper.util.ItemUtil;
-import com.ryderbelserion.vital.paper.util.MsgUtil;
-//import dev.lone.itemsadder.api.CustomStack;
+import com.ryderbelserion.vital.paper.util.PaperMethods;
+import com.ryderbelserion.vital.utils.Methods;
 import io.th0rgal.oraxen.api.OraxenItems;
 import me.arcaniax.hdb.api.HeadDatabaseAPI;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
@@ -25,17 +22,20 @@ import org.bukkit.FireworkEffect;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.Tag;
 import org.bukkit.block.Banner;
 import org.bukkit.block.CreatureSpawner;
 import org.bukkit.block.banner.Pattern;
 import org.bukkit.block.banner.PatternType;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
+import org.bukkit.damage.DamageType;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ItemType;
 import org.bukkit.inventory.meta.ArmorMeta;
 import org.bukkit.inventory.meta.BannerMeta;
 import org.bukkit.inventory.meta.BlockStateMeta;
@@ -47,15 +47,14 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.MapMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.SkullMeta;
-import org.bukkit.inventory.meta.components.FoodComponent;
 import org.bukkit.inventory.meta.trim.ArmorTrim;
 import org.bukkit.inventory.meta.trim.TrimMaterial;
 import org.bukkit.inventory.meta.trim.TrimPattern;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 import org.bukkit.profile.PlayerTextures;
+import org.bukkit.tag.DamageTypeTags;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import java.net.MalformedURLException;
@@ -78,50 +77,51 @@ import java.util.function.Consumer;
  *
  * @author SvenjaReissaus
  * @author ryderbelserion
- * @version 0.0.9
+ * @version 2.1.3
  * @since 0.0.1
  */
-@SuppressWarnings({"UnusedReturnValue", "unchecked"})
 public class ItemBuilder<T extends ItemBuilder<T>> {
 
-    private final VitalAPI api = Provider.getApi();
+    private final Vital api = VitalProvider.get();
+    private final ComponentLogger logger = this.api.getLogger();
+    private final boolean isVerbose = this.api.isVerbose();
 
     private final NbtBuilder nbt = new NbtBuilder();
 
     private ItemStack itemStack;
 
     /**
-     * Constructs a new {@link ItemStack} with a dummy {@link Material}.
+     * Constructs a new {@link ItemStack} with a dummy {@link ItemType}.
      *
      * @since 0.0.1
      */
     public ItemBuilder() {
-        this(Material.STONE, 1);
+        this(ItemType.STONE, 1);
     }
 
     /**
-     * Constructs a new {@link ItemStack} with the specified {@link Material}.
+     * Constructs a new {@link ItemStack} with the specified {@link ItemType}.
      *
-     * @param material the {@link Material} to use
+     * @param itemType the {@link ItemType} to use
      * @since 0.0.1
      */
-    public ItemBuilder(@NotNull final Material material) {
-        this(material, 1);
+    public ItemBuilder(@NotNull final ItemType itemType) {
+        this(itemType, 1);
     }
 
     /**
-     * Constructs a new {@link ItemStack} with the specified {@link Material} and amount.
+     * Constructs a new {@link ItemStack} with the specified {@link ItemType} and amount.
      *
-     * @param material the {@link Material} to use
+     * @param itemType the {@link ItemType} to use
      * @param amount the amount to set
      * @since 0.0.1
      */
-    public ItemBuilder(@NotNull final Material material, final int amount) {
-        this(ItemStack.of(material, amount), true);
+    public ItemBuilder(@NotNull final ItemType itemType, final int amount) {
+        this(itemType.createItemStack(amount), true);
     }
 
     /**
-     * Constructs a new {@link ItemStack} with the specified {@link Material} and amount.
+     * Constructs a new {@link ItemStack} with the specified {@link ItemType} and amount.
      *
      * @param itemStack the {@link ItemStack}
      * @param createNewStack create a new {@link ItemStack} or reuse the passed object
@@ -170,7 +170,6 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
 
         this.nutritionalValue = itemBuilder.nutritionalValue;
         this.canAlwaysEat = itemBuilder.canAlwaysEat;
-        this.foodEffects = itemBuilder.foodEffects;
         this.saturation = itemBuilder.saturation;
         this.eatSeconds = itemBuilder.eatSeconds;
 
@@ -187,25 +186,12 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
 
         this.isHidingItemFlags = itemBuilder.isHidingItemFlags;
         this.isHidingToolTips = itemBuilder.isHidingToolTips;
-        this.isFireResistant = itemBuilder.isFireResistant;
+
         this.isUnbreakable = itemBuilder.isUnbreakable;
         this.isGlowing = itemBuilder.isGlowing;
 
         this.trimMaterial = itemBuilder.trimMaterial;
         this.trimPattern = itemBuilder.trimPattern;
-    }
-
-    /**
-     * A consumer for itembuilder
-     *
-     * @param builder {@link ItemBuilder}
-     * @return {@link ItemBuilder}
-     * @since 0.0.1
-     */
-    public final T apply(Consumer<ItemBuilder<T>> builder) {
-        builder.accept(this);
-
-        return (T) this;
     }
 
     private static final EnumSet<Material> LEATHER_ARMOR = EnumSet.of(
@@ -256,8 +242,8 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     public ItemBuilder(@NotNull final ItemStack itemStack) {
         this.itemStack = itemStack;
 
-        if (this.hasItemMeta()) {
-            @NotNull final ItemMeta itemMeta = this.itemStack.getItemMeta();
+        if (hasItemMeta()) {
+            final ItemMeta itemMeta = this.itemStack.getItemMeta();
 
             if (itemMeta.hasDisplayName()) {
                 this.displayComponent = itemMeta.displayName();
@@ -316,9 +302,19 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
                 if (itemMeta instanceof final MapMeta map) this.color = map.getColor();
             }
 
-            setHidingToolTips(itemMeta.isHideTooltip()).setFireResistant(itemMeta.isFireResistant())
-                    .setHidingItemFlags(itemMeta.getItemFlags().contains(ItemFlag.HIDE_ATTRIBUTES))
+            setHidingToolTips(itemMeta.isHideTooltip())
+                    .setHidingItemFlags(itemMeta.getItemFlags().contains(ItemFlag.HIDE_ATTRIBUTES)) //todo() itemflags are dead
                     .setUnbreakable(itemMeta.isUnbreakable());
+
+            if (itemMeta.hasDamageResistant()) {
+                final Tag<DamageType> tag = itemMeta.getDamageResistant();
+
+                if (tag != null) {
+                    this.damageTags = new ArrayList<>() {{
+                        add(tag);
+                    }};
+                }
+            }
 
             if (itemMeta.hasEnchantmentGlintOverride()) setGlowing(itemMeta.getEnchantmentGlintOverride());
         }
@@ -385,11 +381,6 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     private @NotNull EntityType entityType = EntityType.PIG;
 
     /**
-     * Holds the list of {@link List<FoodComponent.FoodEffect>} of the {@link ItemStack}.
-     */
-    private List<FoodComponent.FoodEffect> foodEffects = new ArrayList<>();
-
-    /**
      * Declares whether the {@link ItemStack} can be eaten.
      */
     private boolean canAlwaysEat = false;
@@ -417,7 +408,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     /**
      * Holds the {@link List<ItemFlag>} of {@link ItemFlag} of the {@link ItemStack}.
      */
-    private @NotNull List<ItemFlag> itemFlags = new ArrayList<>();
+    private @NotNull List<ItemFlag> itemFlags = new ArrayList<>(); //todo() itemflags are dead
 
     /**
      * Holds the {@link List<Pattern>} used by the {@link ItemStack}.
@@ -447,7 +438,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     /**
      * Declares if this {@link ItemStack} is hiding item flags.
      */
-    private boolean isHidingItemFlags = false;
+    private boolean isHidingItemFlags = false; //todo() itemflags are dead
 
     /**
      * Declares if the {@link ItemStack} hides all tooltips.
@@ -455,9 +446,9 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     private boolean isHidingToolTips = false;
 
     /**
-     * Declares if the {@link ItemStack} should be fire-resistant or not.
+     * List of {@link Tag<DamageType>} to apply to the {@link ItemStack}.
      */
-    private boolean isFireResistant = false;
+    private List<Tag<DamageType>> damageTags = new ArrayList<>();
 
     /**
      * Declares if this {@link ItemStack} is unbreakable.
@@ -540,7 +531,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
                     }
                 }
 
-                itemMeta.displayName(this.displayComponent = AdvUtil.parse(displayName));
+                itemMeta.displayName(this.displayComponent = Methods.parse(displayName));
             }
 
             if (!this.displayLore.isEmpty()) {
@@ -558,7 +549,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
                         }
                     }
 
-                    components.add(AdvUtil.parse(line));
+                    components.add(Methods.parse(line));
                 }
 
                 itemMeta.lore(this.displayComponentLore = components);
@@ -570,14 +561,16 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
                 itemMeta.setCustomModelData(number.intValue());
             });
 
-            if (this.isHidingItemFlags) {
+            if (this.isHidingItemFlags) { //todo() itemflags are dead
                 itemMeta.addItemFlags(ItemFlag.values());
             } else {
                 this.itemFlags.forEach(itemMeta::addItemFlags);
             }
 
             itemMeta.setEnchantmentGlintOverride(this.isGlowing);
-            itemMeta.setFireResistant(this.isFireResistant);
+
+            this.damageTags.forEach(itemMeta::setDamageResistant);
+
             itemMeta.setHideTooltip(this.isHidingToolTips);
             itemMeta.setUnbreakable(this.isUnbreakable);
         });
@@ -592,7 +585,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
      * @since 0.0.1
      */
     public @NotNull final String toBase64() {
-        return ItemUtil.toBase64(asItemStack());
+        return PaperMethods.toBase64(asItemStack());
     }
 
     /**
@@ -605,49 +598,62 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     public @NotNull T fromBase64(@NotNull final String base64) {
         if (base64.isEmpty()) return (T) new ItemBuilder<T>();
 
-        return (T) new ItemBuilder<T>(ItemUtil.fromBase64(base64));
+        return (T) new ItemBuilder<T>(PaperMethods.fromBase64(base64));
     }
 
     /**
-     * Sets the {@link Material} type.
+     * A consumer for itembuilder
      *
-     * @param material the {@link Material} to set
+     * @param builder {@link ItemBuilder}
      * @return {@link ItemBuilder}
      * @since 0.0.1
      */
-    public @NotNull T withType(@Nullable final Material material) {
-        if (material == null) return (T) this;
-
-        this.itemStack = this.itemStack.withType(material);
+    public @NotNull T apply(final Consumer<ItemBuilder<T>> builder) {
+        if (builder != null) {
+            builder.accept(this);
+        }
 
         return (T) this;
     }
 
     /**
-     * Sets the {@link Material} type.
+     * Sets the {@link ItemType} type.
      *
-     * @param material the {@link Material} to set
-     * @param amount the amount of {@link Material}
+     * @param itemType the {@link ItemType} to set
      * @return {@link ItemBuilder}
      * @since 0.0.1
      */
-    public @NotNull T withType(@Nullable final Material material, final int amount) {
-        if (material == null) return (T) this;
+    public @NotNull T withType(@Nullable final ItemType itemType) {
+        if (itemType == null) return (T) this;
 
-        this.itemStack = this.itemStack.withType(material);
-        this.itemStack.setAmount(amount);
+        this.itemStack = itemType.createItemStack();
 
         return (T) this;
     }
 
     /**
-     * Sets the {@link Material} type.
+     * Sets the {@link ItemType} type.
      *
-     * @param key the {@link Material} to set
+     * @param itemType the {@link ItemType} to set
+     * @param amount the amount of {@link ItemType}
      * @return {@link ItemBuilder}
      * @since 0.0.1
      */
-    //@SuppressWarnings("UnreachableCode")
+    public @NotNull T withType(@Nullable final ItemType itemType, final int amount) {
+        if (itemType == null) return (T) this;
+
+        this.itemStack = itemType.createItemStack(amount);
+
+        return (T) this;
+    }
+
+    /**
+     * Sets the {@link ItemType} type.
+     *
+     * @param key the {@link ItemType} to set
+     * @return {@link ItemBuilder}
+     * @since 0.0.1
+     */
     public @NotNull T withType(@NotNull final String key) {
         if (key.isEmpty()) return (T) this;
 
@@ -681,21 +687,21 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
             if (data.contains("#")) {
                 final String model = data.split("#")[1];
 
-                this.customModelData = StringUtil.tryParseInt(model);
+                this.customModelData = Methods.tryParseInt(model);
 
                 if (this.customModelData.isPresent()) data = data.replace("#" + this.customModelData.get(), "");
             }
 
-            final Optional<Number> damage = StringUtil.tryParseInt(data);
+            final Optional<Number> damage = Methods.tryParseInt(data);
 
             if (damage.isEmpty()) {
-                @Nullable final PotionEffectType potionEffect = ItemUtil.getPotionEffect(data);
+                @Nullable final PotionEffectType potionEffect = PaperMethods.getPotionEffect(data);
 
                 if (potionEffect != null) this.effects = Collections.singletonList(new PotionEffect(potionEffect, 1, 1));
 
-                this.potionType = ItemUtil.getPotionType(data);
+                this.potionType = PaperMethods.getPotionType(data);
 
-                this.color = data.contains(",") ? DyeUtil.getColor(data) : DyeUtil.getDefaultColor(data);
+                this.color = data.contains(",") ? PaperMethods.getColor(data) : PaperMethods.getDefaultColor(data);
             } else {
                 this.damage = damage.get().intValue();
             }
@@ -704,14 +710,14 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
             type = sections[0];
             final String model = sections[1];
 
-            this.customModelData = StringUtil.tryParseInt(model);
+            this.customModelData = Methods.tryParseInt(model);
         }
 
-        @Nullable final Material material = ItemUtil.getMaterial(type);
+        final @Nullable ItemType itemType = PaperMethods.getItemType(type);
 
-        if (material == null) return (T) this;
+        if (itemType == null) return (T) this;
 
-        return withType(material);
+        return withType(itemType);
     }
 
     /**
@@ -781,7 +787,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
      * @return {@link ItemBuilder}
      * @since 0.0.1
      */
-    public @NotNull T setHidingItemFlags(final boolean isHidingItemFlags) {
+    public @NotNull T setHidingItemFlags(final boolean isHidingItemFlags) { //todo() itemflags are dead
         this.isHidingItemFlags = isHidingItemFlags;
 
         return (T) this;
@@ -803,18 +809,44 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     /**
      * Makes the item fire-resistant.
      *
-     * @param isFireResistant true or false
      * @return {@link ItemBuilder}
      * @since 0.0.1
+     *
+     * @deprecated
      */
-    public @NotNull T setFireResistant(final boolean isFireResistant) {
-        this.isFireResistant = isFireResistant;
+    @Deprecated(forRemoval = true)
+    public @NotNull T setFireResistant() {
+        return addDamageTag(DamageTypeTags.IS_FIRE);
+    }
+
+    /**
+     * Adds a damage type tag to the list.
+     *
+     * @param tag {@link Tag<DamageType>}
+     * @return {@link ItemBuilder}
+     * @since 2.1.3
+     */
+    public @NotNull T addDamageTag(final Tag<DamageType> tag) {
+        this.damageTags.add(tag);
 
         return (T) this;
     }
 
     /**
-     * Adds a new Firework Effect to the {@link ItemStack} if the {@link Material} allows it.
+     * Removes a damage type tag from the list.
+     *
+     * @param tag {@link Tag<DamageType>}
+     * @return {@link ItemBuilder}
+     * @since 2.1.3
+     */
+    public @NotNull T removeDamageTag(final Tag<DamageType> tag) {
+        this.damageTags.remove(tag);
+
+        return (T) this;
+    }
+
+    /**
+     * Adds a new Firework Effect to the {@link ItemStack} if the {@link ItemType} allows it.
      *
      * @param effect the {@link FireworkEffect.Builder}
      * @return {@link ItemBuilder}
@@ -962,8 +994,8 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
         if (!pattern.contains(":")) return (T) this;
 
         final String[] sections = pattern.split(":");
-        final PatternType type = ItemUtil.getPatternType(sections[0].toLowerCase());
-        final DyeColor color = DyeUtil.getDyeColor(sections[1]);
+        final PatternType type = PaperMethods.getPatternType(sections[0].toLowerCase());
+        final DyeColor color = PaperMethods.getDyeColor(sections[1]);
 
         if (type == null) return (T) this;
 
@@ -986,7 +1018,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     }
 
     /**
-     * Adds a {@link PotionEffect} to the {@link ItemStack} if the {@link Material} allows it.
+     * Adds a {@link PotionEffect} to the {@link ItemStack} if the {@link ItemType} allows it.
      *
      * @param type the type of {@link PotionEffectType}
      * @param duration the duration of the {@link PotionType}
@@ -1018,7 +1050,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     }
 
     /**
-     * Changes the color of the {@link ItemStack} if it is a {@link Material} that supports it.
+     * Changes the color of the {@link ItemStack} if it is a {@link ItemType} that supports it.
      *
      * @param color the {@link Color}
      * @return {@link ItemBuilder}
@@ -1063,7 +1095,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
      * @return {@link ItemBuilder}
      * @since 0.0.1
      */
-    public @NotNull T setItemFlags(@NotNull final List<String> itemFlags) {
+    public @NotNull T setItemFlags(@NotNull final List<String> itemFlags) { //todo() itemflags are dead
         if (itemFlags.isEmpty()) return (T) this;
 
         itemFlags.forEach(flag -> addItemFlag(ItemFlag.valueOf(flag)));
@@ -1078,7 +1110,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
      * @return {@link ItemBuilder}
      * @since 0.0.1
      */
-    public @NotNull T removeItemFlag(@NotNull final ItemFlag itemFlag) {
+    public @NotNull T removeItemFlag(@NotNull final ItemFlag itemFlag) { //todo() itemflags are dead
         this.itemFlags.remove(itemFlag);
 
         return (T) this;
@@ -1358,18 +1390,15 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
      * @since 0.0.1
      */
     public @NotNull T addEnchantment(@NotNull final String enchant, final int level, final boolean ignoreLevelCap) {
-        if (this.isCustom) return (T) this;
-        if (enchant.isEmpty()) return (T) this;
-        if (level < 0) return (T) this;
+        if (this.isCustom || enchant.isEmpty() || level < 0) return (T) this;
 
-        @Nullable final Enchantment enchantment = ItemUtil.getEnchantment(enchant);
+        final Enchantment enchantment = PaperMethods.getEnchantment(enchant);
+
         if (enchantment == null) return (T) this;
 
         this.itemStack.editMeta(itemMeta -> {
-            if (isEnchantedBook()) {
-                if (itemMeta instanceof EnchantmentStorageMeta meta) {
-                    meta.addStoredEnchant(enchantment, level, ignoreLevelCap);
-                }
+            if (isEnchantedBook() && itemMeta instanceof EnchantmentStorageMeta storageMeta) {
+                storageMeta.addStoredEnchant(enchantment, level, ignoreLevelCap);
 
                 return;
             }
@@ -1391,28 +1420,22 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
         if (this.isCustom) return (T) this;
         if (enchant.isEmpty()) return (T) this;
 
-        @Nullable final Enchantment enchantment = ItemUtil.getEnchantment(enchant);
+        @Nullable final Enchantment enchantment = PaperMethods.getEnchantment(enchant);
         if (enchantment == null) return (T) this;
 
-        if (this.hasItemMeta()) return (T) this;
-
-        if (isEnchantedBook()) {
+        if (hasItemMeta()) {
             this.itemStack.editMeta(itemMeta -> {
-                if (itemMeta instanceof EnchantmentStorageMeta meta) {
-                    if (meta.hasEnchant(enchantment)) {
-                        meta.removeEnchant(enchantment);
-                    }
+                if (isEnchantedBook() && itemMeta instanceof EnchantmentStorageMeta storageMeta && storageMeta.hasStoredEnchant(enchantment)) {
+                    storageMeta.removeStoredEnchant(enchantment);
+
+                    return;
+                }
+
+                if (itemMeta.hasEnchant(enchantment)) {
+                    itemMeta.removeEnchant(enchantment);
                 }
             });
-
-            return (T) this;
         }
-
-        this.itemStack.editMeta(itemMeta -> {
-            if (itemMeta.hasEnchant(enchantment)) {
-                itemMeta.removeEnchant(enchantment);
-            }
-        });
 
         return (T) this;
     }
@@ -1456,7 +1479,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
      * @return {@link ItemBuilder}
      * @since 0.0.1
      */
-    public @NotNull T applyHiddenItemFlags() {
+    public @NotNull T applyHiddenItemFlags() { //todo() itemflags are dead
         if (this.isCustom) return (T) this;
 
         this.itemStack.editMeta(itemMeta -> {
@@ -1507,7 +1530,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
 
         this.itemStack.editMeta(itemMeta -> {
             if (itemMeta instanceof final BlockStateMeta blockState) {
-                @NotNull final CreatureSpawner creatureSpawner = (CreatureSpawner) blockState.getBlockState();
+                final CreatureSpawner creatureSpawner = (CreatureSpawner) blockState.getBlockState();
 
                 creatureSpawner.setSpawnedType(this.entityType);
                 blockState.setBlockState(creatureSpawner);
@@ -1529,8 +1552,10 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
         if (this.isCustom) return (T) this;
         if (pattern.isEmpty() || material.isEmpty()) return (T) this;
 
-        TrimMaterial trimMaterial = ItemUtil.getTrimMaterial(material);
-        TrimPattern trimPattern = ItemUtil.getTrimPattern(pattern);
+        final TrimMaterial trimMaterial = PaperMethods.getTrimMaterial(material);
+
+        final TrimPattern trimPattern = PaperMethods.getTrimPattern(pattern);
+
         if (trimPattern == null || trimMaterial == null) return (T) this;
 
         return applyTrim(trimPattern, trimMaterial);
@@ -1547,7 +1572,8 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
         if (this.isCustom) return (T) this;
         if (pattern.isEmpty()) return (T) this;
 
-        TrimPattern trimPattern = ItemUtil.getTrimPattern(pattern);
+        final TrimPattern trimPattern = PaperMethods.getTrimPattern(pattern);
+
         if (trimPattern == null) return (T) this;
 
         this.trimPattern = trimPattern;
@@ -1566,7 +1592,8 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
         if (this.isCustom) return (T) this;
         if (material.isEmpty()) return (T) this;
 
-        TrimMaterial trimMaterial = ItemUtil.getTrimMaterial(material);
+        final TrimMaterial trimMaterial = PaperMethods.getTrimMaterial(material);
+
         if (trimMaterial == null) return (T) this;
 
         this.trimMaterial = trimMaterial;
@@ -1575,7 +1602,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     }
 
     /**
-     * Changes the {@link List<Pattern>} of the {@link ItemStack} if it is a {@link Material} that supports it.
+     * Changes the {@link List<Pattern>} of the {@link ItemStack} if it is a {@link ItemType} that supports it.
      *
      * @return {@link ItemBuilder}
      * @since 0.0.1
@@ -1628,7 +1655,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     }
 
     /**
-     * Changes the {@link ItemStack} {@link PotionType} if the {@link Material} supports it, applying changes.
+     * Changes the {@link ItemStack} {@link PotionType} if the {@link ItemType} supports it, applying changes.
      *
      * @return {@link ItemBuilder}
      * @since 0.0.1
@@ -1689,7 +1716,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
                 try {
                     textures.setSkin(URI.create(this.url).toURL(), PlayerTextures.SkinModel.CLASSIC);
                 } catch (MalformedURLException exception) {
-                    if (this.api.isVerbose()) JavaPlugin.getProvidingPlugin(ItemBuilder.class).getComponentLogger().error("Failed to set the texture url", exception);
+                    if (this.api.isVerbose()) this.api.getLogger().error("Failed to set the texture url", exception);
                 }
 
                 profile.setTextures(textures);
@@ -1805,7 +1832,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
      * @return a list of {@link ItemFlag}
      * @since 0.0.7
      */
-    public @NotNull final List<ItemFlag> getItemFlags() {
+    public @NotNull final List<ItemFlag> getItemFlags() { //todo() itemflags are dead
         return this.itemFlags;
     }
 
@@ -1840,9 +1867,9 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     }
 
     /**
-     * Gets the {@link Material} type.
+     * Gets the {@link ItemType} type.
      *
-     * @return the {@link Material} type
+     * @return the {@link ItemType} type
      * @since 0.0.1
      */
     public @NotNull final Material getType() {
@@ -1850,7 +1877,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     }
 
     /**
-     * Reactively checks if the {@link ItemStack} {@link Material} is a {@link Banner}.
+     * Reactively checks if the {@link ItemStack} {@link ItemType} is a {@link Banner}.
      *
      * @return true or false
      * @since 0.0.1
@@ -1860,7 +1887,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     }
 
     /**
-     * Reactively checks if the {@link ItemStack} {@link Material} is an armor piece.
+     * Reactively checks if the {@link ItemStack} {@link ItemType} is an armor piece.
      *
      * @return true or false
      * @since 0.0.1
@@ -1870,7 +1897,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     }
 
     /**
-     * Reactively checks if the {@link ItemStack} {@link Material} is a shulker box.
+     * Reactively checks if the {@link ItemStack} {@link ItemType} is a shulker box.
      *
      * @return true or false
      * @since 0.0.1
@@ -1880,7 +1907,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     }
 
     /**
-     * Reactively checks if the {@link ItemStack} {@link Material} is a leather variant.
+     * Reactively checks if the {@link ItemStack} {@link ItemType} is a leather variant.
      *
      * @return true or false
      * @since 0.0.1
@@ -1890,7 +1917,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     }
 
     /**
-     * Reactively checks if the {@link ItemStack} {@link Material} is a potion.
+     * Reactively checks if the {@link ItemStack} {@link ItemType} is a potion.
      *
      * @return true or false
      * @since 0.0.1
@@ -1900,7 +1927,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     }
 
     /**
-     * Reactively checks if the {@link ItemStack} {@link Material} is an enchanted book.
+     * Reactively checks if the {@link ItemStack} {@link ItemType} is an enchanted book.
      *
      * @return true or false
      * @since 0.0.1
@@ -1910,7 +1937,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     }
 
     /**
-     * Reactively checks if the {@link ItemStack} {@link Material} is a player head.
+     * Reactively checks if the {@link ItemStack} {@link ItemType} is a player head.
      *
      * @return true or false
      * @since 0.0.1
@@ -1920,7 +1947,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     }
 
     /**
-     * Reactively checks if the {@link ItemStack} {@link Material} is a firework star.
+     * Reactively checks if the {@link ItemStack} {@link ItemType} is a firework star.
      *
      * @return true or false
      * @since 0.0.1
@@ -1930,7 +1957,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     }
 
     /**
-     * Reactively checks if the {@link ItemStack} {@link Material} is a {@link org.bukkit.entity.Firework}.
+     * Reactively checks if the {@link ItemStack} {@link ItemType} is a {@link org.bukkit.entity.Firework}.
      *
      * @return true or false
      * @since 0.0.1
@@ -1940,7 +1967,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     }
 
     /**
-     * Reactively checks if the {@link ItemStack} {@link Material} is a {@link CreatureSpawner}.
+     * Reactively checks if the {@link ItemStack} {@link ItemType} is a {@link CreatureSpawner}.
      *
      * @return true or false
      * @since 0.0.1
@@ -1950,7 +1977,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     }
 
     /**
-     * Reactively checks if the {@link ItemStack} {@link Material} is a shield.
+     * Reactively checks if the {@link ItemStack} {@link ItemType} is a shield.
      *
      * @return true or false
      * @since 0.0.1
@@ -1960,7 +1987,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     }
 
     /**
-     * Reactively checks if the {@link ItemStack} {@link Material} is an {@link org.bukkit.entity.Arrow}.
+     * Reactively checks if the {@link ItemStack} {@link ItemType} is an {@link org.bukkit.entity.Arrow}.
      *
      * @return true or false
      * @since 0.0.1
@@ -1970,7 +1997,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     }
 
     /**
-     * Reactively checks if the {@link ItemStack} {@link Material} is a map.
+     * Reactively checks if the {@link ItemStack} {@link ItemType} is a map.
      *
      * @return true or false
      * @since 0.0.1
@@ -1985,7 +2012,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
      * @return true or false
      * @since 0.0.6
      */
-    public final boolean isHidingItemFlags() {
+    public final boolean isHidingItemFlags() { //todo() itemflags are dead
         return this.isHidingItemFlags;
     }
 

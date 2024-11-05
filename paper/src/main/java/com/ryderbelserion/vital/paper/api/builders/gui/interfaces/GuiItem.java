@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ItemType;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
@@ -56,22 +57,22 @@ public class GuiItem {
     }
 
     /**
-     * Alternate constructor that takes {@link Material} instead of an {@link ItemStack} but without a {@link GuiAction}.
+     * Alternate constructor that takes {@link ItemType} instead of an {@link ItemStack} but without a {@link GuiAction}.
      *
-     * @param material the {@link Material} to be used when invoking class
+     * @param itemType the {@link ItemType} to be used when invoking class
      */
-    public GuiItem(@NotNull final Material material) {
-        this(ItemStack.of(material), null);
+    public GuiItem(@NotNull final ItemType itemType) {
+        this(itemType.createItemStack(), null);
     }
 
     /**
-     * Alternate constructor that takes {@link Material} instead of an {@link ItemStack}.
+     * Alternate constructor that takes {@link ItemType} instead of an {@link ItemStack}.
      *
-     * @param material the {@code Material} to be used when invoking class
+     * @param itemType the {@link ItemType} to be used when invoking class
      * @param action the {@link GuiAction} should be passed on {@link InventoryClickEvent}
      */
-    public GuiItem(@NotNull final Material material, @Nullable final GuiAction<@NotNull InventoryClickEvent> action) {
-        this(ItemStack.of(material), action);
+    public GuiItem(@NotNull final ItemType itemType, @Nullable final GuiAction<@NotNull InventoryClickEvent> action) {
+        this(itemType.createItemStack(), action);
     }
 
     /**

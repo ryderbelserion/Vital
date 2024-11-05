@@ -1,7 +1,6 @@
 package com.ryderbelserion.vital.paper.api.builders.gui.types;
 
-import com.ryderbelserion.vital.common.util.AdvUtil;
-import com.ryderbelserion.vital.paper.api.catches.GenericException;
+import com.ryderbelserion.vital.api.exceptions.GenericException;
 import com.ryderbelserion.vital.paper.api.builders.gui.objects.components.InteractionComponent;
 import com.ryderbelserion.vital.paper.api.builders.gui.interfaces.GuiAction;
 import com.ryderbelserion.vital.paper.api.builders.gui.interfaces.GuiFiller;
@@ -9,9 +8,9 @@ import com.ryderbelserion.vital.paper.api.builders.gui.interfaces.GuiItem;
 import com.ryderbelserion.vital.paper.api.builders.gui.interfaces.GuiType;
 import com.ryderbelserion.vital.paper.api.builders.gui.interfaces.types.IBaseGui;
 import com.ryderbelserion.vital.paper.api.builders.gui.listeners.GuiListener;
-import com.ryderbelserion.vital.paper.util.MsgUtil;
-import com.ryderbelserion.vital.paper.util.MiscUtil;
+import com.ryderbelserion.vital.paper.util.PaperMethods;
 import com.ryderbelserion.vital.paper.util.scheduler.FoliaRunnable;
+import com.ryderbelserion.vital.utils.Methods;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.entity.Player;
@@ -76,7 +75,7 @@ public abstract class BaseGui implements InventoryHolder, Listener, IBaseGui {
 
     private GuiType guiType = GuiType.CHEST;
 
-    private Inventory inventory;
+    private final Inventory inventory;
     private boolean isUpdating;
     private String title;
     private int rows;
@@ -157,7 +156,7 @@ public abstract class BaseGui implements InventoryHolder, Listener, IBaseGui {
      */
     @Override
     public @NotNull final Component title() {
-        return AdvUtil.parse(this.title);
+        return Methods.parse(this.title);
     }
 
     /**
@@ -519,7 +518,7 @@ public abstract class BaseGui implements InventoryHolder, Listener, IBaseGui {
      */
     @Override
     public void updateTitle(final Player player) {
-        MiscUtil.updateTitle(player, this.title);
+        PaperMethods.updateTitle(player, this.title);
     }
 
     /**

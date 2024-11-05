@@ -1,6 +1,6 @@
 package com.ryderbelserion.vital.paper.util.scheduler;
 
-import com.ryderbelserion.vital.common.api.interfaces.IScheduler;
+import com.ryderbelserion.vital.api.interfaces.Scheduler;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import java.util.function.Consumer;
@@ -12,7 +12,7 @@ import java.util.function.Consumer;
  * @version 0.0.9
  * @since 0.0.1
  */
-public class PaperScheduler implements IScheduler {
+public class PaperScheduler implements Scheduler {
 
     private final JavaPlugin plugin;
 
@@ -33,7 +33,7 @@ public class PaperScheduler implements IScheduler {
      * @param delay {@inheritDoc}
      */
     @Override
-    public void runDelayedTask(@NotNull final Consumer<IScheduler> task, final long delay) {
+    public void runDelayedTask(@NotNull final Consumer<Scheduler> task, final long delay) {
         new FoliaRunnable(this.plugin.getServer().getGlobalRegionScheduler()) {
             @Override
             public void run() {
@@ -50,7 +50,7 @@ public class PaperScheduler implements IScheduler {
      * @param interval {@inheritDoc}
      */
     @Override
-    public void runRepeatingTask(@NotNull final Consumer<IScheduler> task, final long delay, final long interval) {
+    public void runRepeatingTask(@NotNull final Consumer<Scheduler> task, final long delay, final long interval) {
         new FoliaRunnable(this.plugin.getServer().getGlobalRegionScheduler()) {
             @Override
             public void run() {
@@ -66,7 +66,7 @@ public class PaperScheduler implements IScheduler {
      * @param interval {@inheritDoc}
      */
     @Override
-    public void runRepeatingTask(@NotNull final Consumer<IScheduler> task, final long interval) {
+    public void runRepeatingTask(@NotNull final Consumer<Scheduler> task, final long interval) {
         new FoliaRunnable(this.plugin.getServer().getGlobalRegionScheduler()) {
             @Override
             public void run() {
@@ -83,7 +83,7 @@ public class PaperScheduler implements IScheduler {
      * @param interval {@inheritDoc}
      */
     @Override
-    public void runRepeatingAsyncTask(@NotNull final Consumer<IScheduler> task, final long delay, final long interval) {
+    public void runRepeatingAsyncTask(@NotNull final Consumer<Scheduler> task, final long delay, final long interval) {
         new FoliaRunnable(this.plugin.getServer().getAsyncScheduler(), null) {
             @Override
             public void run() {
@@ -99,7 +99,7 @@ public class PaperScheduler implements IScheduler {
      * @param delay {@inheritDoc}
      */
     @Override
-    public void runDelayedAsyncTask(@NotNull final Consumer<IScheduler> task, final long delay) {
+    public void runDelayedAsyncTask(@NotNull final Consumer<Scheduler> task, final long delay) {
         new FoliaRunnable(this.plugin.getServer().getAsyncScheduler(), null) {
             @Override
             public void run() {

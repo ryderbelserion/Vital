@@ -12,8 +12,11 @@ import com.ryderbelserion.vital.paper.commands.context.PaperCommandInfo;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemType;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -33,16 +36,16 @@ public class CommandGui extends PaperCommand {
 
         final GuiFiller guiFiller = this.gui.getFiller();
 
-        final Material glass = Material.BLACK_STAINED_GLASS_PANE;
+        final ItemType.Typed<ItemMeta> glass = ItemType.BLACK_STAINED_GLASS_PANE;
 
         guiFiller.fillTop(new GuiItem(glass));
         guiFiller.fillBottom(new GuiItem(glass));
 
         for (int i = 0; i < 38; i++) {
-            this.gui.addItem(new GuiItem(Material.APPLE));
+            this.gui.addItem(new GuiItem(ItemType.APPLE));
         }
 
-        final Material arrow = Material.ARROW;
+        final ItemType.Typed<ItemMeta> arrow = ItemType.ARROW;
 
         this.gui.open(info.getPlayer(), gui -> {
             final int page = gui.getCurrentPageNumber();
@@ -57,8 +60,8 @@ public class CommandGui extends PaperCommand {
         });
     }
 
-    private void setNextButton(final Material material, final PaginatedGui gui) {
-        gui.setItem(gui.getRows(), 6, new ItemBuilder<>().withType(material).setDisplayName("<red>Next Page #{page}").addNamePlaceholder("{page}", String.valueOf(gui.getNextPageNumber())).asGuiItem(event -> {
+    private void setNextButton(final ItemType itemType, final PaginatedGui gui) {
+        gui.setItem(gui.getRows(), 6, new ItemBuilder<>().withType(itemType).setDisplayName("<red>Next Page #{page}").addNamePlaceholder("{page}", String.valueOf(gui.getNextPageNumber())).asGuiItem(event -> {
             event.setCancelled(true);
 
             gui.next();
@@ -66,21 +69,21 @@ public class CommandGui extends PaperCommand {
             final int page = gui.getCurrentPageNumber();
 
             if (page < gui.getMaxPages()) {
-                setNextButton(material, gui);
+                setNextButton(itemType, gui);
             } else {
-                gui.setItem(gui.getRows(), 6, new GuiItem(Material.BLACK_STAINED_GLASS_PANE));
+                gui.setItem(gui.getRows(), 6, new GuiItem(ItemType.BLACK_STAINED_GLASS_PANE));
             }
 
             if (page > 1) {
-                setPreviousButton(material, gui);
+                setPreviousButton(itemType, gui);
             } else {
-                gui.setItem(gui.getRows(), 4, new GuiItem(Material.BLACK_STAINED_GLASS_PANE));
+                gui.setItem(gui.getRows(), 4, new GuiItem(ItemType.BLACK_STAINED_GLASS_PANE));
             }
         }));
     }
 
-    private void setPreviousButton(final Material material, final PaginatedGui gui) {
-        gui.setItem(gui.getRows(), 4, new ItemBuilder<>().withType(material).setDisplayName("<red>Previous Page #{page}").addNamePlaceholder("{page}", String.valueOf(gui.getPreviousPageNumber())).asGuiItem(event -> {
+    private void setPreviousButton(final ItemType itemType, final PaginatedGui gui) {
+        gui.setItem(gui.getRows(), 4, new ItemBuilder<>().withType(itemType).setDisplayName("<red>Previous Page #{page}").addNamePlaceholder("{page}", String.valueOf(gui.getPreviousPageNumber())).asGuiItem(event -> {
             event.setCancelled(true);
 
             gui.previous();
@@ -88,13 +91,13 @@ public class CommandGui extends PaperCommand {
             final int page = gui.getCurrentPageNumber();
 
             if (page > 1) {
-                setPreviousButton(material, gui);
+                setPreviousButton(itemType, gui);
             } else {
-                gui.setItem(gui.getRows(), 4, new GuiItem(Material.BLACK_STAINED_GLASS_PANE));
+                gui.setItem(gui.getRows(), 4, new GuiItem(ItemType.BLACK_STAINED_GLASS_PANE));
             }
 
             if (page < gui.getMaxPages()) {
-                setNextButton(material, gui);
+                setNextButton(itemType, gui);
             }
         }));
     }
@@ -117,10 +120,12 @@ public class CommandGui extends PaperCommand {
 
     @Override
     public @NotNull final PaperCommand registerPermission() {
-        final Permission permission = this.plugin.getServer().getPluginManager().getPermission(getPermission());
+        final PluginManager server = this.plugin.getServer().getPluginManager();
+
+        final Permission permission = server.getPermission(getPermission());
 
         if (permission == null) {
-            this.plugin.getServer().getPluginManager().addPermission(new Permission(getPermission(), PermissionDefault.OP));
+            server.addPermission(new Permission(getPermission(), PermissionDefault.OP));
         }
 
         return this;

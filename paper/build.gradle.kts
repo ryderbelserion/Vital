@@ -3,12 +3,12 @@ plugins {
     alias(libs.plugins.shadow)
 }
 
-project.version = "1.0.6"
+project.version = "2.2.4"
 
 repositories {
-    maven("https://repo.extendedclip.com/content/repositories/placeholderapi")
-
     maven("https://repo.papermc.io/repository/maven-public")
+
+    maven("https://repo.extendedclip.com/content/repositories/placeholderapi")
 
     maven("https://repo.oraxen.com/releases")
 }
@@ -20,8 +20,8 @@ dependencies {
         exclude("org.bukkit", "*")
     }
 
-    api(project(":common")) {
-        exclude("org.yaml")
+    api(project(":api")) {
+        exclude("org.yaml", "snakeyaml")
     }
 }
 

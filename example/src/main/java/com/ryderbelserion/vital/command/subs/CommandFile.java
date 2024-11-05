@@ -6,8 +6,8 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import com.ryderbelserion.vital.TestPlugin;
-import com.ryderbelserion.vital.common.config.ConfigManager;
-import com.ryderbelserion.vital.common.config.keys.ConfigKeys;
+import com.ryderbelserion.vital.config.ConfigManager;
+import com.ryderbelserion.vital.config.keys.ConfigKeys;
 import com.ryderbelserion.vital.paper.commands.PaperCommand;
 import com.ryderbelserion.vital.paper.commands.context.PaperCommandInfo;
 import com.ryderbelserion.vital.paper.api.files.CustomFile;
@@ -17,6 +17,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import static io.papermc.paper.command.brigadier.Commands.argument;
@@ -85,10 +86,12 @@ public class CommandFile extends PaperCommand {
 
     @Override
     public @NotNull final PaperCommand registerPermission() {
-        final Permission permission = this.plugin.getServer().getPluginManager().getPermission(getPermission());
+        final PluginManager server = this.plugin.getServer().getPluginManager();
+
+        final Permission permission = server.getPermission(getPermission());
 
         if (permission == null) {
-            this.plugin.getServer().getPluginManager().addPermission(new Permission(getPermission(), PermissionDefault.OP));
+            server.addPermission(new Permission(getPermission(), PermissionDefault.OP));
         }
 
         return this;
