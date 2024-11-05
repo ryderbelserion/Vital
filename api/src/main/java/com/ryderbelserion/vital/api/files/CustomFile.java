@@ -6,27 +6,35 @@ import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import java.io.File;
 
 /**
- * Creates a custom file.
+ * Abstract base class for creating a custom file.
  *
+ * <p>This class provides a framework for extending and implementing file operations
+ * tailored to specific needs. Subclasses should define the actual behavior and properties
+ * of the custom file type.
+ *
+ * @version 0.0.5
+ * @since 0.0.5
+ * @param <T> the type of the custom file that extends this class
  * @author ryderbelserion
- * @version 1.0.0
- * @since 1.0.0
  */
-public class CustomFile<T extends CustomFile<T>> {
+public abstract class CustomFile<T extends CustomFile<T>> {
 
-    private final Vital api = VitalProvider.get();
-    private final ComponentLogger logger = this.api.getLogger();
-    private final File dataFolder = this.api.getDataFolder();
-    private final boolean isVerbose = this.api.isVerbose();
+    protected final Vital api = VitalProvider.get();
+    protected final ComponentLogger logger = this.api.getLogger();
+    protected final File dataFolder = this.api.getDataFolder();
+    protected final boolean isVerbose = this.api.isVerbose();
 
     private final String effectiveName;
     private final File file;
 
     /**
-     * A constructor to build a custom file.
+     * Constructs a new {@link CustomFile} instance.
      *
-     * @param file {@link File}
-     * @since 1.0.0
+     * <p>This constructor initializes the custom file by setting its effective name
+     * (excluding the '.yml' extension) and the actual file object.
+     *
+     * @param file the file object to be wrapped by this custom file
+     * @since 0.0.5
      */
     public CustomFile(final File file) {
         this.effectiveName = file.getName().replace(".yml", "");
@@ -34,52 +42,52 @@ public class CustomFile<T extends CustomFile<T>> {
     }
 
     /**
-     * Get the custom file instance
+     * Returns the current instance of {@link CustomFile}.
      *
-     * @return the custom file instance
-     * @since 1.0.0
+     * @return the current custom file instance
+     * @since 0.0.5
      */
-    public CustomFile<T> getCustomFile() {
+    public CustomFile<T> getInstance() {
         return this;
     }
 
     /**
-     * Gets the effective name i.e. without .yml.
+     * Retrieves the effective name of the file, the name without the '.yml' extension.
      *
-     * @return the effective name
-     * @since 1.0.0
+     * @return the effective name of the file
+     * @since 0.0.5
      */
     public String getEffectiveName() {
         return this.effectiveName;
     }
 
     /**
-     * Gets the file name.
+     * Retrieves the name of the actual file.
      *
-     * @return the file name
-     * @since 1.0.0
+     * @return the name of the file
+     * @since 0.0.5
      */
     public String getFileName() {
-        return getFile().getName();
+        return file.getName();
     }
 
     /**
-     * Checks if a file exists.
+     * Checks whether the file exists on the filesystem.
      *
-     * @return true or false
-     * @since 1.0.0
+     * @return {@code true} if the file exists, {@code false} otherwise
+     * @since 0.0.5
      */
-    public boolean exists() {
-        return this.file.exists();
+    public boolean isConfigurationLoaded() {
+        return file.exists();
     }
 
     /**
-     * Gets the file object.
+     * Retrieves the file object wrapped by this custom file.
      *
      * @return the file object
-     * @since 1.0.0
+     * @since 0.0.5
      */
     public File getFile() {
-        return this.file;
+        return file;
     }
 }

@@ -10,6 +10,16 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Manages custom files for the application.
+ *
+ * <p>This class provides functionality to add, remove, and retrieve custom file instances,
+ * supporting various file types such as YAML. It ensures that file operations are handled
+ * efficiently and provides logging for important actions.
+ *
+ * @version 0.0.5
+ * @since 0.0.5
+ */
 public class FileManager {
 
     private final Vital api = VitalProvider.get();
@@ -20,26 +30,39 @@ public class FileManager {
     private final Map<String, CustomFile<? extends CustomFile<?>>> files = new HashMap<>();
 
     /**
-     * Adds a file to the map.
-     *
-     * @param fileName the file name
-     * @param file the file type
+     * Default constructor.
+     * 
+     * @since 0.0.5
      */
-    public void addFile(final String fileName, final FileType file) {
-        switch (file) {
-            case YAML -> this.files.put(fileName, new YamlCustomFile(new File(this.dataFolder, fileName)).load());
+    public FileManager() {}
+    
+    /**
+     * Adds a custom file to the manager's map.
+     *
+     * <p>This method supports adding YAML files and will throw an exception for unsupported file types.
+     *
+     * @param fileName the name of the file to add
+     * @param fileType the type of the file
+     * @since 0.0.5
+     */
+    public void addFile(final String fileName, final FileType fileType) {
+        switch (fileType) {
+            case YAML -> this.files.put(fileName, new YamlCustomFile(new File(this.dataFolder, fileName)).loadConfiguration());
 
-            case JSON -> throw new UnavailableException("The file type " + file.getPrettyName() + " is not currently supported.");
+            case JSON -> throw new UnavailableException("The file type " + fileType.getPrettyName() + " is not currently supported.");
         }
     }
 
     /**
-     * Removes a file from the map by custom file.
+     * Removes a custom file from the manager's map by its instance.
      *
-     * @param file {@link CustomFile}
+     * <p>This method removes the file if it exists in the map.
+     *
+     * @param customFile the custom file instance to remove
+     * @since 0.0.5
      */
-    public void removeFile(final CustomFile<? extends CustomFile<?>> file) {
-        final String fileName = file.getFileName();
+    public void removeFile(final CustomFile<? extends CustomFile<?>> customFile) {
+        final String fileName = customFile.getFileName();
 
         if (!this.files.containsKey(fileName)) return;
 
@@ -47,19 +70,25 @@ public class FileManager {
     }
 
     /**
-     * Removes a file from the map by file name.
+     * Removes a custom file from the manager's map by its name.
      *
-     * @param fileName the file name
+     * <p>This method removes the file if it exists in the map.
+     *
+     * @param fileName the name of the file to remove
+     * @since 0.0.5
      */
     public void removeFile(final String fileName) {
         this.files.remove(fileName);
     }
 
     /**
-     * Fetches a file from the map by file name.
+     * Retrieves a custom file from the manager's map by its name.
      *
-     * @param fileName the file name
-     * @return {@link CustomFile}
+     * <p>This method returns the custom file instance if it exists in the map.
+     *
+     * @param fileName the name of the file to retrieve
+     * @return the custom file instance, or null if not found
+     * @since 0.0.5
      */
     public CustomFile<? extends CustomFile<?>> getFile(final String fileName) {
         return this.files.get(fileName);
