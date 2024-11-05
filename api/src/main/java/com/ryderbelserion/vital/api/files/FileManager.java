@@ -195,11 +195,12 @@ public class FileManager {
      * <p>This method returns the custom file instance if it exists in the map.
      *
      * @param fileName the name of the file to retrieve
+     * @param fileType the type of the file
      * @return the custom file instance, or null if not found
      * @since 0.0.5
      */
-    public CustomFile<? extends CustomFile<?>> getFile(final String fileName) {
-        return this.files.get(fileName);
+    public CustomFile<? extends CustomFile<?>> getFile(final String fileName, final FileType fileType) {
+        return this.files.get(strip(fileName, fileType.getExtension()));
     }
 
     /**
