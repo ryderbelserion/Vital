@@ -2,6 +2,7 @@ package com.ryderbelserion.vital.api;
 
 import com.google.gson.GsonBuilder;
 import com.ryderbelserion.vital.VitalProvider;
+import com.ryderbelserion.vital.api.files.FileManager;
 import com.ryderbelserion.vital.config.ConfigManager;
 import com.ryderbelserion.vital.config.beans.Plugin;
 import com.ryderbelserion.vital.config.keys.ConfigKeys;
@@ -10,7 +11,6 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -28,17 +28,21 @@ import java.util.Map;
  * @version 0.0.5
  * @since 0.0.1
  */
-public interface Vital {
+public abstract class Vital {
+
+    private FileManager fileManager;
 
     /**
      * Starts the api.
      *
      * @since 0.0.1
      */
-    default void start() {
+    public void start() {
         VitalProvider.register(this);
 
         ConfigManager.load();
+
+        this.fileManager = new FileManager();
     }
 
     /**
@@ -46,7 +50,7 @@ public interface Vital {
      *
      * @since 0.0.1
      */
-    default void stop() {
+    public void stop() {
         VitalProvider.unregister();
     }
 
@@ -55,7 +59,7 @@ public interface Vital {
      *
      * @since 0.0.1
      */
-    default void reload() {
+    public void reload() {
         ConfigManager.reload();
     }
 
@@ -64,7 +68,7 @@ public interface Vital {
      *
      * @return {@link Plugin}
      */
-    default Plugin getPlugin() {
+    public Plugin getPlugin() {
         return ConfigManager.getConfig().getProperty(ConfigKeys.settings);
     }
 
@@ -74,7 +78,7 @@ public interface Vital {
      * @return true or false
      * @since 0.0.1
      */
-    default boolean isVerbose() {
+    public boolean isVerbose() {
         return getPlugin().isVerbose();
     }
 
@@ -84,7 +88,7 @@ public interface Vital {
      * @return #,###.##
      * @since 0.0.1
      */
-    default String getNumberFormat() {
+    public String getNumberFormat() {
         return getPlugin().getNumberFormat();
     }
 
@@ -94,7 +98,7 @@ public interface Vital {
      * @return half_even
      * @since 0.0.1
      */
-    default String getRounding() {
+    public String getRounding() {
         return getPlugin().getRounding();
     }
 
@@ -104,7 +108,7 @@ public interface Vital {
      * @return the file
      * @since 0.0.1
      */
-    default File getDataFolder() {
+    public File getDataFolder() {
         return null;
     }
 
@@ -117,7 +121,7 @@ public interface Vital {
      * @return the parsed string
      * @since 0.0.4
      */
-    @NotNull String placeholders(@Nullable final Audience audience, @NotNull final String line, @NotNull final Map<String, String> placeholders);
+    public abstract @NotNull String placeholders(@Nullable final Audience audience, @NotNull final String line, @NotNull final Map<String, String> placeholders);
 
     /**
      * Colors a bit of text, with placeholder parsing!
@@ -128,7 +132,7 @@ public interface Vital {
      * @return the parsed string
      * @since 0.0.4
      */
-    @NotNull Component color(@NotNull final Audience audience, @NotNull final String line, @NotNull final Map<String, String> placeholders);
+    public abstract @NotNull Component color(@NotNull final Audience audience, @NotNull final String line, @NotNull final Map<String, String> placeholders);
 
     /**
      * Sends a message to a player.
@@ -138,7 +142,7 @@ public interface Vital {
      * @param placeholders the placeholders
      * @since 0.0.4
      */
-    void sendMessage(@NotNull final Audience audience, @NotNull final String line, @NotNull final Map<String, String> placeholders);
+    public abstract void sendMessage(@NotNull final Audience audience, @NotNull final String line, @NotNull final Map<String, String> placeholders);
 
     /**
      * Sends a message to a player.
@@ -148,7 +152,7 @@ public interface Vital {
      * @param placeholders the placeholders
      * @since 0.0.5
      */
-    void sendMessage(@NotNull final Audience audience, @NotNull final List<String> lines, @NotNull final Map<String, String> placeholders);
+    public abstract void sendMessage(@NotNull final Audience audience, @NotNull final List<String> lines, @NotNull final Map<String, String> placeholders);
 
     /**
      * Gets the generic plugin folder.
@@ -156,19 +160,18 @@ public interface Vital {
      * @return the file
      * @since 0.0.1
      */
-    default File getPluginsFolder() {
+    public File getPluginsFolder() {
         return null;
     }
 
     /**
-     * Gets the {@link F}.
+     * Gets the {@link FileManager}.
      *
-     * @return {@link F}
-     * @param <F> the file manager
+     * @return {@link FileManager}
      * @since 0.0.1
      */
-    default <F> F getFileManager() {
-        return null;
+    public FileManager getFileManager() {
+        return this.fileManager;
     }
 
     /**
@@ -178,7 +181,7 @@ public interface Vital {
      * @param replace true or false
      * @since 0.0.1
      */
-    default void saveResource(String resourcePath, final boolean replace) {
+    public void saveResource(String resourcePath, final boolean replace) {
         if (resourcePath == null || resourcePath.isEmpty()) {
             throw new IllegalArgumentException("ResourcePath cannot be null or empty");
         }
@@ -227,7 +230,7 @@ public interface Vital {
      * @return input stream
      * @since 2.0.0
      */
-    default InputStream getResource(@NotNull String filename) {
+    public InputStream getResource(@NotNull String filename) {
         try {
             URL url = getClass().getClassLoader().getResource(filename);
 
@@ -251,7 +254,7 @@ public interface Vital {
      * @return plugin name
      * @since 0.0.1
      */
-    default String getPluginName() {
+    public String getPluginName() {
         return null;
     }
 
@@ -261,7 +264,7 @@ public interface Vital {
      * @return the component logger
      * @since 0.0.1
      */
-    default ComponentLogger getLogger() {
+    public ComponentLogger getLogger() {
         return null;
     }
 
@@ -271,7 +274,7 @@ public interface Vital {
      * @return {@link GsonBuilder}
      * @since 0.0.1
      */
-    default GsonBuilder getGson() {
+    public GsonBuilder getGson() {
         return null;
     }
 }
