@@ -47,8 +47,10 @@ public class FileManager {
      * @return the current instance of {@link FileManager}
      * @since 0.0.5
      */
-    public final FileManager addFolder(final String folder, final FileType fileType) {
+    public final FileManager addFolder(final String folder, final FileType fileType) { //todo() this does not work.
         final File directory = new File(this.dataFolder, folder);
+
+        this.logger.info("Path: {}", directory.getPath());
 
         if (!directory.exists()) {
             directory.mkdirs();
