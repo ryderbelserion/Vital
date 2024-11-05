@@ -213,4 +213,14 @@ public class FileManager {
     public final String strip(final String fileName, final String extension) {
         return fileName.replace("." + extension, "");
     }
+
+    /**
+     * Retrieves the map of custom files managed by this file manager.
+     *
+     * @return a map of custom files with their file names as keys
+     * @since 0.0.5
+     */
+    public Map<String, CustomFile<? extends CustomFile<?>>> getFiles() {
+        return this.files;
+    }
 }
