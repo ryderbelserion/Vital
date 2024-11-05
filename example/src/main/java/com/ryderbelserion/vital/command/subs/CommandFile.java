@@ -6,15 +6,16 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import com.ryderbelserion.vital.TestPlugin;
+import com.ryderbelserion.vital.api.files.CustomFile;
+import com.ryderbelserion.vital.api.files.enums.FileType;
+import com.ryderbelserion.vital.api.files.types.YamlCustomFile;
 import com.ryderbelserion.vital.config.ConfigManager;
 import com.ryderbelserion.vital.config.keys.ConfigKeys;
 import com.ryderbelserion.vital.paper.commands.PaperCommand;
 import com.ryderbelserion.vital.paper.commands.context.PaperCommandInfo;
-import com.ryderbelserion.vital.paper.api.files.CustomFile;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.PluginManager;
@@ -33,25 +34,27 @@ public class CommandFile extends PaperCommand {
         final @NotNull CommandSender player = info.getCommandSender();
 
         if (!name.isEmpty()) {
-            final CustomFile file = this.plugin.getFileManager().getFile(name);
+            final CustomFile<? extends CustomFile<?>> file = this.plugin.getFileManager().getFile(name, FileType.YAML);
 
             if (file != null) {
-                final YamlConfiguration root = file.getConfiguration();
+                final YamlCustomFile root = (YamlCustomFile) file.getInstance();
 
                 if (root != null) {
-                    player.sendRichMessage("<light_purple>Test Option: " + root.getBoolean("test-option", false));
+                    player.sendRichMessage("<light_purple>Test Option: " + root.getBooleanValueWithDefault(false, "test-option"));
                 }
             }
         }
 
-        this.plugin.getFileManager().getCustomFiles().forEach((fileName, customFile) -> {
-            final YamlConfiguration configuration = customFile.getConfiguration();
+        /*this.plugin.getFileManager().getFiles().forEach((fileName, customFile) -> {
+            final CustomFile<? extends CustomFile<?>> file = this.plugin.getFileManager().getFile(name, FileType.YAML);
 
-            if (configuration == null) return;
+            if (file == null) return;
 
-            player.sendRichMessage("Crate Type: " + configuration.getString("Crate.CrateType", "CSGO"));
-            player.sendRichMessage("Starting Keys: " + configuration.getInt("Crate.StartingKeys", 0));
-        });
+            final YamlCustomFile root = (YamlCustomFile) file.getInstance();
+
+            player.sendRichMessage("Crate Type: " + root.getStringValueWithDefault("CSGO", "Crate", "CrateType"));
+            player.sendRichMessage("Starting Keys: " + root.getIntValueWithDefault(0, "Crate", "StartingKeys"));
+        });*/
 
         final SettingsManager config = ConfigManager.getConfig();
 

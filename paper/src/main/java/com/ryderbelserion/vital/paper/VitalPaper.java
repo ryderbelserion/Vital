@@ -26,14 +26,12 @@ import java.util.Map;
  * @version 2.2.4
  * @since 0.0.1
  */
-public class VitalPaper implements Vital {
+public class VitalPaper extends Vital {
 
     private final ComponentLogger logger;
     private final File pluginsFolder;
     private final String pluginName;
     private final File dataFolder;
-
-    private final FileManager fileManager;
 
     /**
      * Builds an instance of VitalPaper at JavaPlugin creation.
@@ -48,8 +46,6 @@ public class VitalPaper implements Vital {
         this.pluginName = plugin.getName();
 
         start();
-
-        this.fileManager = new FileManager();
     }
 
     /**
@@ -65,8 +61,6 @@ public class VitalPaper implements Vital {
         this.pluginName = context.getPluginMeta().getName();
 
         start();
-
-        this.fileManager = new FileManager();
     }
 
     @Override
@@ -107,11 +101,6 @@ public class VitalPaper implements Vital {
     @Override
     public void sendMessage(@NotNull final Audience audience, @NotNull final List<String> lines, @NotNull final Map<String, String> placeholders) {
         sendMessage(audience, StringUtils.chomp(Methods.toString(lines)), placeholders);
-    }
-
-    @Override
-    public FileManager getFileManager() {
-        return this.fileManager;
     }
 
     @Override

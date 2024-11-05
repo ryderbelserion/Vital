@@ -2,6 +2,7 @@ package com.ryderbelserion.vital.command;
 
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import com.ryderbelserion.vital.TestPlugin;
+import com.ryderbelserion.vital.api.files.enums.FileType;
 import com.ryderbelserion.vital.paper.commands.PaperCommand;
 import com.ryderbelserion.vital.paper.commands.context.PaperCommandInfo;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
@@ -26,7 +27,7 @@ public class BaseCommand extends PaperCommand {
 
     @Override
     public void execute(PaperCommandInfo info) {
-        this.plugin.getFileManager().getFile("config.yml").load();
+        this.plugin.getFileManager().getFile("config.yml", FileType.YAML).loadConfiguration();
 
         this.plugin.getPaper().reload();
 

@@ -1,13 +1,14 @@
 package com.ryderbelserion.vital;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.ryderbelserion.vital.api.files.FileManager;
+import com.ryderbelserion.vital.api.files.enums.FileType;
 import com.ryderbelserion.vital.command.BaseCommand;
 import com.ryderbelserion.vital.command.persist.Config;
 import com.ryderbelserion.vital.command.subs.CommandFile;
 import com.ryderbelserion.vital.command.subs.CommandGui;
 import com.ryderbelserion.vital.command.subs.CommandItem;
 import com.ryderbelserion.vital.paper.VitalPaper;
-import com.ryderbelserion.vital.paper.api.files.FileManager;
 import com.ryderbelserion.vital.utils.Methods;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
@@ -34,7 +35,9 @@ public class TestPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        this.paper.getFileManager().addFile("config.yml").addFile("data.yml").addFile("locations.yml").addFile("example.log", "logs").addFolder("crates").init();
+        getFileManager().addFile("config.yml", FileType.YAML).addFile("data.yml", FileType.YAML)
+                .addFile("locations.yml", FileType.YAML).addFile("logs/example.log")
+                .addFolder("crates", FileType.YAML);
 
         Methods.getFiles(new File(getDataFolder(), "crates"), ".yml", false);
 
