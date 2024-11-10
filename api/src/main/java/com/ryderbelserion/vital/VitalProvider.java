@@ -2,6 +2,7 @@ package com.ryderbelserion.vital;
 
 import com.ryderbelserion.vital.api.Vital;
 import com.ryderbelserion.vital.api.exceptions.UnavailableException;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -11,6 +12,7 @@ import org.jetbrains.annotations.NotNull;
  * @version 0.0.4
  * @since 0.0.1
  */
+@ApiStatus.Internal
 public class VitalProvider {
 
     private static Vital vital = null;
@@ -31,6 +33,7 @@ public class VitalProvider {
      * @return {@link Vital}
      * @since 0.0.1
      */
+    @ApiStatus.Internal
     public static @NotNull Vital get() {
         Vital instance = VitalProvider.vital;
 
@@ -47,6 +50,7 @@ public class VitalProvider {
      * @param vital api instance
      * @since 0.0.1
      */
+    @ApiStatus.Internal
     public static void register(final Vital vital) {
         VitalProvider.vital = vital;
     }
@@ -56,6 +60,7 @@ public class VitalProvider {
      *
      * @since 0.0.1
      */
+    @ApiStatus.Internal
     public static void unregister() {
         VitalProvider.vital = null;
     }
