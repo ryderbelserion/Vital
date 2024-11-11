@@ -3,7 +3,6 @@ package com.ryderbelserion.vital.api.files;
 import com.ryderbelserion.vital.VitalProvider;
 import com.ryderbelserion.vital.api.Vital;
 import com.ryderbelserion.vital.api.exceptions.GenericException;
-import com.ryderbelserion.vital.api.exceptions.UnavailableException;
 import com.ryderbelserion.vital.api.files.enums.FileType;
 import com.ryderbelserion.vital.api.files.types.YamlCustomFile;
 import com.ryderbelserion.vital.utils.Methods;
