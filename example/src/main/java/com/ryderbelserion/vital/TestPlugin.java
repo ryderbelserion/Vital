@@ -4,16 +4,13 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.ryderbelserion.vital.api.files.FileManager;
 import com.ryderbelserion.vital.api.files.enums.FileType;
 import com.ryderbelserion.vital.command.BaseCommand;
-import com.ryderbelserion.vital.command.persist.Config;
 import com.ryderbelserion.vital.command.subs.CommandFile;
 import com.ryderbelserion.vital.command.subs.CommandGui;
 import com.ryderbelserion.vital.command.subs.CommandItem;
 import com.ryderbelserion.vital.paper.VitalPaper;
-import com.ryderbelserion.vital.utils.Methods;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.bukkit.plugin.java.JavaPlugin;
-import java.io.File;
 import java.util.List;
 
 public class TestPlugin extends JavaPlugin {
