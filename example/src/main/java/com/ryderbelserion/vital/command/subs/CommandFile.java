@@ -40,21 +40,17 @@ public class CommandFile extends PaperCommand {
                 final YamlCustomFile root = (YamlCustomFile) file.getInstance();
 
                 if (root != null) {
-                    player.sendRichMessage("<light_purple>Test Option: " + root.getBooleanValueWithDefault(false, "test-option"));
+                    if (file.isDynamic()) {
+                        player.sendRichMessage("Crate Type: " + root.getStringValueWithDefault("CSGO", "Crate", "CrateType"));
+                        player.sendRichMessage("Starting Keys: " + root.getIntValueWithDefault(0, "Crate", "StartingKeys"));
+
+                        return;
+                    } else {
+                        player.sendRichMessage("<light_purple>Test Option: " + root.getBooleanValueWithDefault(false, "test-option"));
+                    }
                 }
             }
         }
-
-        this.plugin.getFileManager().getFiles().forEach((fileName, customFile) -> {
-            final CustomFile<? extends CustomFile<?>> file = this.plugin.getFileManager().getFile(name, FileType.YAML);
-
-            if (file == null || !file.isDynamic()) return;
-
-            final YamlCustomFile root = (YamlCustomFile) file.getInstance();
-
-            player.sendRichMessage("Crate Type: " + root.getStringValueWithDefault("CSGO", "Crate", "CrateType"));
-            player.sendRichMessage("Starting Keys: " + root.getIntValueWithDefault(0, "Crate", "StartingKeys"));
-        });
 
         final SettingsManager config = ConfigManager.getConfig();
 

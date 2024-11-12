@@ -7,6 +7,8 @@ import com.ryderbelserion.vital.api.files.enums.FileType;
 import com.ryderbelserion.vital.api.files.types.YamlCustomFile;
 import com.ryderbelserion.vital.utils.Methods;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
+import org.jetbrains.annotations.Nullable;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -46,15 +48,13 @@ public class FileManager {
      * @return the current instance of {@link FileManager}
      * @since 0.0.5
      */
-    public final FileManager addFolder(final String folder, final FileType fileType) { //todo() this does not work.
+    public final FileManager addFolder(final String folder, final FileType fileType) {
         final File directory = new File(this.dataFolder, folder);
-
-        this.logger.info("Path: {}", directory.getPath());
 
         if (!directory.exists()) {
             directory.mkdirs();
 
-            Methods.extracts(FileManager.class, String.format("/%s", directory.getName()), directory.toPath(), false);
+            Methods.extracts(FileManager.class, String.format("/%s/", directory.getName()), directory.toPath(), false);
         }
 
         final File[] contents = directory.listFiles();
@@ -72,7 +72,7 @@ public class FileManager {
                 for (final String fileName : files) {
                     if (!fileName.endsWith("." + extension)) continue; // just in case people are weird
 
-                    addFile(fileName, true, fileType);
+                    addFile(fileName, folder + File.separator + file.getName(), true, fileType);
                 }
 
                 continue;
@@ -82,7 +82,7 @@ public class FileManager {
 
             if (!fileName.endsWith("." + extension)) continue; // just in case people are weird
 
-            addFile(fileName, true, fileType);
+            addFile(fileName, folder, true, fileType);
         }
 
         return this;
@@ -98,7 +98,7 @@ public class FileManager {
      * @since 0.0.5
      */
     public final FileManager addFile(final String fileName) {
-        return addFile(fileName, false, FileType.NONE);
+        return addFile(fileName, null, false, FileType.NONE);
     }
 
     /**
@@ -113,8 +113,9 @@ public class FileManager {
      * @since 0.0.5
      */
     public final FileManager addFile(final String fileName, final FileType fileType) {
-        return addFile(fileName, false, fileType);
+        return addFile(fileName, null, false, fileType);
     }
+
 
     /**
      * Adds a custom file to the manager's map.
@@ -123,12 +124,13 @@ public class FileManager {
      * The {@code isDynamic} parameter specifies whether the custom file is dynamic.
      *
      * @param fileName the name of the file to add
+     * @param folder the folder in which the file is located, or {@code null} if no folder is specified
      * @param isDynamic whether the custom file is dynamic
      * @param fileType the type of the file
      * @return the current instance of {@link FileManager}
      * @since 0.0.5
      */
-    public final FileManager addFile(final String fileName, final boolean isDynamic, final FileType fileType) {
+    public final FileManager addFile(final String fileName, @Nullable final String folder, final boolean isDynamic, final FileType fileType) {
         if (fileName == null || fileName.isEmpty()) {
             if (this.isVerbose) {
                 this.logger.warn("Cannot add the file as the file is null or empty.");
@@ -141,9 +143,9 @@ public class FileManager {
 
         final String strippedName = strip(fileName, extension);
 
-        final File file = new File(this.dataFolder, fileName);
+        final File file = new File(this.dataFolder, folder != null ? folder + File.separator + fileName : fileName);
 
-        this.api.saveResource(fileName, false);
+        this.api.saveResource(folder == null ? fileName : folder + File.separator + fileName, false);
 
         switch (fileType) {
             case YAML -> this.files.put(strippedName, new YamlCustomFile(file, isDynamic).loadConfiguration());

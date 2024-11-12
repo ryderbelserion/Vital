@@ -216,10 +216,10 @@ public abstract class Vital {
                 outputStream.close();
                 inputStream.close();
             } else {
-                getLogger().warn("Could not save {} to {} because {} already exists", outFile.getName(), outFile, outFile.getName());
+                if (isVerbose()) getLogger().warn("Could not save {} to {} because {} already exists", outFile.getName(), outFile, outFile.getName());
             }
         } catch (IOException exception) {
-            getLogger().error("Could not save {} to {}", outFile.getName(), outDir, exception);
+            if (isVerbose()) getLogger().error("Could not save {} to {}", outFile.getName(), outDir, exception);
         }
     }
 
