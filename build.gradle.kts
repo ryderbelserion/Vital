@@ -10,7 +10,7 @@ subprojects {
 
     group = "com.ryderbelserion.vital"
     description = "a multiplatform library for discord/minecraft"
-    version = "0.1.0"
+    version = "0.1.0-snapshot"
 
     repositories {
         maven("https://repo.codemc.io/repository/maven-public")
@@ -48,7 +48,7 @@ subprojects {
         publishing {
             repositories {
                 maven {
-                    url = uri("https://repo.ryderbelserion.com/releases")
+                    url = uri("https://repo.ryderbelserion.com/snapshots")
 
                     credentials {
                         this.username = System.getenv("gradle_username")

@@ -213,6 +213,30 @@ public class FileManager {
     }
 
     /**
+     * Reloads all files.
+     *
+     * @return {@link FileManager}
+     * @since 0.1.0
+     */
+    public FileManager reloadFiles() {
+        this.files.forEach((name, file) -> file.loadConfiguration());
+
+        return this;
+    }
+
+    /**
+     * Purges all files.
+     *
+     * @return {@link FileManager}
+     * @since 0.1.0
+     */
+    public FileManager purge() {
+        this.files.clear();
+
+        return this;
+    }
+
+    /**
      * Retrieves a custom file from the manager's map by its name.
      *
      * <p>This method returns the custom file instance if it exists in the map.
