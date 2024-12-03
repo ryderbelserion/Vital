@@ -60,6 +60,12 @@ public class PaperCommandInfo extends CommandInfo<CommandSourceStack> {
         return getCommandSender() instanceof Player;
     }
 
+    /**
+     * Get the {@link CommandContext}.
+     *
+     * @return {@link CommandContext}
+     * @since 0.1.0
+     */
     public final CommandContext<CommandSourceStack> getContext() {
         return this.context;
     }

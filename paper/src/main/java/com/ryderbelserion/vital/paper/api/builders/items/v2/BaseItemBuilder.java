@@ -39,6 +39,9 @@ import java.util.List;
 @ApiStatus.Experimental
 public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
 
+    /**
+     * Gets vital api
+     */
     protected final Vital api = VitalProvider.get();
 
     private ItemStack itemStack;
