@@ -14,16 +14,20 @@ import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 import io.papermc.paper.command.brigadier.argument.ArgumentTypes;
 import io.papermc.paper.registry.RegistryKey;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ItemType;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
+
 import static io.papermc.paper.command.brigadier.Commands.argument;
 
-public class CommandItem extends PaperCommand {
+public class CommandHand extends PaperCommand {
 
     private final TestPlugin plugin = JavaPlugin.getPlugin(TestPlugin.class);
 
@@ -31,42 +35,42 @@ public class CommandItem extends PaperCommand {
     public void execute(PaperCommandInfo info) {
         if (!info.isPlayer()) return;
 
+        final Player player = info.getPlayer();
+
+        final ItemStack itemStack = player.getInventory().getItemInMainHand();
+
+        if (itemStack.getType().equals(Material.AIR)) return;
+
         final CommandContext<CommandSourceStack> context = info.getContext();
-
-        final ItemType itemType = context.getArgument("material", ItemType.class);
-
-        if (itemType == null) return;
 
         final int amount = context.getArgument("amount", Integer.class);
 
-        final ItemBuilder itemBuilder = ItemBuilder.from(itemType).withDisplayName("<red>Superb").withAmount(amount);
+        final ItemBuilder itemBuilder = ItemBuilder.from(itemStack.clone()).withDisplayName("<red>Super Sword").withAmount(amount);
 
         itemBuilder.addEnchantment("sharpness", 10);
         itemBuilder.addEnchantment("fire_aspect", 5);
 
-        final Player player = info.getPlayer();
+        final Inventory inventory = player.getInventory();
 
-        itemBuilder.addItemToInventory(player.getInventory());
+        itemBuilder.setItemToInventory(inventory, inventory.firstEmpty());
     }
 
     @Override
     public @NotNull final String getPermission() {
-        return "vital.item";
+        return "vital.hand";
     }
 
     @Override
     public @NotNull final LiteralCommandNode<CommandSourceStack> literal() {
-        LiteralArgumentBuilder<CommandSourceStack> root = Commands.literal("item").requires(source -> source.getSender().hasPermission(getPermission()));
+        LiteralArgumentBuilder<CommandSourceStack> root = Commands.literal("hand").requires(source -> source.getSender().hasPermission(getPermission()));
 
-        final RequiredArgumentBuilder<CommandSourceStack, ItemType> arg1 = argument("material", ArgumentTypes.resource(RegistryKey.ITEM));
-
-        final RequiredArgumentBuilder<CommandSourceStack, Integer> arg2 = argument("amount", IntegerArgumentType.integer(1, 10)).suggests((context, builder) -> suggestIntegerArgument(builder, 1, 10, "<green>The amount of items to give!")).executes(context -> {
+        final RequiredArgumentBuilder<CommandSourceStack, Integer> arg1 = argument("amount", IntegerArgumentType.integer(1, 10)).suggests((context, builder) -> suggestIntegerArgument(builder, 1, 10, "<green>The amount of items to give!")).executes(context -> {
             execute(new PaperCommandInfo(context));
 
             return Command.SINGLE_SUCCESS;
         });
 
-        return root.then(arg1.then(arg2)).build();
+        return root.then(arg1).build();
     }
 
     @Override

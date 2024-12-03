@@ -1,6 +1,7 @@
 package com.ryderbelserion.vital;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.ryderbelserion.vital.command.subs.items.CommandHand;
 import com.ryderbelserion.vital.command.subs.items.types.CommandPotion;
 import com.ryderbelserion.vital.files.FileManager;
 import com.ryderbelserion.vital.files.enums.FileType;
@@ -49,6 +50,7 @@ public class TestPlugin extends JavaPlugin {
 
             List.of(
                     new CommandPotion(),
+                    new CommandHand(),
                     new CommandItem(),
                     new CommandFile(),
                     new CommandGui()

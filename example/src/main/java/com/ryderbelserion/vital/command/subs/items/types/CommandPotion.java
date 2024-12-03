@@ -42,7 +42,7 @@ public class CommandPotion extends PaperCommand {
 
         final int amount = context.getArgument("amount", Integer.class);
 
-        final PotionBuilder itemBuilder = ItemBuilder.from(itemType).withDisplayName("<red>").withAmount(amount).asPotionBuilder();
+        final PotionBuilder itemBuilder = ItemBuilder.from(itemType).withDisplayName("<red>Super Potion").withAmount(amount).asPotionBuilder();
 
         final PotionType potionType = context.getArgument("type", PotionType.class);
 
