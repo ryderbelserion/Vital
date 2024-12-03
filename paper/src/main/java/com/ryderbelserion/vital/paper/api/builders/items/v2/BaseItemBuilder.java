@@ -31,6 +31,10 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
         this.itemStack = itemStack;
     }
 
+    protected BaseItemBuilder(@NotNull final String itemStack) {
+        this.itemStack = PaperMethods.fromBase64(itemStack);
+    }
+
     /**
      * Turns the builder into {@link ItemStack}.
      *
