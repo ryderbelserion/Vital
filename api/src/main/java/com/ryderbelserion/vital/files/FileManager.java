@@ -7,6 +7,7 @@ import com.ryderbelserion.vital.files.enums.FileType;
 import com.ryderbelserion.vital.files.types.YamlCustomFile;
 import com.ryderbelserion.vital.utils.Methods;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.util.HashMap;
@@ -51,7 +52,15 @@ public class FileManager {
      * @return the current instance of {@link FileManager}
      * @since 0.1.0
      */
-    public final FileManager addFolder(final String folder, final FileType fileType) {
+    public final FileManager addFolder(@NotNull final String folder, @NotNull final FileType fileType) {
+        if (folder.isEmpty() || folder.isBlank()) {
+            if (this.isVerbose) {
+                this.logger.warn("Cannot add the folder as the folder is empty.");
+            }
+
+            return this;
+        }
+
         final File directory = new File(this.dataFolder, folder);
 
         if (!directory.exists()) {
@@ -100,7 +109,7 @@ public class FileManager {
      * @return the current instance of {@link FileManager}
      * @since 0.1.0
      */
-    public final FileManager addFile(final String fileName) {
+    public final FileManager addFile(@NotNull final String fileName) {
         return addFile(fileName, null, false, FileType.NONE);
     }
 
@@ -115,7 +124,7 @@ public class FileManager {
      * @return the current instance of {@link FileManager}
      * @since 0.1.0
      */
-    public final FileManager addFile(final String fileName, final FileType fileType) {
+    public final FileManager addFile(@NotNull final String fileName, @NotNull final FileType fileType) {
         return addFile(fileName, null, false, fileType);
     }
 
@@ -133,8 +142,8 @@ public class FileManager {
      * @return the current instance of {@link FileManager}
      * @since 0.1.0
      */
-    public final FileManager addFile(final String fileName, @Nullable final String folder, final boolean isDynamic, final FileType fileType) {
-        if (fileName == null || fileName.isEmpty()) {
+    public final FileManager addFile(@NotNull final String fileName, @Nullable final String folder, final boolean isDynamic, @NotNull final FileType fileType) {
+        if (fileName.isEmpty() || fileName.isBlank()) {
             if (this.isVerbose) {
                 this.logger.warn("Cannot add the file as the file is null or empty.");
             }
@@ -186,7 +195,15 @@ public class FileManager {
      * @return the current instance of {@link FileManager}
      * @since 0.1.0
      */
-    public final FileManager removeFile(final String fileName, final FileType fileType, final boolean purge) {
+    public final FileManager removeFile(@NotNull final String fileName, @NotNull final FileType fileType, final boolean purge) {
+        if (fileName.isEmpty() || fileName.isBlank()) {
+            if (this.isVerbose) {
+                this.logger.warn("Cannot remove the file as the file is null or empty.");
+            }
+
+            return this;
+        }
+
         final String strippedName = strip(fileName, fileType.getExtension());
 
         if (!this.files.containsKey(strippedName)) return this;
