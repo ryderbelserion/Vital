@@ -171,6 +171,32 @@ public class FileManager {
     }
 
     /**
+     * Saves a file with the specified name and type.
+     *
+     * @param fileName the name of the file, must not be null or empty
+     * @param fileType the type of the file, must not be null
+     * @return {@link FileManager} the current instance of FileManager
+     * @since 0.1.0
+     */
+    public final FileManager saveFile(@NotNull final String fileName, @NotNull final FileType fileType) {
+        if (fileName.isEmpty() || fileName.isBlank()) {
+            if (this.isVerbose) {
+                this.logger.warn("Cannot save the file as the file is null or empty.");
+            }
+
+            return this;
+        }
+
+        final String extension = fileType.getExtension();
+
+        final String strippedName = strip(fileName, extension);
+
+        this.files.get(strippedName).saveConfiguration();
+
+        return this;
+    }
+
+    /**
      * Removes a custom file from the manager's map by its instance.
      *
      * <p>This method removes the file if it exists in the map.
