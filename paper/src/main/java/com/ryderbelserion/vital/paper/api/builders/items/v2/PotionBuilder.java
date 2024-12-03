@@ -7,8 +7,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
+@ApiStatus.Experimental
 public class PotionBuilder extends BaseItemBuilder<PotionBuilder> {
 
     private final PotionContents.Builder contents;

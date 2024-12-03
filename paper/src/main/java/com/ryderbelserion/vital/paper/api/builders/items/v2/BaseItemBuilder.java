@@ -21,12 +21,14 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ItemType;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
+@ApiStatus.Experimental
 public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
 
     protected final Vital api = VitalProvider.get();
