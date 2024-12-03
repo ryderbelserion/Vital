@@ -8,6 +8,7 @@ import com.ryderbelserion.vital.paper.api.builders.gui.interfaces.GuiItem;
 import com.ryderbelserion.vital.paper.api.builders.items.ItemBuilder;
 import com.ryderbelserion.vital.paper.util.PaperMethods;
 import io.papermc.paper.datacomponent.DataComponentTypes;
+import io.papermc.paper.datacomponent.item.CustomModelData;
 import io.papermc.paper.datacomponent.item.ItemEnchantments;
 import io.papermc.paper.datacomponent.item.ItemLore;
 import net.kyori.adventure.text.Component;
@@ -120,7 +121,15 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
 
         final ItemEnchantments.Builder builder = ItemEnchantments.itemEnchantments();
 
-        if (this.itemStack.hasData(DataComponentTypes.ENCHANTMENTS)) {
+        final boolean isEnchantedBook = getType().equals(Material.ENCHANTED_BOOK);
+
+        if (isEnchantedBook && this.itemStack.hasData(DataComponentTypes.STORED_ENCHANTMENTS)) {
+            @Nullable final ItemEnchantments enchantments = this.itemStack.getData(DataComponentTypes.STORED_ENCHANTMENTS);
+
+            if (enchantments != null) {
+                builder.addAll(enchantments.enchantments());
+            }
+        } else if (this.itemStack.hasData(DataComponentTypes.ENCHANTMENTS)) {
             @Nullable final ItemEnchantments enchantments = this.itemStack.getData(DataComponentTypes.ENCHANTMENTS);
 
             if (enchantments != null) {
@@ -130,7 +139,11 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
 
         builder.add(enchantment, level);
 
-        this.itemStack.setData(DataComponentTypes.ENCHANTMENTS, builder.build());
+        this.itemStack.setData(isEnchantedBook ? DataComponentTypes.STORED_ENCHANTMENTS : DataComponentTypes.ENCHANTMENTS, builder.build());
+
+        return (B) this;
+    }
+
     /**
      * Removes an enchantment from {@link ItemStack}.
      *
