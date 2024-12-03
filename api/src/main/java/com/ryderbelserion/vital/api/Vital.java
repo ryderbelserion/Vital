@@ -260,6 +260,7 @@ public abstract class Vital {
      *
      * @param resourcePath the file name
      * @param replace true or false
+     * @param isVerbose true or false
      * @since 0.1.0
      */
     public void saveResource(String resourcePath, final boolean replace, final boolean isVerbose) {

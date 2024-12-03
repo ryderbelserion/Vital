@@ -22,8 +22,17 @@ import java.util.List;
  */
 public abstract class CustomFile<T extends CustomFile<T>> {
 
+    /**
+     * Vital Provider
+     */
     protected final Vital api = VitalProvider.get();
+    /**
+     * Component logger
+     */
     protected final ComponentLogger logger = this.api.getLogger();
+    /**
+     * Should we log?
+     */
     protected final boolean isVerbose = this.api.isVerbose();
 
     private final String effectiveName;

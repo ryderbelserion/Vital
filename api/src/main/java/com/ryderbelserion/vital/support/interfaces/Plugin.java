@@ -36,6 +36,7 @@ public interface Plugin {
     /**
      * Enable plugin.
      *
+     * @return {@link Plugin}
      * @since 0.1.0
      */
     default Plugin init() {
