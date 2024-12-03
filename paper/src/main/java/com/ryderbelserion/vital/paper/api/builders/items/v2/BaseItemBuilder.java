@@ -6,7 +6,6 @@ import com.ryderbelserion.vital.api.Vital;
 import com.ryderbelserion.vital.api.exceptions.GenericException;
 import com.ryderbelserion.vital.paper.api.builders.gui.interfaces.GuiAction;
 import com.ryderbelserion.vital.paper.api.builders.gui.interfaces.GuiItem;
-import com.ryderbelserion.vital.paper.api.builders.items.ItemBuilder;
 import com.ryderbelserion.vital.paper.api.enums.Support;
 import com.ryderbelserion.vital.paper.util.PaperMethods;
 import io.papermc.paper.datacomponent.DataComponentTypes;
@@ -28,6 +27,15 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
+/**
+ * BaseItemBuilder is an abstract class for creating item builders.
+ *
+ * @param <B> the type of the builder extending this abstract class
+ *
+ * @author Ryder Belserion
+ * @version 0.2.0
+ * @since 0.2.0
+ */
 @ApiStatus.Experimental
 public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
 
@@ -35,10 +43,26 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
 
     private ItemStack itemStack;
 
+    /**
+     * Constructs a {@link BaseItemBuilder} with the provided {@link ItemStack}.
+     *
+     * @param itemStack the ItemStack to be wrapped by this builder, must not be null
+     * @since 0.2.0
+     */
     protected BaseItemBuilder(@NotNull final ItemStack itemStack) {
         this.itemStack = itemStack;
     }
 
+    /**
+     * Constructs a {@link BaseItemBuilder} with the provided value.
+     * If isCustom is true, attempts to create an item from Nexo or Oraxen,
+     * otherwise, constructs the item from a Base64 encoded string.
+     *
+     * @param value the value representing the item, must not be null
+     * @param isCustom whether the item is custom or not
+     * @throws GenericException if the id is not a valid Nexo or Oraxen item
+     * @since 0.2.0
+     */
     protected BaseItemBuilder(@NotNull final String value, final boolean isCustom) {
         if (isCustom) {
             if (Support.nexo.isEnabled()) {
@@ -65,6 +89,13 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
         this.itemStack = PaperMethods.fromBase64(value);
     }
 
+    /**
+     * Constructs a BaseItemBuilder with the provided value.
+     * Defaults isCustom to false.
+     *
+     * @param value the value representing the item, must not be null
+     * @since 0.2.0
+     */
     protected BaseItemBuilder(@NotNull final String value) {
         this(value, false);
     }
@@ -140,7 +171,7 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
      *
      * @param enchant the enchant name
      * @param level the enchant level
-     * @return {@link ItemBuilder}
+     * @return {@link BaseItemBuilder}
      * @since 0.2.0
      */
     public B addEnchantment(@NotNull final String enchant, final int level) {
@@ -254,7 +285,7 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
     /**
      * Adds enchant glint to the item.
      *
-     * @param enchantGlintOverride true or false or null
+     * @param enchantGlintOverride true or false
      * @return {@link BaseItemBuilder}
      * @since 0.2.0
      */
@@ -276,16 +307,26 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
         return (B) this;
     }
 
+    /**
+     * Hides the tooltip for this item by setting the HIDE_TOOLTIP data.
+     *
+     * @return {@link BaseItemBuilder}
+     * @since 0.2.0
+     */
     public B hideToolTip() {
         this.itemStack.setData(DataComponentTypes.HIDE_TOOLTIP);
 
         return (B) this;
     }
 
+    /**
+     * Shows the tooltip for this item by unsetting the HIDE_TOOLTIP data.
+     *
+     * @return {@link BaseItemBuilder}
+     * @since 0.2.0
+     */
     public B showToolTip() {
         if (!this.itemStack.hasData(DataComponentTypes.HIDE_TOOLTIP)) {
-            //todo() add logging
-
             return (B) this;
         }
 
@@ -294,16 +335,26 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
         return (B) this;
     }
 
+    /**
+     * Hides the additional tooltip for this item by setting the HIDE_ADDITIONAL_TOOLTIP data.
+     *
+     * @return {@link BaseItemBuilder}
+     * @since 0.2.0
+     */
     public B hideAdditionalToolTip() {
         this.itemStack.setData(DataComponentTypes.HIDE_ADDITIONAL_TOOLTIP);
 
         return (B) this;
     }
 
+    /**
+     * Shows the additional tooltip for this item by unsetting the HIDE_ADDITIONAL_TOOLTIP data.
+     *
+     * @return {@link BaseItemBuilder}
+     * @since 0.2.0
+     */
     public B showAdditionalToolTip() {
         if (!this.itemStack.hasData(DataComponentTypes.HIDE_ADDITIONAL_TOOLTIP)) {
-            //todo() add logging
-
             return (B) this;
         }
 
@@ -316,7 +367,7 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
      * Changes the custom model data of the {@link ItemStack}.
      *
      * @param customModelData the {@link Integer}
-     * @return {@link ItemBuilder}
+     * @return {@link BaseItemBuilder}
      * @since 0.2.0
      */
     public B setCustomModelData(final int customModelData) {
