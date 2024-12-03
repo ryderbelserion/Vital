@@ -4,6 +4,8 @@ import com.ryderbelserion.vital.VitalProvider;
 import com.ryderbelserion.vital.api.Vital;
 import com.ryderbelserion.vital.files.enums.FileType;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
+import org.spongepowered.configurate.CommentedConfigurationNode;
+
 import java.io.File;
 import java.util.List;
 
@@ -182,6 +184,14 @@ public abstract class CustomFile<T extends CustomFile<T>> {
      * @since 0.1.0
      */
     public abstract FileType getFileType();
+
+    /**
+     * Gets the root configuration node of the YAML file.
+     *
+     * @return the root {@link CommentedConfigurationNode} of the configuration
+     * @since 0.1.0
+     */
+    public abstract CommentedConfigurationNode getConfigurationNode();
 
     /**
      * Checks if the custom file is dynamic.

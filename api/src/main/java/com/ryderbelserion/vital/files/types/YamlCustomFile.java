@@ -44,9 +44,9 @@ public class YamlCustomFile extends CustomFile<YamlCustomFile> {
     }
 
     /**
-     * Retrieves the file type of this custom file.
+     * {@inheritDoc}
      *
-     * @return the file type, which is {@link FileType#YAML}
+     * @return {@inheritDoc}
      * @since 0.1.0
      */
     @Override
@@ -55,11 +55,11 @@ public class YamlCustomFile extends CustomFile<YamlCustomFile> {
     }
 
     /**
-     * Loads the YAML configuration from the file.
+     * {@inheritDoc}
      *
-     * <p>If the file is a directory or loading fails, appropriate warnings are logged.
+     * {@inheritDoc}
      *
-     * @return the current instance of {@link YamlCustomFile}
+     * @return {@inheritDoc}
      * @since 0.1.0
      */
     @Override
@@ -86,11 +86,11 @@ public class YamlCustomFile extends CustomFile<YamlCustomFile> {
     }
 
     /**
-     * Saves the YAML configuration to the file.
+     * {@inheritDoc}
      *
-     * <p>If the file is a directory or the configuration node is null, appropriate warnings are logged.
+     * {@inheritDoc}
      *
-     * @return the current instance of {@link YamlCustomFile}
+     * @return {@inheritDoc}
      * @since 0.1.0
      */
     @Override
@@ -264,19 +264,20 @@ public class YamlCustomFile extends CustomFile<YamlCustomFile> {
     }
 
     /**
-     * Gets the root configuration node of the YAML file.
+     * {@inheritDoc}
      *
-     * @return the root {@link CommentedConfigurationNode} of the configuration
+     * @return {@inheritDoc}
      * @since 0.1.0
      */
+    @Override
     public final CommentedConfigurationNode getConfigurationNode() {
         return this.configurationNode;
     }
 
     /**
-     * Returns the current instance of {@link YamlCustomFile}.
+     * {@inheritDoc}
      *
-     * @return the current custom YAML file instance
+     * @return {@inheritDoc}
      * @since 0.1.0
      */
     @Override
@@ -285,9 +286,9 @@ public class YamlCustomFile extends CustomFile<YamlCustomFile> {
     }
 
     /**
-     * Checks whether the configuration node is not null, indicating the configuration is loaded.
+     * {@inheritDoc}
      *
-     * @return {@code true} if the configuration is loaded, {@code false} otherwise
+     * @return {@inheritDoc}
      * @since 0.1.0
      */
     @Override
