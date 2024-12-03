@@ -1,16 +1,19 @@
 package com.ryderbelserion.vital.paper.api.builders.items.v2;
 
+import com.nexomc.nexo.api.NexoItems;
 import com.ryderbelserion.vital.VitalProvider;
 import com.ryderbelserion.vital.api.Vital;
 import com.ryderbelserion.vital.api.exceptions.GenericException;
 import com.ryderbelserion.vital.paper.api.builders.gui.interfaces.GuiAction;
 import com.ryderbelserion.vital.paper.api.builders.gui.interfaces.GuiItem;
 import com.ryderbelserion.vital.paper.api.builders.items.ItemBuilder;
+import com.ryderbelserion.vital.paper.api.enums.Support;
 import com.ryderbelserion.vital.paper.util.PaperMethods;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.CustomModelData;
 import io.papermc.paper.datacomponent.item.ItemEnchantments;
 import io.papermc.paper.datacomponent.item.ItemLore;
+import io.th0rgal.oraxen.api.OraxenItems;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -34,8 +37,34 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
         this.itemStack = itemStack;
     }
 
-    protected BaseItemBuilder(@NotNull final String itemStack) {
-        this.itemStack = PaperMethods.fromBase64(itemStack);
+    protected BaseItemBuilder(@NotNull final String value, final boolean isCustom) {
+        if (isCustom) {
+            if (Support.nexo.isEnabled()) {
+                com.nexomc.nexo.items.ItemBuilder item = NexoItems.itemFromId(value);
+
+                if (item != null) {
+                    this.itemStack = item.build();
+                } else {
+                    throw new GenericException("The id " + value + " is not a valid Nexo item!");
+                }
+            } else if (Support.oraxen.isEnabled()) {
+                io.th0rgal.oraxen.items.ItemBuilder item = OraxenItems.getItemById(value);
+
+                if (item != null) {
+                    this.itemStack = item.build();
+                } else {
+                    throw new GenericException("The id " + value + " is not a valid Oraxen item!");
+                }
+            }
+
+            return;
+        }
+
+        this.itemStack = PaperMethods.fromBase64(value);
+    }
+
+    protected BaseItemBuilder(@NotNull final String value) {
+        this(value, false);
     }
 
     /**

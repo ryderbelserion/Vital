@@ -19,6 +19,11 @@ public enum Support {
     oraxen("Oraxen"),
 
     /**
+     * Nexo Plugin.
+     */
+    nexo("Nexo"),
+
+    /**
      * ItemsAdder Plugin.
      */
     items_adder("ItemsAdder"),

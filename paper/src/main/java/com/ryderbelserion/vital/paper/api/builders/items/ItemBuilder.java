@@ -2,8 +2,10 @@ package com.ryderbelserion.vital.paper.api.builders.items;
 
 import com.destroystokyo.paper.profile.PlayerProfile;
 import com.destroystokyo.paper.profile.ProfileProperty;
+import com.nexomc.nexo.api.NexoItems;
 import com.ryderbelserion.vital.VitalProvider;
 import com.ryderbelserion.vital.api.Vital;
+import com.ryderbelserion.vital.api.exceptions.GenericException;
 import com.ryderbelserion.vital.paper.api.builders.PlayerBuilder;
 import com.ryderbelserion.vital.paper.api.builders.gui.interfaces.GuiAction;
 import com.ryderbelserion.vital.paper.api.builders.gui.interfaces.GuiItem;
@@ -660,23 +662,23 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     public @NotNull T withType(@NotNull final String key) {
         if (key.isEmpty()) return (T) this;
 
-        if (Support.oraxen.isEnabled()) {
-            io.th0rgal.oraxen.items.ItemBuilder oraxen = OraxenItems.getItemById(key);
+        if (Support.nexo.isEnabled()) {
+            com.nexomc.nexo.items.ItemBuilder item = NexoItems.itemFromId(key);
 
-            if (oraxen != null) {
-                this.itemStack = oraxen.build();
+            if (item != null) {
+                this.itemStack = item.build();
+            } else {
+                throw new GenericException("The id " + key + " is not a valid Nexo item!");
+            }
+        } else if (Support.oraxen.isEnabled()) {
+            io.th0rgal.oraxen.items.ItemBuilder item = OraxenItems.getItemById(key);
+
+            if (item != null) {
+                this.itemStack = item.build();
+            } else {
+                throw new GenericException("The id " + key + " is not a valid Oraxen item!");
             }
         }
-
-        /*if (Support.items_adder.isEnabled()) {
-            if (CustomStack.isInRegistry(key)) {
-                setCustom(true);
-
-                this.itemStack = CustomStack.getInstance(key).getItemStack();
-
-                return (T) this;
-            }
-        }*/
 
         // Don't override the provided material but copy it instead.
         String type = key;

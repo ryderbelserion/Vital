@@ -8,6 +8,8 @@ repositories {
 
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi")
 
+    maven("https://repo.nexomc.com/snapshots/")
+
     maven("https://repo.oraxen.com/releases")
 }
 

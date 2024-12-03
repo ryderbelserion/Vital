@@ -10,15 +10,15 @@ public class ItemBuilder extends BaseItemBuilder<ItemBuilder> {
         super(itemStack);
     }
 
-    ItemBuilder(@NotNull final String itemStack) {
-        super(itemStack);
+    ItemBuilder(@NotNull final String value) {
+        super(value);
     }
 
-    public static PotionBuilder potion(@NotNull final ItemType itemType, final int amount) { // if we simply need a potion, only used for hard coding.
+    public static PotionBuilder potion(@NotNull final ItemType itemType, final int amount) {
         return new PotionBuilder(itemType.createItemStack(amount));
     }
 
-    public static PotionBuilder potion(@NotNull final ItemType itemType) { // if we simply need a potion, only used for hard coding.
+    public static PotionBuilder potion(@NotNull final ItemType itemType) {
         return potion(itemType, 1);
     }
 
@@ -26,15 +26,15 @@ public class ItemBuilder extends BaseItemBuilder<ItemBuilder> {
         return new ItemBuilder(itemType.createItemStack(amount));
     }
 
-    public static ItemBuilder from(@NotNull final ItemType itemType) {
-        return from(itemType, 1);
-    }
-
     public static ItemBuilder from(@NotNull final ItemStack itemStack) {
         return new ItemBuilder(itemStack);
     }
 
-    public static ItemBuilder from(@NotNull final String itemStack) {
-        return new ItemBuilder(itemStack);
+    public static ItemBuilder from(@NotNull final ItemType itemType) {
+        return from(itemType, 1);
+    }
+
+    public static ItemBuilder from(@NotNull final String value) {
+        return new ItemBuilder(value);
     }
 }
