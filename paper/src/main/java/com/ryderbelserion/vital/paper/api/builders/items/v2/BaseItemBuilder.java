@@ -131,6 +131,33 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
         builder.add(enchantment, level);
 
         this.itemStack.setData(DataComponentTypes.ENCHANTMENTS, builder.build());
+    /**
+     * Removes an enchantment from {@link ItemStack}.
+     *
+     * @param enchant the enchant name
+     * @return {@link BaseItemBuilder}
+     * @since 0.2.0
+     */
+    public B removeEnchantment(@NotNull final String enchant) {
+        if (enchant.isEmpty()) return (B) this;
+
+        final Enchantment enchantment = PaperMethods.getEnchantment(enchant);
+
+        if (enchantment == null) return (B) this;
+
+        this.itemStack.removeEnchantment(enchantment);
+
+        return (B) this;
+    }
+
+    /**
+     * Removes all enchantments from {@link ItemStack}
+     *
+     * @return {@link BaseItemBuilder}
+     * @since 0.2.0
+     */
+    public B removeAllEnchantments() {
+        this.itemStack.removeEnchantments();
 
         return (B) this;
     }
