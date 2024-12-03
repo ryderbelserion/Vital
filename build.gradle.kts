@@ -48,7 +48,7 @@ subprojects {
         publishing {
             repositories {
                 maven {
-                    url = uri("https://repo.ryderbelserion.com/snapshots")
+                    url = uri("https://repo.ryderbelserion.com/releases")
 
                     credentials {
                         this.username = System.getenv("gradle_username")
