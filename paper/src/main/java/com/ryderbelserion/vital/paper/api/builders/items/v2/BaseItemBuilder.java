@@ -4,11 +4,14 @@ import com.ryderbelserion.vital.VitalProvider;
 import com.ryderbelserion.vital.api.Vital;
 import com.ryderbelserion.vital.paper.api.builders.gui.interfaces.GuiAction;
 import com.ryderbelserion.vital.paper.api.builders.gui.interfaces.GuiItem;
+import com.ryderbelserion.vital.paper.api.builders.items.ItemBuilder;
+import com.ryderbelserion.vital.paper.util.PaperMethods;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.ItemEnchantments;
 import io.papermc.paper.datacomponent.item.ItemLore;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -94,12 +97,34 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
         return (B) this;
     }
 
-    public B addEnchantment(@NotNull final String enchant, final int level, final boolean ignoreLevelCap, final boolean showToolTip) {
+    /**
+     * Adds an {@link Enchantment} to the {@link ItemStack}.
+     *
+     * @param enchant the enchant name
+     * @param level the enchant level
+     * @return {@link ItemBuilder}
+     * @since 0.2.0
+     */
+    public B addEnchantment(@NotNull final String enchant, final int level) {
         if (enchant.isEmpty()) return (B) this;
 
-        final ItemEnchantments enchantments = ItemEnchantments.itemEnchantments().build();
+        final Enchantment enchantment = PaperMethods.getEnchantment(enchant);
 
-        this.itemStack.setData(DataComponentTypes.ENCHANTMENTS, ItemEnchantments.itemEnchantments().build());
+        if (enchantment == null) return (B) this;
+
+        final ItemEnchantments.Builder builder = ItemEnchantments.itemEnchantments();
+
+        if (this.itemStack.hasData(DataComponentTypes.ENCHANTMENTS)) {
+            @Nullable final ItemEnchantments enchantments = this.itemStack.getData(DataComponentTypes.ENCHANTMENTS);
+
+            if (enchantments != null) {
+                builder.addAll(enchantments.enchantments());
+            }
+        }
+
+        builder.add(enchantment, level);
+
+        this.itemStack.setData(DataComponentTypes.ENCHANTMENTS, builder.build());
 
         return (B) this;
     }

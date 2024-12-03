@@ -41,6 +41,9 @@ public class CommandItem extends PaperCommand {
 
         final ItemBuilder itemBuilder = ItemBuilder.from(itemType).withDisplayName("<red>").withAmount(amount);
 
+        itemBuilder.addEnchantment("sharpness", 10);
+        itemBuilder.addEnchantment("fire_aspect", 5);
+
         final Player player = info.getPlayer();
 
         itemBuilder.addItemToInventory(player.getInventory());
