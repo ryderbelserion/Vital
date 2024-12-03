@@ -245,6 +245,57 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
         return (B) this;
     }
 
+    public B hideToolTip() {
+        this.itemStack.setData(DataComponentTypes.HIDE_TOOLTIP);
+
+        return (B) this;
+    }
+
+    public B showToolTip() {
+        if (!this.itemStack.hasData(DataComponentTypes.HIDE_TOOLTIP)) {
+            //todo() add logging
+
+            return (B) this;
+        }
+
+        this.itemStack.unsetData(DataComponentTypes.HIDE_TOOLTIP);
+
+        return (B) this;
+    }
+
+    public B hideAdditionalToolTip() {
+        this.itemStack.setData(DataComponentTypes.HIDE_ADDITIONAL_TOOLTIP);
+
+        return (B) this;
+    }
+
+    public B showAdditionalToolTip() {
+        if (!this.itemStack.hasData(DataComponentTypes.HIDE_ADDITIONAL_TOOLTIP)) {
+            //todo() add logging
+
+            return (B) this;
+        }
+
+        this.itemStack.unsetData(DataComponentTypes.HIDE_ADDITIONAL_TOOLTIP);
+
+        return (B) this;
+    }
+
+    /**
+     * Changes the custom model data of the {@link ItemStack}.
+     *
+     * @param customModelData the {@link Integer}
+     * @return {@link ItemBuilder}
+     * @since 0.2.0
+     */
+    public B setCustomModelData(final int customModelData) {
+        if (customModelData == -1) return (B) this;
+
+        this.itemStack.setData(DataComponentTypes.CUSTOM_MODEL_DATA, CustomModelData.customModelData(customModelData));
+
+        return (B) this;
+    }
+
     /**
      * Adds the item to the inventory at a specific slot.
      *
