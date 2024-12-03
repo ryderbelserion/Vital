@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class PotionBuilder extends BaseItemBuilder<PotionBuilder> {
 
-    private final PotionContents.Builder potionContents;
+    private final PotionContents.Builder contents;
 
     /**
      * Creates a new instance with {@link ItemStack}
@@ -22,11 +22,11 @@ public class PotionBuilder extends BaseItemBuilder<PotionBuilder> {
     PotionBuilder(@NotNull final ItemStack itemStack) {
         super(itemStack);
 
-        this.potionContents = PotionContents.potionContents();
+        this.contents = PotionContents.potionContents();
     }
 
     public PotionBuilder withPotionEffect(final PotionEffectType potionEffectType, final int duration, final int amplifier, final boolean isAmbient, final boolean isParticles, final boolean hasIcon) {
-        this.potionContents.addCustomEffect(new PotionEffect(potionEffectType, duration, amplifier).withAmbient(isAmbient).withParticles(isParticles).withIcon(hasIcon));
+        this.contents.addCustomEffect(new PotionEffect(potionEffectType, duration, amplifier).withAmbient(isAmbient).withParticles(isParticles).withIcon(hasIcon));
 
         return this;
     }
@@ -36,25 +36,25 @@ public class PotionBuilder extends BaseItemBuilder<PotionBuilder> {
     }
 
     public PotionBuilder withPotionType(final PotionType potionType) {
-        this.potionContents.potion(potionType);
+        this.contents.potion(potionType);
 
         return this;
     }
 
     public PotionBuilder withCustomName(final String customName) {
-        this.potionContents.customName(customName);
+        this.contents.customName(customName);
 
         return this;
     }
 
     public PotionBuilder withColor(final Color color) {
-        this.potionContents.customColor(color);
+        this.contents.customColor(color);
 
         return this;
     }
 
     public PotionBuilder complete() {
-        getItemStack().setData(DataComponentTypes.POTION_CONTENTS, this.potionContents.build());
+        getItemStack().setData(DataComponentTypes.POTION_CONTENTS, this.contents.build());
 
         return this;
     }

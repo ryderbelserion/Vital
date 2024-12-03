@@ -2,6 +2,7 @@ package com.ryderbelserion.vital.paper.api.builders.items.v2;
 
 import com.ryderbelserion.vital.VitalProvider;
 import com.ryderbelserion.vital.api.Vital;
+import com.ryderbelserion.vital.api.exceptions.GenericException;
 import com.ryderbelserion.vital.paper.api.builders.gui.interfaces.GuiAction;
 import com.ryderbelserion.vital.paper.api.builders.gui.interfaces.GuiItem;
 import com.ryderbelserion.vital.paper.api.builders.items.ItemBuilder;
@@ -19,6 +20,7 @@ import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 
 public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
@@ -224,6 +226,10 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
         inventory.addItem(this.itemStack);
     }
 
+    private static final EnumSet<Material> POTIONS = EnumSet.of(
+            Material.POTION, Material.SPLASH_POTION, Material.LINGERING_POTION
+    );
+
     /**
      * Creates an instance of {@link PotionBuilder}.
      *
@@ -231,6 +237,10 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
      * @since 0.2.0
      */
     public PotionBuilder asPotionBuilder() {
+        if (!isPotion()) {
+            throw new GenericException("This item type is not a potion");
+        }
+
         return new PotionBuilder(this.itemStack);
     }
 
@@ -253,6 +263,16 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
      */
     public GuiItem asGuiItem() {
         return new GuiItem(asItemStack(), null);
+    }
+
+    /**
+     * Reactively checks if the {@link ItemStack} {@link ItemType} is a potion.
+     *
+     * @return true or false
+     * @since 0.2.0
+     */
+    protected final boolean isPotion() {
+        return POTIONS.contains(getType());
     }
 
     /**
