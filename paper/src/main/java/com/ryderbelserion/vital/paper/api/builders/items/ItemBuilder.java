@@ -164,7 +164,8 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
         this.displayLore = itemBuilder.displayLore;
         this.displayName = itemBuilder.displayName;
 
-        this.effects = itemBuilder.effects;
+        this.potionEffects = itemBuilder.potionEffects;
+        this.fireworkEffects = itemBuilder.fireworkEffects;
 
         this.entityType = itemBuilder.entityType;
 
@@ -262,7 +263,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
             // Populates the power field
             if (isFirework() || isFireworkStar()) {
                 if (itemMeta instanceof final FireworkMeta firework) {
-                    this.effects = firework.getEffects();
+                    this.fireworkEffects = firework.getEffects();
                     this.fireworkPower = firework.getPower();
                 }
             } else if (isSpawner()) { // populates the entity type field
@@ -293,7 +294,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
             } else if (isArrow() || isPotion()) {
                 if (itemMeta instanceof final PotionMeta potionMeta) {
                     this.color = potionMeta.getColor();
-                    this.effects = potionMeta.getCustomEffects();
+                    this.potionEffects = potionMeta.getCustomEffects();
                     this.potionType = potionMeta.getBasePotionType();
                 }
             } else if (isLeather()) {
@@ -373,7 +374,9 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     /**
      * Holds a {@link List<ConfigurationSerializable>} that may be used in fireworks or potions.
      */
-    private @NotNull List<? extends ConfigurationSerializable> effects = new ArrayList<>();
+    private List<PotionEffect> potionEffects = new ArrayList<>();
+
+    private List<FireworkEffect> fireworkEffects = new ArrayList<>();
 
     /**
      * Holds the {@link EntityType} of the {@link ItemStack}.
@@ -697,7 +700,9 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
             if (damage.isEmpty()) {
                 @Nullable final PotionEffectType potionEffect = PaperMethods.getPotionEffect(data);
 
-                if (potionEffect != null) this.effects = Collections.singletonList(new PotionEffect(potionEffect, 1, 1));
+                if (potionEffect != null) {
+                    this.potionEffects.add(new PotionEffect(potionEffect, 1, 1));
+                }
 
                 this.potionType = PaperMethods.getPotionType(data);
 
@@ -855,7 +860,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     public @NotNull T addFireworkEffect(@NotNull final FireworkEffect.Builder effect) {
         if (!isFirework() && !isFireworkStar()) return (T) this;
 
-        this.effects = Collections.singletonList(effect.build());
+        this.fireworkEffects.add(effect.build());
 
         return (T) this;
     }
@@ -1029,7 +1034,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
     public @NotNull T addPotionEffect(@NotNull final PotionEffectType type, final int duration, final int amplifier) {
         if (!isArrow() && !isPotion()) return (T) this;
 
-        this.effects = Collections.singletonList(new PotionEffect(type, duration, amplifier));
+        this.potionEffects.add(new PotionEffect(type, duration, amplifier));
 
         return (T) this;
     }
@@ -1662,20 +1667,24 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
      */
     public @NotNull T applyEffects() {
         if (this.isCustom) return (T) this;
-        if (this.effects.isEmpty()) return (T) this;
 
-        if (!isArrow() && !isFirework() && !isFireworkStar() && !isPotion()) return (T) this;
+        if (isFirework() || isFireworkStar() && !this.fireworkEffects.isEmpty()) {
+            this.itemStack.editMeta(itemMeta -> {
+                if (itemMeta instanceof final FireworkMeta firework) {
+                    this.fireworkEffects.forEach(firework::addEffect);
 
-        this.itemStack.editMeta(itemMeta -> {
-            if (itemMeta instanceof final FireworkMeta firework) {
-                this.effects.forEach(effect -> firework.addEffect((FireworkEffect) effect));
-                firework.setPower(this.fireworkPower);
-            } else if (itemMeta instanceof final PotionMeta potion) {
-                this.effects.forEach(effect -> potion.addCustomEffect((PotionEffect) effect, true));
+                    firework.setPower(this.fireworkPower);
+                }
+            });
+        } else if (isPotion() || isArrow() && !this.potionEffects.isEmpty()) {
+            this.itemStack.editMeta(itemMeta -> {
+                if (itemMeta instanceof final PotionMeta potion) {
+                    this.potionEffects.forEach(effect -> potion.addCustomEffect(effect, true));
 
-                if (this.potionType != null) potion.setBasePotionType(this.potionType);
-            }
-        });
+                    if (this.potionType != null) potion.setBasePotionType(this.potionType);
+                }
+            });
+        }
 
         return (T) this;
     }
