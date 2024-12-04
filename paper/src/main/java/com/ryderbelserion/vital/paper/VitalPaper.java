@@ -246,7 +246,7 @@ public class VitalPaper extends Vital {
      * @return the FileManager
      * @since 0.1.0
      */
-    public final PaperFileManager getPaperFileManager() {
+    public final PaperFileManager getFileManager() {
         return this.paperFileManager;
     }
 }

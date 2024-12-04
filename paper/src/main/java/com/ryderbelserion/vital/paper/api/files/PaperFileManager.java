@@ -3,7 +3,9 @@ package com.ryderbelserion.vital.paper.api.files;
 import com.ryderbelserion.vital.VitalProvider;
 import com.ryderbelserion.vital.api.Vital;
 import com.ryderbelserion.vital.api.exceptions.GenericException;
+import com.ryderbelserion.vital.files.FileManager;
 import com.ryderbelserion.vital.files.enums.FileType;
+import com.ryderbelserion.vital.utils.Methods;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -14,6 +16,13 @@ import java.util.Map;
 
 public class PaperFileManager {
 
+    private final Vital api = VitalProvider.get();
+    private final ComponentLogger logger = this.api.getLogger();
+    private final File dataFolder = this.api.getDataFolder();
+    private final boolean isVerbose = this.api.isVerbose();
+
+    private final Map<String, PaperCustomFile> files = new HashMap<>();
+
     /**
      * A file manager that handles yml configs.
      *
@@ -21,12 +30,61 @@ public class PaperFileManager {
      */
     public PaperFileManager() {}
 
-    private final Vital api = VitalProvider.get();
-    private final ComponentLogger logger = this.api.getLogger();
-    private final File dataFolder = this.api.getDataFolder();
-    private final boolean isVerbose = this.api.isVerbose();
+    /**
+     * Adds a folder to the manager and loads its contents.
+     *
+     * @param folder the folder name
+     * @param fileType the type of files in the folder
+     * @return the current instance of {@link FileManager}
+     * @since 0.1.0
+     */
+    public final PaperFileManager addFolder(@NotNull final String folder, @NotNull final FileType fileType) {
+        if (folder.isEmpty() || folder.isBlank()) {
+            if (this.isVerbose) {
+                this.logger.warn("Cannot add the folder as the folder is empty.");
+            }
 
-    private final Map<String, PaperCustomFile> files = new HashMap<>();
+            return this;
+        }
+
+        final File directory = new File(this.dataFolder, folder);
+
+        if (!directory.exists()) {
+            directory.mkdirs();
+
+            Methods.extracts(FileManager.class, String.format("/%s/", directory.getName()), directory.toPath(), false);
+        }
+
+        final File[] contents = directory.listFiles();
+
+        if (contents == null) return this;
+
+        final String extension = fileType.getExtension();
+
+        for (final File file : contents) {
+            if (file.isDirectory()) {
+                final String[] files = file.list();
+
+                if (files == null) continue;
+
+                for (final String fileName : files) {
+                    if (!fileName.endsWith("." + extension)) continue; // just in case people are weird
+
+                    addFile(fileName, folder + File.separator + file.getName(), true, fileType);
+                }
+
+                continue;
+            }
+
+            final String fileName = file.getName();
+
+            if (!fileName.endsWith("." + extension)) continue; // just in case people are weird
+
+            addFile(fileName, folder, true, fileType);
+        }
+
+        return this;
+    }
 
     /**
      * Creates the data folder and anything else we need.

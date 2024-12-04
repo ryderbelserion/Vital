@@ -5,14 +5,14 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import com.ryderbelserion.vital.TestPlugin;
-import com.ryderbelserion.vital.files.CustomFile;
 import com.ryderbelserion.vital.files.enums.FileType;
-import com.ryderbelserion.vital.files.types.YamlCustomFile;
 import com.ryderbelserion.vital.paper.api.commands.PaperCommand;
 import com.ryderbelserion.vital.paper.api.commands.context.PaperCommandInfo;
+import com.ryderbelserion.vital.paper.api.files.PaperCustomFile;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.PluginManager;
@@ -31,9 +31,10 @@ public class CommandFile extends PaperCommand {
         final CommandSender player = info.getCommandSender();
 
         if (!name.isEmpty()) {
-            final CustomFile<? extends CustomFile<?>> file = this.plugin.getFileManager().getFile(name, FileType.YAML);
+            //final CustomFile<? extends CustomFile<?>> file = this.plugin.getFileManager().getFile(name, FileType.YAML); //todo() this will be used when we move to sqlite in our plugins
+            final PaperCustomFile file = this.plugin.getFileManager().getFile(name, FileType.YAML);
 
-            if (file != null) {
+            /*if (file != null) { //todo() this will be used when we move to sqlite in our plugins
                 final YamlCustomFile root = (YamlCustomFile) file.getInstance();
 
                 if (root != null) {
@@ -44,6 +45,19 @@ public class CommandFile extends PaperCommand {
                         return;
                     } else {
                         player.sendRichMessage("<light_purple>Test Option: " + root.getBooleanValueWithDefault(false, "test-option"));
+                    }
+                }
+            }*/
+
+            if (file != null) {
+                final YamlConfiguration root = file.getConfiguration();
+
+                if (root != null) {
+                    if (file.isDynamic()) {
+                        player.sendRichMessage("<red>Crate Type: " + root.getString("Crate.CrateType", "CSGO"));
+                        player.sendRichMessage("<yellow>Starting Keys: " + root.getInt("Crate.StartingKeys", 0));
+                    } else {
+                        player.sendRichMessage("<light_purple>Test Option: " + root.getBoolean("test-option", false));
                     }
                 }
             }

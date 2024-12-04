@@ -3,13 +3,13 @@ package com.ryderbelserion.vital;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.ryderbelserion.vital.command.subs.items.CommandHand;
 import com.ryderbelserion.vital.command.subs.items.types.CommandPotion;
-import com.ryderbelserion.vital.files.FileManager;
 import com.ryderbelserion.vital.files.enums.FileType;
 import com.ryderbelserion.vital.command.BaseCommand;
 import com.ryderbelserion.vital.command.subs.CommandFile;
 import com.ryderbelserion.vital.command.subs.CommandGui;
 import com.ryderbelserion.vital.command.subs.items.CommandItem;
 import com.ryderbelserion.vital.paper.VitalPaper;
+import com.ryderbelserion.vital.paper.api.files.PaperFileManager;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -64,7 +64,7 @@ public class TestPlugin extends JavaPlugin {
         return this.paper;
     }
 
-    public final FileManager getFileManager() {
+    public final PaperFileManager getFileManager() {
         return getPaper().getFileManager();
     }
 }

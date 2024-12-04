@@ -27,7 +27,7 @@ public class BaseCommand extends PaperCommand {
 
     @Override
     public void execute(PaperCommandInfo info) {
-        this.plugin.getFileManager().getFile("config.yml", FileType.YAML).loadConfiguration();
+        this.plugin.getFileManager().getFile("config.yml", FileType.YAML).load();
 
         this.plugin.getPaper().reload();
 

@@ -9,11 +9,11 @@ repositories {
 dependencies {
     compileOnlyApi(libs.bundles.adventure)
 
+    compileOnly(libs.configurate.yaml)
+
     compileOnly(libs.brigadier)
 
     compileOnly(libs.gson)
-
-    api(libs.configurate.yaml)
 }
 
 val javaComponent: SoftwareComponent = components["java"]

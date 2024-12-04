@@ -2,7 +2,6 @@ package com.ryderbelserion.vital.api;
 
 import com.google.gson.GsonBuilder;
 import com.ryderbelserion.vital.VitalProvider;
-import com.ryderbelserion.vital.files.FileManager;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
@@ -33,7 +32,7 @@ public abstract class Vital {
 
     private YamlConfigurationLoader loader;
     private CommentedConfigurationNode config;
-    private FileManager fileManager;
+    //private FileManager fileManager;
 
     /**
      * An empty constructor that does nothing.
@@ -57,7 +56,7 @@ public abstract class Vital {
 
         reload();
 
-        this.fileManager = new FileManager();
+        //this.fileManager = new FileManager();
     }
 
     /**
@@ -250,10 +249,9 @@ public abstract class Vital {
      *
      * @return the FileManager
      * @since 0.1.0
-     */
     public FileManager getFileManager() {
         return this.fileManager;
-    }
+    }*/
 
     /**
      * Saves a resource.
