@@ -9,6 +9,13 @@ import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.util.concurrent.CompletableFuture;
 
+/**
+ * The custom file implementation using Bukkit's YamlConfiguration
+ *
+ * @author Ryder Belserion
+ * @version 0.1.0
+ * @since 0.1.0
+ */
 public class PaperCustomFile {
 
     /**
@@ -35,6 +42,7 @@ public class PaperCustomFile {
      * <p>This constructor initializes the custom file by setting its effective name
      * (excluding the '.yml' extension) and the actual file object.
      *
+     * @param fileType the type of file
      * @param file the file object to be wrapped by this custom file
      * @param isDynamic whether the custom file should be treated as dynamic
      * @since 0.1.0

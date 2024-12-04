@@ -3,7 +3,6 @@ package com.ryderbelserion.vital.paper.api.files;
 import com.ryderbelserion.vital.VitalProvider;
 import com.ryderbelserion.vital.api.Vital;
 import com.ryderbelserion.vital.api.exceptions.GenericException;
-import com.ryderbelserion.vital.files.FileManager;
 import com.ryderbelserion.vital.files.enums.FileType;
 import com.ryderbelserion.vital.utils.Methods;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
@@ -16,6 +15,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Manages custom files for the application.
+ *
+ * <p>This class provides functionality to add, remove, and retrieve custom file instances,
+ * supporting various file types such as YAML. It ensures that file operations are handled
+ * efficiently and provides logging for important actions.
+ *
+ * @author Ryder Belserion
+ * @version 0.1.0
+ * @since 0.1.0
+ */
 public class PaperFileManager {
 
     private final Vital api = VitalProvider.get();
@@ -39,7 +49,7 @@ public class PaperFileManager {
      *
      * @param folder the folder name
      * @param fileType the type of files in the folder
-     * @return the current instance of {@link FileManager}
+     * @return the current instance of {@link PaperFileManager}
      * @since 0.1.0
      */
     public PaperFileManager addFolder(@NotNull final String folder, @NotNull final FileType fileType) {
@@ -60,7 +70,7 @@ public class PaperFileManager {
         if (!directory.exists()) {
             directory.mkdirs();
 
-            Methods.extracts(FileManager.class, String.format("/%s/", directory.getName()), directory.toPath(), false);
+            Methods.extracts(PaperFileManager.class, String.format("/%s/", directory.getName()), directory.toPath(), false);
         }
 
         final File[] contents = directory.listFiles();
@@ -95,12 +105,25 @@ public class PaperFileManager {
     }
 
     /**
+     * Adds a custom file to the cache.
+     * 
+     * @param customFile {@link PaperCustomFile}
+     * @return the current instance of {@link PaperFileManager}
+     * @since 0.1.0
+     */
+    public PaperFileManager addFile(@NotNull final PaperCustomFile customFile) {
+        this.files.put(customFile.getEffectiveName(), customFile);
+        
+        return this;
+    }
+
+    /**
      * Adds a custom file with a default file type.
      *
      * <p>This method adds a file to the manager's map using the default file type of {@link FileType#NONE}.
      *
      * @param fileName the name of the file to add
-     * @return the current instance of {@link com.ryderbelserion.vital.files.FileManager}
+     * @return the current instance of {@link PaperFileManager}
      * @since 0.1.0
      */
     public PaperFileManager addFile(@NotNull final String fileName) {
@@ -115,7 +138,7 @@ public class PaperFileManager {
      *
      * @param fileName the name of the file to add
      * @param fileType the type of the file
-     * @return the current instance of {@link com.ryderbelserion.vital.files.FileManager}
+     * @return the current instance of {@link PaperFileManager}
      * @since 0.1.0
      */
     public PaperFileManager addFile(@NotNull final String fileName, @NotNull final FileType fileType) {
@@ -132,7 +155,7 @@ public class PaperFileManager {
      * @param folder the folder in which the file is located, or {@code null} if no folder is specified
      * @param isDynamic whether the custom file is dynamic
      * @param fileType the type of the file
-     * @return the current instance of {@link com.ryderbelserion.vital.files.FileManager}
+     * @return the current instance of {@link PaperFileManager}
      * @since 0.1.0
      */
     public PaperFileManager addFile(@NotNull final String fileName, @Nullable final String folder, final boolean isDynamic, @NotNull final FileType fileType) {
@@ -175,7 +198,7 @@ public class PaperFileManager {
      * Saves a file with the specified name and type.
      *
      * @param fileName the name of the file, must not be null or empty
-     * @return {@link com.ryderbelserion.vital.files.FileManager} the current instance of FileManager
+     * @return {@link PaperFileManager} the current instance of FileManager
      * @since 0.1.0
      */
     public PaperFileManager saveFile(@NotNull final String fileName) {
@@ -211,7 +234,7 @@ public class PaperFileManager {
      *
      * @param customFile the custom file instance to remove
      * @param purge whether to delete the physical file
-     * @return the current instance of {@link com.ryderbelserion.vital.files.FileManager}
+     * @return the current instance of {@link PaperFileManager}
      * @since 0.1.0
      */
     public PaperFileManager removeFile(final PaperCustomFile customFile, final boolean purge) {
@@ -226,7 +249,7 @@ public class PaperFileManager {
      * @param fileName the name of the file to remove
      * @param fileType the type of the file
      * @param purge whether to delete the physical file
-     * @return the current instance of {@link com.ryderbelserion.vital.files.FileManager}
+     * @return the current instance of {@link PaperFileManager}
      * @since 0.1.0
      */
     public PaperFileManager removeFile(@NotNull final String fileName, @NotNull final FileType fileType, final boolean purge) {
@@ -266,7 +289,7 @@ public class PaperFileManager {
     /**
      * Reloads all files.
      *
-     * @return {@link FileManager}
+     * @return {@link PaperFileManager}
      * @since 0.1.0
      */
     public PaperFileManager reloadFiles() {
@@ -306,7 +329,7 @@ public class PaperFileManager {
     /**
      * Purges all files.
      *
-     * @return {@link FileManager}
+     * @return {@link PaperFileManager}
      * @since 0.1.0
      */
     public PaperFileManager purge() {
