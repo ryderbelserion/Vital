@@ -9,7 +9,7 @@ import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.util.concurrent.CompletableFuture;
 
-public class CustomFile {
+public class PaperCustomFile {
 
     /**
      * Vital Provider
@@ -30,7 +30,7 @@ public class CustomFile {
     private final File file;
 
     /**
-     * Constructs a new {@link CustomFile} instance.
+     * Constructs a new {@link PaperCustomFile} instance.
      *
      * <p>This constructor initializes the custom file by setting its effective name
      * (excluding the '.yml' extension) and the actual file object.
@@ -39,7 +39,7 @@ public class CustomFile {
      * @param isDynamic whether the custom file should be treated as dynamic
      * @since 0.1.0
      */
-    public CustomFile(final FileType fileType, final File file, final boolean isDynamic) {
+    public PaperCustomFile(final FileType fileType, final File file, final boolean isDynamic) {
         this.effectiveName = file.getName().replace(".yml", "");
         this.isDynamic = isDynamic;
         this.fileType = fileType;
@@ -51,10 +51,10 @@ public class CustomFile {
     /**
      * Loads from disk
      *
-     * @return {@link CustomFile}
+     * @return {@link PaperCustomFile}
      * @since 0.1.0
      */
-    public final CustomFile load() {
+    public final PaperCustomFile load() {
         if (getFile().isDirectory()) {
             if (this.isVerbose) {
                 this.logger.warn("Cannot load configuration, as {} is a directory.", getFileName());
@@ -77,10 +77,10 @@ public class CustomFile {
     /**
      * Saves to disk
      *
-     * @return {@link CustomFile}
+     * @return {@link PaperCustomFile}
      * @since 0.1.0
      */
-    public final CustomFile save() {
+    public final PaperCustomFile save() {
         if (getFile().isDirectory()) {
             if (this.isVerbose) {
                 this.logger.warn("Cannot save configuration, as {} is a directory.", getFileName());
@@ -138,12 +138,12 @@ public class CustomFile {
     }
 
     /**
-     * Returns the current instance of {@link CustomFile}.
+     * Returns the current instance of {@link PaperCustomFile}.
      *
      * @return the current custom file instance
      * @since 0.1.0
      */
-    public CustomFile getInstance() {
+    public PaperCustomFile getInstance() {
         return this;
     }
 

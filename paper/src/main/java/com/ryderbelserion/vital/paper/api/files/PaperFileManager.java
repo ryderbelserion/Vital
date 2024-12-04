@@ -12,29 +12,29 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FileManager {
+public class PaperFileManager {
 
     /**
      * A file manager that handles yml configs.
      *
      * @since 0.1.0
      */
-    public FileManager() {}
+    public PaperFileManager() {}
 
     private final Vital api = VitalProvider.get();
     private final ComponentLogger logger = this.api.getLogger();
     private final File dataFolder = this.api.getDataFolder();
     private final boolean isVerbose = this.api.isVerbose();
 
-    private final Map<String, CustomFile> files = new HashMap<>();
+    private final Map<String, PaperCustomFile> files = new HashMap<>();
 
     /**
      * Creates the data folder and anything else we need.
      *
-     * @return {@link FileManager}
+     * @return {@link PaperFileManager}
      * @since 0.1.0
      */
-    public final FileManager init() {
+    public final PaperFileManager init() {
         this.dataFolder.mkdirs();
 
         return this;
@@ -43,10 +43,10 @@ public class FileManager {
     /**
      * Reloads all files.
      *
-     * @return {@link FileManager}
+     * @return {@link PaperFileManager}
      * @since 0.1.0
      */
-    public final FileManager reloadFiles() {
+    public final PaperFileManager reloadFiles() {
         this.files.forEach((key, file) -> file.load());
 
         return this;
@@ -55,10 +55,10 @@ public class FileManager {
     /**
      * Purge all data.
      *
-     * @return {@link FileManager}
+     * @return {@link PaperFileManager}
      * @since 0.1.0
      */
-    public final FileManager purge() {
+    public final PaperFileManager purge() {
         this.files.clear();
 
         return this;
@@ -77,7 +77,7 @@ public class FileManager {
      * @return the current instance of {@link com.ryderbelserion.vital.files.FileManager}
      * @since 0.1.0
      */
-    public final FileManager addFile(@NotNull final String fileName, @Nullable final String folder, final boolean isDynamic, @NotNull final FileType fileType) {
+    public final PaperFileManager addFile(@NotNull final String fileName, @Nullable final String folder, final boolean isDynamic, @NotNull final FileType fileType) {
         if (fileName.isEmpty() || fileName.isBlank()) {
             if (this.isVerbose) {
                 this.logger.warn("Cannot add the file as the file is null or empty.");
@@ -95,7 +95,7 @@ public class FileManager {
         this.api.saveResource(folder == null ? fileName : folder + File.separator + fileName, false, this.isVerbose);
 
         switch (fileType) {
-            case YAML -> this.files.put(strippedName, new CustomFile(fileType, file, isDynamic).load());
+            case YAML -> this.files.put(strippedName, new PaperCustomFile(fileType, file, isDynamic).load());
 
             case JSON -> throw new GenericException("The file type with extension " + extension + " is not currently supported.");
 
@@ -114,7 +114,7 @@ public class FileManager {
      * @return the current instance of {@link com.ryderbelserion.vital.files.FileManager}
      * @since 0.1.0
      */
-    public final FileManager addFile(@NotNull final String fileName) {
+    public final PaperFileManager addFile(@NotNull final String fileName) {
         return addFile(fileName, null, false, FileType.NONE);
     }
 
@@ -129,7 +129,7 @@ public class FileManager {
      * @return the current instance of {@link com.ryderbelserion.vital.files.FileManager}
      * @since 0.1.0
      */
-    public final FileManager addFile(@NotNull final String fileName, @NotNull final FileType fileType) {
+    public final PaperFileManager addFile(@NotNull final String fileName, @NotNull final FileType fileType) {
         return addFile(fileName, null, false, fileType);
     }
 
@@ -143,7 +143,7 @@ public class FileManager {
      * @return the current instance of {@link com.ryderbelserion.vital.files.FileManager}
      * @since 0.1.0
      */
-    public final FileManager removeFile(final CustomFile customFile, final boolean purge) {
+    public final PaperFileManager removeFile(final PaperCustomFile customFile, final boolean purge) {
         return removeFile(customFile.getFileName(), customFile.getFileType(), purge);
     }
 
@@ -158,7 +158,7 @@ public class FileManager {
      * @return the current instance of {@link com.ryderbelserion.vital.files.FileManager}
      * @since 0.1.0
      */
-    public final FileManager removeFile(@NotNull final String fileName, @NotNull final FileType fileType, final boolean purge) {
+    public final PaperFileManager removeFile(@NotNull final String fileName, @NotNull final FileType fileType, final boolean purge) {
         if (fileName.isEmpty() || fileName.isBlank()) {
             if (this.isVerbose) {
                 this.logger.warn("Cannot remove the file as the file is null or empty.");
@@ -171,7 +171,7 @@ public class FileManager {
 
         if (!this.files.containsKey(strippedName)) return this;
 
-        final CustomFile customFile = this.files.remove(fileName);
+        final PaperCustomFile customFile = this.files.remove(fileName);
 
         if (purge) {
             final File file = customFile.getFile();
@@ -199,7 +199,7 @@ public class FileManager {
      * @return {@link com.ryderbelserion.vital.files.FileManager} the current instance of FileManager
      * @since 0.1.0
      */
-    public final FileManager saveFile(@NotNull final String fileName) {
+    public final PaperFileManager saveFile(@NotNull final String fileName) {
         if (fileName.isEmpty() || fileName.isBlank()) {
             if (this.isVerbose) {
                 this.logger.warn("Cannot save the file as the file is null or empty.");
@@ -227,7 +227,7 @@ public class FileManager {
      * @return the custom file instance, or null if not found
      * @since 0.1.0
      */
-    public final CustomFile getFile(final String fileName, final FileType fileType) {
+    public final PaperCustomFile getFile(final String fileName, final FileType fileType) {
         return this.files.get(strip(fileName, fileType.getExtension()));
     }
 
@@ -237,7 +237,7 @@ public class FileManager {
      * @return the map of custom files
      * @since 0.1.0
      */
-    public final Map<String, CustomFile> getFiles() {
+    public final Map<String, PaperCustomFile> getFiles() {
         return Collections.unmodifiableMap(this.files);
     }
 

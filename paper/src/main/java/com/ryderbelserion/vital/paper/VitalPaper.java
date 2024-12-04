@@ -2,6 +2,7 @@ package com.ryderbelserion.vital.paper;
 
 import com.ryderbelserion.vital.api.Vital;
 import com.ryderbelserion.vital.paper.api.enums.Support;
+import com.ryderbelserion.vital.paper.api.files.PaperFileManager;
 import com.ryderbelserion.vital.utils.Methods;
 import io.papermc.paper.plugin.bootstrap.BootstrapContext;
 import me.clip.placeholderapi.PlaceholderAPI;
@@ -33,6 +34,8 @@ public class VitalPaper extends Vital {
     private final String pluginName;
     private final File dataFolder;
 
+    private final PaperFileManager paperFileManager;
+
     /**
      * Constructs an instance of VitalPaper using a {@link JavaPlugin}.
      * Initializes the logger, plugins folder, data folder, and plugin name from the provided plugin context.
@@ -45,6 +48,8 @@ public class VitalPaper extends Vital {
         this.logger = plugin.getComponentLogger();
         this.dataFolder = plugin.getDataFolder();
         this.pluginName = plugin.getName();
+
+        this.paperFileManager = new PaperFileManager();
 
         start();
     }
@@ -61,6 +66,8 @@ public class VitalPaper extends Vital {
         this.logger = context.getLogger();
         this.dataFolder = context.getDataDirectory().toFile();
         this.pluginName = context.getPluginMeta().getName();
+
+        this.paperFileManager = new PaperFileManager();
 
         start();
     }
@@ -231,5 +238,15 @@ public class VitalPaper extends Vital {
     @Override
     public void sendMessage(@NotNull final Audience audience, @NotNull final List<String> lines, @NotNull final Map<String, String> placeholders) {
         sendMessage(audience, StringUtils.chomp(Methods.toString(lines)), placeholders);
+    }
+
+    /**
+     * Gets the FileManager.
+     *
+     * @return the FileManager
+     * @since 0.1.0
+     */
+    public final PaperFileManager getPaperFileManager() {
+        return this.paperFileManager;
     }
 }
