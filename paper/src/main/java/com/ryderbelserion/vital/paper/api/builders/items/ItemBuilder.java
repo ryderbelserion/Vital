@@ -663,20 +663,24 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
         if (key.isEmpty()) return (T) this;
 
         if (Support.nexo.isEnabled()) {
-            com.nexomc.nexo.items.ItemBuilder item = NexoItems.itemFromId(key);
+            if (NexoItems.exists(key)) {
+                com.nexomc.nexo.items.ItemBuilder item = NexoItems.itemFromId(key);
 
-            if (item != null) {
-                this.itemStack = item.build();
-            } else {
-                throw new GenericException("The id " + key + " is not a valid Nexo item!");
+                if (item != null) {
+                    this.itemStack = item.build();
+                } else {
+                    throw new GenericException("The id " + key + " is not a valid Nexo item!");
+                }
             }
         } else if (Support.oraxen.isEnabled()) {
-            io.th0rgal.oraxen.items.ItemBuilder item = OraxenItems.getItemById(key);
+            if (OraxenItems.exists(key)) {
+                io.th0rgal.oraxen.items.ItemBuilder item = OraxenItems.getItemById(key);
 
-            if (item != null) {
-                this.itemStack = item.build();
-            } else {
-                throw new GenericException("The id " + key + " is not a valid Oraxen item!");
+                if (item != null) {
+                    this.itemStack = item.build();
+                } else {
+                    throw new GenericException("The id " + key + " is not a valid Oraxen item!");
+                }
             }
         }
 
