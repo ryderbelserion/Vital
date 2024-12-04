@@ -115,7 +115,7 @@ public class YamlCustomFile extends CustomFile<YamlCustomFile> {
             try {
                 this.loader.save(this.configurationNode);
             } catch (ConfigurateException exception) {
-                this.logger.warn("Cannot save configuration file: {}", getFileName(), exception);
+                if (this.isVerbose) this.logger.warn("Cannot save configuration file: {}", getFileName(), exception);
             }
         });
 
