@@ -283,7 +283,7 @@ public class PaperFileManager {
         forRemoval.forEach(this.files::remove);
 
         if (this.isVerbose && !forRemoval.isEmpty()) {
-            this.logger.info("{} files were removed from cache, because they did not exist.", forRemoval.size());
+            this.logger.info("{} file(s) were removed from cache, because they did not exist.", forRemoval.size());
         }
 
         return this;
