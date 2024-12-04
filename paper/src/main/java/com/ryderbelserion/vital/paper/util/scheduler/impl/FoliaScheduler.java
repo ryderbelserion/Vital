@@ -121,7 +121,13 @@ public abstract class FoliaScheduler implements Runnable {
             case global_scheduler -> task = this.server.getGlobalRegionScheduler().run(this.plugin, scheduledTask -> this.run());
             case async_scheduler -> task = this.server.getAsyncScheduler().runNow(this.plugin, scheduledTask -> this.run());
             case region_scheduler -> task = this.server.getRegionScheduler().run(this.plugin, this.world, this.x, this.z, scheduledTask -> this.run());
-            case entity_scheduler -> task = this.entity.getScheduler().run(this.plugin, scheduledTask -> this.run(), this.retired);
+            case entity_scheduler -> {
+                if (this.entity == null) {
+                    throw new GenericException("Cannot immediately run entity task if the entity is null");
+                }
+
+                task = this.entity.getScheduler().run(this.plugin, scheduledTask -> this.run(), this.retired);
+            }
         }
 
         return this.task = task;
@@ -143,7 +149,13 @@ public abstract class FoliaScheduler implements Runnable {
             case global_scheduler -> task = this.server.getGlobalRegionScheduler().runDelayed(this.plugin, scheduledTask -> this.run(), delay);
             case async_scheduler -> task = this.server.getAsyncScheduler().runDelayed(this.plugin, scheduledTask -> this.run(), delay, this.timeUnit);
             case region_scheduler -> task = this.server.getRegionScheduler().runDelayed(this.plugin, this.world, this.x, this.z, scheduledTask -> this.run(), delay);
-            case entity_scheduler -> task = this.entity.getScheduler().runDelayed(this.plugin, scheduledTask -> this.run(), this.retired, delay);
+            case entity_scheduler -> {
+                if (this.entity == null) {
+                    throw new GenericException("Cannot run delayed entity task if the entity is null");
+                }
+
+                task = this.entity.getScheduler().runDelayed(this.plugin, scheduledTask -> this.run(), this.retired, delay);
+            }
         }
 
         return this.task = task;
@@ -166,7 +178,13 @@ public abstract class FoliaScheduler implements Runnable {
             case global_scheduler -> task = this.server.getGlobalRegionScheduler().runAtFixedRate(this.plugin, scheduledTask -> this.run(), delay, interval);
             case async_scheduler -> task = this.server.getAsyncScheduler().runAtFixedRate(this.plugin, scheduledTask -> this.run(), delay, interval, this.timeUnit);
             case region_scheduler -> task = this.server.getRegionScheduler().runAtFixedRate(this.plugin, this.world, this.x, this.z, scheduledTask -> this.run(), delay, interval);
-            case entity_scheduler -> task = this.entity.getScheduler().runAtFixedRate(this.plugin, scheduledTask -> this.run(), this.retired, delay, interval);
+            case entity_scheduler -> {
+                if (this.entity == null) {
+                    throw new GenericException("Cannot run fixed rate entity task if the entity is null");
+                }
+
+                task = this.entity.getScheduler().runAtFixedRate(this.plugin, scheduledTask -> this.run(), this.retired, delay, interval);
+            }
         }
 
         return this.task = task;
