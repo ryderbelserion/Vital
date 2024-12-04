@@ -197,7 +197,13 @@ public abstract class FoliaScheduler implements Runnable {
 
         return this.task = task;
     }
-    
+
+    /**
+     * Runs the task at the next tick.
+     *
+     * @return the scheduled task
+     * @since 0.1.0
+     */
     public ScheduledTask runNextTick() throws GenericException {
         isScheduled();
 
