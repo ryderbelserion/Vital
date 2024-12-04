@@ -10,8 +10,10 @@ import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class PaperFileManager {
@@ -22,6 +24,8 @@ public class PaperFileManager {
     private final boolean isVerbose = this.api.isVerbose();
 
     private final Map<String, PaperCustomFile> files = new HashMap<>();
+
+    private final Map<String, FileType> folders = new HashMap<>();
 
     /**
      * A file manager that handles yml configs.
@@ -38,13 +42,17 @@ public class PaperFileManager {
      * @return the current instance of {@link FileManager}
      * @since 0.1.0
      */
-    public final PaperFileManager addFolder(@NotNull final String folder, @NotNull final FileType fileType) {
+    public PaperFileManager addFolder(@NotNull final String folder, @NotNull final FileType fileType) {
         if (folder.isEmpty() || folder.isBlank()) {
             if (this.isVerbose) {
                 this.logger.warn("Cannot add the folder as the folder is empty.");
             }
 
             return this;
+        }
+
+        if (!this.folders.containsKey(folder)) {
+            this.folders.put(folder, fileType);
         }
 
         final File directory = new File(this.dataFolder, folder);
@@ -87,39 +95,31 @@ public class PaperFileManager {
     }
 
     /**
-     * Creates the data folder and anything else we need.
+     * Adds a custom file with a default file type.
      *
-     * @return {@link PaperFileManager}
+     * <p>This method adds a file to the manager's map using the default file type of {@link FileType#NONE}.
+     *
+     * @param fileName the name of the file to add
+     * @return the current instance of {@link com.ryderbelserion.vital.files.FileManager}
      * @since 0.1.0
      */
-    public final PaperFileManager init() {
-        this.dataFolder.mkdirs();
-
-        return this;
+    public PaperFileManager addFile(@NotNull final String fileName) {
+        return addFile(fileName, null, false, FileType.NONE);
     }
 
     /**
-     * Reloads all files.
+     * Adds a custom file to the manager's map.
      *
-     * @return {@link PaperFileManager}
+     * <p>This method supports adding YAML files and will throw an exception for unsupported file types.
+     * The {@code isDynamic} parameter specifies whether the custom file is dynamic.
+     *
+     * @param fileName the name of the file to add
+     * @param fileType the type of the file
+     * @return the current instance of {@link com.ryderbelserion.vital.files.FileManager}
      * @since 0.1.0
      */
-    public final PaperFileManager reloadFiles() {
-        this.files.forEach((key, file) -> file.load());
-
-        return this;
-    }
-
-    /**
-     * Purge all data.
-     *
-     * @return {@link PaperFileManager}
-     * @since 0.1.0
-     */
-    public final PaperFileManager purge() {
-        this.files.clear();
-
-        return this;
+    public PaperFileManager addFile(@NotNull final String fileName, @NotNull final FileType fileType) {
+        return addFile(fileName, null, false, fileType);
     }
 
     /**
@@ -135,7 +135,7 @@ public class PaperFileManager {
      * @return the current instance of {@link com.ryderbelserion.vital.files.FileManager}
      * @since 0.1.0
      */
-    public final PaperFileManager addFile(@NotNull final String fileName, @Nullable final String folder, final boolean isDynamic, @NotNull final FileType fileType) {
+    public PaperFileManager addFile(@NotNull final String fileName, @Nullable final String folder, final boolean isDynamic, @NotNull final FileType fileType) {
         if (fileName.isEmpty() || fileName.isBlank()) {
             if (this.isVerbose) {
                 this.logger.warn("Cannot add the file as the file is null or empty.");
@@ -153,7 +153,15 @@ public class PaperFileManager {
         this.api.saveResource(folder == null ? fileName : folder + File.separator + fileName, false, this.isVerbose);
 
         switch (fileType) {
-            case YAML -> this.files.put(strippedName, new PaperCustomFile(fileType, file, isDynamic).load());
+            case YAML -> {
+                if (this.files.containsKey(strippedName)) {
+                    this.files.get(strippedName).load();
+
+                    return this;
+                }
+
+                this.files.put(strippedName, new PaperCustomFile(fileType, file, isDynamic).load());
+            }
 
             case JSON -> throw new GenericException("The file type with extension " + extension + " is not currently supported.");
 
@@ -164,31 +172,36 @@ public class PaperFileManager {
     }
 
     /**
-     * Adds a custom file with a default file type.
+     * Saves a file with the specified name and type.
      *
-     * <p>This method adds a file to the manager's map using the default file type of {@link FileType#NONE}.
-     *
-     * @param fileName the name of the file to add
-     * @return the current instance of {@link com.ryderbelserion.vital.files.FileManager}
+     * @param fileName the name of the file, must not be null or empty
+     * @return {@link com.ryderbelserion.vital.files.FileManager} the current instance of FileManager
      * @since 0.1.0
      */
-    public final PaperFileManager addFile(@NotNull final String fileName) {
-        return addFile(fileName, null, false, FileType.NONE);
-    }
+    public PaperFileManager saveFile(@NotNull final String fileName) {
+        if (fileName.isEmpty() || fileName.isBlank()) {
+            if (this.isVerbose) {
+                this.logger.warn("Cannot save the file as the file is null or empty.");
+            }
 
-    /**
-     * Adds a custom file to the manager's map.
-     *
-     * <p>This method supports adding YAML files and will throw an exception for unsupported file types.
-     * The {@code isDynamic} parameter specifies whether the custom file is dynamic.
-     *
-     * @param fileName the name of the file to add
-     * @param fileType the type of the file
-     * @return the current instance of {@link com.ryderbelserion.vital.files.FileManager}
-     * @since 0.1.0
-     */
-    public final PaperFileManager addFile(@NotNull final String fileName, @NotNull final FileType fileType) {
-        return addFile(fileName, null, false, fileType);
+            return this;
+        }
+
+        final String extension = FileType.YAML.getExtension();
+
+        final String strippedName = strip(fileName, extension);
+
+        if (!this.files.containsKey(strippedName)) {
+            if (this.isVerbose) {
+                this.logger.warn("Cannot save the file as the file does not exist.");
+            }
+
+            return this;
+        }
+
+        this.files.get(strippedName).save();
+
+        return this;
     }
 
     /**
@@ -201,7 +214,7 @@ public class PaperFileManager {
      * @return the current instance of {@link com.ryderbelserion.vital.files.FileManager}
      * @since 0.1.0
      */
-    public final PaperFileManager removeFile(final PaperCustomFile customFile, final boolean purge) {
+    public PaperFileManager removeFile(final PaperCustomFile customFile, final boolean purge) {
         return removeFile(customFile.getFileName(), customFile.getFileType(), purge);
     }
 
@@ -216,7 +229,7 @@ public class PaperFileManager {
      * @return the current instance of {@link com.ryderbelserion.vital.files.FileManager}
      * @since 0.1.0
      */
-    public final PaperFileManager removeFile(@NotNull final String fileName, @NotNull final FileType fileType, final boolean purge) {
+    public PaperFileManager removeFile(@NotNull final String fileName, @NotNull final FileType fileType, final boolean purge) {
         if (fileName.isEmpty() || fileName.isBlank()) {
             if (this.isVerbose) {
                 this.logger.warn("Cannot remove the file as the file is null or empty.");
@@ -251,26 +264,53 @@ public class PaperFileManager {
     }
 
     /**
-     * Saves a file with the specified name and type.
+     * Reloads all files.
      *
-     * @param fileName the name of the file, must not be null or empty
-     * @return {@link com.ryderbelserion.vital.files.FileManager} the current instance of FileManager
+     * @return {@link FileManager}
      * @since 0.1.0
      */
-    public final PaperFileManager saveFile(@NotNull final String fileName) {
-        if (fileName.isEmpty() || fileName.isBlank()) {
-            if (this.isVerbose) {
-                this.logger.warn("Cannot save the file as the file is null or empty.");
-            }
+    public PaperFileManager reloadFiles() {
+        final List<String> forRemoval = new ArrayList<>();
 
-            return this;
+        this.files.forEach((name, file) -> {
+            if (file.getFile().exists()) {
+                file.load();
+            } else {
+                forRemoval.add(name);
+            }
+        });
+
+        forRemoval.forEach(this.files::remove);
+
+        if (this.isVerbose && !forRemoval.isEmpty()) {
+            this.logger.info("{} files were removed from cache, because they did not exist.", forRemoval.size());
         }
 
-        final String extension = FileType.YAML.getExtension();
+        return this;
+    }
 
-        final String strippedName = strip(fileName, extension);
+    /**
+     * Creates the data folder and anything else we need.
+     *
+     * @return {@link PaperFileManager}
+     * @since 0.1.0
+     */
+    public PaperFileManager init() {
+        this.dataFolder.mkdirs();
 
-        this.files.get(strippedName).save();
+        this.folders.forEach(this::addFolder);
+
+        return this;
+    }
+
+    /**
+     * Purges all files.
+     *
+     * @return {@link FileManager}
+     * @since 0.1.0
+     */
+    public PaperFileManager purge() {
+        this.files.clear();
 
         return this;
     }
@@ -285,18 +325,8 @@ public class PaperFileManager {
      * @return the custom file instance, or null if not found
      * @since 0.1.0
      */
-    public final PaperCustomFile getFile(final String fileName, final FileType fileType) {
-        return this.files.get(strip(fileName, fileType.getExtension()));
-    }
-
-    /**
-     * Get a map of custom files.
-     *
-     * @return the map of custom files
-     * @since 0.1.0
-     */
-    public final Map<String, PaperCustomFile> getFiles() {
-        return Collections.unmodifiableMap(this.files);
+    public @Nullable PaperCustomFile getFile(final String fileName, final FileType fileType) {
+        return this.files.getOrDefault(strip(fileName, fileType.getExtension()), null);
     }
 
     /**
@@ -307,7 +337,17 @@ public class PaperFileManager {
      * @return the file name without the extension
      * @since 0.1.0
      */
-    public final String strip(final String fileName, final String extension) {
+    public String strip(final String fileName, final String extension) {
         return fileName.replace("." + extension, "");
+    }
+
+    /**
+     * Retrieves the map of custom files managed by this file manager.
+     *
+     * @return a map of custom files with their file names as keys
+     * @since 0.1.0
+     */
+    public Map<String, PaperCustomFile> getFiles() {
+        return Collections.unmodifiableMap(this.files);
     }
 }

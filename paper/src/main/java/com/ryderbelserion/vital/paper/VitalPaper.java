@@ -49,9 +49,9 @@ public class VitalPaper extends Vital {
         this.dataFolder = plugin.getDataFolder();
         this.pluginName = plugin.getName();
 
-        this.paperFileManager = new PaperFileManager();
-
         start();
+
+        this.paperFileManager = new PaperFileManager();
     }
 
     /**
@@ -67,9 +67,9 @@ public class VitalPaper extends Vital {
         this.dataFolder = context.getDataDirectory().toFile();
         this.pluginName = context.getPluginMeta().getName();
 
-        this.paperFileManager = new PaperFileManager();
-
         start();
+
+        this.paperFileManager = new PaperFileManager();
     }
 
     /**

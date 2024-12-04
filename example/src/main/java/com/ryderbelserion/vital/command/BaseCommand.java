@@ -5,6 +5,7 @@ import com.ryderbelserion.vital.TestPlugin;
 import com.ryderbelserion.vital.files.enums.FileType;
 import com.ryderbelserion.vital.paper.api.commands.PaperCommand;
 import com.ryderbelserion.vital.paper.api.commands.context.PaperCommandInfo;
+import com.ryderbelserion.vital.paper.api.files.PaperFileManager;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 import org.bukkit.permissions.Permission;
@@ -25,9 +26,11 @@ public class BaseCommand extends PaperCommand {
 
     private final TestPlugin plugin = JavaPlugin.getPlugin(TestPlugin.class);
 
+    private final PaperFileManager fileManager = this.plugin.getFileManager();
+
     @Override
     public void execute(PaperCommandInfo info) {
-        this.plugin.getFileManager().getFile("config.yml", FileType.YAML).load();
+        this.fileManager.init().reloadFiles();
 
         this.plugin.getPaper().reload();
 

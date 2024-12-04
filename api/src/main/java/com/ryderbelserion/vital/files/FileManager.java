@@ -10,7 +10,9 @@ import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -160,7 +162,15 @@ public class FileManager {
         this.api.saveResource(folder == null ? fileName : folder + File.separator + fileName, false, this.isVerbose);
 
         switch (fileType) {
-            case YAML -> this.files.put(strippedName, new YamlCustomFile(file, isDynamic).loadConfiguration());
+            case YAML -> {
+                if (this.files.containsKey(strippedName)) {
+                    this.files.get(strippedName).loadConfiguration();
+
+                    return this;
+                }
+
+                this.files.put(strippedName, new YamlCustomFile(file, isDynamic).loadConfiguration());
+            }
 
             case JSON -> throw new GenericException("The file type with extension " + extension + " is not currently supported.");
 
@@ -190,6 +200,14 @@ public class FileManager {
         final String extension = fileType.getExtension();
 
         final String strippedName = strip(fileName, extension);
+
+        if (!this.files.containsKey(strippedName)) {
+            if (this.isVerbose) {
+                this.logger.warn("Cannot save the file as the file does not exist.");
+            }
+
+            return this;
+        }
 
         this.files.get(strippedName).saveConfiguration();
 
@@ -262,7 +280,21 @@ public class FileManager {
      * @since 0.1.0
      */
     public FileManager reloadFiles() {
-        this.files.forEach((name, file) -> file.loadConfiguration());
+        final List<String> forRemoval = new ArrayList<>();
+
+        this.files.forEach((name, file) -> {
+            if (file.getFile().exists()) {
+                file.loadConfiguration();
+            } else {
+                forRemoval.add(name);
+            }
+        });
+
+        forRemoval.forEach(this.files::remove);
+
+        if (this.isVerbose && !forRemoval.isEmpty()) {
+            this.logger.info("{} files were removed from cache, because they did not exist.", forRemoval.size());
+        }
 
         return this;
     }
@@ -289,8 +321,8 @@ public class FileManager {
      * @return the custom file instance, or null if not found
      * @since 0.1.0
      */
-    public CustomFile<? extends CustomFile<?>> getFile(final String fileName, final FileType fileType) {
-        return this.files.get(strip(fileName, fileType.getExtension()));
+    public @Nullable CustomFile<? extends CustomFile<?>> getFile(final String fileName, final FileType fileType) {
+        return this.files.getOrDefault(strip(fileName, fileType.getExtension()), null);
     }
 
     /**
