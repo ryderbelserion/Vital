@@ -175,6 +175,21 @@ public class Methods {
     }
 
     /**
+     * Converts a list of {@link Component} to a list of {@link String}.
+     *
+     * @param components the list of components to convert
+     * @return the list string representation of the list component
+     * @since 0.1.0
+     */
+    public static @NotNull List<String> fromComponent(@NotNull final List<Component> components) {
+        final List<String> keys = new ArrayList<>(components.size());
+
+        components.forEach(component -> keys.add(fromComponent(component)));
+
+        return keys;
+    }
+
+    /**
      * Converts a {@link String} to a {@link Component} and back to a {@link String}.
      *
      * @param component the string to convert
