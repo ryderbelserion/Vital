@@ -171,9 +171,17 @@ public class PaperFileManager {
 
         final String strippedName = strip(fileName, extension);
 
-        final File file = new File(this.dataFolder, folder != null ? folder + File.separator + fileName : fileName);
+        final String resourcePath = folder != null ? folder + File.separator + fileName : fileName;
 
-        this.api.saveResource(folder == null ? fileName : folder + File.separator + fileName, false, this.isVerbose);
+        final File file = new File(this.dataFolder, resourcePath);
+
+        if (!file.exists()) {
+            if (this.isVerbose) {
+                this.logger.warn("Successfully extracted file {} to {}", fileName, file.getPath());
+            }
+
+            this.api.saveResource(resourcePath, false, this.isVerbose);
+        }
 
         switch (fileType) {
             case YAML -> {
@@ -333,6 +341,7 @@ public class PaperFileManager {
      * @since 0.1.0
      */
     public PaperFileManager purge() {
+        this.folders.clear();
         this.files.clear();
 
         return this;
