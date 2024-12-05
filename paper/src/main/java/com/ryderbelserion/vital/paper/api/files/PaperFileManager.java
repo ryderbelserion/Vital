@@ -341,6 +341,7 @@ public class PaperFileManager {
      * @since 0.1.0
      */
     public PaperFileManager purge() {
+        this.folders.clear();
         this.files.clear();
 
         return this;
