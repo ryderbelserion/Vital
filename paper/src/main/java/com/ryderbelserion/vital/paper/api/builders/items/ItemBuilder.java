@@ -15,7 +15,6 @@ import com.ryderbelserion.vital.utils.Methods;
 import io.th0rgal.oraxen.api.OraxenItems;
 import me.arcaniax.hdb.api.HeadDatabaseAPI;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
@@ -62,7 +61,6 @@ import org.jetbrains.annotations.Nullable;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
@@ -85,8 +83,6 @@ import java.util.function.Consumer;
 public class ItemBuilder<T extends ItemBuilder<T>> {
 
     private final Vital api = VitalProvider.get();
-    private final ComponentLogger logger = this.api.getLogger();
-    private final boolean isVerbose = this.api.isVerbose();
 
     private final NbtBuilder nbt = new NbtBuilder();
 
