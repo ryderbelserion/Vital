@@ -173,7 +173,13 @@ public class PaperFileManager {
 
         final File file = new File(this.dataFolder, folder != null ? folder + File.separator + fileName : fileName);
 
-        this.api.saveResource(folder == null ? fileName : folder + File.separator + fileName, false, this.isVerbose);
+        if (!file.exists()) {
+            if (this.isVerbose) {
+                this.logger.warn("Successfully extracted file {} to {}", fileName, file.getPath());
+            }
+
+            this.api.saveResource(folder == null ? fileName : folder + File.separator + fileName, false, this.isVerbose);
+        }
 
         switch (fileType) {
             case YAML -> {
