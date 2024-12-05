@@ -2,6 +2,7 @@ package com.ryderbelserion.vital.api;
 
 import com.google.gson.GsonBuilder;
 import com.ryderbelserion.vital.VitalProvider;
+import com.ryderbelserion.vital.api.exceptions.GenericException;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
@@ -263,14 +264,14 @@ public abstract class Vital {
      */
     public void saveResource(String resourcePath, final boolean replace, final boolean isVerbose) {
         if (resourcePath == null || resourcePath.isEmpty()) {
-            throw new IllegalArgumentException("ResourcePath cannot be null or empty");
+            throw new GenericException("ResourcePath cannot be null or empty");
         }
 
         resourcePath = resourcePath.replace('\\', '/');
         final InputStream inputStream = getResource(resourcePath);
 
         if (inputStream == null) {
-            throw new IllegalArgumentException("The embedded resource '" + resourcePath + "' cannot be found.");
+            throw new GenericException("The embedded resource '" + resourcePath + "' cannot be found.");
         }
 
         File outFile = new File(getDataFolder(), resourcePath);
@@ -286,9 +287,11 @@ public abstract class Vital {
                 final OutputStream outputStream = new FileOutputStream(outFile);
                 byte[] buf = new byte[1024];
                 int len;
+
                 while ((len = inputStream.read(buf)) > 0) {
                     outputStream.write(buf, 0, len);
                 }
+
                 outputStream.close();
                 inputStream.close();
             } else {
