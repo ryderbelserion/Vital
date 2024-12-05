@@ -111,7 +111,7 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
      */
     public ItemStack asItemStack() {
         if (!this.displayName.isBlank()) {
-            this.itemStack.setData(DataComponentTypes.ITEM_NAME, this.api.color(this.displayName));
+            this.itemStack.setData(this.isFixed ? DataComponentTypes.ITEM_NAME : DataComponentTypes.CUSTOM_NAME, this.api.color(this.displayName));
         }
 
         if (!this.displayLore.isEmpty()) {
@@ -241,6 +241,23 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
     }
 
     private String displayName = "";
+    private boolean isFixed = false;
+
+    /**
+     * Sets the display name. It includes a toggle which will prevent removing the name in anvils if set to true.
+     *
+     * @param displayName the {@link String} to use
+     * @param isFixed true or false, if true. it will use ITEM_NAME DataComponentType, and if false CUSTOM_NAME DataComponentType
+     * @return {@link BaseItemBuilder}
+     * @since 0.1.0
+     */
+    public B withDisplayName(@NotNull final String displayName, final boolean isFixed) {
+        this.displayName = displayName;
+
+        this.isFixed = isFixed;
+
+        return (B) this;
+    }
 
     /**
      * Sets the display name.
@@ -250,9 +267,7 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
      * @since 0.1.0
      */
     public B withDisplayName(@NotNull final String displayName) {
-        this.displayName = displayName;
-
-        return (B) this;
+        return withDisplayName(displayName, false);
     }
 
     private List<String> displayLore = new ArrayList<>();
