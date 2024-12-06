@@ -2,6 +2,7 @@ package com.ryderbelserion.vital.paper.util;
 
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.bukkit.Bukkit;
+import org.bukkit.Server;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -31,6 +32,9 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.zip.GZIPOutputStream;
 
+/**
+ * Creates a new Metrics instance.
+ */
 public class MetricsWrapper {
 
     private final JavaPlugin plugin;
@@ -44,6 +48,7 @@ public class MetricsWrapper {
      *
      * @param plugin the instance of the plugin, must not be null
      * @param serviceId the id of the service. It can be found at <a href="https://bstats.org/what-is-my-plugin-id">What is my plugin id?</a>
+     * @param isPaperPlugin true or false
      */
     public MetricsWrapper(@NotNull final JavaPlugin plugin, final int serviceId, final boolean isPaperPlugin) {
         this.plugin = plugin;
@@ -60,7 +65,6 @@ public class MetricsWrapper {
         YamlConfiguration config = YamlConfiguration.loadConfiguration(configFile);
 
         if (!config.isSet("serverUuid")) {
-
             config.addDefault("enabled", true);
             config.addDefault("serverUuid", UUID.randomUUID().toString());
             config.addDefault("logFailedRequests", false);
@@ -119,11 +123,18 @@ public class MetricsWrapper {
         this.metricsBase.addCustomChart(chart);
     }
 
+    /**
+     * Appends platform information to the json object builder.
+     *
+     * @param builder json object builder
+     */
     private void appendPlatformData(JsonObjectBuilder builder) {
+        final Server server = this.plugin.getServer();
+
         builder.appendField("playerAmount", getPlayerAmount());
-        builder.appendField("onlineMode", Bukkit.getOnlineMode() ? 1 : 0);
-        builder.appendField("bukkitVersion", Bukkit.getVersion());
-        builder.appendField("bukkitName", Bukkit.getName());
+        builder.appendField("onlineMode", server.getOnlineMode() ? 1 : 0);
+        builder.appendField("bukkitVersion", server.getVersion());
+        builder.appendField("bukkitName", server.getName());
         builder.appendField("javaVersion", System.getProperty("java.version"));
         builder.appendField("osName", System.getProperty("os.name"));
         builder.appendField("osArch", System.getProperty("os.arch"));
@@ -131,15 +142,28 @@ public class MetricsWrapper {
         builder.appendField("coreCount", Runtime.getRuntime().availableProcessors());
     }
 
+    /**
+     * Appends plugin version to json object builder
+     *
+     * @param builder json object builder
+     */
     private void appendServiceData(JsonObjectBuilder builder) {
         //noinspection deprecation
         builder.appendField("pluginVersion", this.isPaperPlugin ? this.plugin.getPluginMeta().getVersion() : this.plugin.getDescription().getVersion());
     }
 
+    /**
+     * Gets the player amount
+     *
+     * @return amount of players
+     */
     private int getPlayerAmount() {
         return this.plugin.getServer().getOnlinePlayers().size();
     }
 
+    /**
+     * The metrics base class
+     */
     public static class MetricsBase {
 
         /**
@@ -263,10 +287,18 @@ public class MetricsWrapper {
             return outputStream.toByteArray();
         }
 
+        /**
+         * Adds a custom chart
+         *
+         * @param chart {@link CustomChart}
+         */
         public void addCustomChart(CustomChart chart) {
             this.customCharts.add(chart);
         }
 
+        /**
+         * Shutdowns the scheduler
+         */
         public void shutdown() {
             this.scheduler.shutdown();
         }
@@ -373,7 +405,7 @@ public class MetricsWrapper {
         private void checkRelocation() {
             // You can use the property to disable the check in your test environment
             if (System.getProperty("bstats.relocatecheck") == null || !System.getProperty("bstats.relocatecheck").equals("false")) {
-                // Maven's Relocate is clever and changes strings, too. So we have to use this
+                // Mavens Relocate is clever and changes strings, too. So we have to use this
                 // little "trick" ... :D
                 final String defaultPackage = new String(new byte[]{'o', 'r', 'g', '.', 'b', 's', 't', 'a', 't', 's'});
                 final String examplePackage = new String(new byte[]{'y', 'o', 'u', 'r', '.', 'p', 'a', 'c', 'k', 'a', 'g', 'e'});
@@ -386,6 +418,9 @@ public class MetricsWrapper {
         }
     }
 
+    /**
+     * Creates a simple pie chart
+     */
     public static class SimplePie extends CustomChart {
 
         private final Callable<String> callable;
@@ -402,6 +437,12 @@ public class MetricsWrapper {
             this.callable = callable;
         }
 
+        /**
+         * {@inheritDoc}
+         *
+         * @return {@inheritDoc}
+         * @throws Exception {@inheritDoc}
+         */
         @Override
         protected JsonObjectBuilder.JsonObject getChartData() throws Exception {
             String value = callable.call();
@@ -415,6 +456,9 @@ public class MetricsWrapper {
         }
     }
 
+    /**
+     * Creates a multi line pie chart
+     */
     public static class MultiLineChart extends CustomChart {
 
         private final Callable<Map<String, Integer>> callable;
@@ -431,6 +475,12 @@ public class MetricsWrapper {
             this.callable = callable;
         }
 
+        /**
+         * {@inheritDoc}
+         *
+         * @return {@inheritDoc}
+         * @throws Exception {@inheritDoc}
+         */
         @Override
         protected JsonObjectBuilder.JsonObject getChartData() throws Exception {
             JsonObjectBuilder valuesBuilder = new JsonObjectBuilder();
@@ -464,6 +514,9 @@ public class MetricsWrapper {
         }
     }
 
+    /**
+     * Creates an advanced pie chart
+     */
     public static class AdvancedPie extends CustomChart {
 
         private final Callable<Map<String, Integer>> callable;
@@ -480,6 +533,12 @@ public class MetricsWrapper {
             this.callable = callable;
         }
 
+        /**
+         * {@inheritDoc}
+         *
+         * @return {@inheritDoc}
+         * @throws Exception {@inheritDoc}
+         */
         @Override
         protected JsonObjectBuilder.JsonObject getChartData() throws Exception {
             JsonObjectBuilder valuesBuilder = new JsonObjectBuilder();
@@ -513,6 +572,9 @@ public class MetricsWrapper {
         }
     }
 
+    /**
+     * Creates a simple bar chart
+     */
     public static class SimpleBarChart extends CustomChart {
 
         private final Callable<Map<String, Integer>> callable;
@@ -529,6 +591,12 @@ public class MetricsWrapper {
             this.callable = callable;
         }
 
+        /**
+         * {@inheritDoc}
+         *
+         * @return {@inheritDoc}
+         * @throws Exception {@inheritDoc}
+         */
         @Override
         protected JsonObjectBuilder.JsonObject getChartData() throws Exception {
             JsonObjectBuilder valuesBuilder = new JsonObjectBuilder();
@@ -547,6 +615,9 @@ public class MetricsWrapper {
         }
     }
 
+    /**
+     * Creates an advanced bar chart
+     */
     public static class AdvancedBarChart extends CustomChart {
 
         private final Callable<Map<String, int[]>> callable;
@@ -563,6 +634,12 @@ public class MetricsWrapper {
             this.callable = callable;
         }
 
+        /**
+         * {@inheritDoc}
+         *
+         * @return {@inheritDoc}
+         * @throws Exception {@inheritDoc}
+         */
         @Override
         protected JsonObjectBuilder.JsonObject getChartData() throws Exception {
             JsonObjectBuilder valuesBuilder = new JsonObjectBuilder();
@@ -595,6 +672,9 @@ public class MetricsWrapper {
         }
     }
 
+    /**
+     * Creates a drilldown pie chart
+     */
     public static class DrilldownPie extends CustomChart {
 
         private final Callable<Map<String, Map<String, Integer>>> callable;
@@ -611,6 +691,12 @@ public class MetricsWrapper {
             this.callable = callable;
         }
 
+        /**
+         * {@inheritDoc}
+         *
+         * @return {@inheritDoc}
+         * @throws Exception {@inheritDoc}
+         */
         @Override
         public JsonObjectBuilder.JsonObject getChartData() throws Exception {
             JsonObjectBuilder valuesBuilder = new JsonObjectBuilder();
@@ -650,10 +736,18 @@ public class MetricsWrapper {
         }
     }
 
+    /**
+     * Builds a custom chart
+     */
     public abstract static class CustomChart {
 
         private final String chartId;
 
+        /**
+         * Builds a custom chart
+         *
+         * @param chartId the id
+         */
         protected CustomChart(String chartId) {
             if (chartId == null) {
                 throw new IllegalArgumentException("chartId must not be null");
@@ -662,10 +756,17 @@ public class MetricsWrapper {
             this.chartId = chartId;
         }
 
+        /**
+         * Requests json object data
+         *
+         * @param errorLogger the error logger
+         * @param logErrors true or false
+         * @return json data
+         */
         public JsonObjectBuilder.JsonObject getRequestJsonObject(BiConsumer<String, Throwable> errorLogger, boolean logErrors) {
             JsonObjectBuilder builder = new JsonObjectBuilder();
 
-            builder.appendField("chartId", chartId);
+            builder.appendField("chartId", this.chartId);
 
             try {
                 JsonObjectBuilder.JsonObject data = getChartData();
@@ -687,9 +788,18 @@ public class MetricsWrapper {
             return builder.build();
         }
 
+        /**
+         * Gets the chart data.
+         *
+         * @return json object builder
+         * @throws Exception throws if failed to build
+         */
         protected abstract JsonObjectBuilder.JsonObject getChartData() throws Exception;
     }
 
+    /**
+     * Creates a single line chart
+     */
     public static class SingleLineChart extends CustomChart {
 
         private final Callable<Integer> callable;
@@ -706,6 +816,12 @@ public class MetricsWrapper {
             this.callable = callable;
         }
 
+        /**
+         * {@inheritDoc}
+         *
+         * @return {@inheritDoc}
+         * @throws Exception {@inheritDoc}
+         */
         @Override
         protected JsonObjectBuilder.JsonObject getChartData() throws Exception {
             int value = callable.call();
@@ -731,6 +847,12 @@ public class MetricsWrapper {
 
         private boolean hasAtLeastOneField = false;
 
+        /**
+         * An extremely simple JSON builder.
+         *
+         * <p>While this class is neither feature-rich nor the most performant one, it's sufficient enough
+         * for its use-case.
+         */
         public JsonObjectBuilder() {
             this.builder.append("{");
         }
