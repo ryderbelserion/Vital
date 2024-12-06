@@ -427,6 +427,8 @@ public class PaginatedGui extends BaseGui implements IPaginatedGui {
      * @since 0.1.0
      */
     public final int getMaxPages() {
+        if (this.pageSize == 0) this.pageSize = calculatePageSize();
+
         return (int) Math.ceil((double) this.pageItems.size() / this.pageSize);
     }
 
@@ -477,17 +479,18 @@ public class PaginatedGui extends BaseGui implements IPaginatedGui {
     /**
      * {@inheritDoc}
      *
+     * @return {@inheritDoc}
      * @since 0.1.0
      */
     @Override
-    public final void calculatePageSize() {
+    public final int calculatePageSize() {
         int counter = 0;
 
         for (int slot = 0; slot < getSize(); slot++) {
-            if (getInventory().getItem(slot) == null) counter++;
+            if (getGuiItem(slot) == null) counter++;
         }
 
-        this.pageSize = counter;
+        return this.pageSize = Math.max(1, counter);
     }
 
     // Overridden methods from the BaseGui class

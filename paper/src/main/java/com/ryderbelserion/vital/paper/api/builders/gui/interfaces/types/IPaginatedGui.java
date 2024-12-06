@@ -234,8 +234,9 @@ public interface IPaginatedGui {
     /**
      * Calculates the size of the give page.
      *
+     * @return the page size
      * @since 0.1.0
      */
-    void calculatePageSize();
+    int calculatePageSize();
 
 }

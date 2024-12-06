@@ -201,8 +201,8 @@ public final class GuiFiller {
             case RIGHT:
                 this.fillBetweenPoints(1, 9, this.gui.getRows(), 9, guiItems);
             case BOTH:
-                this.fillBetweenPoints(1, 1, this.gui.getRows(), 1, guiItems);
-                this.fillBetweenPoints(1, 9, this.gui.getRows(), 9, guiItems);
+                this.fillSide(Side.LEFT, guiItems);
+                this.fillSide(Side.RIGHT, guiItems);
         }
     }
 
