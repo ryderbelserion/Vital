@@ -5,6 +5,8 @@ import org.bukkit.Server;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -89,8 +91,8 @@ public class bStats {
         boolean logErrors = config.getBoolean("logFailedRequests", false);
         boolean logSentData = config.getBoolean("logSentData", false);
         boolean logResponseStatusText = config.getBoolean("logResponseStatusText", false);
-        metricsBase =
-                new MetricsBase(
+
+        this.metricsBase = new MetricsBase(
                         "bukkit",
                         serverUUID,
                         serviceId,
@@ -111,6 +113,24 @@ public class bStats {
      */
     public void shutdown() {
         this.metricsBase.shutdown();
+    }
+
+    /**
+     * Fetch the scheduler.
+     *
+     * @return {@link ScheduledExecutorService}
+     */
+    public @Nullable ScheduledExecutorService getScheduler() {
+        return this.metricsBase.scheduler;
+    }
+
+    /**
+     * Checks if metrics is enabled.
+     *
+     * @return true or false
+     */
+    public boolean isEnabled() {
+        return this.metricsBase.enabled;
     }
 
     /**
