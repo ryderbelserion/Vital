@@ -1,7 +1,6 @@
-package com.ryderbelserion.vital.paper.util;
+package com.ryderbelserion.vital.paper.api;
 
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
-import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -35,7 +34,7 @@ import java.util.zip.GZIPOutputStream;
 /**
  * Creates a new Metrics instance.
  */
-public class MetricsWrapper {
+public class bStats {
 
     private final JavaPlugin plugin;
 
@@ -50,7 +49,7 @@ public class MetricsWrapper {
      * @param serviceId the id of the service. It can be found at <a href="https://bstats.org/what-is-my-plugin-id">What is my plugin id?</a>
      * @param isPaperPlugin true or false
      */
-    public MetricsWrapper(@NotNull final JavaPlugin plugin, final int serviceId, final boolean isPaperPlugin) {
+    public bStats(@NotNull final JavaPlugin plugin, final int serviceId, final boolean isPaperPlugin) {
         this.plugin = plugin;
 
         final ComponentLogger logger = this.plugin.getComponentLogger();

@@ -10,7 +10,7 @@ subprojects {
 
     group = "com.ryderbelserion.vital"
     description = "a multiplatform library for discord/minecraft"
-    version = "0.1.0"
+    version = "0.1.1"
 
     repositories {
         maven("https://repo.codemc.io/repository/maven-public")
