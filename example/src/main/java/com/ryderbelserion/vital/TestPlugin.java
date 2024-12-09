@@ -38,13 +38,6 @@ public class TestPlugin extends JavaPlugin {
                 .addFile("locations.yml", FileType.YAML).addFile("logs/example.log")
                 .addFolder("crates", FileType.YAML);
 
-        //Methods.getFiles(new File(getDataFolder(), "crates"), ".yml", false);
-
-        //Config config = new Config(getDataFolder());
-        //config.load();
-
-        //Config.itemBurnTypes.forEach(item -> getLogger().warning("Item: " + item));
-
         getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, event -> {
             LiteralArgumentBuilder<CommandSourceStack> root = new BaseCommand().registerPermission().literal().createBuilder();
 
