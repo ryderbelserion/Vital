@@ -15,6 +15,7 @@ import io.papermc.paper.datacomponent.item.ItemLore;
 import io.th0rgal.oraxen.api.OraxenItems;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
@@ -382,16 +383,16 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
     }
 
     /**
-     * Changes the custom model data of the {@link ItemStack}.
+     * Changes the item model of the {@link ItemStack}.
      *
-     * @param customModelData the {@link Integer}
+     * @param itemModel the item model found in the resource pack/data pack
      * @return {@link BaseItemBuilder}
      * @since 0.1.0
      */
-    public B setCustomModelData(final int customModelData) {
-        if (customModelData == -1) return (B) this;
+    public B setItemModel(@NotNull final String itemModel) {
+        if (itemModel.isEmpty()) return (B) this;
 
-        this.itemStack.setData(DataComponentTypes.CUSTOM_MODEL_DATA, CustomModelData.customModelData(customModelData));
+        this.itemStack.setData(DataComponentTypes.ITEM_MODEL, NamespacedKey.minecraft(itemModel));
 
         return (B) this;
     }
