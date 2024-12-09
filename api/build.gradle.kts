@@ -12,8 +12,6 @@ dependencies {
     compileOnly(libs.configurate.yaml)
 
     compileOnly(libs.brigadier)
-
-    compileOnly(libs.gson)
 }
 
 val javaComponent: SoftwareComponent = components["java"]

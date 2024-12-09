@@ -645,6 +645,23 @@ public class Methods {
     }
 
     /**
+     * Converts a list of strings to a chomped string.
+     *
+     * @param list a list of strings
+     * @return a chomped string
+     * @since 0.2.0
+     */
+    public static String convertList(final List<String> list) {
+        final StringBuilder message = new StringBuilder();
+
+        for (final String line : list) {
+            message.append(line).append("\n");
+        }
+
+        return instance.chomp(message.toString());
+    }
+
+    /**
      * Converts a double to a formatted string.
      *
      * @param value the double to format

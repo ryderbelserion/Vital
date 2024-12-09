@@ -1,6 +1,5 @@
 package com.ryderbelserion.vital.api;
 
-import com.google.gson.GsonBuilder;
 import com.ryderbelserion.vital.VitalProvider;
 import com.ryderbelserion.vital.api.exceptions.GenericException;
 import net.kyori.adventure.audience.Audience;
@@ -33,7 +32,6 @@ public abstract class Vital {
 
     private YamlConfigurationLoader loader;
     private CommentedConfigurationNode config;
-    //private FileManager fileManager;
 
     /**
      * An empty constructor that does nothing.
@@ -56,8 +54,6 @@ public abstract class Vital {
         this.loader = YamlConfigurationLoader.builder().indent(2).file(file).build();
 
         reload();
-
-        //this.fileManager = new FileManager();
     }
 
     /**
@@ -236,23 +232,13 @@ public abstract class Vital {
     public abstract void sendMessage(@NotNull final Audience audience, @NotNull final List<String> lines, @NotNull final Map<String, String> placeholders);
 
     /**
-     * Gets the GsonBuilder.
+     * Chomps a message.
      *
-     * @return the GsonBuilder
-     * @since 0.1.0
+     * @param message {@link String}
+     * @return the chomped message
+     * @since 0.2.0
      */
-    public GsonBuilder getGson() {
-        return null;
-    }
-
-    /**
-     * Gets the FileManager.
-     *
-     * @return the FileManager
-     * @since 0.1.0
-    public FileManager getFileManager() {
-        return this.fileManager;
-    }*/
+    public abstract String chomp(@NotNull final String message);
 
     /**
      * Saves a resource.
@@ -307,16 +293,20 @@ public abstract class Vital {
      *
      * @param filename the file name
      * @return the input stream
-     * @since 2.0.0
+     * @since 0.1.0
      */
-    public InputStream getResource(@NotNull String filename) {
+    public InputStream getResource(@NotNull final String filename) {
         try {
-            URL url = getClass().getClassLoader().getResource(filename);
+            final URL url = getClass().getClassLoader().getResource(filename);
+
             if (url == null) {
                 return null;
             }
-            URLConnection connection = url.openConnection();
+
+            final URLConnection connection = url.openConnection();
+
             connection.setUseCaches(false);
+
             return connection.getInputStream();
         } catch (IOException exception) {
             return null;

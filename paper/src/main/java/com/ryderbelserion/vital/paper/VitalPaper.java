@@ -241,6 +241,18 @@ public class VitalPaper extends Vital {
     }
 
     /**
+     * {@inheritDoc}
+     *
+     * @param message {@inheritDoc}
+     * @return {@inheritDoc}
+     * @since 0.2.0
+     */
+    @Override
+    public String chomp(@NotNull final String message) {
+        return StringUtils.chomp(message);
+    }
+
+    /**
      * Gets the FileManager.
      *
      * @return the FileManager
