@@ -1,8 +1,9 @@
 package com.ryderbelserion.vital.paper.api.builders;
 
-import org.bukkit.Bukkit;
+import com.ryderbelserion.vital.paper.VitalPaper;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Nullable;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
@@ -18,6 +19,8 @@ import java.util.concurrent.CompletableFuture;
  */
 public record PlayerBuilder(String name) {
 
+    private static final JavaPlugin plugin = VitalPaper.getPlugin();
+
     /**
      * Retrieves the {@link OfflinePlayer} corresponding to the provided player name.
      * This method fetches the player's UUID asynchronously and then retrieves the {@link OfflinePlayer} instance.
@@ -28,9 +31,9 @@ public record PlayerBuilder(String name) {
     public @Nullable OfflinePlayer getOfflinePlayer() {
         if (this.name.isEmpty()) return null;
 
-        CompletableFuture<UUID> future = CompletableFuture.supplyAsync(() -> Bukkit.getServer().getOfflinePlayer(this.name)).thenApply(OfflinePlayer::getUniqueId);
+        CompletableFuture<UUID> future = CompletableFuture.supplyAsync(() -> plugin.getServer().getOfflinePlayer(this.name)).thenApply(OfflinePlayer::getUniqueId);
 
-        return Bukkit.getServer().getOfflinePlayer(future.join());
+        return plugin.getServer().getOfflinePlayer(future.join());
     }
 
     /**
@@ -43,6 +46,6 @@ public record PlayerBuilder(String name) {
     public @Nullable Player getPlayer() {
         if (this.name.isEmpty()) return null;
 
-        return Bukkit.getServer().getPlayerExact(this.name);
+        return plugin.getServer().getPlayerExact(this.name);
     }
 }

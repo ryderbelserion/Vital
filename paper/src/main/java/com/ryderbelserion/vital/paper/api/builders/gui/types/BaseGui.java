@@ -1,13 +1,13 @@
 package com.ryderbelserion.vital.paper.api.builders.gui.types;
 
 import com.ryderbelserion.vital.api.exceptions.GenericException;
+import com.ryderbelserion.vital.paper.VitalPaper;
 import com.ryderbelserion.vital.paper.api.builders.gui.objects.components.InteractionComponent;
 import com.ryderbelserion.vital.paper.api.builders.gui.interfaces.GuiAction;
 import com.ryderbelserion.vital.paper.api.builders.gui.interfaces.GuiFiller;
 import com.ryderbelserion.vital.paper.api.builders.gui.interfaces.GuiItem;
 import com.ryderbelserion.vital.paper.api.builders.gui.interfaces.GuiType;
 import com.ryderbelserion.vital.paper.api.builders.gui.interfaces.types.IBaseGui;
-import com.ryderbelserion.vital.paper.api.builders.gui.listeners.GuiListener;
 import com.ryderbelserion.vital.paper.util.PaperMethods;
 import com.ryderbelserion.vital.paper.util.scheduler.impl.FoliaScheduler;
 import com.ryderbelserion.vital.schedulers.enums.SchedulerType;
@@ -44,11 +44,7 @@ import java.util.Set;
  */
 public abstract class BaseGui implements InventoryHolder, Listener, IBaseGui {
 
-    private static final JavaPlugin plugin = JavaPlugin.getProvidingPlugin(BaseGui.class);
-
-    static {
-        plugin.getServer().getPluginManager().registerEvents(new GuiListener(), plugin);
-    }
+    private final JavaPlugin plugin = VitalPaper.getPlugin();
 
     // Gui filler.
     private final GuiFiller filler = new GuiFiller(this);

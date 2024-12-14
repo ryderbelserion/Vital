@@ -1,5 +1,6 @@
 package com.ryderbelserion.vital.paper.api.builders.gui.types;
 
+import com.ryderbelserion.vital.paper.VitalPaper;
 import io.papermc.paper.persistence.PersistentDataContainerView;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -16,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class GuiKeys {
 
-    private static final JavaPlugin plugin = JavaPlugin.getProvidingPlugin(GuiKeys.class);
+    private static final JavaPlugin plugin = VitalPaper.getPlugin();
 
     /**
      * Handles the item meta

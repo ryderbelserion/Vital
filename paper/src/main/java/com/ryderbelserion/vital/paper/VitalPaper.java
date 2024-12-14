@@ -1,6 +1,7 @@
 package com.ryderbelserion.vital.paper;
 
 import com.ryderbelserion.vital.api.Vital;
+import com.ryderbelserion.vital.paper.api.builders.gui.listeners.GuiListener;
 import com.ryderbelserion.vital.paper.api.enums.Support;
 import com.ryderbelserion.vital.paper.api.files.PaperFileManager;
 import com.ryderbelserion.vital.utils.Methods;
@@ -29,6 +30,7 @@ import java.util.Map;
  */
 public class VitalPaper extends Vital {
 
+    private static JavaPlugin plugin;
     private final ComponentLogger logger;
     private final File pluginsFolder;
     private final String pluginName;
@@ -44,12 +46,13 @@ public class VitalPaper extends Vital {
      * @since 0.1.0
      */
     public VitalPaper(final JavaPlugin plugin) {
-        this.pluginsFolder = plugin.getServer().getPluginsFolder();
-        this.logger = plugin.getComponentLogger();
-        this.dataFolder = plugin.getDataFolder();
-        this.pluginName = plugin.getName();
+        VitalPaper.plugin = plugin;
+        this.pluginsFolder = VitalPaper.plugin.getServer().getPluginsFolder();
+        this.logger = VitalPaper.plugin.getComponentLogger();
+        this.dataFolder = VitalPaper.plugin.getDataFolder();
+        this.pluginName = VitalPaper.plugin.getName();
 
-        start();
+        super.start();
 
         this.paperFileManager = new PaperFileManager();
     }
@@ -67,9 +70,28 @@ public class VitalPaper extends Vital {
         this.dataFolder = context.getDataDirectory().toFile();
         this.pluginName = context.getPluginMeta().getName();
 
-        start();
+        super.start();
 
         this.paperFileManager = new PaperFileManager();
+    }
+
+    /**
+     * Sets the {@link JavaPlugin} instance.
+     *
+     * @param plugin {@link JavaPlugin}
+     * @since 0.2.0
+     */
+    public void setPlugin(final JavaPlugin plugin) {
+        VitalPaper.plugin = plugin;
+    }
+
+    /**
+     * Register required listeners for the library.
+     *
+     * @since 0.2.0
+     */
+    public void registerListeners() {
+        plugin.getServer().getPluginManager().registerEvents(new GuiListener(), plugin);
     }
 
     /**
@@ -260,5 +282,15 @@ public class VitalPaper extends Vital {
      */
     public final PaperFileManager getFileManager() {
         return this.paperFileManager;
+    }
+
+    /**
+     * Gets the {@link JavaPlugin}
+     *
+     * @return {@link JavaPlugin}
+     * @since 0.2.0
+     */
+    public static JavaPlugin getPlugin() {
+        return plugin;
     }
 }
