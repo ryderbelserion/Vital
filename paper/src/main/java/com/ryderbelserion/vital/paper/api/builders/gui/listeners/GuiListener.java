@@ -50,14 +50,12 @@ public class GuiListener implements Listener {
 
         // if all interactions are disabled.
         if (gui.isInteractionsDisabled()) {
-            event.setCancelled(true);
             event.setResult(Event.Result.DENY);
         } else {
             // if player is trying to do a disabled action, cancel it
             if ((!gui.canPlaceItems() && isPlaceItemEvent(event)) ||
                     (!gui.canTakeItems() && isTakeItemEvent(event)) || (!gui.canSwapItems() && isSwapItemEvent(event)) ||
                     (!gui.canDropItems() && isDropItemEvent(event)) || (!gui.canPerformOtherActions() && isOtherEvent(event))) {
-                event.setCancelled(true);
                 event.setResult(Event.Result.DENY);
             }
         }
@@ -121,7 +119,6 @@ public class GuiListener implements Listener {
         if (!(event.getInventory().getHolder(false) instanceof BaseGui gui)) return;
 
         if (gui.isInteractionsDisabled()) {
-            event.setCancelled(true);
             event.setResult(Event.Result.DENY);
 
             return;
@@ -131,7 +128,6 @@ public class GuiListener implements Listener {
         if (gui.canPlaceItems() || !isDraggingOnGui(event)) return;
 
         // cancel the interaction
-        event.setCancelled(true);
         event.setResult(Event.Result.DENY);
     }
 
