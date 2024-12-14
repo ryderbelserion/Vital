@@ -178,7 +178,7 @@ public final class GuiFiller {
 
         final GuiType type = this.gui.getGuiType();
 
-        final int fill = type == GuiType.CHEST ? this.gui.getRows() * type.getLimit() : type.getLimit();
+        final int fill = type == GuiType.CHEST ? this.gui.getRows() * type.getLimit() : type.getFillSize();
 
         final List<GuiItem> items = repeatList(guiItems);
 

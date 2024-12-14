@@ -15,30 +15,31 @@ public enum GuiType {
     /**
      * Chest Inventory
      */
-    CHEST(InventoryType.CHEST, 9),
+    CHEST(InventoryType.CHEST, 9, 9),
 
     /**
      * Workbench Inventory
      */
-    WORKBENCH(InventoryType.WORKBENCH, 9),
+    WORKBENCH(InventoryType.WORKBENCH, 9, 10),
 
     /**
      * Hopper Inventory
      */
-    HOPPER(InventoryType.HOPPER, 5),
+    HOPPER(InventoryType.HOPPER, 5, 5),
 
     /**
      * Dispenser Inventory
      */
-    DISPENSER(InventoryType.DISPENSER, 8),
+    DISPENSER(InventoryType.DISPENSER, 8, 9),
 
     /**
      * Brewing Inventory
      */
-    BREWING(InventoryType.BREWING, 4);
+    BREWING(InventoryType.BREWING, 4, 5);
 
     private @NotNull final InventoryType inventoryType;
     private final int limit;
+    private final int fillSize;
 
     /**
      * Creates an inventory type with a size limit.
@@ -46,9 +47,10 @@ public enum GuiType {
      * @param inventoryType {@link InventoryType}
      * @param limit the limit
      */
-    GuiType(@NotNull final InventoryType inventoryType, final int limit) {
+    GuiType(@NotNull final InventoryType inventoryType, final int limit, final int fillSize) {
         this.inventoryType = inventoryType;
         this.limit = limit;
+        this.fillSize = fillSize;
     }
 
     /**
@@ -59,6 +61,16 @@ public enum GuiType {
      */
     public @NotNull final InventoryType getInventoryType() {
         return this.inventoryType;
+    }
+
+    /**
+     * The fill size
+     *
+     * @return the fill size
+     * @since 0.2.0
+     */
+    public final int getFillSize() {
+        return fillSize;
     }
 
     /**
