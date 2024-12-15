@@ -110,6 +110,16 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
     }
 
     /**
+     * Adds the data from extended builders to the {@link ItemStack}.
+     *
+     * @return {@link BaseItemBuilder}
+     * @since 0.2.0
+     */
+    public B complete() {
+        return (B) this;
+    }
+
+    /**
      * Turns the builder into {@link ItemStack}.
      *
      * @return the fully built {@link ItemStack}
@@ -129,6 +139,8 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
 
             this.itemStack.setData(DataComponentTypes.LORE, lore);
         }
+
+        complete(); // run the complete task, which adds any necessary data from extended classes.
 
         return this.itemStack;
     }
@@ -518,7 +530,7 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
      * @since 0.2.0
      */
     public void setItemToInventory(final Inventory inventory, final int slot) {
-        inventory.setItem(slot, this.itemStack);
+        inventory.setItem(slot, asItemStack());
     }
 
     /**
@@ -528,7 +540,7 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
      * @since 0.2.0
      */
     public void addItemToInventory(final Inventory inventory) {
-        inventory.addItem(this.itemStack);
+        inventory.addItem(asItemStack());
     }
 
     /**

@@ -100,9 +100,10 @@ public class SkullBuilder extends BaseItemBuilder<SkullBuilder> {
     /**
      * Completes the building process and applies the skull data to the item.
      *
-     * @return the {@link SkullBuilder} instance
+     * @return {@link SkullBuilder}
      * @since 0.2.0
      */
+    @Override
     public SkullBuilder complete() {
         getItemStack().setData(DataComponentTypes.PROFILE, this.builder.build());
 

@@ -43,7 +43,7 @@ public class PotionBuilder extends BaseItemBuilder<PotionBuilder> {
      * @param isAmbient whether the effect is ambient
      * @param isParticles whether the effect shows particles
      * @param hasIcon whether the effect has an icon
-     * @return the {@link PotionBuilder} instance
+     * @return {@link PotionBuilder}
      * @since 0.2.0
      */
     public PotionBuilder withPotionEffect(final PotionEffectType potionEffectType, final int duration, final int amplifier, final boolean isAmbient, final boolean isParticles, final boolean hasIcon) {
@@ -58,7 +58,7 @@ public class PotionBuilder extends BaseItemBuilder<PotionBuilder> {
      * @param potionEffectType the type of the potion effect, must not be null
      * @param duration the duration of the potion effect in ticks
      * @param amplifier the amplifier of the potion effect
-     * @return the {@link PotionBuilder} instance
+     * @return {@link PotionBuilder}
      * @since 0.2.0
      */
     public PotionBuilder withPotionEffect(final PotionEffectType potionEffectType, final int duration, final int amplifier) {
@@ -69,7 +69,7 @@ public class PotionBuilder extends BaseItemBuilder<PotionBuilder> {
      * Sets the type of the potion.
      *
      * @param potionType the type of the potion, must not be null
-     * @return the {@link PotionBuilder} instance
+     * @return {@link PotionBuilder}
      * @since 0.2.0
      */
     public PotionBuilder withPotionType(final PotionType potionType) {
@@ -82,7 +82,7 @@ public class PotionBuilder extends BaseItemBuilder<PotionBuilder> {
      * Sets the custom name for the potion.
      *
      * @param customName the custom name for the potion
-     * @return the {@link PotionBuilder} instance
+     * @return {@link PotionBuilder}
      * @since 0.2.0
      */
     public PotionBuilder withCustomName(final String customName) {
@@ -95,7 +95,7 @@ public class PotionBuilder extends BaseItemBuilder<PotionBuilder> {
      * Sets the color of the potion.
      *
      * @param color the color of the potion, must not be null
-     * @return the {@link PotionBuilder} instance
+     * @return {@link PotionBuilder}
      * @since 0.2.0
      */
     public PotionBuilder withColor(final Color color) {
@@ -107,9 +107,10 @@ public class PotionBuilder extends BaseItemBuilder<PotionBuilder> {
     /**
      * Completes the building process and applies the potion contents to the item.
      *
-     * @return the {@link PotionBuilder} instance
+     * @return {@link PotionBuilder}
      * @since 0.2.0
      */
+    @Override
     public PotionBuilder complete() {
         getItemStack().setData(DataComponentTypes.POTION_CONTENTS, this.builder.build());
 
