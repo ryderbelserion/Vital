@@ -8,6 +8,7 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import com.ryderbelserion.vital.TestPlugin;
 import com.ryderbelserion.vital.paper.api.builders.items.v2.ItemBuilder;
+import com.ryderbelserion.vital.paper.api.builders.items.v2.SkullBuilder;
 import com.ryderbelserion.vital.paper.api.commands.PaperCommand;
 import com.ryderbelserion.vital.paper.api.commands.context.PaperCommandInfo;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
@@ -39,10 +40,12 @@ public class CommandItem extends PaperCommand {
 
         final int amount = context.getArgument("amount", Integer.class);
 
-        final ItemBuilder itemBuilder = ItemBuilder.from(itemType).withDisplayName("<red>Superb").withAmount(amount);
+        final SkullBuilder itemBuilder = ItemBuilder.from(itemType).withDisplayName("<red>Superb").withAmount(amount).asSkullBuilder();
 
         itemBuilder.addEnchantment("sharpness", 10);
         itemBuilder.addEnchantment("fire_aspect", 5);
+
+        itemBuilder.withName("ryderbelserion");
 
         final Player player = info.getPlayer();
 

@@ -539,7 +539,7 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
      */
     public SkullBuilder asSkullBuilder() {
         if (!isPlayerHead()) {
-            throw new GenericException("This item type is not a skull");
+            throw new GenericException("This item type is not a skull.");
         }
 
         return new SkullBuilder(this.itemStack);
@@ -553,7 +553,7 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
      */
     public PotionBuilder asPotionBuilder() {
         if (!isPotion()) {
-            throw new GenericException("This item type is not a potion");
+            throw new GenericException("This item type is not a potion.");
         }
 
         return new PotionBuilder(this.itemStack);
