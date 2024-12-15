@@ -16,8 +16,10 @@ import io.papermc.paper.datacomponent.item.ItemEnchantments;
 import io.papermc.paper.datacomponent.item.ItemLore;
 import io.th0rgal.oraxen.api.OraxenItems;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.block.CreatureSpawner;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
@@ -39,8 +41,8 @@ import java.util.List;
  * @param <B> the type of the builder extending this abstract class
  *
  * @author Ryder Belserion
- * @version 0.1.0
- * @since 0.1.0
+ * @version 0.2.0
+ * @since 0.2.0
  */
 @ApiStatus.Experimental
 public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
@@ -56,7 +58,7 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
      * Constructs a {@link BaseItemBuilder} with the provided {@link ItemStack}.
      *
      * @param itemStack the ItemStack to be wrapped by this builder, must not be null
-     * @since 0.1.0
+     * @since 0.2.0
      */
     protected BaseItemBuilder(@NotNull final ItemStack itemStack) {
         this.itemStack = itemStack;
@@ -67,7 +69,7 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
      *
      * @param value the value representing the item, must not be null
      * @throws GenericException if the id is not a valid Nexo or Oraxen item
-     * @since 0.1.0
+     * @since 0.2.0
      */
     protected BaseItemBuilder(@NotNull final String value) {
         if (Support.nexo.isEnabled() && NexoItems.exists(value)) {
@@ -101,7 +103,7 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
      * Turns the builder into {@link ItemStack}.
      *
      * @return the fully built {@link ItemStack}
-     * @since 0.1.0
+     * @since 0.2.0
      */
     public ItemStack asItemStack() {
         if (!this.displayName.isBlank()) {
@@ -127,7 +129,7 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
      * @param itemType the {@link ItemType} to set
      * @param amount the amount of {@link ItemType}
      * @return {@link BaseItemBuilder}
-     * @since 0.1.0
+     * @since 0.2.0
      */
     public B withType(@Nullable final ItemType itemType, final int amount) {
         if (itemType == null) return (B) this;
@@ -142,7 +144,7 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
      *
      * @param itemType the {@link ItemType} to set
      * @return {@link BaseItemBuilder}
-     * @since 0.1.0
+     * @since 0.2.0
      */
     public B withType(@Nullable final ItemType itemType) {
         return withType(itemType, 1);
@@ -153,7 +155,7 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
      *
      * @param amount the amount
      * @return {@link BaseItemBuilder}
-     * @since 0.1.0
+     * @since 0.2.0
      */
     public B withAmount(int amount) {
         if (amount <= 0) amount = 1;
@@ -169,7 +171,7 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
      * @param enchant the enchant name
      * @param level the enchant level
      * @return {@link BaseItemBuilder}
-     * @since 0.1.0
+     * @since 0.2.0
      */
     public B addEnchantment(@NotNull final String enchant, final int level) {
         if (enchant.isEmpty()) return (B) this;
@@ -208,7 +210,7 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
      *
      * @param enchant the enchant name
      * @return {@link BaseItemBuilder}
-     * @since 0.1.0
+     * @since 0.2.0
      */
     public B removeEnchantment(@NotNull final String enchant) {
         if (enchant.isEmpty()) return (B) this;
@@ -226,7 +228,7 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
      * Removes all enchantments from {@link ItemStack}
      *
      * @return {@link BaseItemBuilder}
-     * @since 0.1.0
+     * @since 0.2.0
      */
     public B removeAllEnchantments() {
         this.itemStack.removeEnchantments();
@@ -243,7 +245,7 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
      * @param displayName the {@link String} to use
      * @param isFixed true or false, if true. it will use ITEM_NAME DataComponentType, and if false CUSTOM_NAME DataComponentType
      * @return {@link BaseItemBuilder}
-     * @since 0.1.0
+     * @since 0.2.0
      */
     public B withDisplayName(@NotNull final String displayName, final boolean isFixed) {
         this.displayName = displayName;
@@ -258,7 +260,7 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
      *
      * @param displayName the {@link String} to use
      * @return {@link BaseItemBuilder}
-     * @since 0.1.0
+     * @since 0.2.0
      */
     public B withDisplayName(@NotNull final String displayName) {
         return withDisplayName(displayName, false);
@@ -271,7 +273,7 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
      *
      * @param displayLore the {@link String}
      * @return {@link BaseItemBuilder}
-     * @since 0.1.0
+     * @since 0.2.0
      */
     public B addDisplayLore(@NotNull final String displayLore) {
         if (displayLore.isEmpty()) return (B) this;
@@ -286,7 +288,7 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
      *
      * @param displayLore the {@link List<String>}
      * @return {@link BaseItemBuilder}
-     * @since 0.1.0
+     * @since 0.2.0
      */
     public B withDisplayLore(@NotNull final List<String> displayLore) {
         this.displayLore = displayLore;
@@ -299,7 +301,7 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
      *
      * @param enchantGlintOverride true or false
      * @return {@link BaseItemBuilder}
-     * @since 0.1.0
+     * @since 0.2.0
      */
     public B setEnchantGlint(final boolean enchantGlintOverride) {
         this.itemStack.setData(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE, enchantGlintOverride);
@@ -311,7 +313,7 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
      * Removes enchant glint from the item.
      *
      * @return {@link BaseItemBuilder}
-     * @since 0.1.0
+     * @since 0.2.0
      */
     public B removeEnchantGlint() {
         this.itemStack.unsetData(DataComponentTypes.ENCHANTMENT_GLINT_OVERRIDE);
@@ -323,7 +325,7 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
      * Hides the tooltip for this item by setting the HIDE_TOOLTIP data.
      *
      * @return {@link BaseItemBuilder}
-     * @since 0.1.0
+     * @since 0.2.0
      */
     public B hideToolTip() {
         this.itemStack.setData(DataComponentTypes.HIDE_TOOLTIP);
@@ -335,7 +337,7 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
      * Shows the tooltip for this item by unsetting the HIDE_TOOLTIP data.
      *
      * @return {@link BaseItemBuilder}
-     * @since 0.1.0
+     * @since 0.2.0
      */
     public B showToolTip() {
         if (!this.itemStack.hasData(DataComponentTypes.HIDE_TOOLTIP)) {
@@ -351,7 +353,7 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
      * Hides the additional tooltip for this item by setting the HIDE_ADDITIONAL_TOOLTIP data.
      *
      * @return {@link BaseItemBuilder}
-     * @since 0.1.0
+     * @since 0.2.0
      */
     public B hideAdditionalToolTip() {
         this.itemStack.setData(DataComponentTypes.HIDE_ADDITIONAL_TOOLTIP);
@@ -363,7 +365,7 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
      * Shows the additional tooltip for this item by unsetting the HIDE_ADDITIONAL_TOOLTIP data.
      *
      * @return {@link BaseItemBuilder}
-     * @since 0.1.0
+     * @since 0.2.0
      */
     public B showAdditionalToolTip() {
         if (!this.itemStack.hasData(DataComponentTypes.HIDE_ADDITIONAL_TOOLTIP)) {
@@ -380,7 +382,7 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
      *
      * @param itemModel the item model found in the resource pack/data pack
      * @return {@link BaseItemBuilder}
-     * @since 0.1.0
+     * @since 0.2.0
      */
     public B setItemModel(@NotNull final String itemModel) {
         if (itemModel.isEmpty()) return (B) this;
@@ -455,7 +457,7 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
      *
      * @param inventory {@link Inventory}
      * @param slot the slot
-     * @since 0.1.0
+     * @since 0.2.0
      */
     public void setItemToInventory(final Inventory inventory, final int slot) {
         inventory.setItem(slot, this.itemStack);
@@ -465,7 +467,7 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
      * Adds the item to the inventory.
      *
      * @param inventory {@link Inventory}
-     * @since 0.1.0
+     * @since 0.2.0
      */
     public void addItemToInventory(final Inventory inventory) {
         inventory.addItem(this.itemStack);
@@ -479,7 +481,7 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
      * Creates an instance of {@link PotionBuilder}.
      *
      * @return {@link PotionBuilder}
-     * @since 0.1.0
+     * @since 0.2.0
      */
     public PotionBuilder asPotionBuilder() {
         if (!isPotion()) {
@@ -494,7 +496,7 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
      *
      * @param action runs a click event
      * @return {@link GuiItem}
-     * @since 0.1.0
+     * @since 0.2.0
      */
     public GuiItem asGuiItem(@Nullable final GuiAction<@NotNull InventoryClickEvent> action) {
         return new GuiItem(asItemStack(), action);
@@ -504,7 +506,7 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
      * Converts {@link ItemStack} to {@link GuiItem}.
      *
      * @return {@link GuiItem}
-     * @since 0.1.0
+     * @since 0.2.0
      */
     public GuiItem asGuiItem() {
         return new GuiItem(asItemStack(), null);
@@ -524,7 +526,7 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
      * Gets the {@link ItemType} type.
      *
      * @return the {@link ItemType} type
-     * @since 0.1.0
+     * @since 0.2.0
      */
     protected final @NotNull Material getType() {
         return this.itemStack.getType();
@@ -534,7 +536,7 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
      * Gets the current ItemStack instance.
      *
      * @return {@link ItemStack}
-     * @since 0.1.0
+     * @since 0.2.0
      */
     protected @NotNull ItemStack getItemStack() {
         return this.itemStack;
