@@ -5,6 +5,7 @@ import com.nexomc.nexo.items.ItemBuilder;
 import com.ryderbelserion.vital.VitalProvider;
 import com.ryderbelserion.vital.api.Vital;
 import com.ryderbelserion.vital.api.exceptions.GenericException;
+import com.ryderbelserion.vital.paper.VitalPaper;
 import com.ryderbelserion.vital.paper.api.builders.gui.interfaces.GuiAction;
 import com.ryderbelserion.vital.paper.api.builders.gui.interfaces.GuiItem;
 import com.ryderbelserion.vital.paper.api.enums.Support;
@@ -19,7 +20,6 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.block.CreatureSpawner;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
@@ -28,6 +28,7 @@ import org.bukkit.inventory.ItemType;
 import org.bukkit.inventory.meta.trim.ArmorTrim;
 import org.bukkit.inventory.meta.trim.TrimMaterial;
 import org.bukkit.inventory.meta.trim.TrimPattern;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -47,8 +48,17 @@ import java.util.List;
 @ApiStatus.Experimental
 public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
 
+    private static final EnumSet<Material> POTIONS = EnumSet.of(
+            Material.POTION, Material.SPLASH_POTION, Material.LINGERING_POTION
+    );
+
     /**
-     * Gets vital api
+     * Gets the java plugin.
+     */
+    protected final JavaPlugin plugin = VitalPaper.getPlugin();
+
+    /**
+     * Gets vital api.
      */
     protected final Vital api = VitalProvider.get();
 
@@ -521,9 +531,19 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
         inventory.addItem(this.itemStack);
     }
 
-    private static final EnumSet<Material> POTIONS = EnumSet.of(
-            Material.POTION, Material.SPLASH_POTION, Material.LINGERING_POTION
-    );
+    /**
+     * Creates an instance of {@link SkullBuilder}.
+     *
+     * @return {@link SkullBuilder}
+     * @since 0.2.0
+     */
+    public SkullBuilder asSkullBuilder() {
+        if (!isPlayerHead()) {
+            throw new GenericException("This item type is not a skull");
+        }
+
+        return new SkullBuilder(this.itemStack);
+    }
 
     /**
      * Creates an instance of {@link PotionBuilder}.

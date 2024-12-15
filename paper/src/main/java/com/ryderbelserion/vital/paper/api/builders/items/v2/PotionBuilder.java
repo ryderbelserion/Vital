@@ -14,24 +14,24 @@ import org.jetbrains.annotations.NotNull;
  * {@link PotionBuilder} is an experimental class that extends {@link BaseItemBuilder} for creating potion item builders.
  *
  * @author Ryder Belserion
- * @version 0.1.0
- * @since 0.1.0
+ * @version 0.2.0
+ * @since 0.2.0
  */
 @ApiStatus.Experimental
 public class PotionBuilder extends BaseItemBuilder<PotionBuilder> {
 
-    private final PotionContents.Builder contents;
+    private final PotionContents.Builder builder;
 
     /**
      * Creates a new instance with {@link ItemStack}.
      *
      * @param itemStack {@link ItemStack}, must not be null
-     * @since 0.1.0
+     * @since 0.2.0
      */
     PotionBuilder(@NotNull final ItemStack itemStack) {
         super(itemStack);
 
-        this.contents = PotionContents.potionContents();
+        this.builder = PotionContents.potionContents();
     }
 
     /**
@@ -44,10 +44,10 @@ public class PotionBuilder extends BaseItemBuilder<PotionBuilder> {
      * @param isParticles whether the effect shows particles
      * @param hasIcon whether the effect has an icon
      * @return the {@link PotionBuilder} instance
-     * @since 0.1.0
+     * @since 0.2.0
      */
     public PotionBuilder withPotionEffect(final PotionEffectType potionEffectType, final int duration, final int amplifier, final boolean isAmbient, final boolean isParticles, final boolean hasIcon) {
-        this.contents.addCustomEffect(new PotionEffect(potionEffectType, duration, amplifier).withAmbient(isAmbient).withParticles(isParticles).withIcon(hasIcon));
+        this.builder.addCustomEffect(new PotionEffect(potionEffectType, duration, amplifier).withAmbient(isAmbient).withParticles(isParticles).withIcon(hasIcon));
 
         return this;
     }
@@ -59,7 +59,7 @@ public class PotionBuilder extends BaseItemBuilder<PotionBuilder> {
      * @param duration the duration of the potion effect in ticks
      * @param amplifier the amplifier of the potion effect
      * @return the {@link PotionBuilder} instance
-     * @since 0.1.0
+     * @since 0.2.0
      */
     public PotionBuilder withPotionEffect(final PotionEffectType potionEffectType, final int duration, final int amplifier) {
         return withPotionEffect(potionEffectType, duration, amplifier, true, true, true);
@@ -70,10 +70,10 @@ public class PotionBuilder extends BaseItemBuilder<PotionBuilder> {
      *
      * @param potionType the type of the potion, must not be null
      * @return the {@link PotionBuilder} instance
-     * @since 0.1.0
+     * @since 0.2.0
      */
     public PotionBuilder withPotionType(final PotionType potionType) {
-        this.contents.potion(potionType);
+        this.builder.potion(potionType);
 
         return this;
     }
@@ -83,10 +83,10 @@ public class PotionBuilder extends BaseItemBuilder<PotionBuilder> {
      *
      * @param customName the custom name for the potion
      * @return the {@link PotionBuilder} instance
-     * @since 0.1.0
+     * @since 0.2.0
      */
     public PotionBuilder withCustomName(final String customName) {
-        this.contents.customName(customName);
+        this.builder.customName(customName);
 
         return this;
     }
@@ -96,10 +96,10 @@ public class PotionBuilder extends BaseItemBuilder<PotionBuilder> {
      *
      * @param color the color of the potion, must not be null
      * @return the {@link PotionBuilder} instance
-     * @since 0.1.0
+     * @since 0.2.0
      */
     public PotionBuilder withColor(final Color color) {
-        this.contents.customColor(color);
+        this.builder.customColor(color);
 
         return this;
     }
@@ -108,10 +108,10 @@ public class PotionBuilder extends BaseItemBuilder<PotionBuilder> {
      * Completes the building process and applies the potion contents to the item.
      *
      * @return the {@link PotionBuilder} instance
-     * @since 0.1.0
+     * @since 0.2.0
      */
     public PotionBuilder complete() {
-        getItemStack().setData(DataComponentTypes.POTION_CONTENTS, this.contents.build());
+        getItemStack().setData(DataComponentTypes.POTION_CONTENTS, this.builder.build());
 
         return this;
     }
