@@ -35,7 +35,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Base64;
 
 /**
- * A class containing paper specific methods!
+ * A class containing paper specific methods.
  *
  * @author Ryder Belserion
  * @version 0.1.0
@@ -65,8 +65,11 @@ public class PaperMethods {
      */
     public static void updateTitle(@NotNull final Player player, @NotNull final String title) {
         final ServerPlayer entityPlayer = (ServerPlayer) ((CraftHumanEntity) player).getHandle();
+
         final int containerId = entityPlayer.containerMenu.containerId;
+
         final MenuType<?> windowType = CraftContainer.getNotchInventoryType(player.getOpenInventory().getTopInventory());
+
         entityPlayer.connection.send(new ClientboundOpenScreenPacket(containerId, windowType, CraftChatMessage.fromJSON(JSONComponentSerializer.json().serialize(Methods.parse(title)))));
 
         player.updateInventory();
@@ -90,31 +93,21 @@ public class PaperMethods {
      * @since 0.1.0
      */
     public static @Nullable ItemType getItemType(@NotNull final String value) {
-        return getItemType(value, isVerbose);
-    }
-
-    /**
-     * Get a {@link ItemType} from the {@link Registry}.
-     *
-     * @param value the {@link String} to check
-     * @param isVerbose true or false
-     * @return the {@link ItemType} or null if not found
-     * @since 0.1.0
-     */
-    public static @Nullable ItemType getItemType(@NotNull final String value, final boolean isVerbose) {
         if (value.isEmpty()) {
-            if (isVerbose) logger.error("{} cannot be blank when fetching item types!", value);
+            if (isVerbose) logger.error("{} cannot be blank when fetching item types.", value);
 
-            return null;
+            return ItemType.STONE;
         }
 
-        try {
-            return getRegistryAccess().getRegistry(RegistryKey.ITEM).get(getKey(value));
-        } catch (Exception exception) {
-            if (isVerbose) logger.error("{} is an invalid item type.", value);
+        @Nullable final ItemType key = getRegistryAccess().getRegistry(RegistryKey.ITEM).get(getKey(value));
 
-            return null;
+        if (key == null) {
+            if (isVerbose) logger.error("{} is not a valid item type.", value);
+
+            return ItemType.STONE;
         }
+
+        return key;
     }
 
     /**
@@ -125,31 +118,21 @@ public class PaperMethods {
      * @since 0.1.0
      */
     public static @Nullable Sound getSound(@NotNull final String value) {
-        return getSound(value, isVerbose);
-    }
-
-    /**
-     * Get a {@link Sound} from the {@link Registry}.
-     *
-     * @param value the {@link String} to check
-     * @param isVerbose true or false
-     * @return the {@link Sound} or null if not found
-     * @since 0.1.0
-     */
-    public static @Nullable Sound getSound(@NotNull final String value, final boolean isVerbose) {
         if (value.isEmpty()) {
-            if (isVerbose) logger.error("{} cannot be blank when fetching sounds!", value);
+            if (isVerbose) logger.error("{} cannot be blank when fetching the sound.", value);
 
             return null;
         }
 
-        try {
-            return getRegistryAccess().getRegistry(RegistryKey.SOUND_EVENT).get(getKey(value));
-        } catch (Exception exception) {
-            if (isVerbose) logger.error("{} is an invalid sound.", value);
+        @Nullable final Sound key = getRegistryAccess().getRegistry(RegistryKey.SOUND_EVENT).get(getKey(value));
+
+        if (key == null) {
+            if (isVerbose) logger.error("{} is not a valid sound.", value);
 
             return null;
         }
+
+        return key;
     }
 
     /**
@@ -160,31 +143,21 @@ public class PaperMethods {
      * @since 0.1.0
      */
     public static @Nullable Enchantment getEnchantment(@NotNull final String value) {
-        return getEnchantment(value, isVerbose);
-    }
-
-    /**
-     * Get an {@link Enchantment} from the {@link Registry}.
-     *
-     * @param value the {@link String} to check
-     * @param isVerbose true or false
-     * @return the {@link Enchantment} or null if not found
-     * @since 0.1.0
-     */
-    public static @Nullable Enchantment getEnchantment(@NotNull final String value, final boolean isVerbose) {
         if (value.isEmpty()) {
-            if (isVerbose) logger.error("{} cannot be blank when fetching enchantments!", value);
+            if (isVerbose) logger.error("{} cannot be blank when fetching the enchantment.", value);
 
             return null;
         }
 
-        try {
-            return getRegistryAccess().getRegistry(RegistryKey.ENCHANTMENT).get(getKey(value));
-        } catch (Exception exception) {
-            if (isVerbose) logger.error("{} is an invalid enchantment.", value);
+        @Nullable final Enchantment key = getRegistryAccess().getRegistry(RegistryKey.ENCHANTMENT).get(getKey(value));
+
+        if (key == null) {
+            if (isVerbose) logger.error("{} is not a valid enchantment.", value);
 
             return null;
         }
+
+        return key;
     }
 
     /**
@@ -195,31 +168,21 @@ public class PaperMethods {
      * @since 0.1.0
      */
     public static @Nullable TrimPattern getTrimPattern(@NotNull final String value) {
-        return getTrimPattern(value, isVerbose);
-    }
-
-    /**
-     * Get a {@link TrimPattern} from the {@link Registry}.
-     *
-     * @param value the {@link String} to check
-     * @param isVerbose true or false
-     * @return the {@link TrimPattern} or null if not found
-     * @since 0.1.0
-     */
-    public static @Nullable TrimPattern getTrimPattern(@NotNull final String value, final boolean isVerbose) {
         if (value.isEmpty()) {
-            if (isVerbose) logger.error("{} cannot be blank when fetching trim patterns!", value);
+            if (isVerbose) logger.error("{} cannot be blank when fetching the trim pattern.", value);
 
             return null;
         }
 
-        try {
-            return getRegistryAccess().getRegistry(RegistryKey.TRIM_PATTERN).get(getKey(value));
-        } catch (Exception exception) {
-            if (isVerbose) logger.error("{} is an invalid trim pattern.", value);
+        @Nullable final TrimPattern key = getRegistryAccess().getRegistry(RegistryKey.TRIM_PATTERN).get(getKey(value));
+
+        if (key == null) {
+            if (isVerbose) logger.error("{} is not a valid trim pattern.", value);
 
             return null;
         }
+
+        return key;
     }
 
     /**
@@ -230,31 +193,21 @@ public class PaperMethods {
      * @since 0.1.0
      */
     public static @Nullable TrimMaterial getTrimMaterial(@NotNull final String value) {
-        return getTrimMaterial(value, isVerbose);
-    }
-
-    /**
-     * Get a {@link TrimMaterial} from the {@link Registry}.
-     *
-     * @param value the {@link String} to check
-     * @param isVerbose true or false
-     * @return the {@link TrimMaterial} or null if not found
-     * @since 0.1.0
-     */
-    public static @Nullable TrimMaterial getTrimMaterial(@NotNull final String value, final boolean isVerbose) {
         if (value.isEmpty()) {
-            if (isVerbose) logger.error("{} cannot be blank when fetching trim materials!", value);
+            if (isVerbose) logger.error("{} cannot be blank when fetching the trim material.", value);
 
             return null;
         }
 
-        try {
-            return getRegistryAccess().getRegistry(RegistryKey.TRIM_MATERIAL).get(getKey(value));
-        } catch (Exception exception) {
-            if (isVerbose) logger.error("{} is an invalid trim material.", value);
+        @Nullable final TrimMaterial key = getRegistryAccess().getRegistry(RegistryKey.TRIM_MATERIAL).get(getKey(value));
+
+        if (key == null) {
+            if (isVerbose) logger.error("{} is not a valid trim material.", value);
 
             return null;
         }
+
+        return key;
     }
 
     /**
@@ -265,31 +218,21 @@ public class PaperMethods {
      * @since 0.1.0
      */
     public static @Nullable PotionType getPotionType(@NotNull final String value) {
-        return getPotionType(value, isVerbose);
-    }
-
-    /**
-     * Get a {@link PotionType} from the {@link Registry}.
-     *
-     * @param value the {@link String} to check
-     * @param isVerbose true or false
-     * @return the {@link PotionType} or null if not found
-     * @since 0.1.0
-     */
-    public static @Nullable PotionType getPotionType(@NotNull final String value, final boolean isVerbose) {
         if (value.isEmpty()) {
-            if (isVerbose) logger.error("{} cannot be blank when fetching potion types!", value);
+            if (isVerbose) logger.error("{} cannot be blank when fetching the potion.", value);
 
             return null;
         }
 
-        try {
-            return getRegistryAccess().getRegistry(RegistryKey.POTION).get(getKey(value));
-        } catch (Exception exception) {
-            if (isVerbose) logger.error("{} is an invalid potion type.", value);
+        @Nullable final PotionType key = getRegistryAccess().getRegistry(RegistryKey.POTION).get(getKey(value));
+
+        if (key == null) {
+            if (isVerbose) logger.error("{} is not a valid potion.", value);
 
             return null;
         }
+
+        return key;
     }
 
     /**
@@ -300,31 +243,21 @@ public class PaperMethods {
      * @since 0.1.0
      */
     public static @Nullable PotionEffectType getPotionEffect(@NotNull final String value) {
-        return getPotionEffect(value, isVerbose);
-    }
-
-    /**
-     * Get a {@link PotionEffectType} from the {@link Registry}.
-     *
-     * @param value the {@link String} to check
-     * @param isVerbose true or false
-     * @return the {@link PotionEffectType} or null if not found
-     * @since 0.1.0
-     */
-    public static @Nullable PotionEffectType getPotionEffect(@NotNull final String value, final boolean isVerbose) {
         if (value.isEmpty()) {
-            if (isVerbose) logger.error("{} cannot be blank when fetching potion effects!", value);
+            if (isVerbose) logger.error("{} cannot be blank when fetching the potion effect.", value);
 
             return null;
         }
 
-        try {
-            return getRegistryAccess().getRegistry(RegistryKey.MOB_EFFECT).get(getKey(value));
-        } catch (Exception exception) {
-            if (isVerbose) logger.error("{} is an invalid potion effect type.", value);
+        @Nullable final PotionEffectType key = getRegistryAccess().getRegistry(RegistryKey.MOB_EFFECT).get(getKey(value));
+
+        if (key == null) {
+            if (isVerbose) logger.error("{} is not a valid potion effect.", value);
 
             return null;
         }
+
+        return key;
     }
 
     /**
@@ -335,31 +268,21 @@ public class PaperMethods {
      * @since 0.1.0
      */
     public static @Nullable Particle getParticleType(@NotNull final String value) {
-        return getParticleType(value, isVerbose);
-    }
-
-    /**
-     * Get a {@link Particle} from the {@link Registry}.
-     *
-     * @param value the {@link String} to check
-     * @param isVerbose true or false
-     * @return the {@link Particle} or null if not found
-     * @since 0.1.0
-     */
-    public static @Nullable Particle getParticleType(@NotNull final String value, final boolean isVerbose) {
         if (value.isEmpty()) {
-            if (isVerbose) logger.error("{} cannot be blank when fetching particle types!", value);
+            if (isVerbose) logger.error("{} cannot be blank when fetching the particle.", value);
 
             return null;
         }
 
-        try {
-            return getRegistryAccess().getRegistry(RegistryKey.PARTICLE_TYPE).get(getKey(value));
-        } catch (Exception exception) {
-            if (isVerbose) logger.error("{} is an invalid particle type.", value);
+        @Nullable final Particle key = getRegistryAccess().getRegistry(RegistryKey.PARTICLE_TYPE).get(getKey(value));
+
+        if (key == null) {
+            if (isVerbose) logger.error("{} is not a valid particle.", value);
 
             return null;
         }
+
+        return key;
     }
 
     /**
@@ -370,31 +293,21 @@ public class PaperMethods {
      * @since 0.1.0
      */
     public static @Nullable PatternType getPatternType(@NotNull final String value) {
-        return getPatternType(value, isVerbose);
-    }
-
-    /**
-     * Get a {@link PatternType} from the {@link Registry}.
-     *
-     * @param value the {@link String} to check
-     * @param isVerbose true or false
-     * @return the {@link PatternType} or null if not found
-     * @since 0.1.0
-     */
-    public static @Nullable PatternType getPatternType(@NotNull final String value, final boolean isVerbose) {
         if (value.isEmpty()) {
             if (isVerbose) logger.error("{} cannot be blank when fetching banner pattern types!", value);
 
             return null;
         }
 
-        try {
-            return getRegistryAccess().getRegistry(RegistryKey.BANNER_PATTERN).get(getKey(value));
-        } catch (Exception exception) {
-            if (isVerbose) logger.error("{} is an invalid banner type.", value);
+        @Nullable final PatternType key = getRegistryAccess().getRegistry(RegistryKey.BANNER_PATTERN).get(getKey(value));
+
+        if (key == null) {
+            if (isVerbose) logger.error("{} is not a valid banner pattern.", value);
 
             return null;
         }
+
+        return key;
     }
 
     /**
@@ -405,31 +318,21 @@ public class PaperMethods {
      * @since 0.1.0
      */
     public static @Nullable EntityType getEntity(@NotNull final String value) {
-        return getEntity(value, isVerbose);
-    }
-
-    /**
-     * Gets an {@link EntityType} from the {@link Registry}.
-     *
-     * @param value the {@link String} to check
-     * @param isVerbose true or false
-     * @return the {@link EntityType} or null if not found
-     * @since 0.1.0
-     */
-    public static @Nullable EntityType getEntity(@NotNull final String value, final boolean isVerbose) {
         if (value.isEmpty()) {
-            if (isVerbose) logger.error("{} cannot be blank when fetching entity types!", value);
+            if (isVerbose) logger.error("{} cannot be blank when fetching the entity.", value);
 
             return null;
         }
 
-        try {
-            return getRegistryAccess().getRegistry(RegistryKey.ENTITY_TYPE).get(getKey(value));
-        } catch (Exception exception) {
-            if (isVerbose) logger.error("{} is an invalid entity type.", value);
+        @Nullable final EntityType key = getRegistryAccess().getRegistry(RegistryKey.ENTITY_TYPE).get(getKey(value));
+
+        if (key == null) {
+            if (isVerbose) logger.error("{} is not a valid entity.", value);
 
             return null;
         }
+
+        return key;
     }
 
     /**
@@ -440,31 +343,21 @@ public class PaperMethods {
      * @since 0.1.0
      */
     public static @Nullable Attribute getAttribute(@NotNull final String value) {
-        return getAttribute(value, isVerbose);
-    }
-
-    /**
-     * Get an {@link Attribute} from the {@link Registry}.
-     *
-     * @param value the {@link String} to check
-     * @param isVerbose true or false
-     * @return the {@link Attribute} or null if not found
-     * @since 0.1.0
-     */
-    public static @Nullable Attribute getAttribute(@NotNull final String value, final boolean isVerbose) {
         if (value.isEmpty()) {
-            if (isVerbose) logger.error("{} cannot be blank when fetching attributes!", value);
+            if (isVerbose) logger.error("{} cannot be blank when fetching the attribute.", value);
 
             return null;
         }
 
-        try {
-            return getRegistryAccess().getRegistry(RegistryKey.ATTRIBUTE).get(getKey(value));
-        } catch (Exception exception) {
-            if (isVerbose) logger.error("{} is an invalid attribute.", value);
+        @Nullable final Attribute key = getRegistryAccess().getRegistry(RegistryKey.ATTRIBUTE).get(getKey(value));
+
+        if (key == null) {
+            if (isVerbose) logger.error("{} is not a valid attribute.", value);
 
             return null;
         }
+
+        return key;
     }
 
     /**
@@ -593,7 +486,7 @@ public class PaperMethods {
     public static @Nullable Color getColor(@NotNull final String color) {
         if (color.isEmpty()) return null;
 
-        String[] rgb = color.split(",");
+        final String[] rgb = color.split(",");
 
         if (rgb.length != 3) {
             return null;
