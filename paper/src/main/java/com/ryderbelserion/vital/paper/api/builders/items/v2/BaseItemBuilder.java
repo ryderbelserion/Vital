@@ -266,6 +266,33 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
         return withDisplayName(displayName, false);
     }
 
+    /**
+     * This method must be called after running {@link BaseItemBuilder#asItemStack()} or {@link BaseItemBuilder#asGuiItem()}.
+     * It will return a string stripped of all styling.
+     *
+     * @return string without any styling
+     * @since 0.2.0
+     */
+    public String getPlainName() {
+        Component component = Component.empty();
+
+        if (this.itemStack.hasData(DataComponentTypes.ITEM_NAME)) {
+            final Component item_name = this.itemStack.getData(DataComponentTypes.ITEM_NAME);
+
+            if (item_name != null) {
+                component = item_name;
+            }
+        } else if (this.itemStack.hasData(DataComponentTypes.CUSTOM_NAME)) {
+            final Component custom_name = this.itemStack.getData(DataComponentTypes.CUSTOM_NAME);
+
+            if (custom_name != null) {
+                component = custom_name;
+            }
+        }
+
+        return PlainTextComponentSerializer.plainText().serializeOr(component, "");
+    }
+
     private List<String> displayLore = new ArrayList<>();
 
     /**
@@ -294,6 +321,27 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
         this.displayLore = displayLore;
 
         return (B) this;
+    }
+
+    /**
+     * This method must be called after running {@link BaseItemBuilder#asItemStack()} or {@link BaseItemBuilder#asGuiItem()}.
+     * It will return a list of strings stripped of all styling.
+     *
+     * @return lore without any styling
+     * @since 0.2.0
+     */
+    public List<String> getPlainLore() {
+        final List<String> plainLore = new ArrayList<>();
+
+        if (this.itemStack.hasData(DataComponentTypes.LORE)) {
+            final ItemLore lore = this.itemStack.getData(DataComponentTypes.LORE);
+
+            if (lore != null) {
+                lore.lines().forEach(line -> plainLore.add(PlainTextComponentSerializer.plainText().serialize(line)));
+            }
+        }
+
+        return plainLore;
     }
 
     /**
@@ -513,13 +561,83 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
     }
 
     /**
+     * Reactively checks if the {@link ItemStack} {@link ItemType} is a player head.
+     *
+     * @return true or false
+     * @since 0.2.0
+     */
+    protected final boolean isPlayerHead() {
+        return getType().equals(Material.PLAYER_HEAD);
+    }
+
+    /**
+     * Reactively checks if the {@link ItemStack} {@link ItemType} is a firework star.
+     *
+     * @return true or false
+     * @since 0.2.0
+     */
+    protected final boolean isFireworkStar() {
+        return getType().equals(Material.FIREWORK_STAR);
+    }
+
+    /**
+     * Reactively checks if the {@link ItemStack} {@link ItemType} is a firework.
+     *
+     * @return true or false
+     * @since 0.2.0
+     */
+    protected final boolean isFirework() {
+        return getType().equals(Material.FIREWORK_ROCKET);
+    }
+
+    /**
+     * Reactively checks if the {@link ItemStack} {@link ItemType} is a spawner.
+     *
+     * @return true or false
+     * @since 0.2.0
+     */
+    protected final boolean isSpawner() {
+        return getType().equals(Material.SPAWNER);
+    }
+
+    /**
+     * Reactively checks if the {@link ItemStack} {@link ItemType} is a shield.
+     *
+     * @return true or false
+     * @since 0.2.0
+     */
+    protected final boolean isShield() {
+        return getType().equals(Material.SHIELD);
+    }
+
+    /**
      * Reactively checks if the {@link ItemStack} {@link ItemType} is a potion.
      *
      * @return true or false
-     * @since 0.1.0
+     * @since 0.2.0
      */
     protected final boolean isPotion() {
         return POTIONS.contains(getType());
+    }
+
+    /**
+     * Reactively checks if the {@link ItemStack} {@link ItemType} is an arrow.
+     *
+     * @return true or false
+     * @since 0.2.0
+     */
+    protected final boolean isArrow() {
+        return getType().equals(Material.ARROW);
+    }
+
+    /**
+     * Reactively checks if the {@link ItemStack} {@link ItemType} is a map.
+     *
+     * @return true or false
+     * @since 0.2.0
+     */
+    protected final boolean isMap() {
+        return getType().equals(Material.MAP);
     }
 
     /**
