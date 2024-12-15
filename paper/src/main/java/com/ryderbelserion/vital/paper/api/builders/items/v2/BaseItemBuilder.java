@@ -10,6 +10,8 @@ import com.ryderbelserion.vital.paper.api.builders.gui.interfaces.GuiItem;
 import com.ryderbelserion.vital.paper.api.enums.Support;
 import com.ryderbelserion.vital.paper.util.PaperMethods;
 import io.papermc.paper.datacomponent.DataComponentTypes;
+import io.papermc.paper.datacomponent.item.CustomModelData;
+import io.papermc.paper.datacomponent.item.ItemArmorTrim;
 import io.papermc.paper.datacomponent.item.ItemEnchantments;
 import io.papermc.paper.datacomponent.item.ItemLore;
 import io.th0rgal.oraxen.api.OraxenItems;
@@ -21,6 +23,9 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ItemType;
+import org.bukkit.inventory.meta.trim.ArmorTrim;
+import org.bukkit.inventory.meta.trim.TrimMaterial;
+import org.bukkit.inventory.meta.trim.TrimPattern;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -381,6 +386,66 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
         if (itemModel.isEmpty()) return (B) this;
 
         this.itemStack.setData(DataComponentTypes.ITEM_MODEL, NamespacedKey.minecraft(itemModel));
+
+        return (B) this;
+    }
+
+    /**
+     * Adds a {@link ArmorTrim} to a piece of armor.
+     *
+     * @param pattern the pattern to add
+     * @param material the material to use
+     * @param hideToolTip true or false
+     * @return {@link BaseItemBuilder}
+     * @since 0.2.0
+     */
+    public B setTrim(@NotNull final String pattern, @NotNull final String material, final boolean hideToolTip) {
+        if (pattern.isEmpty() || material.isEmpty()) return (B) this;
+
+        final TrimMaterial trimMaterial = PaperMethods.getTrimMaterial(material);
+
+        if (trimMaterial == null) {
+            return (B) this;
+        }
+
+        final TrimPattern trimPattern = PaperMethods.getTrimPattern(pattern);
+
+        if (trimPattern == null) {
+            return (B) this;
+        }
+
+        final ItemArmorTrim.Builder builder = ItemArmorTrim
+                .itemArmorTrim(new ArmorTrim(trimMaterial, trimPattern))
+                .showInTooltip(hideToolTip);
+
+        this.itemStack.setData(DataComponentTypes.TRIM, builder.build());
+
+        return (B) this;
+    }
+
+    /**
+     * Sets the item damage to the {@link ItemStack}.
+     *
+     * @param damage the item damage
+     * @return {@link BaseItemBuilder}
+     * @since 0.2.0
+     */
+    public B setItemDamage(final int damage) {
+        this.itemStack.setData(DataComponentTypes.DAMAGE, Math.min(damage, getType().getMaxDurability()));
+
+        return (B) this;
+    }
+
+    /**
+     * Changes the custom model data of the {@link ItemStack}.
+     *
+     * @param modelData the model data found in the resource pack/data pack
+     * @return 0.2.0
+     */
+    public B setModelData(final int modelData) {
+        if (modelData == -1) return (B) this;
+
+        this.itemStack.setData(DataComponentTypes.CUSTOM_MODEL_DATA, CustomModelData.customModelData().addFloat(modelData).build());
 
         return (B) this;
     }
