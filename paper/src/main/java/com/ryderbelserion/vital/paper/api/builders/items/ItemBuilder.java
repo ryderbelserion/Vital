@@ -720,7 +720,7 @@ public class ItemBuilder<T extends ItemBuilder<T>> {
             this.customModelData = Methods.tryParseInt(model);
         }
 
-        final @Nullable ItemType itemType = PaperMethods.getItemType(type);
+        @Nullable final ItemType itemType = PaperMethods.getItemType(type);
 
         if (itemType == null) return (T) this;
 

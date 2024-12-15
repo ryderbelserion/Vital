@@ -96,7 +96,7 @@ public class PaperMethods {
         if (value.isEmpty()) {
             if (isVerbose) logger.error("{} cannot be blank when fetching item types.", value);
 
-            return ItemType.STONE;
+            return null;
         }
 
         @Nullable final ItemType key = getRegistryAccess().getRegistry(RegistryKey.ITEM).get(getKey(value));
@@ -104,7 +104,7 @@ public class PaperMethods {
         if (key == null) {
             if (isVerbose) logger.error("{} is not a valid item type.", value);
 
-            return ItemType.STONE;
+            return null;
         }
 
         return key;
