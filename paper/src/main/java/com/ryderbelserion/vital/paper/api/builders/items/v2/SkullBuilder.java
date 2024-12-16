@@ -7,13 +7,13 @@ import io.papermc.paper.datacomponent.item.ResolvableProfile;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.identity.Identity;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.profile.PlayerTextures;
 import org.intellij.lang.annotations.Subst;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URL;
 import java.util.UUID;
 
 /**
@@ -69,29 +69,17 @@ public class SkullBuilder extends BaseItemBuilder<SkullBuilder> {
 
         final String newUrl = "https://textures.minecraft.net/texture/" + url;
 
-        final ItemStack itemStack = getItemStack();
+        final PlayerProfile profile = this.plugin.getServer().createProfile(UUID.randomUUID(), null);
 
-        itemStack.editMeta(itemMeta -> {
-            if (itemMeta instanceof SkullMeta skullMeta) {
-                final PlayerProfile profile = this.plugin.getServer().createProfile(null, "");
+        final PlayerTextures textures = profile.getTextures();
 
-                profile.setProperty(new ProfileProperty("", ""));
+        try {
+            textures.setSkin(URI.create(newUrl).toURL());
+        } catch (MalformedURLException exception) {
+            if (this.api.isVerbose()) this.api.getLogger().error("Failed to set the texture url", exception);
+        }
 
-                final PlayerTextures textures = profile.getTextures();
-
-                try {
-                    textures.setSkin(URI.create(newUrl).toURL(), PlayerTextures.SkinModel.CLASSIC);
-                } catch (MalformedURLException exception) {
-                    if (this.api.isVerbose()) this.api.getLogger().error("Failed to set the texture url", exception);
-                }
-
-                profile.setTextures(textures);
-
-                skullMeta.setPlayerProfile(profile);
-            }
-        });
-
-        setItemStack(itemStack);
+        this.builder.addProperties(profile.getProperties());
 
         return this;
     }

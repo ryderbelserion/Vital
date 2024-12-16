@@ -25,6 +25,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ItemType;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.trim.ArmorTrim;
 import org.bukkit.inventory.meta.trim.TrimMaterial;
 import org.bukkit.inventory.meta.trim.TrimPattern;
@@ -35,6 +36,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * BaseItemBuilder is an abstract class for creating item builders.
@@ -518,6 +520,19 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
         if (modelData == -1) return (B) this;
 
         this.itemStack.setData(DataComponentTypes.CUSTOM_MODEL_DATA, CustomModelData.customModelData().addFloat(modelData).build());
+
+        return (B) this;
+    }
+
+    /**
+     * Applies a meta consumer to the {@link ItemStack}.
+     *
+     * @param consumer {@link Consumer<ItemMeta>}
+     * @return {@link BaseItemBuilder}
+     * @since 0.2.0
+     */
+    public B withConsumer(@NotNull final Consumer<@NotNull ItemMeta> consumer) {
+        this.itemStack.editMeta(consumer);
 
         return (B) this;
     }
