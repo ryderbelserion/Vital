@@ -683,6 +683,16 @@ public abstract class BaseItemBuilder<B extends BaseItemBuilder<B>> {
     }
 
     /**
+     * Updates the {@link ItemStack}.
+     *
+     * @param itemStack {@link ItemStack}
+     * @since 0.2.0
+     */
+    protected final void setItemStack(final ItemStack itemStack) {
+        this.itemStack = itemStack;
+    }
+
+    /**
      * Gets the current ItemStack instance.
      *
      * @return {@link ItemStack}

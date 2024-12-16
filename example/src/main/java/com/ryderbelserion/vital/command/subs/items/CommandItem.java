@@ -45,9 +45,9 @@ public class CommandItem extends PaperCommand {
         itemBuilder.addEnchantment("sharpness", 10);
         itemBuilder.addEnchantment("fire_aspect", 5);
 
-        itemBuilder.withName("ryderbelserion");
-
         final Player player = info.getPlayer();
+
+        itemBuilder.withUrl("69caf7fa34b272a752d98cb1f1f2bae598ecc3979017a9ecbf094770be8b6990");
 
         itemBuilder.addItemToInventory(player.getInventory());
     }
